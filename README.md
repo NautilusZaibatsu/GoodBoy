@@ -17,7 +17,10 @@ That's it! No installation, no server, no dependencies.
 goodboy/
 ├── index.html                   # Main application
 ├── js/                          # JavaScript utilities (required)
-│   └── obfuscation-utils.js     # Shared obfuscation detection logic
+│   ├── obfuscation-utils.js     # Shared obfuscation detection logic
+│   ├── morphology-utils.js      # Demonym generation and detection
+│   ├── theme-config.js          # Theme configuration (design system)
+│   └── category-config.js       # Category hierarchy (single source of truth)
 ├── data/                        # Databases
 │   ├── dogwhistle_data.js       # Dog whistle database (from Silent Signals)
 │   ├── offensive_term_data.js   # Offensive term database (custom curated)
@@ -29,11 +32,12 @@ goodboy/
 
 ## Datasets
 
-**Silent Signals** (Dog Whistles) from SALT-NLP:
-- 16,258 disambiguated examples
-- 298 unique dog whistle terms
+**Dog Whistle Database**:
+- Based on SALT-NLP's "Silent Signals: Disambiguated Dog Whistle Usage Dataset" with additional curated terms
+- 299+ unique dog whistle terms
 - 20 categories (racist, antisemitic, transphobic, ableist, anti-intellectualist, fundamentalist, etc.)
-- Source: https://huggingface.co/datasets/SALT-NLP/silent_signals
+- Primary source: https://huggingface.co/datasets/SALT-NLP/silent_signals
+- Continuously expanded with community-sourced additions
 
 **GoodBoy Offensive Term Database** (custom curated):
 - Curated list of offensive and hateful language
@@ -79,6 +83,7 @@ goodboy/
 - Terms flagged count with type breakdown
 - Category distribution display
 - Signal score (0-100%) with severity indicator
+- Interactive score breakdown tooltip showing calculation details
 - Proper pluralization in all displays
 
 ✅ **Technical Excellence**
@@ -108,8 +113,9 @@ The app is 100% static and can be deployed to:
 
 Just upload these files:
 - `index.html`
-- `/js/` (shared utilities)
-- `/data/` (databases)
+- `/js/` (obfuscation-utils.js, morphology-utils.js, theme-config.js, category-config.js)
+- `/data/` (dogwhistle_data.js, offensive_term_data.js, gazetteer.js)
+- `/images/` (background image)
 
 ## Technical Details
 
@@ -119,6 +125,12 @@ Just upload these files:
   - `OffensiveTermMatcher`: Explicit hateful language from curated database
   - `PatternMatcher`: Template-based detection for populist variations
 - **Shared Obfuscation Utils**: DRY principle with single source of truth
+- **Category Hierarchy System**: Centralized category configuration
+  - Single source of truth for all categories in `/js/category-config.js`
+  - 8 main categories with 24 subcategories (expandable)
+  - Hierarchical structure: main categories (for highlight colors) and subcategories (for detailed classification)
+  - Shared between webapp and internal tooling
+  - Helper functions for category lookups and management
 - **MorphologyUtils**: Generates demonyms from place names for pattern matching
 - Case-insensitive flexible regex patterns
 - Lookahead/lookbehind for accurate boundary detection
@@ -142,7 +154,7 @@ Calculates 0-100% score based on three factors:
 - **Category Diversity (10%)**: Diversity of problematic categories
 
 ### Performance
-- Databases: ~200KB KB (compresses well with gzip)
+- Databases: ~100KB (compresses well with gzip)
 - Load time: Instant on modern browsers
 - Analysis time: Near-instant for typical text lengths
 - Memory usage: Minimal (~2-3 MB)
@@ -164,11 +176,13 @@ Calculates 0-100% score based on three factors:
 
 ## License & Attribution
 
-This tool uses the Silent Signals dataset:
+The dog whistle database is primarily based on the Silent Signals dataset with additional curated terms:
 
-**Citation:** SALT-NLP, "Silent Signals: Disambiguated Dog Whistle Usage Dataset," https://huggingface.co/datasets/SALT-NLP/silent_signals
+**Primary Source:** SALT-NLP, "Silent Signals: Disambiguated Dog Whistle Usage Dataset," https://huggingface.co/datasets/SALT-NLP/silent_signals
 
 **Research Paper:** https://aclanthology.org/2024.acl-long.675/
+
+**Additional Terms:** Community-curated additions marked with source attribution
 
 ## Roadmap
 

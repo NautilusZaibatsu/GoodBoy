@@ -1,17 +1,31 @@
 /**
  * GoodBoy Offensive Term Database
  * A curated dataset of offensive terms for detection and education
- *
- * Last generated: 2025-11-27
  */
 
 const GOODBOY_OFFENSIVE_TERM_DATA = {
     version: "1.0.0",
     generated: new Date().toISOString(),
-    uniqueTerms: 11,
+    uniqueTerms: 12,
 
     // Offensive terms with definitions
     terms: [
+        {
+            "root": "Nigger",
+            "variations": [
+                "Nigga",
+                "Negro",
+                "Nig Nog",
+                "Nignog",
+                "Niglet",
+                "Nigress",
+                "Nigette"
+            ],
+            "category": "racist",
+            "definition": "A black person",
+            "source": "GoodBoy Curated"
+        },
+
         {
             "root": "faggot",
             "variations": [
@@ -24,8 +38,9 @@ const GOODBOY_OFFENSIVE_TERM_DATA = {
                 "faygele"
 
             ],
-            "category": "Anti-lgbtq",
-            "definition": "A homosexual male"
+            "category": "anti-lgbtq",
+            "definition": "A homosexual or feminine male",
+            "source": "GoodBoy Curated"
         },
         {
             "root": "batty boy",
@@ -37,50 +52,57 @@ const GOODBOY_OFFENSIVE_TERM_DATA = {
                 "chi chi bwoy",
                 "chi chi man"
             ],
-            "category": "Anti-lgbtq",
-            "definition": "A homosexual male"
+            "category": "anti-lgbtq",
+            "definition": "A homosexual male",
+            "source": "GoodBoy Curated"
         },
         {
             "root": "adam and steve",
             "variations": [],
-            "category": "Anti-lgbtq",
-            "definition": "A homosexual couple"
+            "category": "anti-lgbtq",
+            "definition": "A homosexual couple",
+            "source": "GoodBoy Curated"
         },
         {
             "root": "dyke",
             "variations": [],
-            "category": "Anti-lgbtq",
-            "definition": "A homosexual female"
+            "category": "anti-lgbtq",
+            "definition": "A homosexual female",
+            "source": "GoodBoy Curated"
         },
         {
             "root": "fairy",
             "variations": [
                 "fairies"
             ],
-            "category": "Anti-lgbtq",
-            "definition": "A homosexual male"
+            "category": "anti-lgbtq",
+            "definition": "A homosexual male",
+            "source": "GoodBoy Curated"
         },
         {
             "root": "fruit",
             "variations": [
                 "fruity"
             ],
-            "category": "Anti-lgbtq",
-            "definition": "A homosexual male"
+            "category": "anti-lgbtq",
+            "definition": "A homosexual male",
+            "source": "GoodBoy Curated"
         },
         {
             "root": "fudgepacker",
             "variations": [],
-            "category": "Anti-lgbtq",
-            "definition": "A homosexual male"
+            "category": "anti-lgbtq",
+            "definition": "A homosexual male",
+            "source": "GoodBoy Curated"
         },
         {
             "root": "lesbo",
             "variations": [
                 "lezzer"
             ],
-            "category": "Anti-lgbtq",
-            "definition": "A homosexual female"
+            "category": "anti-lgbtq",
+            "definition": "A homosexual female",
+            "source": "GoodBoy Curated"
         },
         {
             "root": "poof",
@@ -88,20 +110,23 @@ const GOODBOY_OFFENSIVE_TERM_DATA = {
                 "poofter",
                 "bufty"
             ],
-            "category": "Anti-lgbtq",
-            "definition": "A homosexual male"
+            "category": "anti-lgbtq",
+            "definition": "A homosexual male",
+            "source": "GoodBoy Curated"
         },
         {
             "root": "queen",
             "variations": [],
-            "category": "Anti-lgbtq",
-            "definition": "A homosexual male"
+            "category": "anti-lgbtq",
+            "definition": "A homosexual male",
+            "source": "GoodBoy Curated"
         },
         {
             "root": "sissy",
             "variations": [],
-            "category": "Anti-lgbtq",
-            "definition": "A homosexual or feminine male"
+            "category": "anti-lgbtq",
+            "definition": "A homosexual or feminine male",
+            "source": "GoodBoy Curated"
         }
     ]
 };

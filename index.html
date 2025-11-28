@@ -13,12 +13,13 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: var(--font-family);
+            background-color: var(--bg-page);
             background-image: url('images/page_background.png');
             background-repeat: repeat;
             min-height: 100vh;
-            padding: 20px;
-            color: #333;
+            padding: var(--spacing-xl);
+            color: var(--text-primary);
         }
 
         .container {
@@ -28,47 +29,47 @@
 
         header {
             text-align: center;
-            color: white;
-            margin-bottom: 30px;
+            color: var(--text-white);
+            margin-bottom: var(--spacing-xxl);
         }
 
         h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            font-size: var(--font-size-xxl);
+            margin-bottom: var(--spacing-sm);
+            text-shadow: 2px 2px 4px var(--shadow-light);
         }
 
         .tagline {
-            font-size: 1.2em;
+            font-size: var(--font-size-lg);
             opacity: 0.95;
         }
 
         .card {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            margin-bottom: 20px;
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xxl);
+            box-shadow: 0 10px 40px var(--shadow-light);
+            margin-bottom: var(--spacing-xl);
         }
 
         .input-section {
-            margin-bottom: 20px;
+            margin-bottom: var(--spacing-xl);
         }
 
         label {
             display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #555;
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-secondary);
         }
 
         #textInput {
             width: 100%;
             min-height: 200px;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
+            padding: var(--spacing-lg);
+            border: 2px solid var(--border-default);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-md);
             font-family: inherit;
             resize: vertical;
             transition: border-color 0.3s;
@@ -77,7 +78,7 @@
 
         #textInput:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: var(--border-focus);
         }
 
         #textInput.hidden {
@@ -88,12 +89,12 @@
             display: none;
             width: 100%;
             min-height: 200px;
-            padding: 15px;
-            border: 2px solid #667eea;
-            border-radius: 8px;
-            font-size: 16px;
+            padding: var(--spacing-lg);
+            border: 2px solid var(--color-primary);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-md);
             font-family: inherit;
-            background: #f8f9fa;
+            background: var(--bg-input);
             line-height: 1.8;
             white-space: pre-wrap;
             word-wrap: break-word;
@@ -105,39 +106,51 @@
 
         .button-row {
             display: flex;
-            gap: 10px;
+            gap: var(--spacing-sm);
             align-items: center;
         }
 
         button {
-            background: linear-gradient(135deg, #f59369ff 0%, #dd7d34ff 100%);
-            color: white;
+            background: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
             border: none;
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
+            padding: var(--spacing-md) var(--spacing-xxl);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 15px var(--shadow-medium);
         }
 
         button:active {
             transform: translateY(0);
         }
 
-        button:disabled {
-            opacity: 0.5;
+        button:disabled,
+        .copy-btn:disabled,
+        .clear-btn:disabled {
+            background: var(--btn-disabled-bg) !important;
+            color: var(--btn-disabled-text) !important;
             cursor: not-allowed;
+            pointer-events: auto;
+            opacity: 1;
             transform: none;
+            box-shadow: none;
         }
 
         .clear-btn {
-            background: #6c757d;
+            background: var(--btn-secondary-bg);
+            color: var(--btn-secondary-text);
+        }
+
+        .copy-btn {
+            background: var(--btn-copy-bg);
+            color: var(--btn-copy-text);
         }
 
         .hidden {
@@ -145,88 +158,100 @@
         }
 
         #results {
-            margin-top: 20px;
+            margin-top: var(--spacing-xl);
         }
 
         .stats-row {
             display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
             flex-wrap: wrap;
         }
 
         .stat-box {
             flex: 1;
             min-width: 150px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
+            padding: var(--spacing-lg);
+            background: var(--bg-input);
+            border-radius: var(--radius-lg);
             text-align: center;
         }
 
         .stat-value {
-            font-size: 2em;
-            font-weight: 700;
-            color: #667eea;
-            margin-bottom: 5px;
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-xs);
         }
 
         .stat-label {
-            font-size: 0.9em;
-            color: #666;
+            font-size: var(--font-size-sm);
+            color: var(--text-muted);
         }
 
         .signal-indicator {
             display: inline-block;
-            margin-top: 5px;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.75em;
-            font-weight: 600;
+            margin-top: var(--spacing-xs);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-xl);
+            font-size: var(--font-size-xxs);
+            font-weight: var(--font-weight-semibold);
             text-transform: uppercase;
         }
 
         .signal-low {
-            background-color: #d4edda;
-            color: #155724;
+            background-color: var(--state-success-bg);
+            color: var(--state-success-text);
         }
 
         .signal-moderate {
-            background-color: #fff3cd;
-            color: #856404;
+            background-color: var(--state-warning-bg);
+            color: var(--state-warning-text);
         }
 
         .signal-high {
-            background-color: #f8d7da;
-            color: #721c24;
+            background-color: var(--state-danger-bg);
+            color: var(--state-danger-text);
         }
 
         .signal-severe {
-            background-color: #d6293e;
-            color: white;
+            background-color: var(--state-danger-border);
+            color: var(--text-white);
+        }
+
+        .info-icon {
+            display: inline-block;
+            margin-left: var(--spacing-sm);
+            cursor: help;
+            opacity: 0.6;
+            font-size: var(--font-size-sm);
+        }
+
+        .info-icon:hover {
+            opacity: 1;
         }
 
         .signal-placeholder {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            border-radius: 4px;
-            margin-bottom: 20px;
+            background: var(--state-warning-bg);
+            border-left: 4px solid var(--state-warning-border);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-xl);
         }
 
         .no-results {
-            padding: 15px;
-            background: #d4edda;
-            border-left: 4px solid #28a745;
-            border-radius: 4px;
-            color: #155724;
-            font-weight: 600;
-            margin-top: 10px;
+            padding: var(--spacing-lg);
+            background: var(--state-success-bg);
+            border-left: 4px solid var(--state-success-border);
+            border-radius: var(--radius-md);
+            color: var(--state-success-text);
+            font-weight: var(--font-weight-semibold);
+            margin-top: var(--spacing-sm);
         }
 
         .highlight {
-            padding: 2px 0;
-            border-radius: 2px;
+            padding: var(--spacing-xs) 0;
+            border-radius: var(--radius-sm);
             cursor: help;
             position: relative;
             transition: background-color 0.2s;
@@ -247,13 +272,13 @@
 
         .tooltip {
             position: fixed;
-            background: #2c3e50;
-            color: white;
-            padding: 12px;
-            border-radius: 8px;
+            background: var(--bg-tooltip);
+            color: var(--text-white);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
             width: 320px;
             max-width: 90vw;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 5px 20px var(--shadow-light);
             z-index: 1000;
             opacity: 0;
             pointer-events: none;
@@ -277,7 +302,7 @@
             top: 100%;
             left: 50%;
             transform: translateX(-50%);
-            border-top-color: #2c3e50;
+            border-top-color: var(--bg-tooltip);
         }
 
         /* Tooltip below, arrow points up */
@@ -285,7 +310,7 @@
             bottom: 100%;
             left: 50%;
             transform: translateX(-50%);
-            border-bottom-color: #2c3e50;
+            border-bottom-color: var(--bg-tooltip);
         }
 
         /* Arrow on left when tooltip is aligned right */
@@ -302,29 +327,29 @@
 
         .tooltip-category {
             display: block;
-            padding: 8px 12px;
-            margin: -12px -12px 10px -12px;
-            border-radius: 8px 8px 0 0;
-            font-size: 0.75em;
-            font-weight: 600;
+            padding: var(--spacing-sm) var(--spacing-md);
+            margin: calc(-1 * var(--spacing-md)) calc(-1 * var(--spacing-md)) var(--spacing-sm) calc(-1 * var(--spacing-md));
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            font-size: var(--font-size-xxs);
+            font-weight: var(--font-weight-semibold);
             text-transform: uppercase;
             text-align: center;
-            color: white;
+            color: var(--text-white);
         }
 
         .category-badge {
             display: block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.85em;
-            font-weight: 600;
-            margin: 3px 0;
-            color: white;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-semibold);
+            margin: var(--spacing-xs) 0;
+            color: var(--text-white);
         }
 
         .tooltip-item {
-            margin-bottom: 8px;
-            font-size: 0.85em;
+            margin-bottom: var(--spacing-sm);
+            font-size: var(--font-size-xs);
             line-height: 1.3;
         }
 
@@ -333,32 +358,32 @@
         }
 
         .tooltip-item-label {
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 2px;
-            font-size: 0.9em;
+            font-weight: var(--font-weight-bold);
+            color: var(--text-white);
+            margin-bottom: var(--spacing-xs);
+            font-size: var(--font-size-sm);
         }
 
         .tooltip-item-value {
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--tooltip-text);
             line-height: 1.4;
         }
 
         .tooltip-variations {
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--tooltip-text-muted);
             font-style: italic;
         }
 
         .tooltip-source {
-            margin-top: 10px;
-            padding-top: 8px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            font-size: 0.8em;
-            color: rgba(255, 255, 255, 0.7);
+            margin-top: var(--spacing-sm);
+            padding-top: var(--spacing-sm);
+            border-top: 1px solid var(--tooltip-border);
+            font-size: var(--font-size-tiny);
+            color: var(--tooltip-text-muted);
         }
 
         .tooltip-source a {
-            color: #81d4fa;
+            color: var(--text-tooltip-link);
             text-decoration: none;
         }
 
@@ -367,12 +392,12 @@
         }
 
         footer {
-            margin-top: 40px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 12px;
-            font-size: 0.9em;
-            color: #666;
+            margin-top: var(--spacing-xxxl);
+            padding: var(--spacing-xl);
+            background: var(--bg-footer-overlay);
+            border-radius: var(--radius-xl);
+            font-size: var(--font-size-sm);
+            color: var(--text-muted);
         }
 
         .footer-header {
@@ -381,11 +406,11 @@
             justify-content: space-between;
             cursor: pointer;
             user-select: none;
-            padding: 5px 0;
+            padding: var(--spacing-xs) 0;
         }
 
         .footer-header h3 {
-            color: #333;
+            color: var(--text-primary);
             margin: 0;
             font-size: 1.1em;
         }
@@ -401,7 +426,7 @@
 
         .footer-content {
             display: none;
-            margin-top: 15px;
+            margin-top: var(--spacing-lg);
         }
 
         .footer-content.visible {
@@ -409,7 +434,7 @@
         }
 
         footer a {
-            color: #667eea;
+            color: var(--text-link);
             text-decoration: none;
         }
 
@@ -418,21 +443,21 @@
         }
 
         .page-footer {
-            margin-top: 30px;
-            padding: 20px;
+            margin-top: var(--spacing-xxl);
+            padding: var(--spacing-xl);
             text-align: center;
-            font-size: 0.85em;
-            color: #666;
+            font-size: var(--font-size-xs);
+            color: var(--text-muted);
         }
 
         .page-footer p {
-            margin: 10px 0;
+            margin: var(--spacing-sm) 0;
         }
 
         .loading {
             display: none;
-            color: #667eea;
-            font-weight: 600;
+            color: var(--color-primary);
+            font-weight: var(--font-weight-semibold);
         }
 
         .loading.visible {
@@ -441,7 +466,7 @@
 
         @media (max-width: 600px) {
             h1 {
-                font-size: 2em;
+                font-size: var(--font-size-xl);
             }
 
             .stats-row {
@@ -471,9 +496,10 @@
             </div>
 
             <div class="button-row">
-                <button id="analyzeBtn" onclick="analyzeText()">Analyze Text</button>
-                <button class="hidden" id="editBtn" onclick="editText()">Edit Text</button>
-                <button class="clear-btn hidden" id="clearBtn" onclick="clearAll()">Clear</button>
+                <button id="analyzeBtn" onclick="analyzeText()">Analyze</button>
+                <button class="hidden" id="editBtn" onclick="editText()">Edit</button>
+                <button class="copy-btn" id="copyBtn" onclick="copyText()">Copy</button>
+                <button class="clear-btn" id="clearBtn" onclick="clearAll()">Clear</button>
                 <span class="loading" id="loading">Analyzing...</span>
             </div>
 
@@ -510,18 +536,16 @@
             </div>
             <div class="footer-content" id="attributionContent">
                 <p>
-                    GoodBoy is a free, open-source tool that detects political dog whistles.
-                    It uses the <strong>Silent Signals</strong> database.
+                    GoodBoy is a free, open-source tool that detects political dog whistles and offensive language.
                 </p>
 
                 <h4 style="margin-top: 20px; margin-bottom: 10px; font-size: 1em;">Data Sources</h4>
 
                 <p style="margin-top: 10px;">
-                    <strong>Dog Whistle Dataset:</strong> SALT-NLP, "Silent Signals: Disambiguated Dog Whistle Usage
-                    Dataset"
+                    <strong>Dog Whistle Dataset:</strong> Based on SALT-NLP's "Silent Signals: Disambiguated Dog Whistle Usage Dataset" with additional curated terms
                     <br>
                     <a href="https://huggingface.co/datasets/SALT-NLP/silent_signals" target="_blank" rel="noopener">
-                        View Dataset ↗
+                        View Silent Signals Dataset ↗
                     </a>
                     |
                     <a href="https://aclanthology.org/2024.acl-long.675/" target="_blank" rel="noopener">
@@ -570,6 +594,15 @@
     <!-- Load shared obfuscation utilities (DRY - single source of truth) -->
     <script src="js/obfuscation-utils.js"></script>
 
+    <!-- Load theme configuration (design system) -->
+    <script src="js/theme-config.js"></script>
+
+    <!-- Load category hierarchy (shared with dev-tools) -->
+    <script src="js/category-config.js"></script>
+
+    <!-- Load morphology utilities (shared with dev-tools) -->
+    <script src="js/morphology-utils.js"></script>
+
     <!-- Main application logic -->
     <script>
         // Initialize the pattern matchers
@@ -579,29 +612,8 @@
         // Store original text for re-analysis
         let originalAnalyzedText = '';
 
-        // Theme configuration for UI colors (not category colors)
-        const THEME_CONFIG = {
-            primary: '#667eea',
-            primaryDark: '#764ba2',
-            secondary: '#6c757d',
-            background: '#f8f9fa',
-            border: '#e0e0e0',
-            text: '#333',
-            textLight: '#555',
-            textMuted: '#666',
-            textWhite: '#ffffff',
-            success: '#d4edda',
-            successText: '#155724',
-            successBorder: '#28a745',
-            warning: '#fff3cd',
-            warningText: '#856404',
-            warningBorder: '#ffc107',
-            danger: '#f8d7da',
-            dangerText: '#721c24',
-            dangerSevere: '#d6293e',
-            tooltipBg: '#2c3e50',
-            tooltipLink: '#81d4fa'
-        };
+        // Theme configuration loaded from js/theme-config.js
+        // THEME_CONFIG and initializeTheme() are now defined in that file
 
         /**
          * POPULIST PATTERN MATCHING SYSTEM
@@ -612,60 +624,15 @@
          * Example: If database contains "America First", it will also flag "Britain First",
          * "Make Liverpool Great Again" (from "MAGA"), "hard-working Indians" (from "hard-working Americans")
          *
-         * Categorization:
-         * - Countries/substateNations → Nationalist
-         * - Regions/cities → Localist
-         * - Groups (demonyms) without places → Racist
-         * - Both place and group → Racist
+         * Hybrid Categorization:
+         * - Dynamic patterns with nationalist/localist category → auto-categorize by place type:
+         *   - Countries/substateNations → Nationalist
+         *   - Regions/cities → Localist
+         * - Dynamic patterns with other categories (racist, antisemitic, etc.) → preserve original category
          */
 
         // Morphological generator: converts places to group names (demonyms)
-        const MorphologyUtils = {
-            // Common suffix transformations
-            suffixRules: [
-                { pattern: /a$/, demonym: 'an', plural: 'ans' },           // America → American(s)
-                { pattern: /ia$/, demonym: 'ian', plural: 'ians' },        // India → Indian(s)
-                { pattern: /land$/, demonym: 'lander', plural: 'landers' }, // England → Englander(s)
-                { pattern: /y$/, demonym: 'ian', plural: 'ians' },         // Germany → German(s) (needs 'y' removal)
-                { pattern: /$/, demonym: 'ese', plural: 'ese' },           // China → Chinese (default fallback)
-                { pattern: /$/, demonym: 'i', plural: 'is' },              // Iraq → Iraqi(s)
-                { pattern: /$/, demonym: 'ish', plural: 'ish' },           // Britain → British
-            ],
-
-            // Generate demonym variants for a place name
-            generateDemonyms(placeName) {
-                const variants = new Set();
-                const lower = placeName.toLowerCase();
-
-                // Add the place name itself
-                variants.add(placeName);
-                variants.add(lower);
-
-                // Try suffix rules
-                // Simple American pattern
-                if (lower.endsWith('a')) {
-                    const base = lower.slice(0, -1);
-                    variants.add(base + 'an');
-                    variants.add(base + 'ans');
-                }
-
-                // Simple -ian pattern
-                variants.add(lower + 'ian');
-                variants.add(lower + 'ians');
-
-                // Simple -ish pattern
-                variants.add(lower + 'ish');
-
-                // Simple -ese pattern
-                variants.add(lower + 'ese');
-
-                // Simple -i pattern
-                variants.add(lower + 'i');
-                variants.add(lower + 'is');
-
-                return Array.from(variants);
-            }
-        };
+        // MorphologyUtils is now imported from /js/morphology-utils.js (shared with dev-tools)
 
         // Pattern extractor and matcher for populist language
         const PatternMatcher = {
@@ -700,49 +667,96 @@
 
             // Extract patterns from existing dog whistles
             extractPatterns(dogWhistles) {
+                const seenPatterns = new Set(); // Deduplicate by pattern text
+
                 dogWhistles.forEach(dw => {
-                    // Check root and all variations
+                    // SKIP if not dynamic mode - location-specific patterns shouldn't generate variations
+                    if (!dw.categoryMode || dw.categoryMode !== 'dynamic') {
+                        return; // Don't extract pattern - location-specific (e.g., "Israel Lobby", "China Virus")
+                    }
+
+                    // Process root AND all variations
                     const termsToCheck = [dw.root, ...(dw.variations || [])];
 
                     termsToCheck.forEach(term => {
-                        // Find if this term contains a place
-                        const placeFound = this.findPlaceInText(term);
-                        if (placeFound) {
-                            // Create a pattern (use lowercase [place] as placeholder)
-                            const patternText = term.toLowerCase().replace(placeFound.place.toLowerCase(), '[place]');
+                        let placeFound = this.findPlaceInText(term);
+                        let demonymFound = MorphologyUtils.findDemonymInText(term, this.allPlaces);
 
-                            // Skip patterns that are JUST a place name with no context
-                            // We need words before or after the place for valid pattern matching
-                            const parts = patternText.split('[place]');
-                            const beforeText = parts[0].trim();
-                            const afterText = parts[1] ? parts[1].trim() : '';
+                        // If both place and demonym found, check if they overlap
+                        // If they overlap, choose the longer match (e.g., "Americans" over "America")
+                        if (placeFound && demonymFound) {
+                            const lowerTerm = term.toLowerCase();
+                            const placeIndex = lowerTerm.indexOf(placeFound.place.toLowerCase());
+                            const demonymIndex = lowerTerm.indexOf(demonymFound.demonym.toLowerCase());
+                            const placeEnd = placeIndex + placeFound.place.length;
+                            const demonymEnd = demonymIndex + demonymFound.demonym.length;
 
-                            // Only add pattern if there's actual context (words) around the place
-                            if (beforeText.length > 0 || afterText.length > 0) {
-                                // Only create patterns for categoryMode='dynamic'
-                                // Non-dynamic modes (antisemitic, racist, original, custom) are location-specific
-                                if (dw.categoryMode && dw.categoryMode !== 'dynamic') {
-                                    return; // Skip this dog whistle - it's specific to one location
+                            // Check for overlap: ranges overlap if start < otherEnd AND end > otherStart
+                            if (placeIndex < demonymEnd && placeEnd > demonymIndex) {
+                                // They overlap - choose the longer one
+                                if (demonymFound.demonym.length > placeFound.place.length) {
+                                    placeFound = null; // Keep demonym
+                                } else {
+                                    demonymFound = null; // Keep place
                                 }
+                            }
+                            // If no overlap, keep both (e.g., "Keep England English")
+                        }
 
+                    // 3. Create pattern with placeholders
+                    let patternText = term.toLowerCase();
+                    let placeholders = [];
+                    let demonymForm = null;
+                    let basePlace = null;
+
+                    if (placeFound && demonymFound) {
+                        // Both place and demonym → two placeholders
+                        // Replace place first, then demonym to avoid conflicts
+                        patternText = patternText
+                            .replace(placeFound.place.toLowerCase(), '[place]')
+                            .replace(demonymFound.demonym.toLowerCase(), '[demonym]');
+
+                        placeholders = ['place', 'demonym'];
+                        demonymForm = demonymFound.form;
+
+                    } else if (placeFound) {
+                        // Only place → single placeholder (like "America First")
+                        patternText = patternText.replace(placeFound.place.toLowerCase(), '[place]');
+                        placeholders = ['place'];
+
+                    } else if (demonymFound) {
+                        // Only demonym → reverse-lookup place, single placeholder
+                        patternText = patternText.replace(demonymFound.demonym.toLowerCase(), '[demonym]');
+                        placeholders = ['demonym'];
+                        demonymForm = demonymFound.form;
+                        basePlace = demonymFound.place;
+                    }
+
+                    // Only add pattern if we found at least one placeholder and there's context
+                    if (placeholders.length > 0) {
+                        // Check that there's context around the placeholder(s)
+                        const hasContext = patternText.replace(/\[place\]/g, '').replace(/\[demonym\]/g, '').trim().length > 0;
+
+                        if (hasContext) {
+                            // Deduplicate: only add if we haven't seen this pattern text before
+                            if (!seenPatterns.has(patternText)) {
+                                seenPatterns.add(patternText);
                                 const pattern = {
                                     original: term,
-                                    place: placeFound.place,
-                                    placeType: placeFound.type,
                                     pattern: patternText,
-                                    dogWhistle: dw,
-                                    // Store manual categorization metadata if present
-                                    manualCategory: dw.categoryMode ? dw.category : null,
-                                    categoryMode: dw.categoryMode || null,
-                                    placesFound: dw.placesFound || null
+                                    placeholders: placeholders,
+                                    demonymForm: demonymForm,
+                                    basePlace: basePlace, // For demonym-only patterns
+                                    dogWhistle: dw
                                 };
                                 this.patterns.push(pattern);
                             }
                         }
+                    }
                     });
                 });
 
-                console.log(`Extracted ${this.patterns.length} populist patterns`);
+                console.log(`Extracted ${this.patterns.length} dynamic patterns`);
             },
 
             // Find place names in text
@@ -784,118 +798,111 @@
                     return { matches: [] };
                 }
 
-                const matches = [];
-                const matchedPositions = new Set(); // Track positions to avoid duplicates
+                const potentialMatches = []; // Collect all potential matches first
                 const lowerText = text.toLowerCase();
 
                 // For each pattern, try to find matches in the text
                 this.patterns.forEach(pattern => {
-                    // Split pattern by [place] to get before and after parts
-                    const parts = pattern.pattern.split('[place]');
-                    if (parts.length !== 2) return; // Skip if pattern doesn't have exactly one [place]
-
-                    const beforePart = parts[0].trim();
-                    const afterPart = parts[1].trim();
-
-                    // For each place in the gazetteer, check if the pattern matches with that place
+                    // For each place in the gazetteer, generate possible text variations
                     this.allPlaces.forEach(place => {
                         const lowerPlace = place.toLowerCase();
+                        const placeType = this.placeTypes[lowerPlace];
 
-                        // Skip if it's the same place as the original pattern
-                        if (lowerPlace === pattern.place.toLowerCase()) {
-                            return;
-                        }
+                        // Generate all demonym forms for this place
+                        const allDemonyms = MorphologyUtils.generateDemonyms(place);
 
-                        // Build the expected text with this place
-                        const expectedText = beforePart + (beforePart ? ' ' : '') + lowerPlace + (afterPart ? ' ' : '') + afterPart;
+                        // Generate expected text based on pattern placeholders
+                        let expectedTexts = [];
 
-                        // Search for this exact phrase in the text
-                        const index = lowerText.indexOf(expectedText);
-                        if (index !== -1) {
-                            const posKey = `${index}-${index + expectedText.length}`;
+                        if (pattern.placeholders.includes('place') && pattern.placeholders.includes('demonym')) {
+                            // Both place and demonym - use ALL demonyms
+                            allDemonyms.forEach(demonym => {
+                                const expected = pattern.pattern
+                                    .replace('[place]', lowerPlace)
+                                    .replace('[demonym]', demonym.toLowerCase());
+                                expectedTexts.push({ text: expected, demonym: demonym, isGroup: true });
+                            });
 
-                            // Skip if we've already matched this position
-                            if (matchedPositions.has(posKey)) return;
-                            matchedPositions.add(posKey);
+                        } else if (pattern.placeholders.includes('place')) {
+                            // Only place placeholder
+                            const expected = pattern.pattern.replace('[place]', lowerPlace);
+                            expectedTexts.push({ text: expected, demonym: null, isGroup: false });
 
-                            console.log(`✓ Pattern match found: "${expectedText}" (pattern: ${pattern.pattern})`);
-
-                            const placeInfo = {
-                                place: place,
-                                type: this.placeTypes[lowerPlace],
-                                isGroup: false
-                            };
-
-                            const category = this.determineCategoryForMatch(pattern, placeInfo);
-
-                            matches.push({
-                                type: 'dogwhistle',
-                                text: expectedText,
-                                term: pattern.dogWhistle.root,
-                                category: category,
-                                definition: `${pattern.dogWhistle.definition} (Derivation: "${pattern.original}" → "${expectedText}")`,
-                                variations: pattern.dogWhistle.variations,
-                                isPatternMatch: true,
-                                originalPattern: pattern.original,
-                                detectedPlace: place,
-                                isDerived: true,
-                                derivedFrom: pattern.dogWhistle.root,
-                                start: index,
-                                end: index + expectedText.length
+                        } else if (pattern.placeholders.includes('demonym')) {
+                            // Only demonym placeholder - use ALL demonyms
+                            allDemonyms.forEach(demonym => {
+                                const expected = pattern.pattern.replace('[demonym]', demonym.toLowerCase());
+                                expectedTexts.push({ text: expected, demonym: demonym, isGroup: true });
                             });
                         }
 
-                        // Also check demonyms (e.g., "americans" instead of "america")
-                        const demonyms = MorphologyUtils.generateDemonyms(place);
-                        demonyms.forEach(demonym => {
-                            const expectedTextDemonym = beforePart + (beforePart ? ' ' : '') + demonym + (afterPart ? ' ' : '') + afterPart;
-                            const indexDemonym = lowerText.indexOf(expectedTextDemonym);
+                        // Check each generated text against input using ObfuscationUtils for flexible matching
+                        expectedTexts.forEach(({ text: expectedText, demonym, isGroup }) => {
+                            // Use ObfuscationUtils for flexible pattern matching (handles plurals, hyphens, case)
+                            const patternString = ObfuscationUtils.createFlexiblePattern(expectedText);
+                            // Add optional 's' at the end to catch plurals (same as DogWhistleMatcher/OffensiveTermMatcher)
+                            const pluralPattern = `${patternString}s?`;
+                            const flexiblePattern = new RegExp(pluralPattern, 'gi'); // Use 'g' flag to find ALL matches
 
-                            if (indexDemonym !== -1) {
-                                const posKeyDemonym = `${indexDemonym}-${indexDemonym + expectedTextDemonym.length}`;
+                            // Find ALL matches in the text (not just the first one)
+                            let match;
+                            while ((match = flexiblePattern.exec(text)) !== null) {
+                                const start = match.index;
+                                const end = match.index + match[0].length;
+                                const actualMatchedText = text.substring(start, end);
 
-                                // Skip if we've already matched this position
-                                if (matchedPositions.has(posKeyDemonym)) return;
-                                matchedPositions.add(posKeyDemonym);
-
-                                const placeInfoDemonym = {
+                                const placeInfo = {
                                     place: place,
-                                    type: this.placeTypes[lowerPlace],
-                                    isGroup: true
+                                    type: placeType,
+                                    isGroup: isGroup
                                 };
 
-                                const categoryDemonym = this.determineCategoryForMatch(pattern, placeInfoDemonym);
+                                const category = this.determineCategoryForMatch(pattern, placeInfo);
 
-                                matches.push({
+                                // Add to potential matches (will filter overlaps later)
+                                potentialMatches.push({
                                     type: 'dogwhistle',
-                                    text: expectedTextDemonym,
+                                    text: actualMatchedText,
                                     term: pattern.dogWhistle.root,
-                                    category: categoryDemonym,
-                                    definition: `${pattern.dogWhistle.definition} (pattern: "${pattern.original}" → "${expectedTextDemonym}")`,
+                                    category: category,
+                                    definition: `${pattern.dogWhistle.definition} (Derived: "${pattern.original}" → "${expectedText}")`,
                                     variations: pattern.dogWhistle.variations,
                                     isPatternMatch: true,
                                     originalPattern: pattern.original,
                                     detectedPlace: place,
                                     isDerived: true,
                                     derivedFrom: pattern.dogWhistle.root,
-                                    start: indexDemonym,
-                                    end: indexDemonym + expectedTextDemonym.length
+                                    start: start,
+                                    end: end
                                 });
                             }
                         });
                     });
                 });
 
+                // Filter overlapping matches - keep longest ones
+                const matches = [];
+                potentialMatches.sort((a, b) => (b.end - b.start) - (a.end - a.start)); // Sort by length (longest first)
+
+                potentialMatches.forEach(match => {
+                    // Check if this match overlaps with any already-kept match
+                    const hasOverlap = matches.some(existing => {
+                        return match.start < existing.end && match.end > existing.start;
+                    });
+
+                    if (!hasOverlap) {
+                        console.log(`✓ Pattern match: "${match.text}" (pattern: ${match.originalPattern})`);
+                        matches.push(match);
+                    }
+                });
+
                 console.log(`Pattern matching complete: ${matches.length} matches found`);
                 return { matches };
             },
 
-            // Determine category based on place type and whether it's a group
+            // Determine category based on place type
             determineCategory(placeInfo) {
-                if (placeInfo.isGroup) {
-                    return 'racist'; // Using group name
-                }
-
+                // Check place type (countries/substateNations = nationalist, regions/cities = localist)
                 if (placeInfo.type === 'country' || placeInfo.type === 'substateNation') {
                     return 'nationalist';
                 } else if (placeInfo.type === 'region' || placeInfo.type === 'city') {
@@ -905,26 +912,21 @@
                 return 'nationalist'; // Default
             },
 
-            // Determine category for a match, using manual categorization if present
+            // Determine category for a match using hybrid logic
             determineCategoryForMatch(pattern, placeInfo) {
-                // If manual categorization exists, use it
-                if (pattern.categoryMode) {
-                    // For these modes, always use the stored manual category
-                    if (pattern.categoryMode === 'original' ||
-                        pattern.categoryMode === 'antisemitic' ||
-                        pattern.categoryMode === 'racist' ||
-                        pattern.categoryMode === 'custom') {
-                        return pattern.manualCategory;
-                    }
+                const originalCategory = pattern.dogWhistle.category;
 
-                    // For dynamic mode, use gazetteer-based logic
-                    if (pattern.categoryMode === 'dynamic') {
-                        return this.determineCategory(placeInfo);
-                    }
+                // For dynamic patterns, use hybrid approach:
+                // - If original is nationalist/localist → auto-categorize by place type
+                // - Otherwise (racist, antisemitic, etc.) → preserve original category
+                if (originalCategory === 'nationalist' || originalCategory === 'localist') {
+                    // Auto-categorize based on place type
+                    return this.determineCategory(placeInfo);
                 }
 
-                // Fall back to original auto-categorization
-                return this.determineCategory(placeInfo);
+                // For all other categories, preserve the original
+                // This ensures racist patterns stay racist, antisemitic stay antisemitic, etc.
+                return originalCategory;
             }
         };
 
@@ -933,103 +935,7 @@
 
         // Hierarchical category system - Main categories used for highlighting colors
         // Subcategories shown in tooltips and detailed breakdowns
-        const CATEGORY_HIERARCHY = {
-            race: {
-                label: "Race & Ethnicity",
-                lightColor: "#ffcdd2",      // Red - for racist content
-                hoverColor: "#ef9a9a",
-                darkColor: "#e57373",
-                sub: {
-                    "racist": { label: "Racist", darkColor: "#e57373" },
-                    "white supremacist": { label: "White Supremacist", darkColor: "#ef5350" },
-                    "anti-latino": { label: "Anti-Latino", darkColor: "#f44336" },
-                    "antisemitic": { label: "Antisemitic", darkColor: "#d32f2f" },
-                    "anti-asian": { label: "Anti-Asian", darkColor: "#ba1e1e" },
-                    "xenophobic": { label: "Xenophobic", darkColor: "#a71e1e" }
-                }
-            },
-
-            religion: {
-                label: "Religion",
-                lightColor: "#e1bee7",      // Purple - for religious intolerance
-                hoverColor: "#ce93d8",
-                darkColor: "#ba68c8",
-                sub: {
-                    "islamophobic": { label: "Islamophobic", darkColor: "#ab47bc" }
-                }
-            },
-
-            gender: {
-                label: "Gender & Sexuality",
-                lightColor: "#f8bbd0",      // Pink - for gender/sexuality based
-                hoverColor: "#f48fb1",
-                darkColor: "#f06292",
-                sub: {
-                    "transphobic": { label: "Transphobic", darkColor: "#ec407a" },
-                    "homophobic": { label: "Homophobic", darkColor: "#e91e63" },
-                    "anti-lgbtq": { label: "Anti-LGBTQ", darkColor: "#d81b60" },
-                    "misogynistic": { label: "Misogynistic", darkColor: "#c2185b" },
-                    "misandristic": { label: "Misandrinistic", darkColor: "#861643" },
-                    "prostitution": { label: "Prostitution", darkColor: "#880e4f" }
-                }
-            },
-
-            disability: {
-                label: "Ableist",
-                lightColor: "#b0bec5",      // Blue-grey - for ableist
-                hoverColor: "#90a4ae",
-                darkColor: "#78909c",
-                sub: {
-                    "disability-cognitive": { label: "Cognitive Disability", darkColor: "#607d8b" },
-                    "disability-physical": { label: "Physical Disability", darkColor: "#507689" }
-                }
-            },
-
-            ideology: {
-                label: "Ideological",
-                lightColor: "#bbdefb",      // Blue - for ideological
-                hoverColor: "#90caf9",
-                darkColor: "#64b5f6",
-                sub: {
-                    "conservative": { label: "Conservative", darkColor: "#5c6bc0" },
-                    "liberal": { label: "Liberal", darkColor: "#3f51b5" },
-                    "anti-liberal": { label: "Anti-Liberal", darkColor: "#3949ab" }
-                }
-            },
-
-            geography: {
-                label: "Populist",
-                lightColor: "#c5e1a5",      // Green - for populist
-                hoverColor: "#aed581",
-                darkColor: "#9ccc65",
-                sub: {
-                    "nationalist": { label: "Nationalist", darkColor: "#8bc34a" },
-                    "localist": { label: "Localist", darkColor: "#7cb342" }
-                }
-            },
-
-            antiIntellectualist: {
-                label: "Anti-Intellectualist",
-                lightColor: "#ffe0b2",      // Orange - for anti-intellectualist
-                hoverColor: "#ffcc80",
-                darkColor: "#ffb74d",
-                sub: {
-                    "anti-gmo": { label: "Anti-GMO", darkColor: "#ffb74d" },
-                    "anti-vax": { label: "Anti-Vax", darkColor: "#ffa726" },
-                    "climate change denier": { label: "Climate Change Denier", darkColor: "#ff9800" }
-                }
-            },
-
-            fundamentalist: {
-                label: "Fundamentalist",
-                lightColor: "#d7ccc8",      // Brown - for fundamentalist
-                hoverColor: "#bcaaa4",
-                darkColor: "#a1887f",
-                sub: {
-                    "religious": { label: "Religious", darkColor: "#a1887f" }
-                }
-            }
-        };
+        // CATEGORY_HIERARCHY is now imported from /js/category-config.js
 
         // Build reverse mapping: subcategory -> main category
         const SUBCATEGORY_TO_MAIN = {};
@@ -1202,8 +1108,15 @@
 
         // Load and prepare data on page load
         window.addEventListener('DOMContentLoaded', () => {
+            // Initialize theme (inject CSS custom properties)
+            initializeTheme();
+
             // Inject category-specific CSS styles
             injectCategoryStyles();
+
+            // Set initial disabled state for Copy and Clear buttons
+            document.getElementById('copyBtn').disabled = true;
+            document.getElementById('clearBtn').disabled = true;
 
             let dogWhistleData = null;
             let offensiveTermData = null;
@@ -1367,7 +1280,8 @@
                             term: termData.root,
                             category: termData.category,
                             definition: termData.definition,
-                            variations: termData.variations
+                            variations: termData.variations,
+                            source: termData.source // Pass through source field
                         });
                     }
                 });
@@ -1484,11 +1398,41 @@
         }
 
         function calculateSignalScore(text, matches) {
-            if (matches.length === 0) return 0;
+            if (matches.length === 0) return {
+                total: 0,
+                breakdown: {
+                    densityScore: 0,
+                    typeWeight: 0,
+                    categoryScore: 0,
+                    densityPercent: 70,
+                    typePercent: 20,
+                    categoryPercent: 10,
+                    matchCount: 0,
+                    wordCount: 0,
+                    offensiveCount: 0,
+                    dogWhistleCount: 0,
+                    uniqueCategories: 0
+                }
+            };
 
             // Count words in text
             const wordCount = text.trim().split(/\s+/).length;
-            if (wordCount === 0) return 0;
+            if (wordCount === 0) return {
+                total: 0,
+                breakdown: {
+                    densityScore: 0,
+                    typeWeight: 0,
+                    categoryScore: 0,
+                    densityPercent: 70,
+                    typePercent: 20,
+                    categoryPercent: 10,
+                    matchCount: 0,
+                    wordCount: 0,
+                    offensiveCount: 0,
+                    dogWhistleCount: 0,
+                    uniqueCategories: 0
+                }
+            };
 
             // 1. Match Density (70%) - Percentage of words that are problematic
             // Higher weight because this is the primary indicator
@@ -1522,7 +1466,54 @@
 
             // Calculate final score
             const totalScore = Math.round(densityScore + typeWeight + categoryScore);
-            return Math.min(totalScore, 100); // Cap at 100%
+
+            return {
+                total: Math.min(totalScore, 100), // Cap at 100%
+                breakdown: {
+                    densityScore: Math.round(densityScore),
+                    typeWeight: Math.round(typeWeight),
+                    categoryScore: Math.round(categoryScore),
+                    densityPercent: 70,
+                    typePercent: 20,
+                    categoryPercent: 10,
+                    matchCount: matches.length,
+                    wordCount: wordCount,
+                    offensiveCount: offensiveCount,
+                    dogWhistleCount: dogWhistleCount,
+                    uniqueCategories: uniqueCategories
+                }
+            };
+        }
+
+        function updateScoreBreakdownTooltip(breakdown) {
+            const tooltip = document.querySelector('.info-icon .tooltip');
+            if (!tooltip) return;
+
+            const total = breakdown.densityScore + breakdown.typeWeight + breakdown.categoryScore;
+
+            tooltip.innerHTML = `
+                <div class="tooltip-item">
+                    <div class="tooltip-item-label">Signal Score Breakdown</div>
+                </div>
+                <div class="tooltip-item">
+                    <div class="tooltip-item-label">Match Density (${breakdown.densityPercent}%)</div>
+                    <div class="tooltip-item-value">${breakdown.densityScore} points</div>
+                    <div class="tooltip-item-value" style="font-size: 0.9em; opacity: 0.8;">${breakdown.matchCount} matches / ${breakdown.wordCount} words</div>
+                </div>
+                <div class="tooltip-item">
+                    <div class="tooltip-item-label">Match Type Weight (${breakdown.typePercent}%)</div>
+                    <div class="tooltip-item-value">${breakdown.typeWeight} points</div>
+                    <div class="tooltip-item-value" style="font-size: 0.9em; opacity: 0.8;">${breakdown.offensiveCount} offensive, ${breakdown.dogWhistleCount} dog whistles</div>
+                </div>
+                <div class="tooltip-item">
+                    <div class="tooltip-item-label">Category Diversity (${breakdown.categoryPercent}%)</div>
+                    <div class="tooltip-item-value">${breakdown.categoryScore} points</div>
+                    <div class="tooltip-item-value" style="font-size: 0.9em; opacity: 0.8;">${breakdown.uniqueCategories} unique categories</div>
+                </div>
+                <div class="tooltip-source" style="text-align: center;">
+                    <strong>Total: ${total} points</strong>
+                </div>
+            `;
         }
 
         function analyzeText() {
@@ -1558,13 +1549,34 @@
                 const patternResults = PatternMatcher.gazetteerLoaded ? PatternMatcher.analyze(text) : { matches: [] };
 
                 // Combine results (pattern matches are also dog whistles)
-                const combinedMatches = [
+                const allMatches = [
                     ...dogWhistleResults.matches,
                     ...offensiveTermResults.matches,
                     ...patternResults.matches
                 ];
 
-                // Sort by position
+                // Deduplicate overlapping matches from different matchers (keep longest)
+                allMatches.sort((a, b) => {
+                    if (b.end - b.start !== a.end - a.start) {
+                        return (b.end - b.start) - (a.end - a.start); // Sort by length (longest first)
+                    }
+                    return a.start - b.start; // If same length, sort by position
+                });
+
+                const combinedMatches = [];
+                const usedRanges = [];
+
+                for (const match of allMatches) {
+                    const hasOverlap = usedRanges.some(range =>
+                        match.start < range.end && match.end > range.start
+                    );
+                    if (!hasOverlap) {
+                        combinedMatches.push(match);
+                        usedRanges.push({ start: match.start, end: match.end });
+                    }
+                }
+
+                // Sort by position for display
                 combinedMatches.sort((a, b) => a.start - b.start);
 
                 // Count all unique categories
@@ -1686,7 +1698,8 @@
             subCategoryList.innerHTML = subCategoryHtml;
 
             // Calculate Signal Score
-            const signalScore = calculateSignalScore(originalText, results.matches);
+            const scoreResult = calculateSignalScore(originalText, results.matches);
+            const signalScore = scoreResult.total;
             document.getElementById('signalScore').textContent = `${signalScore}%`;
 
             // Update signal indicator
@@ -1711,7 +1724,10 @@
                 indicatorText = 'Severe';
             }
 
-            signalIndicator.innerHTML = `<span class="signal-indicator ${indicatorClass}">${indicatorText}</span>`;
+            signalIndicator.innerHTML = `<span class="signal-indicator ${indicatorClass}">${indicatorText}</span><span class="highlight info-icon">ⓘ<span class="tooltip"></span></span>`;
+
+            // Update score breakdown tooltip
+            updateScoreBreakdownTooltip(scoreResult.breakdown);
 
             // Build highlighted text
             let displayHtml = '';
@@ -1743,6 +1759,7 @@
             analyzeBtn.classList.add('hidden');
             document.getElementById('editBtn').classList.remove('hidden');
             clearBtn.classList.remove('hidden');
+            document.getElementById('copyBtn').classList.remove('hidden');
             inputLabel.textContent = 'Analysis Results:';
 
             // Show stats
@@ -1775,10 +1792,20 @@
 
                 // Note: We only use "highlight" and "offensiveTerm" classes, NOT categoryClass
                 // This prevents the background color from being applied
-                return `<span class="highlight offensiveTerm" style="${underlineStyle}">${escapeHtml(match.text)}<span class="tooltip"><div class="tooltip-category" style="background-color: ${categoryColor}">${escapeHtml(formattedCategoryLabel)}</div><div class="tooltip-item"><div class="tooltip-item-label">${termLabel}:</div><div class="tooltip-item-value">${escapeHtml(match.term)}</div></div>${variationsHtml}<div class="tooltip-item"><div class="tooltip-item-label">Definition:</div><div class="tooltip-item-value">${escapeHtml(capitalizedDefinition)}</div></div><div class="tooltip-source">Source: <a href="#" onclick="return false;">GoodBoy</a></div></span></span>`;
+                return `<span class="highlight offensiveTerm" style="${underlineStyle}">${escapeHtml(match.text)}<span class="tooltip"><div class="tooltip-category" style="background-color: ${categoryColor}">${escapeHtml(formattedCategoryLabel)}</div><div class="tooltip-item"><div class="tooltip-item-label">${termLabel}:</div><div class="tooltip-item-value">${escapeHtml(match.term)}</div></div>${variationsHtml}<div class="tooltip-item"><div class="tooltip-item-label">Definition:</div><div class="tooltip-item-value">${escapeHtml(capitalizedDefinition)}</div></div><div class="tooltip-source">Source: GoodBoy Curated</div></span></span>`;
             } else {
                 // Dog whistle - use highlight (background color from main category)
-                return `<span class="highlight ${categoryClass} dogwhistle">${escapeHtml(match.text)}<span class="tooltip"><div class="tooltip-category" style="background-color: ${categoryColor}">${escapeHtml(formattedCategoryLabel)}</div><div class="tooltip-item"><div class="tooltip-item-label">${termLabel}:</div><div class="tooltip-item-value">${escapeHtml(match.term)}</div></div>${variationsHtml}<div class="tooltip-item"><div class="tooltip-item-label">Dog Whistle:</div><div class="tooltip-item-value">${escapeHtml(capitalizedDefinition)}</div></div><div class="tooltip-source">Source: <a href="https://huggingface.co/datasets/SALT-NLP/silent_signals" target="_blank" rel="noopener">Silent Signals ↗</a></div></span></span>`;
+                // Determine source attribution
+                let sourceHtml = '';
+                if (match.source && match.source !== 'Silent Signals') {
+                    // Show non-Silent Signals sources
+                    sourceHtml = `<div class="tooltip-source">Source: ${escapeHtml(match.source)}</div>`;
+                } else {
+                    // Default Silent Signals source
+                    sourceHtml = `<div class="tooltip-source">Source: <a href="https://huggingface.co/datasets/SALT-NLP/silent_signals" target="_blank" rel="noopener">Silent Signals ↗</a></div>`;
+                }
+
+                return `<span class="highlight ${categoryClass} dogwhistle">${escapeHtml(match.text)}<span class="tooltip"><div class="tooltip-category" style="background-color: ${categoryColor}">${escapeHtml(formattedCategoryLabel)}</div><div class="tooltip-item"><div class="tooltip-item-label">${termLabel}:</div><div class="tooltip-item-value">${escapeHtml(match.term)}</div></div>${variationsHtml}<div class="tooltip-item"><div class="tooltip-item-label">Dog Whistle:</div><div class="tooltip-item-value">${escapeHtml(capitalizedDefinition)}</div></div>${sourceHtml}</span></span>`;
             }
         }
 
@@ -1857,6 +1884,7 @@
             const analyzeBtn = document.getElementById('analyzeBtn');
             const editBtn = document.getElementById('editBtn');
             const clearBtn = document.getElementById('clearBtn');
+            const copyBtn = document.getElementById('copyBtn');
             const resultsDiv = document.getElementById('results');
             const inputLabel = document.getElementById('inputLabel');
 
@@ -1872,10 +1900,40 @@
             analyzeBtn.disabled = false;
             editBtn.classList.add('hidden');
             clearBtn.classList.add('hidden');
+            copyBtn.classList.add('hidden');
             inputLabel.textContent = 'Paste text to analyze:';
 
             // Hide stats
             resultsDiv.classList.add('hidden');
+        }
+
+        function copyText() {
+            // Always copy from the textarea (which contains current editable text)
+            const textToCopy = document.getElementById('textInput').value;
+
+            if (!textToCopy.trim()) {
+                return; // Nothing to copy
+            }
+
+            // Use the Clipboard API
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Visual feedback - temporarily change button text and add success class
+                const copyBtn = document.getElementById('copyBtn');
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = '✓ Copied!';
+
+                // Temporarily override background with success color
+                copyBtn.style.background = 'var(--state-success-border)';
+
+                setTimeout(() => {
+                    copyBtn.textContent = originalText;
+                    // Remove inline style to restore CSS class styling
+                    copyBtn.style.background = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text:', err);
+                alert('Failed to copy text to clipboard');
+            });
         }
 
         function trackAnalysis(text, results) {
@@ -1900,6 +1958,21 @@
         document.getElementById('textInput').addEventListener('keydown', (e) => {
             if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
                 analyzeText();
+            }
+        });
+
+        // Enable/disable Copy and Clear buttons based on text content
+        document.getElementById('textInput').addEventListener('input', (e) => {
+            const copyBtn = document.getElementById('copyBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const textInput = document.getElementById('textInput');
+
+            if (textInput.value.trim()) {
+                copyBtn.disabled = false;
+                clearBtn.disabled = false;
+            } else {
+                copyBtn.disabled = true;
+                clearBtn.disabled = true;
             }
         });
 
