@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GoodBoy - Coded & Offensive Language Detection</title>
+    <title>🐕 GoodBoy - Sniffing out coded language</title>
     <style>
         * {
             margin: 0;
@@ -20,6 +20,22 @@
             min-height: 100vh;
             padding: var(--spacing-xl);
             color: var(--text-primary);
+        }
+
+        a:link {
+            color: var(--link-unvisited);
+        }
+
+        a:visited {
+            color: var(--link-visited);
+        }
+
+        a:hover {
+            color: var(--link-hover);
+        }
+
+        a:active {
+            color: var(--link-active);
         }
 
         .container {
@@ -39,6 +55,15 @@
             text-shadow: 2px 2px 4px var(--shadow-light);
         }
 
+        .betaText {
+            font-size: var(--font-size-sm);
+            margin-left: var(--spacing-sm);
+            margin-top: 0.5em;
+            font-weight: var(--weight-normal);
+            display: inline-block;
+            vertical-align: top;
+        }
+
         .tagline {
             font-size: var(--font-size-lg);
             opacity: 0.95;
@@ -49,7 +74,6 @@
             border-radius: var(--radius-xl);
             padding: var(--spacing-xxl);
             box-shadow: 0 10px 40px var(--shadow-light);
-            margin-bottom: var(--spacing-xl);
         }
 
         .input-section {
@@ -144,13 +168,13 @@
         }
 
         .clear-btn {
-            background: var(--btn-secondary-bg);
-            color: var(--btn-secondary-text);
+            background: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
         }
 
         .copy-btn {
-            background: var(--btn-copy-bg);
-            color: var(--btn-copy-text);
+            background: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
         }
 
         .hidden {
@@ -163,7 +187,7 @@
 
         .stats-row {
             display: flex;
-            gap: var(--spacing-xl);
+            gap: var(--spacing-md);
             margin-bottom: var(--spacing-xl);
             flex-wrap: wrap;
         }
@@ -171,7 +195,7 @@
         .stat-box {
             flex: 1;
             min-width: 150px;
-            padding: var(--spacing-lg);
+            padding: var(--spacing-md);
             background: var(--bg-input);
             border-radius: var(--radius-lg);
             text-align: center;
@@ -392,7 +416,7 @@
         }
 
         footer {
-            margin-top: var(--spacing-xxxl);
+            margin-top: var(--spacing-sm);
             padding: var(--spacing-xl);
             background: var(--bg-footer-overlay);
             border-radius: var(--radius-xl);
@@ -400,7 +424,7 @@
             color: var(--text-muted);
         }
 
-        .footer-header {
+        .expandable-div {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -409,27 +433,27 @@
             padding: var(--spacing-xs) 0;
         }
 
-        .footer-header h3 {
+        .expandable-div h3 {
             color: var(--text-primary);
             margin: 0;
             font-size: 1.1em;
         }
 
-        .footer-toggle {
+        .expand-div-toggle {
             font-size: 1.2em;
             transition: transform 0.3s;
         }
 
-        .footer-toggle.expanded {
+        .expand-div-toggle.expanded {
             transform: rotate(180deg);
         }
 
-        .footer-content {
+        .expandable-div-content {
             display: none;
             margin-top: var(--spacing-lg);
         }
 
-        .footer-content.visible {
+        .expandable-div-content.visible {
             display: block;
         }
 
@@ -440,18 +464,6 @@
 
         footer a:hover {
             text-decoration: underline;
-        }
-
-        .page-footer {
-            margin-top: var(--spacing-xxl);
-            padding: var(--spacing-xl);
-            text-align: center;
-            font-size: var(--font-size-xs);
-            color: var(--text-muted);
-        }
-
-        .page-footer p {
-            margin: var(--spacing-sm) 0;
         }
 
         .loading {
@@ -483,15 +495,19 @@
 <body>
     <div class="container">
         <header>
-            <h1>🐕 GoodBoy</h1>
-            <p class="tagline">Coded & Offensive Language Detection Tool</p>
+            <div style="display: inline-flex; align-items: flex-start; justify-content: center;">
+                <h1>🐕 GoodBoy<span class="betaText"></h1>beta</span>
+            </div>
+            <p class="tagline">
+                Sniffing out coded language
+            </p>
         </header>
 
         <div class="card">
             <div class="input-section">
                 <label for="textInput" id="inputLabel">Text to analyze:</label>
                 <textarea id="textInput"
-                    placeholder="Enter or paste text here to check for coded and offensive language..."></textarea>
+                    placeholder="Enter or paste text here to check for coded and harmful language..."></textarea>
                 <div id="textDisplay"></div>
             </div>
 
@@ -508,7 +524,8 @@
                     <div class="stat-box">
                         <div class="stat-value" id="termCount">0</div>
                         <div class="stat-label">Terms Flagged</div>
-                        <div id="termBreakdown" style="margin-top: 8px; font-size: 0.75em; color: #999;"></div>
+                        <div id="termBreakdown" style="margin-top: 8px; font-size: 0.75em; color: var(--color-muted);">
+                        </div>
                     </div>
                     <div class="stat-box">
                         <div class="stat-value" id="mainCategoryCount">0</div>
@@ -530,56 +547,87 @@
         </div>
 
         <footer>
-            <div class="footer-header" onclick="toggleAttribution()">
-                <h3>Attribution</h3>
-                <span class="footer-toggle">▼</span>
+            <div class="expandable-div" onclick="toggleInstructions()">
+                <h3>Help</h3>
+                <span class="expand-div-toggle">▼</span>
             </div>
-            <div class="footer-content" id="attributionContent">
+            <div class="expandable-div-content" id="instructionContent">
+
+                <table style="width: 100%">
+                    <tr>
+                        <td style="width: 70%; vertical-align:top">
+                            <p>
+                            <h3>Instructions</h3>
+                            <br>
+                            <b>1.</b> Type or paste your text into the input area.<br>
+                            <b>2.</b> Click 'Analyze'.<br>
+                            <b>3.</b> Hover over highlighted or underlined terms to see their meanings.
+                            <br>
+                            The color denotes the category (see legend).<br>
+                            <b>4.</b> Check the signal score to see how much coded or harmful language appears.
+                            <br>
+                            <b>5.</b> Hover over the ⓘ icon for signal score calculation details
+                            </p>
+                            <br>
+                            <p>
+                                <b>Note:</b> A high signal score doesn't automatically indicate harmful intent.<br>
+                            </p>
+                            <br>
+                        </td>
+                        <td style="padding-left: var(--spacing-lg); padding-right: var(--spacing-lg)">
+                            <h3>Legend</h3>
+                            <div id="legend"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </footer>
+
+        <footer>
+            <div class="expandable-div" onclick="toggleAbout()">
+                <h3>About</h3>
+                <span class="expand-div-toggle">▼</span>
+            </div>
+            <div class="expandable-div-content" id="aboutContent">
                 <p>
-                    GoodBoy is a free, open-source tool that detects political dog whistles and offensive language.
+                    GoodBoy is a free, open-source tool for identifying dog whistles and harmful language, designed to
+                    promote understanding of coded rhetoric and help users recognise hateful or discriminatory content.
                 </p>
-
-                <h4 style="margin-top: 20px; margin-bottom: 10px; font-size: 1em;">Data Sources</h4>
-
-                <p style="margin-top: 10px;">
-                    <strong>Dog Whistle Dataset:</strong> Based on SALT-NLP's "Silent Signals: Disambiguated Dog Whistle Usage Dataset" with additional curated terms
-                    <br>
-                    <a href="https://huggingface.co/datasets/SALT-NLP/silent_signals" target="_blank" rel="noopener">
-                        View Silent Signals Dataset ↗
-                    </a>
-                    |
-                    <a href="https://aclanthology.org/2024.acl-long.675/" target="_blank" rel="noopener">
-                        Read Paper (ACL 2024) ↗
-                    </a>
+                <br>
+                <p>
+                    All analysis happens locally in your browser. No data is sent to any server.
                 </p>
-
-                <p style="margin-top: 15px;">
-                    <strong>Offensive Term Dataset:</strong> GoodBoy Offensive Term Dataset (curated)
-                    <br>
-                    <span style="font-size: 0.9em; color: #666;">A carefully curated collection of offensive terms for educational purposes.</span>
-                </p>
-
-                <p style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e0e0e0; font-size: 0.9em;">
-                    All analysis happens locally in your browser. No data is sent to any server.<br>
-                    This tool is educational and should be used to promote understanding, not to label individuals.
-                </p>
-
-                <p style="margin-top: 15px; font-size: 0.9em; color: #666;">
-                    License: CC BY-NC-SA 4.0 (Non-Commercial, Share-Alike)
-                </p>
-
-                <p style="margin-top: 15px; font-size: 0.95em; color: #333;">
+                <br>
+                <p>
                     Database: <strong><span id="dbTermCount">Loading...</span></strong>
+                </p>
+                <br>
+
+                <p>
+                    Created by the GoodBoy Team | <a href=https://ko-fi.com/nautiluszaibatsu> Support this project ↗</a>
+                    <br>
+                    Contributions welcome via the official <a href=https://github.com/NautilusZaibatsu/GoodBoy> GitHub
+                        Repository ↗</a>
+                </p>
+                <br>
+                <p>
+                    License: Source-Available. © GoodBoy 2026<br>
+                    Free to use. No redistribution, modification, or re-hosting permitted.<br>
                 </p>
             </div>
         </footer>
 
-        <!-- Page footer - always visible -->
-        <div class="page-footer">
-            <p style="color: #ffffff;">
-                Created by the GoodBoy Team
-            </p>
-        </div>
+        <footer>
+            <div class="expandable-div" onclick="toggleAttribution()">
+                <h3>Data Sources</h3>
+                <span class="expand-div-toggle">▼</span>
+            </div>
+            <div class="expandable-div-content" id="attributionContent">
+
+                <div id="dataset-attributions"></div>
+
+            </div>
+        </footer>
     </div>
 
     <!-- Load the dog whistle database -->
@@ -588,11 +636,12 @@
     <!-- Load the offensive term database -->
     <script src="data/offensive_term_data.js"></script>
 
-    <!-- Load the gazetteer for populist pattern matching -->
-    <script src="data/gazetteer.js"></script>
+    <!-- Load the source  database -->
+    <script src="data/source_data.js"></script>
 
     <!-- Load shared obfuscation utilities (DRY - single source of truth) -->
     <script src="js/obfuscation-utils.js"></script>
+
 
     <!-- Load theme configuration (design system) -->
     <script src="js/theme-config.js"></script>
@@ -600,17 +649,28 @@
     <!-- Load category hierarchy (shared with dev-tools) -->
     <script src="js/category-config.js"></script>
 
-    <!-- Load morphology utilities (shared with dev-tools) -->
-    <script src="js/morphology-utils.js"></script>
+    <!-- Load unified place-demonym lookup -->
+    <script src="data/place_demonym_lookup.js"></script>
 
     <!-- Main application logic -->
     <script>
+        // Initialize and render the attributions
+        renderAttributions();
         // Initialize the pattern matchers
         let matcher = null;
         let offensiveTermMatcher = null;
 
         // Store original text for re-analysis
         let originalAnalyzedText = '';
+
+        // Initialize the legend for the how to section
+        const legendDiv = document.getElementById('legend');
+        let legendHtml = '';
+
+        Object.entries(CATEGORY_HIERARCHY).forEach(([slug, cat]) => {
+            legendHtml += `<span class="category-badge" style="background-color: ${cat.darkColor}">${cat.label}</span>`;
+        });
+        legendDiv.innerHTML = legendHtml;
 
         // Theme configuration loaded from js/theme-config.js
         // THEME_CONFIG and initializeTheme() are now defined in that file
@@ -626,7 +686,7 @@
          *
          * Hybrid Categorization:
          * - Dynamic patterns with nationalist/localist category → auto-categorize by place type:
-         *   - Countries/substateNations → Nationalist
+         *   - Countries → Nationalist
          *   - Regions/cities → Localist
          * - Dynamic patterns with other categories (racist, antisemitic, etc.) → preserve original category
          */
@@ -637,29 +697,31 @@
         // Pattern extractor and matcher for populist language
         const PatternMatcher = {
             patterns: [],
-            gazetteerLoaded: false,
+            place_demonym_lookup_loaded: false,
 
             // Initialize by extracting patterns from dog whistles
-            initialize(dogWhistles, gazetteer) {
-                if (!gazetteer) {
-                    console.warn('Gazetteer not loaded yet, pattern matching disabled');
+            initialize(dogWhistles) {
+                if (typeof PLACE_DEMONYM_LOOKUP === 'undefined') {
+                    console.warn('Place-demonym lookup not loaded yet, pattern matching disabled');
                     return;
                 }
 
-                this.gazetteerLoaded = true;
-                this.allPlaces = [
-                    ...gazetteer.countries,
-                    ...gazetteer.substateNations,
-                    ...gazetteer.regions,
-                    ...gazetteer.cities
-                ];
+                // Build indices for fast lookups
+                PLACE_DEMONYM_LOOKUP.buildIndices();
 
-                // Build place → type mapping
+                this.place_demonym_lookup_loaded = true;
+                this.allPlaces = PLACE_DEMONYM_LOOKUP.getAllVariants();
+
+                // Build place → type mapping for backward compatibility
                 this.placeTypes = {};
-                gazetteer.countries.forEach(p => this.placeTypes[p.toLowerCase()] = 'country');
-                gazetteer.substateNations.forEach(p => this.placeTypes[p.toLowerCase()] = 'substateNation');
-                gazetteer.regions.forEach(p => this.placeTypes[p.toLowerCase()] = 'region');
-                gazetteer.cities.forEach(p => this.placeTypes[p.toLowerCase()] = 'city');
+                ['country', 'region', 'city'].forEach(type => {
+                    const places = PLACE_DEMONYM_LOOKUP.getPlacesByType(type);
+                    places.forEach(place => {
+                        place.variants.forEach(variant => {
+                            this.placeTypes[variant.toLowerCase()] = type;
+                        });
+                    });
+                });
 
                 // Extract patterns from dog whistles
                 this.extractPatterns(dogWhistles);
@@ -680,7 +742,7 @@
 
                     termsToCheck.forEach(term => {
                         let placeFound = this.findPlaceInText(term);
-                        let demonymFound = MorphologyUtils.findDemonymInText(term, this.allPlaces);
+                        let demonymFound = this.findDemonymInText(term);
 
                         // If both place and demonym found, check if they overlap
                         // If they overlap, choose the longer match (e.g., "Americans" over "America")
@@ -703,56 +765,56 @@
                             // If no overlap, keep both (e.g., "Keep England English")
                         }
 
-                    // 3. Create pattern with placeholders
-                    let patternText = term.toLowerCase();
-                    let placeholders = [];
-                    let demonymForm = null;
-                    let basePlace = null;
+                        // 3. Create pattern with placeholders
+                        let patternText = term.toLowerCase();
+                        let placeholders = [];
+                        let demonymForm = null;
+                        let basePlace = null;
 
-                    if (placeFound && demonymFound) {
-                        // Both place and demonym → two placeholders
-                        // Replace place first, then demonym to avoid conflicts
-                        patternText = patternText
-                            .replace(placeFound.place.toLowerCase(), '[place]')
-                            .replace(demonymFound.demonym.toLowerCase(), '[demonym]');
+                        if (placeFound && demonymFound) {
+                            // Both place and demonym → two placeholders
+                            // Replace place first, then demonym to avoid conflicts
+                            patternText = patternText
+                                .replace(placeFound.matchedText.toLowerCase(), '[place]')
+                                .replace(demonymFound.demonym.toLowerCase(), '[demonym]');
 
-                        placeholders = ['place', 'demonym'];
-                        demonymForm = demonymFound.form;
+                            placeholders = ['place', 'demonym'];
+                            demonymForm = demonymFound.form;
 
-                    } else if (placeFound) {
-                        // Only place → single placeholder (like "America First")
-                        patternText = patternText.replace(placeFound.place.toLowerCase(), '[place]');
-                        placeholders = ['place'];
+                        } else if (placeFound) {
+                            // Only place → single placeholder (like "America First")
+                            patternText = patternText.replace(placeFound.matchedText.toLowerCase(), '[place]');
+                            placeholders = ['place'];
 
-                    } else if (demonymFound) {
-                        // Only demonym → reverse-lookup place, single placeholder
-                        patternText = patternText.replace(demonymFound.demonym.toLowerCase(), '[demonym]');
-                        placeholders = ['demonym'];
-                        demonymForm = demonymFound.form;
-                        basePlace = demonymFound.place;
-                    }
+                        } else if (demonymFound) {
+                            // Only demonym → reverse-lookup place, single placeholder
+                            patternText = patternText.replace(demonymFound.demonym.toLowerCase(), '[demonym]');
+                            placeholders = ['demonym'];
+                            demonymForm = demonymFound.form;
+                            basePlace = demonymFound.place;
+                        }
 
-                    // Only add pattern if we found at least one placeholder and there's context
-                    if (placeholders.length > 0) {
-                        // Check that there's context around the placeholder(s)
-                        const hasContext = patternText.replace(/\[place\]/g, '').replace(/\[demonym\]/g, '').trim().length > 0;
+                        // Only add pattern if we found at least one placeholder and there's context
+                        if (placeholders.length > 0) {
+                            // Check that there's context around the placeholder(s)
+                            const hasContext = patternText.replace(/\[place\]/g, '').replace(/\[demonym\]/g, '').trim().length > 0;
 
-                        if (hasContext) {
-                            // Deduplicate: only add if we haven't seen this pattern text before
-                            if (!seenPatterns.has(patternText)) {
-                                seenPatterns.add(patternText);
-                                const pattern = {
-                                    original: term,
-                                    pattern: patternText,
-                                    placeholders: placeholders,
-                                    demonymForm: demonymForm,
-                                    basePlace: basePlace, // For demonym-only patterns
-                                    dogWhistle: dw
-                                };
-                                this.patterns.push(pattern);
+                            if (hasContext) {
+                                // Deduplicate: only add if we haven't seen this pattern text before
+                                if (!seenPatterns.has(patternText)) {
+                                    seenPatterns.add(patternText);
+                                    const pattern = {
+                                        original: term,
+                                        pattern: patternText,
+                                        placeholders: placeholders,
+                                        demonymForm: demonymForm,
+                                        basePlace: basePlace, // For demonym-only patterns
+                                        dogWhistle: dw
+                                    };
+                                    this.patterns.push(pattern);
+                                }
                             }
                         }
-                    }
                     });
                 });
 
@@ -763,26 +825,44 @@
             findPlaceInText(text) {
                 const lowerText = text.toLowerCase();
 
-                for (const place of this.allPlaces) {
-                    const lowerPlace = place.toLowerCase();
-                    // Check for word boundary matches
+                // Iterate through all place variants and check if they appear in text
+                for (const placeVariant of this.allPlaces) {
+                    const lowerPlace = placeVariant.toLowerCase();
                     const regex = new RegExp(`\\b${lowerPlace}\\b`, 'i');
-                    if (regex.test(text)) {
-                        return {
-                            place: place,
-                            type: this.placeTypes[lowerPlace]
-                        };
-                    }
 
-                    // Also check demonyms
-                    const demonyms = MorphologyUtils.generateDemonyms(place);
-                    for (const demonym of demonyms) {
-                        const demonymRegex = new RegExp(`\\b${demonym}\\b`, 'i');
-                        if (demonymRegex.test(lowerText)) {
+                    if (regex.test(text)) {
+                        const placeData = PLACE_DEMONYM_LOOKUP.findPlaceByVariant(placeVariant);
+                        if (placeData) {
                             return {
-                                place: place,
-                                type: this.placeTypes[lowerPlace],
-                                isGroup: true
+                                place: placeData.canonical,
+                                type: placeData.type,
+                                isGroup: false,
+                                matchedText: placeVariant  // Add the actual matched variant
+                            };
+                        }
+                    }
+                }
+
+                return null;
+            },
+
+            // Find demonym in text and return place info
+            findDemonymInText(text) {
+                const lowerText = text.toLowerCase();
+
+                // Iterate through all places and check if any of their demonyms appear in text
+                for (const placeVariant of this.allPlaces) {
+                    const placeData = PLACE_DEMONYM_LOOKUP.findPlaceByVariant(placeVariant);
+                    if (!placeData) continue;
+
+                    // Check each demonym for this place
+                    for (const demonym of placeData.demonyms) {
+                        const regex = new RegExp(`\\b${demonym}\\b`, 'i');
+                        if (regex.test(text)) {
+                            return {
+                                demonym: demonym,
+                                place: placeData.canonical,
+                                type: placeData.type
                             };
                         }
                     }
@@ -793,87 +873,78 @@
 
             // Analyze text for pattern matches
             analyze(text) {
-                if (!this.gazetteerLoaded || this.patterns.length === 0) {
-                    console.log('Pattern matching skipped:', !this.gazetteerLoaded ? 'gazetteer not loaded' : 'no patterns');
+                if (!this.place_demonym_lookup_loaded || this.patterns.length === 0) {
+                    console.log(
+                        'Pattern matching skipped:',
+                        !this.place_demonym_lookup_loaded ? 'place_demonym_lookup not loaded' : 'no patterns'
+                    );
                     return { matches: [] };
                 }
 
-                const potentialMatches = []; // Collect all potential matches first
+                const potentialMatches = [];
                 const lowerText = text.toLowerCase();
 
-                // For each pattern, try to find matches in the text
                 this.patterns.forEach(pattern => {
-                    // For each place in the gazetteer, generate possible text variations
-                    this.allPlaces.forEach(place => {
-                        const lowerPlace = place.toLowerCase();
-                        const placeType = this.placeTypes[lowerPlace];
+                    this.allPlaces.forEach(placeVariant => {
+                        const placeData = PLACE_DEMONYM_LOOKUP.findPlaceByVariant(placeVariant);
+                        if (!placeData) return;
 
-                        // Generate all demonym forms for this place
-                        const allDemonyms = MorphologyUtils.generateDemonyms(place);
-
-                        // Generate expected text based on pattern placeholders
+                        const allDemonyms = placeData.demonyms;
                         let expectedTexts = [];
 
                         if (pattern.placeholders.includes('place') && pattern.placeholders.includes('demonym')) {
-                            // Both place and demonym - use ALL demonyms
                             allDemonyms.forEach(demonym => {
                                 const expected = pattern.pattern
-                                    .replace('[place]', lowerPlace)
-                                    .replace('[demonym]', demonym.toLowerCase());
+                                    .replace('[place]', placeVariant)    // preserve dataset variant capitalization
+                                    .replace('[demonym]', demonym);     // preserve demonym capitalization
                                 expectedTexts.push({ text: expected, demonym: demonym, isGroup: true });
                             });
 
                         } else if (pattern.placeholders.includes('place')) {
-                            // Only place placeholder
-                            const expected = pattern.pattern.replace('[place]', lowerPlace);
+                            const expected = pattern.pattern.replace('[place]', placeVariant);
                             expectedTexts.push({ text: expected, demonym: null, isGroup: false });
 
                         } else if (pattern.placeholders.includes('demonym')) {
-                            // Only demonym placeholder - use ALL demonyms
                             allDemonyms.forEach(demonym => {
-                                const expected = pattern.pattern.replace('[demonym]', demonym.toLowerCase());
+                                const expected = pattern.pattern.replace('[demonym]', demonym);
                                 expectedTexts.push({ text: expected, demonym: demonym, isGroup: true });
                             });
                         }
 
-                        // Check each generated text against input using ObfuscationUtils for flexible matching
                         expectedTexts.forEach(({ text: expectedText, demonym, isGroup }) => {
-                            // Use ObfuscationUtils for flexible pattern matching (handles plurals, hyphens, case)
+                            // Case-insensitive flexible matching
                             const patternString = ObfuscationUtils.createFlexiblePattern(expectedText);
-                            // Add optional 's' at the end to catch plurals (same as DogWhistleMatcher/OffensiveTermMatcher)
-                            const pluralPattern = `${patternString}s?`;
-                            const flexiblePattern = new RegExp(pluralPattern, 'gi'); // Use 'g' flag to find ALL matches
+                            const flexiblePattern = new RegExp(`${patternString}s?`, 'gi'); // catch plurals
 
-                            // Find ALL matches in the text (not just the first one)
                             let match;
                             while ((match = flexiblePattern.exec(text)) !== null) {
                                 const start = match.index;
-                                const end = match.index + match[0].length;
-                                const actualMatchedText = text.substring(start, end);
+                                const end = start + match[0].length;
+                                const actualMatchedText = text.substring(start, end); // preserves input capitalization
 
                                 const placeInfo = {
-                                    place: place,
-                                    type: placeType,
+                                    place: placeData.canonical,
+                                    type: this.placeTypes[placeVariant.toLowerCase()],
                                     isGroup: isGroup
                                 };
 
                                 const category = this.determineCategoryForMatch(pattern, placeInfo);
 
-                                // Add to potential matches (will filter overlaps later)
                                 potentialMatches.push({
                                     type: 'dogwhistle',
-                                    text: actualMatchedText,
-                                    term: pattern.dogWhistle.root,
+                                    text: actualMatchedText,                       // use matched text for UI
+                                    term: `${pattern.dogWhistle.root} → ${expectedText}`, // derivation
                                     category: category,
-                                    definition: `${pattern.dogWhistle.definition} (Derived: "${pattern.original}" → "${expectedText}")`,
+                                    definition: pattern.dogWhistle.definition,
                                     variations: pattern.dogWhistle.variations,
                                     isPatternMatch: true,
                                     originalPattern: pattern.original,
-                                    detectedPlace: place,
+                                    detectedPlace: placeVariant,                  // preserve dataset variant for reference
                                     isDerived: true,
                                     derivedFrom: pattern.dogWhistle.root,
                                     start: start,
-                                    end: end
+                                    end: end,
+                                    source: pattern.dogWhistle.source
                                 });
                             }
                         });
@@ -902,13 +973,12 @@
 
             // Determine category based on place type
             determineCategory(placeInfo) {
-                // Check place type (countries/substateNations = nationalist, regions/cities = localist)
-                if (placeInfo.type === 'country' || placeInfo.type === 'substateNation') {
+                // Check place type (countries = nationalist, regions/cities = localist)
+                if (placeInfo.type === 'country') {
                     return 'nationalist';
                 } else if (placeInfo.type === 'region' || placeInfo.type === 'city') {
                     return 'localist';
                 }
-
                 return 'nationalist'; // Default
             },
 
@@ -946,6 +1016,51 @@
             });
         });
 
+        function renderAttributions() {
+            const container = document.getElementById('dataset-attributions');
+            container.innerHTML = ''; // Clear previous content if any
+
+            SOURCE_DATA.sources.forEach(source => {
+                const p = document.createElement('p');
+                p.style.marginTop = '10px';
+
+                // Dataset title
+                const strong = document.createElement('strong');
+                strong.textContent = source.description || source.string || source.id;
+                p.appendChild(strong);
+
+                // Prepare links
+                const links = [];
+                if (source.url) {
+                    const a = document.createElement('a');
+                    a.href = source.url;
+                    a.target = '_blank';
+                    a.rel = 'noopener';
+                    a.textContent = 'View Dataset ↗';
+                    links.push(a);
+                }
+                if (source.paper) {
+                    const a = document.createElement('a');
+                    a.href = source.paper;
+                    a.target = '_blank';
+                    a.rel = 'noopener';
+                    a.textContent = 'Read Paper ↗';
+                    links.push(a);
+                }
+                // Only add links and page break if they exist
+                if (links.length > 0) {
+                    p.appendChild(document.createElement('br')); // line break after title
+                    links.forEach((link, idx) => {
+                        p.appendChild(link);
+                        if (idx < links.length - 1) {
+                            p.appendChild(document.createTextNode(' | '));
+                        }
+                    });
+                }
+                container.appendChild(p);
+            });
+        }
+
         // Helper to get main category for a subcategory
         function getMainCategory(subcategory) {
             return SUBCATEGORY_TO_MAIN[subcategory?.toLowerCase()] || null;
@@ -954,9 +1069,9 @@
 
         // Default colors for unknown categories
         const DEFAULT_COLORS = {
-            lightColor: '#ffeb3b',
-            hoverColor: '#fdd835',
-            darkColor: '#fbc02d'
+            lightColor: "var(--color-primary)",
+            hoverColor: "var(--color-primary)",
+            darkColor: "var(--color-primary)"
         };
 
         // Inject dynamic CSS for MAIN category colors (used for highlighting)
@@ -1114,7 +1229,8 @@
             // Inject category-specific CSS styles
             injectCategoryStyles();
 
-            // Set initial disabled state for Copy and Clear buttons
+            // Set initial disabled state for buttons
+            document.getElementById('analyzeBtn').disabled = true;
             document.getElementById('copyBtn').disabled = true;
             document.getElementById('clearBtn').disabled = true;
 
@@ -1154,12 +1270,12 @@
                 const offensiveTermCount = offensiveTermData ? offensiveTermData.uniqueTerms : 0;
 
                 if (dogWhistleCount > 0 && offensiveTermCount > 0) {
-                    const offensiveTermText = offensiveTermCount === 1 ? 'offensive term' : 'offensive terms';
+                    const offensiveTermText = offensiveTermCount === 1 ? 'harmful term' : 'harmful terms';
                     dbTermCountEl.textContent = `${dogWhistleCount} dog whistles and ${offensiveTermCount} ${offensiveTermText}`;
                 } else if (dogWhistleCount > 0) {
                     dbTermCountEl.textContent = `${dogWhistleCount} dog whistles`;
                 } else if (offensiveTermCount > 0) {
-                    const offensiveTermText = offensiveTermCount === 1 ? 'offensive term' : 'offensive terms';
+                    const offensiveTermText = offensiveTermCount === 1 ? 'harmful term' : 'harmful terms';
                     dbTermCountEl.textContent = `${offensiveTermCount} ${offensiveTermText}`;
                 } else {
                     dbTermCountEl.textContent = 'Error loading';
@@ -1180,11 +1296,11 @@
             }
 
             // Initialize pattern matcher for populist detection
-            if (dogWhistleData && typeof window.GAZETTEER !== 'undefined') {
-                PatternMatcher.initialize(dogWhistleData.terms, window.GAZETTEER);
+            if (dogWhistleData && typeof PLACE_DEMONYM_LOOKUP !== 'undefined') {
+                PatternMatcher.initialize(dogWhistleData.terms);
                 console.log('✓ Pattern matcher initialized for populist detection');
-            } else if (!window.GAZETTEER) {
-                console.warn('Gazetteer not loaded, populist pattern matching disabled');
+            } else if (typeof PLACE_DEMONYM_LOOKUP === 'undefined') {
+                console.warn('Place-demonym lookup not loaded, populist pattern matching disabled');
             }
 
             if (!dogWhistleData && !offensiveTermData) {
@@ -1197,9 +1313,25 @@
             clearAnalysisHighlights();
         }
 
+        function toggleInstructions() {
+            const content = document.getElementById('instructionContent');
+            const toggle = document.querySelector('.expand-div-toggle');
+
+            content.classList.toggle('visible');
+            toggle.classList.toggle('expanded');
+        }
+
+        function toggleAbout() {
+            const content = document.getElementById('aboutContent');
+            const toggle = document.querySelector('.expand-div-toggle');
+
+            content.classList.toggle('visible');
+            toggle.classList.toggle('expanded');
+        }
+
         function toggleAttribution() {
             const content = document.getElementById('attributionContent');
-            const toggle = document.querySelector('.footer-toggle');
+            const toggle = document.querySelector('.expand-div-toggle');
 
             content.classList.toggle('visible');
             toggle.classList.toggle('expanded');
@@ -1224,7 +1356,7 @@
                 textInput.classList.remove('hidden');
 
                 // Update label
-                inputLabel.textContent = 'Paste text to analyze:';
+                inputLabel.textContent = 'Text to analyze:';
 
                 // Show Analyze button, hide Edit button (keep Clear button visible)
                 analyzeBtn.classList.remove('hidden');
@@ -1361,7 +1493,8 @@
                             term: termData.root,
                             category: termData.category,
                             definition: termData.definition,
-                            variations: termData.variations
+                            variations: termData.variations,
+                            source: termData.source
                         });
                     }
                 });
@@ -1398,34 +1531,17 @@
         }
 
         function calculateSignalScore(text, matches) {
-            if (matches.length === 0) return {
-                total: 0,
-                breakdown: {
-                    densityScore: 0,
-                    typeWeight: 0,
-                    categoryScore: 0,
-                    densityPercent: 70,
-                    typePercent: 20,
-                    categoryPercent: 10,
-                    matchCount: 0,
-                    wordCount: 0,
-                    offensiveCount: 0,
-                    dogWhistleCount: 0,
-                    uniqueCategories: 0
-                }
-            };
-
             // Count words in text
             const wordCount = text.trim().split(/\s+/).length;
-            if (wordCount === 0) return {
+            if (matches.length === 0 || wordCount === 0) return {
                 total: 0,
                 breakdown: {
                     densityScore: 0,
                     typeWeight: 0,
                     categoryScore: 0,
-                    densityPercent: 70,
-                    typePercent: 20,
-                    categoryPercent: 10,
+                    densityPercent: 20,
+                    typePercent: 50,
+                    categoryPercent: 30,
                     matchCount: 0,
                     wordCount: 0,
                     offensiveCount: 0,
@@ -1434,34 +1550,35 @@
                 }
             };
 
-            // 1. Match Density (70%) - Percentage of words that are problematic
-            // Higher weight because this is the primary indicator
+            // 1. Match Density (20%) - Percentage of words that are problematic
             const matchDensity = matches.length / wordCount;
-            const densityScore = Math.min(matchDensity * 100, 70);
+            const densityScore = Math.min(matchDensity * 100, 20);
 
-            // 2. Match Type Weight (20%) - Offensive terms weighted higher than dog whistles
+            // 2. Match Type Weight (50%) - Offensive terms weighted higher than dog whistles
             // Offensive terms are explicit, dog whistles are coded
             const offensiveCount = matches.filter(m => m.type === 'offensiveTerm').length;
             const dogWhistleCount = matches.filter(m => m.type === 'dogwhistle').length;
 
-            // Weight: offensive terms = 1.5x, dog whistles = 1.0x
-            const weightedMatches = (offensiveCount * 1.5) + dogWhistleCount;
+            // Weight: offensive terms = 2x, dog whistles = 1x
+            const weightedMatches = (offensiveCount * 2) + dogWhistleCount;
+            console.log(weightedMatches + " weighted matches of " + matches.length);
             const avgWeight = weightedMatches / matches.length;
+            console.log("avgWeight is " + avgWeight);
 
-            // Map avg weight (1.0 to 1.5) to score (0 to 20)
-            const typeWeight = ((avgWeight - 1.0) / 0.5) * 20;
+            // Map avg weight (1.0 to 1.5) to score (0 to 30)
+            const typeWeight = ((avgWeight - 1.0) / 0.5) * 30;
 
             // 3. Category Diversity (10%) - Multiple categories = more problematic
             const uniqueCategories = new Set(matches.map(m => m.category.toLowerCase())).size;
             let categoryScore = 0;
             if (uniqueCategories >= 5) {
-                categoryScore = 10;
+                categoryScore = 30;
             } else if (uniqueCategories >= 3) {
-                categoryScore = 7;
+                categoryScore = 22.5;
             } else if (uniqueCategories >= 2) {
-                categoryScore = 4;
+                categoryScore = 15;
             } else {
-                categoryScore = 2; // Even 1 category gets some points
+                categoryScore = 7.5; // Even 1 category gets some points
             }
 
             // Calculate final score
@@ -1473,9 +1590,9 @@
                     densityScore: Math.round(densityScore),
                     typeWeight: Math.round(typeWeight),
                     categoryScore: Math.round(categoryScore),
-                    densityPercent: 70,
-                    typePercent: 20,
-                    categoryPercent: 10,
+                    densityPercent: 20,
+                    typePercent: 50,
+                    categoryPercent: 30,
                     matchCount: matches.length,
                     wordCount: wordCount,
                     offensiveCount: offensiveCount,
@@ -1546,7 +1663,7 @@
                 const offensiveTermResults = offensiveTermMatcher ? offensiveTermMatcher.analyze(text) : { matches: [], categoryCount: 0, categories: [] };
 
                 // Analyze for populist patterns
-                const patternResults = PatternMatcher.gazetteerLoaded ? PatternMatcher.analyze(text) : { matches: [] };
+                const patternResults = PatternMatcher.place_demonym_lookup_loaded ? PatternMatcher.analyze(text) : { matches: [] };
 
                 // Combine results (pattern matches are also dog whistles)
                 const allMatches = [
@@ -1783,31 +1900,45 @@
                 : '';
 
             // Show "Derived from:" for pattern matches, "Term:" for direct matches
-            const termLabel = match.isDerived ? 'Derived from' : 'Term';
+            const termLabel = match.isDerived ? 'Derivation' : 'Term';
 
             if (match.type === 'offensiveTerm') {
-                // Offensive term - use underline with color (NO background color via categoryClass)
-                // Underline styling with category color (subcategory color for distinction)
+                // Harmful term
                 const underlineStyle = `border-bottom: 3px solid ${categoryColor}; text-decoration: none;`;
-
-                // Note: We only use "highlight" and "offensiveTerm" classes, NOT categoryClass
-                // This prevents the background color from being applied
-                return `<span class="highlight offensiveTerm" style="${underlineStyle}">${escapeHtml(match.text)}<span class="tooltip"><div class="tooltip-category" style="background-color: ${categoryColor}">${escapeHtml(formattedCategoryLabel)}</div><div class="tooltip-item"><div class="tooltip-item-label">${termLabel}:</div><div class="tooltip-item-value">${escapeHtml(match.term)}</div></div>${variationsHtml}<div class="tooltip-item"><div class="tooltip-item-label">Definition:</div><div class="tooltip-item-value">${escapeHtml(capitalizedDefinition)}</div></div><div class="tooltip-source">Source: GoodBoy Curated</div></span></span>`;
+                const sourceHtml = getTooltipSourceHtml(match.source);
+                return `<span class="highlight offensiveTerm" style="${underlineStyle}">${escapeHtml(match.text)}<span class="tooltip"><div class="tooltip-category" style="background-color: ${categoryColor}">${escapeHtml(formattedCategoryLabel)}</div><div class="tooltip-item"><div class="tooltip-item-label">Definition:</div><div class="tooltip-item-value">${escapeHtml(capitalizedDefinition)}</div></div>${sourceHtml}</span></span>`;
             } else {
-                // Dog whistle - use highlight (background color from main category)
-                // Determine source attribution
-                let sourceHtml = '';
-                if (match.source && match.source !== 'Silent Signals') {
-                    // Show non-Silent Signals sources
-                    sourceHtml = `<div class="tooltip-source">Source: ${escapeHtml(match.source)}</div>`;
-                } else {
-                    // Default Silent Signals source
-                    sourceHtml = `<div class="tooltip-source">Source: <a href="https://huggingface.co/datasets/SALT-NLP/silent_signals" target="_blank" rel="noopener">Silent Signals ↗</a></div>`;
-                }
-
+                // Dog whistle
+                const sourceHtml = getTooltipSourceHtml(match.source);
                 return `<span class="highlight ${categoryClass} dogwhistle">${escapeHtml(match.text)}<span class="tooltip"><div class="tooltip-category" style="background-color: ${categoryColor}">${escapeHtml(formattedCategoryLabel)}</div><div class="tooltip-item"><div class="tooltip-item-label">${termLabel}:</div><div class="tooltip-item-value">${escapeHtml(match.term)}</div></div>${variationsHtml}<div class="tooltip-item"><div class="tooltip-item-label">Dog Whistle:</div><div class="tooltip-item-value">${escapeHtml(capitalizedDefinition)}</div></div>${sourceHtml}</span></span>`;
             }
         }
+
+        /**
+        * Returns a tooltip-source string for a given source ID.
+        *  Preserves the exact HTML structure you already have.
+        */
+        function getTooltipSourceHtml(sourceId) {
+            if (!sourceId) {
+                console.warn("Source id not present in data: " + sourceId);
+                return `<div class="tooltip-source">Source: ERROR</div>`;
+            }
+
+            const sourceEntry = SOURCE_DATA.sources.find(s => s.id === sourceId);
+            if (!sourceEntry) {
+                console.warn(`Source id "${sourceId}" not found in SOURCE_DATA: ` + sourceId);
+                return `<div class="tooltip-source">Source: ERROR</div>`;
+            }
+
+            const displayString = escapeHtml(sourceEntry.string || sourceId);
+
+            if (sourceEntry.url) {
+                return `<div class="tooltip-source">Source: <a href="${sourceEntry.url}" target="_blank" rel="noopener">${displayString} ↗</a></div>`;
+            } else {
+                return `<div class="tooltip-source">Source: ${displayString}</div>`;
+            }
+        }
+
 
         function escapeHtml(text) {
             const div = document.createElement('div');
@@ -1897,10 +2028,10 @@
             textInput.classList.remove('hidden');
             textDisplay.classList.remove('visible');
             analyzeBtn.classList.remove('hidden');
-            analyzeBtn.disabled = false;
+            analyzeBtn.disabled = true;
+            clearBtn.disabled = true;
+            copyBtn.disabled = true;
             editBtn.classList.add('hidden');
-            clearBtn.classList.add('hidden');
-            copyBtn.classList.add('hidden');
             inputLabel.textContent = 'Paste text to analyze:';
 
             // Hide stats
@@ -1910,26 +2041,19 @@
         function copyText() {
             // Always copy from the textarea (which contains current editable text)
             const textToCopy = document.getElementById('textInput').value;
-
             if (!textToCopy.trim()) {
                 return; // Nothing to copy
             }
-
             // Use the Clipboard API
             navigator.clipboard.writeText(textToCopy).then(() => {
-                // Visual feedback - temporarily change button text and add success class
+                // visual feedback
                 const copyBtn = document.getElementById('copyBtn');
-                const originalText = copyBtn.textContent;
-                copyBtn.textContent = '✓ Copied!';
-
-                // Temporarily override background with success color
-                copyBtn.style.background = 'var(--state-success-border)';
-
+                // Temporarily override background with disabled color
+                copyBtn.style.background = 'var(--btn-clicked-bg)';
                 setTimeout(() => {
-                    copyBtn.textContent = originalText;
-                    // Remove inline style to restore CSS class styling
                     copyBtn.style.background = '';
-                }, 2000);
+                }, buttonClickTimeout);
+
             }).catch(err => {
                 console.error('Failed to copy text:', err);
                 alert('Failed to copy text to clipboard');
@@ -1961,16 +2085,19 @@
             }
         });
 
-        // Enable/disable Copy and Clear buttons based on text content
+        // Enable/disable buttons based on text content
         document.getElementById('textInput').addEventListener('input', (e) => {
+            const analyzeBtn = document.getElementById('analyzeBtn');
             const copyBtn = document.getElementById('copyBtn');
             const clearBtn = document.getElementById('clearBtn');
             const textInput = document.getElementById('textInput');
 
             if (textInput.value.trim()) {
+                analyzeBtn.disabled = false;
                 copyBtn.disabled = false;
                 clearBtn.disabled = false;
             } else {
+                analyzeBtn.disabled = true;
                 copyBtn.disabled = true;
                 clearBtn.disabled = true;
             }

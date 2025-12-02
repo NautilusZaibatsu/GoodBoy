@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2025-12-04
+
+### Added
+- **Database expansion** 
+  - Additional dog whistles and harmful terms
+- **Additonal sections** 
+  - Help section with instructions and main category legend
+  - About section
+
+### Changed
+- **New Tagline** 
+  - Sniffing out coded language
+- **Unified place-demonym lookup system** (`/data/place_demonym_lookup.js`):
+  - Replaced `/data/gazetteer.js` and `/js/morphology-utils.js` with pre-computed lookup table
+  - Links place variants to canonical names (USA/US/America/United States → "United States" → "American")
+  - Bidirectional O(1) hash lookups (311x performance improvement over runtime generation)
+  - Fixes "USA is for Americans" matching (variant linking prevents incorrect demonym generation)
+  - Removed substateNations entirely as they are functionally the same as countries
+  - Fixed an issue causing derivation info in dogwhistle tooltips to be lowercase.
+- **Source database** (`/data/source_data.js`):
+  - Reworked tooltip source attribution to use database
+  - Reworked attribution section to read from database
+  - Updated all databases to use source ids
+- **Obfuscatioin**
+  - Obfuscation algorithm now handles replacement of A and E with 0 to catch more meme speak
+- **Harmful term tooltip** 
+  - Removed variations and root term as this feature was too open to exploitation. This tool is not supposed to be a slur thesaurus
+- **Contextual button behavior** 
+  - All buttons are now visually disabled when unavailable
+
+### Known Issues
+- **Place-demonym system issues** 
+  - Place names or demonyms with an extreme amount of 'unusual' characters such as Аляска are currently not supported as the obfuscation utils pattern match too greedily. All examples have been commented out of the data for now
+
 ## [0.2.0] - 2025-11-28
 
 ### Added
@@ -30,7 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Full ObfuscationUtils integration (case-insensitive, hyphen variations, plural handling)
 - Signal score breakdown tooltip: Info icon (ⓘ) next to signal score severity indicator
   - Displays match density (70%), match type weight (20%), and category diversity (10%) components
-  - Shows underlying metrics: match count, word count, offensive vs dog whistle counts, unique categories
+  - Shows underlying metrics: match count, word count, harmful vs dog whistle counts, unique categories
   - DRY implementation: pulls from existing `calculateSignalScore()` logic
 - Category configuration module (/js/category-config.js): Centralized category hierarchy
   - CATEGORY_HIERARCHY now shared between webapp and internal tooling
@@ -72,7 +106,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Initial proof-of-concept implementation
-- Dual detection system: Dog whistles (Silent Signals dataset) and offensive terms (GoodBoy database) -  homophobic terms only at this stage, proof of concept
+- Dual detection system: Dog whistles (Silent Signals dataset) and harmful terms (GoodBoy database) -  homophobic terms only at this stage, proof of concept
 - Advanced pattern matching with obfuscation detection
 - Populist language detection with global place-based patterns
 - Signal scoring algorithm (70% density, 20% type weight, 10% category diversity)

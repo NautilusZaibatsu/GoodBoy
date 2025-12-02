@@ -15,7 +15,6 @@ const THEME_CONFIG = {
     // Primary brand colors
     colors: {
         primary: '#dd7d34',              // Main brand color (indigo/blue) - used for links, focus states
-        primaryDark: '#c46c29ff',          // Dark variant for gradients and accents
         secondary: '#7d756c',            // Secondary/inactive elements (gray)
     },
 
@@ -36,6 +35,14 @@ const THEME_CONFIG = {
         white: '#ffffff',                // White text (on dark backgrounds)
         link: '#667eea',                 // Links (same as primary brand color)
         tooltipLink: '#81d4fa',          // Links in tooltips (cyan for contrast)
+    },
+
+    // Link colors
+    link: {
+        unvisited: '#dd7d34',
+        visited: '#d1722a',
+        hover: '#7d756c',
+        active: '#7d756c',
     },
 
     // Border colors
@@ -66,30 +73,23 @@ const THEME_CONFIG = {
     // Button colors
     buttons: {
         primary: {
-            background: '#f59369',       // Primary button color (warm orange)
-            text: '#ffffff',             // Button text (white for contrast)
-        },
-        secondary: {
-            background: '#f59369',       // Clear button
-            text: '#ffffff',             // Button text (white)
-        },
-        copy: {
-            background: '#f59369',       // Copy text button
-            text: '#ffffff',             // Button text (white)
+            background: '#f59369',       // Primary button color
+            clicked: '#ffa782',          // Primary button feedback colour
+            text: '#ffffff',             // Button text
         },
         disabled: {
             background: '#7d756c',       // Disabled button color (grey)
-            text: '#ffffff',             // Button text (white)
+            text: '#ffffff',             // Button text
         },
     },
 
     // Shadow & overlay colors (rgba for transparency)
     effects: {
-        shadowLight: 'rgba(0, 0, 0, 0.2)',        // Light shadows on text
-        shadowMedium: 'rgba(102, 126, 234, 0.4)', // Button hover shadow (primary color with alpha)
-        tooltipText: 'rgba(255, 255, 255, 0.9)',  // Slightly transparent white in tooltips
-        tooltipTextMuted: 'rgba(255, 255, 255, 0.7)', // More transparent for secondary tooltip text
-        tooltipBorder: 'rgba(255, 255, 255, 0.2)', // Subtle borders in tooltips
+        shadowLight: 'rgba(0, 0, 0, 0.2)',              // Light shadows on text
+        shadowMedium: 'rgba(102, 126, 234, 0.4)',       // Button hover shadow (primary color with alpha)
+        tooltipText: 'rgba(255, 255, 255, 0.9)',        // Slightly transparent white in tooltips
+        tooltipTextMuted: 'rgba(255, 255, 255, 0.7)',   // More transparent for secondary tooltip text
+        tooltipBorder: 'rgba(255, 255, 255, 0.2)',      // Subtle borders in tooltips
     },
 
     // ============================================================
@@ -145,6 +145,8 @@ const THEME_CONFIG = {
     },
 };
 
+const buttonClickTimeout = 200;
+
 /**
  * Initialize Theme - Inject CSS Custom Properties
  *
@@ -180,6 +182,12 @@ function initializeTheme() {
     root.style.setProperty('--text-link', THEME_CONFIG.text.link);
     root.style.setProperty('--text-tooltip-link', THEME_CONFIG.text.tooltipLink);
 
+    // Links
+    root.style.setProperty('--link-unvisited', THEME_CONFIG.link.unvisited);
+    root.style.setProperty('--link-visited', THEME_CONFIG.link.visited);
+    root.style.setProperty('--link-hover', THEME_CONFIG.link.hover);
+    root.style.setProperty('--link-active', THEME_CONFIG.link.active);
+
     // Borders
     root.style.setProperty('--border-default', THEME_CONFIG.borders.default);
     root.style.setProperty('--border-focus', THEME_CONFIG.borders.focus);
@@ -201,11 +209,8 @@ function initializeTheme() {
 
     // Buttons
     root.style.setProperty('--btn-primary-bg', THEME_CONFIG.buttons.primary.background);
+    root.style.setProperty('--btn-clicked-bg', THEME_CONFIG.buttons.primary.clicked);
     root.style.setProperty('--btn-primary-text', THEME_CONFIG.buttons.primary.text);
-    root.style.setProperty('--btn-secondary-bg', THEME_CONFIG.buttons.secondary.background);
-    root.style.setProperty('--btn-secondary-text', THEME_CONFIG.buttons.secondary.text);
-    root.style.setProperty('--btn-copy-bg', THEME_CONFIG.buttons.copy.background);
-    root.style.setProperty('--btn-copy-text', THEME_CONFIG.buttons.copy.text);
     root.style.setProperty('--btn-disabled-bg', THEME_CONFIG.buttons.disabled.background);
     root.style.setProperty('--btn-disabled-text', THEME_CONFIG.buttons.disabled.text);
 

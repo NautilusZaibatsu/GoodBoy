@@ -6,127 +6,167 @@
 const GOODBOY_OFFENSIVE_TERM_DATA = {
     version: "1.0.0",
     generated: new Date().toISOString(),
-    uniqueTerms: 12,
+    uniqueTerms: 15,
 
     // Offensive terms with definitions
     terms: [
         {
+            "root": "Prostitute",
+            "variations": [
+                "Prozzy",
+                "Prozzie",
+                "Prossy",
+                "Prossie",
+                "Hooker",
+                "Lady of the night",
+                "Call girl",
+                "Street walker",
+                "Joytoy",
+                "Lot lizard",
+                "Working girl",
+                "Whore",
+                "Harlot",
+                "Sex worker"
+            ],
+            "category": "prostitution",
+            "definition": "A woman who sells or exchanges sex",
+            "source": "goodboy"
+        },
+
+        {
+            "root": "Slut",
+            "variations": [
+                "Bop",
+                "Slutty",
+                "Jezebel",
+                "Tart",
+                "Trollop",
+                "Hussy",
+                "Tramp",
+                "Skank",
+                "Thot",
+                "Sluzza"
+            ],
+            "category": "misogynistic",
+            "definition": "A person, usually a woman, who is considered sexually promiscuous",
+            "source": "wsp"
+        },
+        {
             "root": "Nigger",
             "variations": [
                 "Nigga",
+                "Nibba",
                 "Negro",
                 "Nig Nog",
-                "Nignog",
                 "Niglet",
                 "Nigress",
                 "Nigette"
             ],
             "category": "racist",
             "definition": "A black person",
-            "source": "GoodBoy Curated"
+            "source": "goodboy"
         },
-
         {
-            "root": "faggot",
+            "root": "Faggot",
             "variations": [
-                "fag",
-                "fagot",
-                "faget",
-                "faggy",
-                "fagala",
-                "feygele",
-                "faygele"
+                "Fag",
+                "Fagot",
+                "Faget",
+                "Faggy",
+                "Fagala",
+                "Feygele",
+                "Faygele"
 
             ],
             "category": "anti-lgbtq",
             "definition": "A homosexual or feminine male",
-            "source": "GoodBoy Curated"
+            "source": "goodboy"
         },
         {
-            "root": "batty boy",
+            "root": "Batty boy",
             "variations": [
-                "batty bwoy",
-                "batty man",
-                "batiman",
-                "chi chi boy",
-                "chi chi bwoy",
-                "chi chi man"
+                "Batty bwoy",
+                "Batty man",
+                "Batiman",
+                "Chi chi boy",
+                "Chi chi bwoy",
+                "Chi chi man"
             ],
             "category": "anti-lgbtq",
             "definition": "A homosexual male",
-            "source": "GoodBoy Curated"
+            "source": "goodboy"
         },
         {
-            "root": "adam and steve",
+            "root": "Adam and Steve",
             "variations": [],
             "category": "anti-lgbtq",
             "definition": "A homosexual couple",
-            "source": "GoodBoy Curated"
+            "source": "goodboy"
         },
         {
             "root": "dyke",
             "variations": [],
             "category": "anti-lgbtq",
             "definition": "A homosexual female",
-            "source": "GoodBoy Curated"
+            "source": "goodboy"
         },
         {
-            "root": "fairy",
+            "root": "Fairy",
             "variations": [
-                "fairies"
+                "Fairies"
             ],
             "category": "anti-lgbtq",
             "definition": "A homosexual male",
-            "source": "GoodBoy Curated"
+            "source": "goodboy"
         },
         {
-            "root": "fruit",
+            "root": "Fruit",
             "variations": [
-                "fruity"
+                "Fruity"
             ],
             "category": "anti-lgbtq",
             "definition": "A homosexual male",
-            "source": "GoodBoy Curated"
+            "source": "goodboy"
         },
         {
-            "root": "fudgepacker",
+            "root": "Fudgepacker",
             "variations": [],
             "category": "anti-lgbtq",
             "definition": "A homosexual male",
-            "source": "GoodBoy Curated"
+            "source": "goodboy"
         },
         {
-            "root": "lesbo",
+            "root": "Lesbo",
             "variations": [
-                "lezzer"
+                "Lezzer"
             ],
             "category": "anti-lgbtq",
             "definition": "A homosexual female",
-            "source": "GoodBoy Curated"
+            "source": "goodboy"
         },
         {
-            "root": "poof",
+            "root": "Poof",
             "variations": [
-                "poofter",
-                "bufty"
+                "Poofter",
+                "Bufty"
             ],
             "category": "anti-lgbtq",
             "definition": "A homosexual male",
-            "source": "GoodBoy Curated"
+            "source": "goodboy"
         },
         {
-            "root": "queen",
+            "root": "Queen",
             "variations": [],
             "category": "anti-lgbtq",
             "definition": "A homosexual male",
-            "source": "GoodBoy Curated"
+            "source": "goodboy"
         },
         {
-            "root": "sissy",
+            "root": "Sissy",
             "variations": [],
             "category": "anti-lgbtq",
             "definition": "A homosexual or feminine male",
-            "source": "GoodBoy Curated"
+            "source": "goodboy"
         }
     ]
 };

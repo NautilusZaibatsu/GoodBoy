@@ -1,106 +1,167 @@
 /**
  * GoodBoy Category Configuration
  *
- * Centralized category hierarchy for dog whistles and offensive terms.
+ * Centralized category hierarchy for dog whistles and harmful terms.
  * Used by both the webapp and dev-tools.
  *
  * Single source of truth for all category-related logic.
  */
 
 const CATEGORY_HIERARCHY = {
-    race: {
-        label: "Race & Ethnicity",
-        lightColor: "#ffcdd2",      // Red - for racist content
-        hoverColor: "#ef9a9a",
-        darkColor: "#e57373",
-        sub: {
-            "racist": { label: "Racist", darkColor: "#e57373" },
-            "white supremacist": { label: "White Supremacist", darkColor: "#ef5350" },
-            "anti-latino": { label: "Anti-Latino", darkColor: "#f44336" },
-            "antisemitic": { label: "Antisemitic", darkColor: "#d32f2f" },
-            "anti-asian": { label: "Anti-Asian", darkColor: "#ba1e1e" },
-            "xenophobic": { label: "Xenophobic", darkColor: "#a71e1e" }
+    "race": {
+        "label": "Race & Ethnicity",
+        "lightColor": "#ffcdd2",
+        "hoverColor": "#ef9a9a",
+        "darkColor": "#e57373",
+        "sub": {
+            "racist": {
+                "label": "Racist",
+                "darkColor": "#e57373"
+            },
+            "white supremacist": {
+                "label": "White Supremacist",
+                "darkColor": "#ef5350"
+            },
+            "anti-latino": {
+                "label": "Anti-Latino",
+                "darkColor": "#f44336"
+            },
+            "antisemitic": {
+                "label": "Antisemitic",
+                "darkColor": "#d32f2f"
+            },
+            "anti-asian": {
+                "label": "Anti-Asian",
+                "darkColor": "#ba1e1e"
+            },
+            "xenophobic": {
+                "label": "Xenophobic",
+                "darkColor": "#a71e1e"
+            }
         }
     },
-
-    religion: {
-        label: "Religion",
-        lightColor: "#e1bee7",      // Purple - for religious intolerance
-        hoverColor: "#ce93d8",
-        darkColor: "#ba68c8",
-        sub: {
-            "islamophobic": { label: "Islamophobic", darkColor: "#ab47bc" }
+    "religion": {
+        "label": "Religion",
+        "lightColor": "#e1bee7",
+        "hoverColor": "#ce93d8",
+        "darkColor": "#ba68c8",
+        "sub": {
+            "islamophobic": {
+                "label": "Islamophobic",
+                "darkColor": "#ab47bc"
+            }
         }
     },
-
-    gender: {
-        label: "Gender & Sexuality",
-        lightColor: "#f8bbd0",      // Pink - for gender/sexuality based
-        hoverColor: "#f48fb1",
-        darkColor: "#f06292",
-        sub: {
-            "transphobic": { label: "Transphobic", darkColor: "#ec407a" },
-            "homophobic": { label: "Homophobic", darkColor: "#e91e63" },
-            "anti-lgbtq": { label: "Anti-LGBTQ", darkColor: "#d81b60" },
-            "misogynistic": { label: "Misogynistic", darkColor: "#c2185b" },
-            "misandristic": { label: "Misandrinistic", darkColor: "#861643" },
-            "prostitution": { label: "Prostitution", darkColor: "#880e4f" }
+    "gender": {
+        "label": "Gender & Sexuality",
+        "lightColor": "#ffe0b2",
+        "hoverColor": "#ffcc80",
+        "darkColor": "#ffb74d",
+        "sub": {
+            "transphobic": {
+                "label": "Transphobic",
+                "darkColor": "#ffb74d"
+            },
+            "homophobic": {
+                "label": "Homophobic",
+                "darkColor": "#de9b36"
+            },
+            "anti-lgbtq": {
+                "label": "Anti-LGBTQ",
+                "darkColor": "#f4ab3d"
+            },
+            "misogynistic": {
+                "label": "Misogynistic",
+                "darkColor": "#df9f40"
+            },
+            "misandristic": {
+                "label": "Misandrinistic",
+                "darkColor": "#ffa726"
+            },
+            "prostitution": {
+                "label": "Prostitution",
+                "darkColor": "#ffb74d"
+            }
         }
     },
-
-    disability: {
-        label: "Ableist",
-        lightColor: "#b0bec5",      // Blue-grey - for ableist
-        hoverColor: "#90a4ae",
-        darkColor: "#78909c",
-        sub: {
-            "disability-cognitive": { label: "Cognitive Disability", darkColor: "#607d8b" },
-            "disability-physical": { label: "Physical Disability", darkColor: "#507689" }
+    "disability": {
+        "label": "Ableist",
+        "lightColor": "#b0bec5",
+        "hoverColor": "#90a4ae",
+        "darkColor": "#78909c",
+        "sub": {
+            "disability-cognitive": {
+                "label": "Cognitive Disability",
+                "darkColor": "#607d8b"
+            },
+            "disability-physical": {
+                "label": "Physical Disability",
+                "darkColor": "#507689"
+            }
         }
     },
-
-    ideology: {
-        label: "Ideological",
-        lightColor: "#bbdefb",      // Blue - for ideological
-        hoverColor: "#90caf9",
-        darkColor: "#64b5f6",
-        sub: {
-            "conservative": { label: "Conservative", darkColor: "#5c6bc0" },
-            "liberal": { label: "Liberal", darkColor: "#3f51b5" },
-            "anti-liberal": { label: "Anti-Liberal", darkColor: "#3949ab" }
+    "ideology": {
+        "label": "Ideological",
+        "lightColor": "#bbdefb",
+        "hoverColor": "#90caf9",
+        "darkColor": "#64b5f6",
+        "sub": {
+            "conservative": {
+                "label": "Conservative",
+                "darkColor": "#5c6bc0"
+            },
+            "liberal": {
+                "label": "Liberal",
+                "darkColor": "#3f51b5"
+            },
+            "anti-liberal": {
+                "label": "Anti-Liberal",
+                "darkColor": "#3949ab"
+            },
+            "fascist": {
+                "label": "Fascist",
+                "darkColor": "#2b367f"
+            }
         }
     },
-
-    geography: {
-        label: "Populist",
-        lightColor: "#c5e1a5",      // Green - for populist
-        hoverColor: "#aed581",
-        darkColor: "#9ccc65",
-        sub: {
-            "nationalist": { label: "Nationalist", darkColor: "#8bc34a" },
-            "localist": { label: "Localist", darkColor: "#7cb342" }
+    "geography": {
+        "label": "Populist",
+        "lightColor": "#c5e1a5",
+        "hoverColor": "#aed581",
+        "darkColor": "#9ccc65",
+        "sub": {
+            "nationalist": {
+                "label": "Nationalist",
+                "darkColor": "#8bc34a"
+            },
+            "localist": {
+                "label": "Localist",
+                "darkColor": "#7cb342"
+            },
+            "regionalist": {
+                "label": "Regionalist",
+                "darkColor": "#6a9a36"
+            }
         }
     },
-
-    antiIntellectualist: {
-        label: "Anti-Intellectualist",
-        lightColor: "#ffe0b2",      // Orange - for anti-intellectualist
-        hoverColor: "#ffcc80",
-        darkColor: "#ffb74d",
-        sub: {
-            "anti-gmo": { label: "Anti-GMO", darkColor: "#ffb74d" },
-            "anti-vax": { label: "Anti-Vax", darkColor: "#ffa726" },
-            "climate change denier": { label: "Climate Change Denier", darkColor: "#ff9800" }
-        }
-    },
-
-    fundamentalist: {
-        label: "Fundamentalist",
-        lightColor: "#d7ccc8",      // Brown - for fundamentalist
-        hoverColor: "#bcaaa4",
-        darkColor: "#a1887f",
-        sub: {
-            "religious": { label: "Religious", darkColor: "#a1887f" }
+    "antiIntellectualist": {
+        "label": "Anti-Intellectualist",
+        "lightColor": "#f8bbd0",
+        "hoverColor": "#f48fb1",
+        "darkColor": "#f06292",
+        "sub": {
+            "anti-gmo": {
+                "label": "Anti-GMO",
+                "darkColor": "#ec407a"
+            },
+            "anti-vax": {
+                "label": "Anti-Vax",
+                "darkColor": "#e91e63"
+            },
+            "climate change denier": {
+                "label": "Climate Change Denier",
+                "darkColor": "#ff9800"
+            }
         }
     }
 };

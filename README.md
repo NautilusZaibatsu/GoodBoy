@@ -1,15 +1,19 @@
-# 🐕 GoodBoy - Coded & Offensive Language Detection Tool
+# 🐕 GoodBoy - Sniffing out coded language
 
-A free, lightweight, browser-based tool that detects coded and offensive language.
+A free, lightweight, browser-based tool that detects coded and harmful language.
+
+## Support
+
+Support this project: https://ko-fi.com/nautiluszaibatsu
 
 ## Quick Start
 
 1. **Open `index.html`** in your web browser
 2. Paste text into the input area
-3. Click "Analyze Text"
-4. Hover over highlighted terms to see their meanings
+3. Click "Analyze"
+4. Hover over highlighted or underlined terms to see their meanings
 
-That's it! No installation, no server, no dependencies.
+That's it! No installation, no server, no dependencies, no LLMs
 
 ## Project Structure
 
@@ -18,37 +22,26 @@ goodboy/
 ├── index.html                   # Main application
 ├── js/                          # JavaScript utilities (required)
 │   ├── obfuscation-utils.js     # Shared obfuscation detection logic
-│   ├── morphology-utils.js      # Demonym generation and detection
 │   ├── theme-config.js          # Theme configuration (design system)
 │   └── category-config.js       # Category hierarchy (single source of truth)
 ├── data/                        # Databases
-│   ├── dogwhistle_data.js       # Dog whistle database (from Silent Signals)
-│   ├── offensive_term_data.js   # Offensive term database (custom curated)
-│   └── gazetteer.js             # Geographic database for pattern matching
-├── docs/                        # Documentation
-│   └── GoodBoy_Design_Document_v0.5.md
+│   ├── dogwhistle_data.js       # Dog whistle database
+│   ├── offensive_term_data.js   # Offensive term database
+│   ├── place_demonym_lookup.js  # Place/demonym lookup for pattern matching
+│   └── source_data.js           # Source database  
 └── README.md                    # This file
 ```
 
 ## Datasets
 
 **Dog Whistle Database**:
-- Based on SALT-NLP's "Silent Signals: Disambiguated Dog Whistle Usage Dataset" with additional curated terms
-- 299+ unique dog whistle terms
-- 20 categories (racist, antisemitic, transphobic, ableist, anti-intellectualist, fundamentalist, etc.)
-- Primary source: https://huggingface.co/datasets/SALT-NLP/silent_signals
-- Continuously expanded with community-sourced additions
+- Curated list of coded language and dog whistles
 
-**GoodBoy Offensive Term Database** (custom curated):
+**Offensive Term Database** 
 - Curated list of offensive and hateful language
-- Complementary to dog whistle detection
 
-**Geographic Gazetteer** (custom curated):
-- 195 countries
-- 33 substate nations (Scotland, Catalonia, Quebec, Kurdistan, etc.)
-- 52 identity-relevant regions (Texas, Bavaria, Balkans, etc.)
-- 135 major global cities
-- Used for pattern-matching nationalist and localist language globally
+**Place-Demonym Lookup** (custom curated):
+- Curated list of places and demonyms
 
 ## Features Implemented
 
@@ -71,7 +64,7 @@ goodboy/
   - "America First" pattern matches "Britain First", "India First", etc.
   - "Make America Great Again" matches "Make Liverpool Great Again", "Make Scotland Great Again"
   - "hard-working Americans" matches "hard-working Indians", "hard-working Scots"
-- Intelligent categorization: Countries/Substate Nations → Nationalist, Regions/Cities → Localist
+- Intelligent categorization: Countries → Nationalist, Regions/Cities → Localist
 - Ensures the tool works globally, not just for American-centric expressions
 
 ✅ **Interactive UI**
@@ -101,21 +94,6 @@ goodboy/
 
 ⏳ **Analytics Tracking** - Metrics defined but not yet implemented (privacy-first approach)
 ⏳ **Offensive Term Database Expansion** - Currently in active development
-
-## Deployment
-
-The app is 100% static and can be deployed to:
-- **GitHub Pages** (recommended, free)
-- **Netlify** (free tier)
-- **Vercel** (free tier)
-- Any static hosting service
-- Even opened directly from filesystem
-
-Just upload these files:
-- `index.html`
-- `/js/` (obfuscation-utils.js, morphology-utils.js, theme-config.js, category-config.js)
-- `/data/` (dogwhistle_data.js, offensive_term_data.js, gazetteer.js)
-- `/images/` (background image)
 
 ## Technical Details
 
@@ -154,7 +132,7 @@ Calculates 0-100% score based on three factors:
 - **Category Diversity (10%)**: Diversity of problematic categories
 
 ### Performance
-- Databases: ~100KB (compresses well with gzip)
+- Databases: ~200KB (compresses well with gzip)
 - Load time: Instant on modern browsers
 - Analysis time: Near-instant for typical text lengths
 - Memory usage: Minimal (~2-3 MB)
@@ -174,37 +152,28 @@ Calculates 0-100% score based on three factors:
 - **No data storage** (all processing is ephemeral)
 - **All analysis happens locally** in your browser
 
-## License & Attribution
-
-The dog whistle database is primarily based on the Silent Signals dataset with additional curated terms:
-
-**Primary Source:** SALT-NLP, "Silent Signals: Disambiguated Dog Whistle Usage Dataset," https://huggingface.co/datasets/SALT-NLP/silent_signals
-
-**Research Paper:** https://aclanthology.org/2024.acl-long.675/
-
-**Additional Terms:** Community-curated additions marked with source attribution
-
 ## Roadmap
 
-See `GoodBoy_Design_Document_v0.4.md` for full roadmap including:
+We are currently in Phase 1: Proof of concept
 - Phase 2: URL Analysis (analyze entire webpages)
 - Phase 3: Browser Extension
 - Phase 4: Crowdsourced Database Expansion
-- Phase 5: Logical Fallacy Detection (with LLM)
+- Phase 5: Logical Fallacy Detection
 - Phase 6: Platform Analysis Tools
 
 ## Contributing
 
 This is currently in proof-of-concept phase. Future contributions welcome for:
-- Confidence scoring algorithm design
+- Signal scoring algorithm design
 - Analytics implementation
 - UI/UX improvements
-- Database expansion methodology
+- Database expansion
 
 ## Support
 
-GoodBoy will always be free. Future funding through:
-- Donations (Patreon, Ko-fi)
+GoodBoy will always be free
+- Donations welcome: https://ko-fi.com/nautiluszaibatsu
+Future funding through:
 - Grants (digital democracy, media literacy orgs)
 - NGO partnerships
 - Foundation sponsorships (Mozilla, EFF, etc.)
@@ -213,3 +182,45 @@ GoodBoy will always be free. Future funding through:
 
 **Built with:** Pure HTML, CSS, and JavaScript
 **No frameworks, no dependencies, no build process**
+
+## License
+
+GoodBoy Source-Available License (GSAL-1.0)
+© GoodBoy 2026. All rights reserved.
+
+**GoodBoy** is source-available: you may read the code and contribute improvements, but you may not host, sell, redistribute, or modify the tool outside the official project.
+1. Permission to Use
+You are permitted to:
+- Use the GoodBoy website and tool for free.
+- View and study the source code.
+- Fork the repository for personal use or to submit contributions.
+Create pull requests or issues to improve the official project.
+2. Restrictions
+You may NOT:
+- Host or deploy GoodBoy (modified or unmodified) on any domain, server, platform, or service.
+- Redistribute the software or database in any form.
+- Modify the codebase and publish, distribute, or host the modified version.
+- Sell, license, rent, or commercially exploit GoodBoy or any derivative.
+- Use the GoodBoy name, branding, or likeness for any software deployment, service, or product.
+- The official and only permitted public version of GoodBoy is hosted at: https://nautiluszaibatsu.github.io/GoodBoy/
+3. Collaboration Clause
+You may fork the repository solely for:
+- personal study,
+- experimentation,
+- contribution back to the official project via pull requests.
+- Forks must remain private and may not be deployed publicly.
+4. Intellectual Property
+All rights, title, and interest in GoodBoy — including the database, code, wording, model definitions, and branding — remain the exclusive property of the copyright holder.
+No rights are granted except those expressly listed in this license.
+5. No Warranty
+GoodBoy is provided “as is,” without warranty of any kind.
+Use at your own risk.
+6. Termination
+Any violation of this license immediately and automatically terminates your permissions.
+Upon termination, you must delete all copies and forks of the software.
+7. Contact / Permission Requests
+If you wish to:
+build integrations,
+use parts of the dataset,
+or negotiate a special license,
+contact: https://github.com/NautilusZaibatsu

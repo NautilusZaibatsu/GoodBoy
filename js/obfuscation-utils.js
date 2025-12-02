@@ -8,11 +8,11 @@ const ObfuscationUtils = {
     // Character substitution map for obfuscation detection
     // Only includes visually similar characters and common leet speak
     charSubstitutions: {
-        'a': '[aáàâäã@4ΑаᴀΔ^-]',
+        'a': '[aáàâäã@4ΑаᴀΔ0^-]', // 0 to catch "Khaz0r"
         'b': '[b8ß฿]',
         'c': '[cç¢(<{Сс]',
         'd': '[dđðcl]',
-        'e': '[eéèêë3€Ееє]',
+        'e': '[eéèêë3€Ееє0]', // 0 to catch "groom0r"
         'f': '[fƒ]',
         'g': '[g69]',
         'h': '[hɦħ#]',
