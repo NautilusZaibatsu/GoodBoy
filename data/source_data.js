@@ -3,7 +3,8 @@ const SOURCE_DATA = {
         {
             "id": "goodboy",
             "string": "GoodBoy Curated",
-            "description": "GoodBoy Curated Dataset"
+            "description": "GoodBoy Curated Dataset",
+            "url": "https://nautiluszaibatsu.github.io/GoodBoy/"
         },
         {
             "id": "silent_signals",
@@ -23,6 +24,12 @@ const SOURCE_DATA = {
             "string": "Women's Support Project",
             "description": "Women's Support Project",
             "url": "https://www.womenssupportproject.org.uk",
+        },
+        {
+            "id": "adl",
+            "string": "Anti Defamation League",
+            "description": "Anti Defamation League",
+            "url": "https://www.adl.org/sites/default/files/ADL%20Hate%20on%20Display%20Printable_0.pdf",
         },
     ]
 };

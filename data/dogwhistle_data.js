@@ -1,11 +1,509 @@
 const GOODBOY_DATA = {
   version: "1.0.0",
-  generated: "2025-12-02T23:26:10.988Z",
+  generated: "2025-12-03T00:49:35.750Z",
   datasetSize: 16258,
-  uniqueTerms: 353,
+  uniqueTerms: 405,
 
   // Dog whistle terms with definitions
   terms: [
+    {
+      "root": "Zyklon B",
+      "variations": [],
+      "category": "white supremacist",
+      "definition": "The name of the gas used to kill over a million victims, most of them Jews in the death camps constructed by Nazi Germany during the Holocaust. Has been adopted as a symbol by modern-day white supremacists",
+      "source": "adl"
+    },
+
+    {
+      "root": "WPWW",
+      "variations": [
+        "White Pride World Wide"
+      ],
+      "category": "white supremacist",
+      "definition": "\"White Pride World Wide\" - a phrase use as part of the logo for Stormfront, the largest white supremacist website on the internet",
+      "source": "adl"
+    },
+
+    {
+      "root": "SWP",
+      "variations": [
+        "Supreme White Power"
+      ],
+      "category": "white supremacist",
+      "definition": "Supreme White Power",
+      "source": "adl"
+    },
+
+    {
+      "root": "Six Gorillion",
+      "variations": [
+        "6 gorillion"
+      ],
+      "category": "antisemitic",
+      "definition": "Reference to the Jews who died during the Holocaust (typically thought to be around six million)",
+      "source": "adl"
+    },
+
+    {
+      "root": "Sieg Heil",
+      "variations": [
+        "Hail victory"
+      ],
+      "category": "fascist",
+      "definition": "A slogan used by the Nazi Party in Germany",
+      "source": "adl"
+    },
+
+    {
+      "root": "ROA",
+      "variations": [
+        "Race Over All"
+      ],
+      "category": "white supremacist",
+      "definition": "\"Race Over All\" - a slogan popularized by the neo-Nazi gang Volksfront",
+      "source": "adl"
+    },
+
+    {
+      "root": "Peckerwood",
+      "variations": [
+        "PW",
+        "Woodpile",
+        "Wood"
+      ],
+      "category": "racist",
+      "definition": "Derived from an old racial epithet aimed at whites, has evolved to become a term used to refer to white prisoners, particularly those belonging to racist prison gangs",
+      "source": "adl"
+    },
+
+    {
+      "root": "ORION",
+      "variations": [
+        "Our Race Is Our Nation"
+      ],
+      "category": "racist",
+      "definition": "\"Our Race Is Our Nation\" - slogan proclaiming that racial ties are paramount to all else, transcending national borders or boundaries",
+      "source": "adl"
+    },
+
+    {
+      "root": "OFOF",
+      "variations": [
+        "One front one family"
+      ],
+      "category": "white supremacist",
+      "definition": "\"One Front, One Family\" - slogan utilized primarily by the white supremacist group Volksfront",
+      "source": "adl"
+    },
+
+    {
+      "root": "NSSA",
+      "variations": [
+        "Non silba sed anthar",
+        "Not self but others"
+      ],
+      "category": "white supremacist",
+      "definition": "\"Not Self, But Others\" - a Ku Klux Klan slogan",
+      "source": "adl"
+    },
+
+    {
+      "root": "No race mixing",
+      "variations": [],
+      "category": "white supremacist",
+      "definition": "White supremacists fear and hate the concept of multiracial couples, relationships or families",
+      "source": "adl"
+    },
+
+    {
+      "root": "Muh Holocaust",
+      "variations": [],
+      "category": "antisemitic",
+      "definition": "Phrase popular with the alt-right to convey the notion that Jewish people bring up the holocaust to gain attention or deflect negative attention",
+      "source": "adl"
+    },
+
+    {
+      "root": "Moon man",
+      "variations": [],
+      "category": "white supremacist",
+      "definition": "A meme derived from a 1980s McDonald's commercial that was appropriated by white supremacists",
+      "source": "adl"
+    },
+
+    {
+      "root": "Meine Ehre Heisst Treue",
+      "variations": [
+        "My honor is loyalty",
+        "My honor is called loyalty",
+        "Unser ehre heisst treue",
+        "My honour is loyalty",
+        "My honour is called loyalty"
+      ],
+      "category": "white supremacist", // multiple
+      "definition": "A motto of the Waffen SS in Nazi Germany",
+      "source": "adl"
+    },
+
+    {
+      "root": "Love Your Race",
+      "variations": [],
+      "category": "white supremacist",
+      "definition": "A white supremacist slogan originally popularized by the Neo-Nazi National Alliance",
+      "source": "adl"
+    },
+
+    {
+      "root": "LOTIE",
+      "variations": [
+        "Lady Of The Invisible Empire"
+      ],
+      "category": "white supremacist",
+      "definition": "\"Lady Of The Invisible Empire\" - a female Ku Klux Klan member",
+      "source": "adl"
+    },
+
+    {
+      "root": "KLASP",
+      "variations": [
+        "Klannish Loyalty A Sacred Principle"
+      ],
+      "category": "white supremacist",
+      "definition": "\"Klannish Loyalty, A Sacred Principle\" - a Ku Klux Klan slogan",
+      "source": "adl"
+    },
+
+    {
+      "root": "KIGY",
+      "variations": [
+        "Klansman I Greet You"
+      ],
+      "category": "white supremacist",
+      "definition": "\"Klansman I Greet You\" - a Ku Klux Klan slogan",
+      "source": "adl"
+    },
+
+    {
+      "root": "KSS",
+      "variations": [
+        "Keystone United"
+      ],
+      "category": "white supremacist",
+      "definition": "Slogan of the Keystone State Skinheads, a skinhead gang based in Pennsylvania",
+      "source": "adl"
+    },
+
+    {
+      "root": "KABARK",
+      "variations": [
+        "Konstantly Applied By All Regular Klansmen"
+      ],
+      "category": "white supremacist",
+      "definition": "\"Konstantly Applied By All Regular Klansmen\" - a Ku Klux Klan slogan",
+      "source": "adl"
+    },
+
+    {
+      "root": "ITSUB",
+      "variations": [
+        "In The Sacred Unfailing Being"
+      ],
+      "category": "white supremacist",
+      "definition": "\"In The Sacred Unfailing Being\" a reference to God used by the Ku Klux Klan",
+      "source": "adl"
+    },
+
+    {
+      "root": "HFFH",
+      "variations": [],
+      "category": "white supremacist",
+      "definition": "\"Hammerskins Forever, Forever Hammerskins\" - a slogan of the Hammerskins prison gang",
+      "source": "adl"
+    },
+
+    {
+      "root": "Happy Merchant",
+      "variations": [],
+      "category": "antisemitic",
+      "definition": "A greedy Jew",
+      "source": "adl"
+    },
+
+    {
+      "root": "H8",
+      "variations": [],
+      "category": "white supremacist",
+      "definition": "Hate",
+      "source": "adl"
+    },
+
+    {
+      "root": "GTKRWN",
+      "variations": [
+        "Gas the kikes",
+        "Gas the kikes, race war now"
+      ],
+      "category": "antisemitic",
+      "definition": "\"Gas The Kikes, Race War Now\"",
+      "source": "adl"
+    },
+
+    {
+      "root": "Firm 22",
+      "variations": [],
+      "category": "white supremacist",
+      "definition": "Name use by the Vinlanders Social Club, a racist skinhead group, to refer to supporters and associates of the group who are not actually members. The number 22 stands for the letter V",
+      "source": "adl"
+    },
+
+    {
+      "root": "FGRN",
+      "variations": [
+        "For God, Race and Nation",
+        "god race and nation"
+      ],
+      "category": "white supremacist",
+      "definition": "Ku Klux Klan acronym for \"For God, Race and Nation\"",
+      "source": "adl"
+    },
+
+    {
+      "root": "Diversity is white genocide",
+      "variations": [
+        "Diversity = white genocide"
+      ],
+      "category": "white supremacist",
+      "definition": "Multiculturalism will mean the death of the white race",
+      "source": "adl"
+    },
+
+    {
+      "root": "Day of the rope",
+      "variations": [],
+      "category": "white supremacist",
+      "definition": "A white supremacist slogan referring to mass murders",
+      "source": "adl"
+    },
+
+    {
+      "root": "Crazy white boy",
+      "variations": [
+        "CWB"
+      ],
+      "category": "white supremacist",
+      "definition": "A phrase used generically by some white supremacists (often as a tattoo), but also commonly used as the name for various white gangs",
+      "source": "adl"
+    },
+
+    {
+      "root": "COORS",
+      "variations": [
+        "Comrades of our Racial Struggle"
+      ],
+      "category": "white supremacist",
+      "definition": "\"Comrades of our Racial Struggle\"",
+      "source": "adl"
+    },
+
+    {
+      "root": "Blue eyed devils",
+      "variations": [],
+      "category": "white supremacist",
+      "definition": "A racial epithet directed against people of European ancestry that originated in Asia. Some white supremacists have adopted the term for themselves",
+      "source": "adl"
+    },
+
+    {
+      "root": "Anti racist is code for anti white",
+      "variations": [],
+      "category": "white supremacist",
+      "definition": "A racist slogan that represents an attempt to create a rebuttal to accusations of racism",
+      "source": "adl"
+    },
+
+    {
+      "root": "ACAB",
+      "variations": [
+        "2"
+      ],
+      "category": "white supremacist",
+      "definition": "“All Cops Are Bastards” and is a slogan of long standing in the skinhead subculture. Because non-racist skinheads may use this acronym as well as racist skinheads, it should be carefully judged in the context in which it appears",
+      "source": "adl"
+    },
+
+    {
+      "root": "9%",
+      "variations": [
+        "9 percent",
+        "nine percent"
+      ],
+      "category": "white supremacist",
+      "definition": "9% is a numeric white supremacist symbol that refers to the percentage of the world’s population that is purportedly white.s",
+      "source": "adl"
+    },
+
+    {
+      "root": "83",
+      "variations": [],
+      "category": "white supremacist",
+      "definition": "83 is a white supremacist numeric symbol standing for “Heil Christ” or California-based white supremacist gang present on California’s streets and in its prisons. The numbers 737 correspond to the letters P, D, and S on a telephone keypad; the initials PDS stand for Peni Death Squad, another name for the group",
+      "source": "adl"
+    },
+
+    {
+      "root": "737",
+      "variations": [],
+      "category": "white supremacist",
+      "definition": "The number 737 is a numeric symbol used by Public Enemy Number 1 (PENI), a California-based white supremacist gang present on California’s streets and in its prisons. The numbers 737 correspond to the letters P, D, and S on a telephone keypad; the initials PDS stand for Peni Death Squad, another name for the group",
+      "source": "goodboy"
+    },
+
+    {
+      "root": "511",
+      "variations": [],
+      "category": "white supremacist",
+      "definition": "The number 511 is a numeric symbol for the Oregon-based racist prison gang",
+      "source": "adl"
+    },
+
+    {
+      "root": "5 words",
+      "variations": [
+        "Five words"
+      ],
+      "category": "white supremacist",
+      "definition": "\"I have nothing say\" -  a phrase that some white supremacists advocate should be the only words ever spoken to the police",
+      "source": "adl"
+    },
+
+    {
+      "root": "38",
+      "variations": [],
+      "category": "white supremacist",
+      "definition": "The number 38 is used as a numeric symbol by members of the Hammerskins, a racist skinhead group. Substituting letters for numbers, 38 stands for CH or “Crossed Hammers,” a reference to the crossed hammers of the group’s logo",
+      "source": "adl"
+    },
+
+    {
+      "root": "33/6",
+      "variations": [
+        "33 6"
+      ],
+      "category": "white supremacist",
+      "definition": "Used by Ku Klux Klan adherents to signify the Ku Klux Klan: since the 11th letter of the alphabet is K, three Ks signify “KKK” or the Ku Klux Klan. Klan members will frequently follow this with the number 6, to indicate the historical “era” of the Klan they think the Klan currently is in",
+      "source": "adl"
+    },
+
+    {
+      "root": "318",
+      "variations": [
+        "C18"
+      ],
+      "category": "white supremacist",
+      "definition": "Combat 18, a British white supremacist group",
+      "source": "adl"
+    },
+
+    {
+      "root": "311",
+      "variations": [],
+      "category": "white supremacist",
+      "definition": "Ku Klux Klan. The eleventh letter of the alphabet is the “K”; thus 3 times 11 equals “KKK,”",
+      "source": "adl"
+    },
+
+    {
+      "root": "23/16",
+      "variations": [
+        "23 16"
+      ],
+      "category": "white supremacist",
+      "definition": "White Power numerical symbol",
+      "source": "adl"
+    },
+
+    {
+      "root": "211",
+      "variations": [],
+      "category": "racist",
+      "definition": "The 211 Crew is a large racist prison gang based in Colorado",
+      "source": "adl"
+    },
+
+    {
+      "root": "21 2 12",
+      "variations": [
+        "21212",
+        "UBL",
+        "Unity Brotherhood Loyalty"
+      ],
+      "category": "racist",
+      "definition": "Unity, Brotherhood, Loyalty, slogan of Members of the Unforgiven, a Florida-based racist prison gang",
+      "source": "adl"
+    },
+
+    {
+      "root": "23",
+      "variations": [
+        "14/23",
+        "1423"
+      ],
+      "category": "white supremacist",
+      "definition": "Reference to the \"23 precepts\", a list of rules that Southern Brotherhood members must follow, or a numeric symbol for the letter W (white)",
+      "source": "adl"
+    },
+
+    {
+      "root": "12",
+      "variations": [],
+      "category": "fascist",
+      "definition": "Numeric symbol for Aryan Brotherhood groups",
+      "source": "adl"
+    },
+
+    {
+      "root": "100%",
+      "variations": [
+        "One hundred percent"
+      ],
+      "category": "white supremacist",
+      "definition": "100% white",
+      "source": "adl"
+    },
+
+    {
+      "root": "1 11",
+      "variations": [
+        "111",
+        "One eleven"
+      ],
+      "category": "fascist",
+      "definition": "Numeric symbol used by the Aryan Knights, an Idaho-based prison gang",
+      "source": "adl"
+    },
+
+    {
+      "root": "Pattern noticer",
+      "variations": [
+        "Pattern seeker",
+        "Pattern spotter"
+      ],
+      "category": "fascist",
+      "definition": "In-group signal implying the speaker recognizes hidden \"truths\" that the general public misses",
+      "source": "goodboy"
+    },
+
+    {
+      "root": "Now yuo see",
+      "variations": [
+        "Yuo",
+        "Yuo tube"
+      ],
+      "category": "white supremacist",
+      "definition": "White supremacist in-group signal",
+      "source": "goodboy"
+    },
+
     {
       "root": "Vampire",
       "variations": [
@@ -48,7 +546,7 @@ const GOODBOY_DATA = {
         "well well well"
       ],
       "category": "fascist",
-      "definition": "Used when a minority adheres to a negative sterotype",
+      "definition": "Used when a minority adheres to a negative stereotype",
       "source": "goodboy"
     },
     {
@@ -71,8 +569,8 @@ const GOODBOY_DATA = {
         "TMD",
         "Total migrant death",
         "Totally nice day",
-        "Totalle joyful day",
-        "Totally marvellous day"
+        "Totally joyful day",
+        "Totally marvelous day"
       ],
       "category": "fascist",
       "definition": "Call to arms to genocide a minority",
@@ -246,7 +744,7 @@ const GOODBOY_DATA = {
       "root": "Norwood",
       "variations": [],
       "category": "fascist",
-      "definition": "Likely a reference to the Norwood hair loss scale. used in memes about masculinity in altt-right spaces",
+      "definition": "Likely a reference to the Norwood hair loss scale. used in memes about masculinity in alt-right spaces",
       "source": "goodboy"
     },
     {
@@ -256,7 +754,7 @@ const GOODBOY_DATA = {
         "no brother wars"
       ],
       "category": "white supremacist",
-      "definition": "Slogan advocating for racial solidarity andd conflict avoidance among white people",
+      "definition": "Slogan advocating for racial solidarity and conflict avoidance among white people",
       "source": "goodboy"
     },
     {
@@ -355,7 +853,7 @@ const GOODBOY_DATA = {
       "root": "attaq",
       "variations": [],
       "category": "fascist",
-      "definition": "Intentional mispelling of \"attack\" used for meme-style in-group signaling",
+      "definition": "Intentional misspelling of \"attack\" used for meme-style in-group signaling",
       "source": "goodboy"
     },
     {
@@ -383,7 +881,7 @@ const GOODBOY_DATA = {
         "not from here"
       ],
       "category": "xenophobic",
-      "definition": "Those with foreign backgrounds are not real members of society and should be excluded, deported or marginalse",
+      "definition": "Those with foreign backgrounds are not real members of society and should be excluded, deported or marginalise",
       "source": "swu"
     },
     {
@@ -398,7 +896,7 @@ const GOODBOY_DATA = {
         "crackdown on refugees"
       ],
       "category": "xenophobic",
-      "definition": "We should enforcce strict, punitive immigration policy",
+      "definition": "We should enforce strict, punitive immigration policy",
       "source": "swu"
     },
     {
@@ -427,7 +925,7 @@ const GOODBOY_DATA = {
         "work inactive"
       ],
       "category": "disability-physical", // multiple
-      "definition": "Rebranding of disabled / incapacitated people as \"inactive\" in order to depersonalise them",
+      "definition": "Rebranding of disabled / incapacitated people as \"inactive\" in order to depersonalize them",
       "source": "swu"
     },
     {
@@ -478,7 +976,7 @@ const GOODBOY_DATA = {
         "undeserving refugee",
       ],
       "category": "xenophobic",
-      "definition": "Immigrants are undeserving, lazy, voilent or exploit welfare and services",
+      "definition": "Immigrants are undeserving, lazy, violent or exploit welfare and services",
       "source": "swu"
     },
     {
@@ -511,7 +1009,7 @@ const GOODBOY_DATA = {
         "gold plated equalities law"
       ],
       "category": "conservative", // multiple (anti minority?)
-      "definition": "Signals opposition to protections for minorities / marginalised groups under the guise of 'regulation burden\"",
+      "definition": "Signals opposition to protections for minorities / marginalized groups under the guise of 'regulation burden\"",
       "source": "swu"
     },
     {
@@ -597,7 +1095,7 @@ const GOODBOY_DATA = {
         "swamp creature"
       ],
       "category": "conservative",
-      "definition": "Political opponents, beurocrats or out-groups who are part of a perceived \"deep state\" influence",
+      "definition": "Political opponents, bureaucrats or out-groups who are part of a perceived \"deep state\" influence",
       "source": "goodboy"
     },
     {
@@ -615,7 +1113,7 @@ const GOODBOY_DATA = {
       ],
       "category": "conservative",
       "categoryMode": "original",
-      "definition": "Purge insitutions of political opponents, beurocrats or out-groups and dismantle a perceived \"deep state\" influence",
+      "definition": "Purge institutions of political opponents, bureaucrats or out-groups and dismantle a perceived \"deep state\" influence",
       "source": "goodboy"
     },
     {
@@ -641,7 +1139,6 @@ const GOODBOY_DATA = {
       "root": "sexual morality",
       "variations": [
         "return to morality",
-        "immoral behaviour",
         "immoral behavior",
         "traditional morality",
         "moral degeneracy",
@@ -709,17 +1206,21 @@ const GOODBOY_DATA = {
     {
       "root": "brown shirt",
       "variations": [
-        "digital brown shirt"
+        "digital brown shirt",
+        "sturmabteilung"
       ],
       "category": "fascist",
       "definition": "Nazi paramilitary SA uniform",
       "source": "goodboy"
     },
     {
-      "root": "28",
+      "root": "Blood & Honour",
       "variations": [
+        "28",
         "twenty eight",
-        "two eight"
+        "two eight",
+        "Blood and Honour",
+        "Blut und ehre"
       ],
       "category": "white supremacist",
       "definition": "Blood & Honour, a white supremacist network. (2 = B, 8 = H)",
@@ -800,7 +1301,8 @@ const GOODBOY_DATA = {
         "We are being replaced",
         "They're replacing us",
         "Demographic replacement",
-        "Replacement theory"
+        "Replacement theory",
+        "You will not replace us"
       ],
       "category": "racist",
       "definition": "Claim that immigration or diversity is a threat to the majority population",
@@ -815,7 +1317,7 @@ const GOODBOY_DATA = {
         "What's your real nationality?"
       ],
       "category": "racist",
-      "definition": "Microagressiive way of implying a person is not really from their stated country due to race, ethnicity, accent or appearance",
+      "definition": "microaggressive way of implying a person is not really from their stated country due to race, ethnicity, accent or appearance",
       "source": "goodboy"
     },
     {
@@ -866,7 +1368,7 @@ const GOODBOY_DATA = {
         "Diversity hire"
       ],
       "category": "racist",
-      "definition": "A neutral acronym 'Diversity, Equity, Inclusion' that is often used perjoratively to imply that progressive policies are unwelcome",
+      "definition": "A neutral acronym 'Diversity, Equity, Inclusion' that is often used pejoratively to imply that progressive policies are unwelcome",
       "source": "goodboy"
     },
     {
@@ -943,7 +1445,7 @@ const GOODBOY_DATA = {
         "What makes someone male"
       ],
       "category": "transphobic",
-      "definition": "A rhetorical demand for an oversimplified biological definition of gender used in bad-faith arguments to delegitimise transgender people or deny gender identity",
+      "definition": "A rhetorical demand for an oversimplified biological definition of gender used in bad-faith arguments to delegitimize transgender people or deny gender identity",
       "source": "goodboy"
     },
     {
@@ -991,7 +1493,7 @@ const GOODBOY_DATA = {
         "1352"
       ],
       "category": "racist",
-      "definition": "A reference to the false statistic that African Americans are only 13% of the US population but commit a disproprotionate number of violent crimes",
+      "definition": "A reference to the false statistic that African Americans are only 13% of the US population but commit a disproportionate number of violent crimes. Also used by the Aryan Circle, a Texas-based prison gang",
       "source": "silent_signals"
     },
     {
@@ -1471,7 +1973,7 @@ const GOODBOY_DATA = {
         "karl xii"
       ],
       "category": "white supremacist",
-      "definition": "Reference to a former king of Sweden long ideolized by far-right groups",
+      "definition": "Reference to a former king of Sweden long idolized by far-right groups",
       "source": "silent_signals"
     },
     {
@@ -1578,10 +2080,11 @@ const GOODBOY_DATA = {
     {
       "root": "colorblind",
       "variations": [
-        "color blind society",
+        "colorblind society",
         "colorblindness",
         "don't see color",
-        "colour blind society",
+        "colourblind",
+        "colourblind society",
         "colourblindness",
         "don't see colour"
       ],
@@ -1643,7 +2146,7 @@ const GOODBOY_DATA = {
       "variations": [
         "cultural Bolshevism",
         "Marxist agenda",
-        "Woke Marxisist",
+        "Woke marxist",
         "Marxist indoctrination"
       ],
       "category": "conservative",
@@ -1815,7 +2318,7 @@ const GOODBOY_DATA = {
         "traditional family"
       ],
       "category": "anti-lgbtq",
-      "definition": "Only monogomous heterosexual relationships are traditional and thus legitimate",
+      "definition": "Only monogamous heterosexual relationships are traditional and thus legitimate",
       "source": "goodboy"
     },
     {
@@ -1967,19 +2470,19 @@ const GOODBOY_DATA = {
     {
       "root": "gender socialization",
       "variations": [
-        "female socialisation",
-        "female socialization",
         "gender socialisation",
-        "male socialisation",
+        "female socialization",
+        "female socialisation",
         "male socialization",
-        "socialised as female",
-        "socialised as male",
+        "male socialisation",
         "socialized as female",
         "socialized as male",
-        "socialised female",
-        "socialised male",
+        "socialised as female",
+        "socialised as male",
         "socialized female",
-        "socialized male"
+        "socialized male",
+        "socialised female",
+        "socialised male"
       ],
       "category": "transphobic",
       "definition": "Trans men will always be women, and trans women will always be men",
@@ -2167,9 +2670,7 @@ const GOODBOY_DATA = {
     },
     {
       "root": "hygienic",
-      "variations": [
-        "hygenic"
-      ],
+      "variations": [],
       "category": "transphobic",
       "definition": "Term often used to imply that trans people are unhygienic",
       "source": "silent_signals"
@@ -2320,7 +2821,9 @@ const GOODBOY_DATA = {
     },
     {
       "root": "it's okay to be white",
-      "variations": [],
+      "variations": [
+        "it's ok to be white"
+      ],
       "category": "white supremacist",
       "definition": "White supremacist slogan",
       "source": "silent_signals"
@@ -2557,7 +3060,7 @@ const GOODBOY_DATA = {
         "multi culti",
         "multi cultural",
         "multi culturalism",
-        "multi cultiralist"
+        "multi culturalist"
       ],
       "category": "islamophobic",
       "definition": "Too many Muslims",
@@ -2981,7 +3484,7 @@ const GOODBOY_DATA = {
         "shariah law"
       ],
       "category": "islamophobic",
-      "definition": "Muslims are violent and present a threat because they want to impliment their religious laws",
+      "definition": "Muslims are violent and present a threat because they want to implement their religious laws",
       "source": "goodboy"
     },
     {
@@ -3001,13 +3504,14 @@ const GOODBOY_DATA = {
       "source": "silent_signals"
     },
     {
-      "root": "shoah",
+      "root": "Shoah",
       "variations": [
-        "shoahed"
+        "Shoahed",
+        "Anudda shoah"
       ],
       "category": "antisemitic",
       "definition": "Shut down, especially alt-right social media accounts by referencing the Holocaust",
-      "source": "silent_signals"
+      "source": "goodboy"
     },
     {
       "root": "silent majority",
@@ -3163,18 +3667,19 @@ const GOODBOY_DATA = {
       "source": "swu"
     },
     {
-      "root": "the goyim know",
+      "root": "The goyim know",
       "variations": [
-        "da goyim know"
+        "Da goyim know",
+        "Shut it down"
       ],
       "category": "antisemitic",
-      "definition": "Jewish people control the world",
-      "source": "silent_signals"
+      "definition": "“The Goyim Know” is an anti-Semitic phrase portraying the ostensible reaction of Jews when their supposedly conspiratorial or manipulative misdeeds are revealed to the public. Often combined with “Shut It Down.”",
+      "source": "goodboy"
     },
     {
-      "root": "thin blue line",
+      "root": "Thin blue line",
       "variations": [
-        "thin blue line flag"
+        "Thin blue line flag"
       ],
       "category": "racist",
       "definition": "Protect white people from non-white people",
@@ -3281,11 +3786,14 @@ const GOODBOY_DATA = {
       "source": "silent_signals"
     },
     {
-      "root": "Lightning bolt emoji",
+      "root": "SS",
       "variations": [
         "⚡⚡",
         "⚡",
-        "Lightning emoji"
+        "Lightning emoji",
+        "Lightning bolt emoji",
+        "Cracker bolt",
+        "SS bolt"
       ],
       "category": "white supremacist",
       "definition": "White supremacist symbol representing the insignia of the Nazi SS",
@@ -3343,7 +3851,7 @@ const GOODBOY_DATA = {
         "Can't say Happy Christmas"
       ],
       "category": "conservative",
-      "definition": "Implies thatt Christians are being erased by secular or minority groups",
+      "definition": "Implies that Christians are being erased by secular or minority groups",
       "source": "goodboy"
     },
     {

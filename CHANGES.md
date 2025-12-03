@@ -7,7 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.3.0] - 2025-12-04
+## [0.3.1] - 2025-12-03
+
+### Added
+- **Database expansion** 
+  - 50+ dog whistles from ADL's hate symbols database Hate On Display
+
+### Changed
+- **Spelling fixes** 
+  - Fixed spelling errors in dog whistle data
+
+## [0.3.0] - 2025-12-02
 
 ### Added
 - **Database expansion** 
