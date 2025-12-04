@@ -2,7 +2,7 @@ const SOURCE_DATA = {
     "sources": [
         {
             "id": "goodboy",
-            "string": "GoodBoy Curated",
+            "string": "GoodBoy",
             "description": "GoodBoy Curated Dataset",
             "url": "https://nautiluszaibatsu.github.io/GoodBoy/"
         },
@@ -16,7 +16,7 @@ const SOURCE_DATA = {
         {
             "id": "swu",
             "string": "Social Workers Union",
-            "description": "Social Workers Union",
+            "description": "Social Workers Union dog whistle blog series",
             "url": "https://swu-union.org.uk/2023/01/swu-shines-a-light-on-dog-whistle-discrimination-in-new-blog-series/",
         },
         {
@@ -28,8 +28,14 @@ const SOURCE_DATA = {
         {
             "id": "adl",
             "string": "Anti Defamation League",
-            "description": "Anti Defamation League",
+            "description": "Anti Defamation League's Hate on Display PDF",
             "url": "https://www.adl.org/sites/default/files/ADL%20Hate%20on%20Display%20Printable_0.pdf",
+        },
+        {
+            "id": "wiki",
+            "string": "Wikipedia",
+            "description": "Wikipedia",
+            "url": "https://www.wikipedia.org",
         },
     ]
 };

@@ -5,14 +5,22 @@
  */
 
 const ObfuscationUtils = {
+    // Flexible whitespace pattern - matches any non-alphanumeric characters INCLUDING underscores
+    // Used consistently across all pattern matching (DRY principle)
+    // * = zero or more (for character-level obfuscation: "blo/od", "bl.oo.d")
+    // + = one or more (for word separation: "inner city", "inner_city")
+    // [^a-zA-Z0-9] matches anything except letters and digits (includes _, -, /, etc.)
+    FLEXIBLE_WHITESPACE_OPTIONAL: '[^a-zA-Z0-9]*',  // Zero or more (character-level obfuscation)
+    FLEXIBLE_WHITESPACE_REQUIRED: '[^a-zA-Z0-9]+',  // One or more (word separation)
+
     // Character substitution map for obfuscation detection
     // Only includes visually similar characters and common leet speak
     charSubstitutions: {
-        'a': '[aáàâäã@4ΑаᴀΔ0^-]', // 0 to catch "Khaz0r"
+        'a': '[aáàâäã@4ΑаᴀΔ0^]', // 0 to catch "Khaz0r"
         'b': '[b8ß฿]',
-        'c': '[cç¢(<{Сс]',
-        'd': '[dđðcl]',
-        'e': '[eéèêë3€Ееє0]', // 0 to catch "groom0r"
+        'c': '[cç¢(<{Ссk]',
+        'd': '[dđð]',
+        'e': '[eéèêë3€£Ееє0]', // 0 to catch "groom0r"
         'f': '[fƒ]',
         'g': '[g69]',
         'h': '[hɦħ#]',
@@ -27,7 +35,7 @@ const ObfuscationUtils = {
         't': '[t7+†]',
         'u': '[uúùûüū]',
         'v': '[v∨]',
-        'w': '[wvv]',
+        'w': '[w]',
         'x': '[x×х]',
         'y': '[yýÿҮу]',
         'z': '[z2žż]'
@@ -63,7 +71,7 @@ const ObfuscationUtils = {
     },
 
     /**
-     * Create flexible regex pattern that handles ALL variations
+     * Create flexible regex pattern that handles ALL variations INCLUDING numbers
      *
      * Handles:
      * - Character substitution (leet speak): "soy" → "s[s$5][oóòôöõø0]y"
@@ -72,18 +80,80 @@ const ObfuscationUtils = {
      * - Hashtags: pattern will work with or without #
      * - & vs "and": "black & white" matches "black and white"
      * - All punctuation: stripped in normalization
+     * - NUMBER OBFUSCATION: "1488" matches "fourteen eighty eight", etc. (requires NumberObfuscationUtils)
      *
      * This is the SINGLE source of truth for pattern matching.
      */
     createFlexiblePattern(variation) {
-        // Special handling for emojis - match them literally without flexible pattern
+        // Check if NumberObfuscationUtils is available and if term contains numbers
+        if (typeof NumberObfuscationUtils !== 'undefined' && /\d/.test(variation)) {
+            const numbers = NumberObfuscationUtils.extractNumbers(variation);
+
+            if (numbers.length > 0) {
+                // Build pattern with number alternations
+                let pattern = '';
+                let lastIndex = 0;
+
+                numbers.forEach(num => {
+                    // Add text before number (with character obfuscation)
+                    if (num.start > lastIndex) {
+                        const textPart = variation.substring(lastIndex, num.start);
+                        pattern += this.createFlexiblePatternOriginal(textPart);
+                    }
+
+                    // Add number pattern (digit OR word forms)
+                    pattern += NumberObfuscationUtils.createNumberPattern(num.value);
+
+                    lastIndex = num.end;
+                });
+
+                // Add remaining text after last number
+                if (lastIndex < variation.length) {
+                    pattern += this.createFlexiblePatternOriginal(variation.substring(lastIndex));
+                }
+
+                return pattern;
+            }
+        }
+
+        // No numbers or NumberObfuscationUtils not available - use original logic
+        return this.createFlexiblePatternOriginal(variation);
+    },
+
+    /**
+     * Original createFlexiblePattern implementation (character-level only)
+     * Used internally when no number obfuscation needed
+     */
+    createFlexiblePatternOriginal(variation) {
+        // Special handling for emojis - match them literally but allow flexible spacing between them
         // Emoji regex: matches common emoji ranges
-        const emojiRegex = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/u;
+        const emojiRegex = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/ug;
 
         if (emojiRegex.test(variation)) {
-            // For emoji variations, escape special regex chars but don't normalize
-            // This preserves the emoji for literal matching
-            return variation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            // Reset regex lastIndex after test
+            emojiRegex.lastIndex = 0;
+
+            // Split into emoji and non-emoji parts
+            const parts = [];
+            let lastIndex = 0;
+            let match;
+
+            while ((match = emojiRegex.exec(variation)) !== null) {
+                // Add non-emoji text before this emoji (if any)
+                if (match.index > lastIndex) {
+                    parts.push(variation.substring(lastIndex, match.index));
+                }
+                // Add the emoji itself
+                parts.push(match[0]);
+                lastIndex = match.index + match[0].length;
+            }
+            // Add any remaining text after last emoji
+            if (lastIndex < variation.length) {
+                parts.push(variation.substring(lastIndex));
+            }
+
+            // Join parts with flexible whitespace pattern, escaping special regex chars
+            return parts.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join(this.FLEXIBLE_WHITESPACE_OPTIONAL);
         }
 
         // Normalize the variation
@@ -123,15 +193,20 @@ const ObfuscationUtils = {
 
             // Spaces and hyphens become OPTIONAL flexible whitespace pattern
             if (char === ' ' || char === '-') {
-                result.push('[\\s\\-_#]*');
+                result.push(this.FLEXIBLE_WHITESPACE_OPTIONAL);
             }
             // If we have a substitution class for this character, use it
             else if (this.charSubstitutions[lower]) {
                 result.push(this.charSubstitutions[lower]);
+                // After each character, allow optional punctuation/separators
+                // This catches things like "blo/od", "bl.oo.d", etc.
+                result.push(this.FLEXIBLE_WHITESPACE_OPTIONAL);
             }
             // Otherwise, escape special regex chars and return
             else {
                 result.push(char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+                // After each character, allow optional punctuation/separators
+                result.push(this.FLEXIBLE_WHITESPACE_OPTIONAL);
             }
 
             i++;
@@ -162,7 +237,7 @@ const ObfuscationUtils = {
 
     /**
      * Build variation map for a term database
-     * DRY helper - used by all matchers (DogWhistleMatcher, OffensiveTermMatcher, etc.)
+     * DRY helper - used by all matchers (DogWhistleMatcher, HarmfulTermMatcher, etc.)
      */
     buildVariationMap(terms) {
         const variationMap = new Map();

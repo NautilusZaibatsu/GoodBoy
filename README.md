@@ -26,7 +26,7 @@ goodboy/
 │   └── category-config.js       # Category hierarchy (single source of truth)
 ├── data/                        # Databases
 │   ├── dogwhistle_data.js       # Dog whistle database
-│   ├── offensive_term_data.js   # Offensive term database
+│   ├── harmful_term_data.js   # Harmful term database
 │   ├── place_demonym_lookup.js  # Place/demonym lookup for pattern matching
 │   └── source_data.js           # Source database  
 └── README.md                    # This file
@@ -37,8 +37,8 @@ goodboy/
 **Dog Whistle Database**:
 - Curated list of coded language and dog whistles
 
-**Offensive Term Database** 
-- Curated list of offensive and hateful language
+**Harmful Term Database** 
+- Curated list of harmful and hateful language
 
 **Place-Demonym Lookup** (custom curated):
 - Curated list of places and demonyms
@@ -47,7 +47,7 @@ goodboy/
 
 ✅ **Dual Detection System**
 - Dog whistles (coded language) - background color highlights
-- Offensive terms (explicit language) - colored underlines
+- Harmful terms (explicit language) - colored underlines
 - Clear visual distinction between the two types
 
 ✅ **Advanced Pattern Matching**
@@ -93,14 +93,14 @@ goodboy/
 ## Features Pending / In Progress
 
 ⏳ **Analytics Tracking** - Metrics defined but not yet implemented (privacy-first approach)
-⏳ **Offensive Term Database Expansion** - Currently in active development
+⏳ **Harmful Term Database Expansion** - Currently in active development
 
 ## Technical Details
 
 ### Pattern Matching Architecture
-- **Triple Matcher System**: Separate classes for dog whistles, offensive terms, and pattern-based detection
+- **Triple Matcher System**: Separate classes for dog whistles, harmful terms, and pattern-based detection
   - `DogWhistleMatcher`: Coded language from Silent Signals dataset
-  - `OffensiveTermMatcher`: Explicit hateful language from curated database
+  - `HarmfulTermMatcher`: Explicit hateful language from curated database
   - `PatternMatcher`: Template-based detection for populist variations
 - **Shared Obfuscation Utils**: DRY principle with single source of truth
 - **Category Hierarchy System**: Centralized category configuration
@@ -128,11 +128,11 @@ Prevents evasion through multiple techniques:
 ### Signal Scoring Algorithm
 Calculates 0-100% score based on three factors:
 - **Match Density (70%)**: Percentage of words that are problematic
-- **Match Type Weight (20%)**: Offensive terms weighted 1.5x, dog whistles 1.0x
+- **Match Type Weight (20%)**: Harmful terms weighted 1.5x, dog whistles 1.0x
 - **Category Diversity (10%)**: Diversity of problematic categories
 
 ### Performance
-- Databases: ~200KB (compresses well with gzip)
+- Databases: < 300KB (compresses well with gzip)
 - Load time: Instant on modern browsers
 - Analysis time: Near-instant for typical text lengths
 - Memory usage: Minimal (~2-3 MB)

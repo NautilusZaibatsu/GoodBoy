@@ -33,8 +33,6 @@ const THEME_CONFIG = {
         secondary: '#555',               // Labels, lighter text (medium gray)
         muted: '#666',                   // De-emphasized text (light gray)
         white: '#ffffff',                // White text (on dark backgrounds)
-        link: '#667eea',                 // Links (same as primary brand color)
-        tooltipLink: '#81d4fa',          // Links in tooltips (cyan for contrast)
     },
 
     // Link colors
@@ -43,12 +41,13 @@ const THEME_CONFIG = {
         visited: '#d1722a',
         hover: '#7d756c',
         active: '#7d756c',
+        tooltip: '#fd9c52',
     },
 
     // Border colors
     borders: {
         default: '#e0e0e0',              // Standard borders (light gray)
-        focus: '#667eea',                // Focused inputs (same as primary)
+        focus: '#dd7d34',                // Focused inputs (same as primary)
     },
 
     // State colors (success, warning, danger)
@@ -179,14 +178,13 @@ function initializeTheme() {
     root.style.setProperty('--text-secondary', THEME_CONFIG.text.secondary);
     root.style.setProperty('--text-muted', THEME_CONFIG.text.muted);
     root.style.setProperty('--text-white', THEME_CONFIG.text.white);
-    root.style.setProperty('--text-link', THEME_CONFIG.text.link);
-    root.style.setProperty('--text-tooltip-link', THEME_CONFIG.text.tooltipLink);
 
     // Links
     root.style.setProperty('--link-unvisited', THEME_CONFIG.link.unvisited);
     root.style.setProperty('--link-visited', THEME_CONFIG.link.visited);
     root.style.setProperty('--link-hover', THEME_CONFIG.link.hover);
     root.style.setProperty('--link-active', THEME_CONFIG.link.active);
+    root.style.setProperty('--link-tooltip', THEME_CONFIG.link.tooltip);
 
     // Borders
     root.style.setProperty('--border-default', THEME_CONFIG.borders.default);

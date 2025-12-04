@@ -16,27 +16,19 @@ const CATEGORY_HIERARCHY = {
         "sub": {
             "racist": {
                 "label": "Racist",
-                "darkColor": "#e57373"
-            },
-            "white supremacist": {
-                "label": "White Supremacist",
-                "darkColor": "#ef5350"
-            },
-            "anti-latino": {
-                "label": "Anti-Latino",
                 "darkColor": "#f44336"
             },
-            "antisemitic": {
-                "label": "Antisemitic",
-                "darkColor": "#d32f2f"
-            },
-            "anti-asian": {
-                "label": "Anti-Asian",
-                "darkColor": "#ba1e1e"
+            "white-supremacist": {
+                "label": "White Supremacist",
+                "darkColor": "#ef5350"
             },
             "xenophobic": {
                 "label": "Xenophobic",
                 "darkColor": "#a71e1e"
+            },
+            "antisemitic": {
+                "label": "Antisemitic",
+                "darkColor": "#c22a2a"
             }
         }
     },
@@ -49,6 +41,14 @@ const CATEGORY_HIERARCHY = {
             "islamophobic": {
                 "label": "Islamophobic",
                 "darkColor": "#ab47bc"
+            },
+            "sectarian": {
+                "label": "Sectarian",
+                "darkColor": "#903aa0"
+            },
+            "hinduphobic": {
+                "label": "Hinduphobic",
+                "darkColor": "#d385e0"
             }
         }
     },
@@ -79,7 +79,7 @@ const CATEGORY_HIERARCHY = {
                 "darkColor": "#ffa726"
             },
             "prostitution": {
-                "label": "Prostitution",
+                "label": "Prostitution Stigma",
                 "darkColor": "#ffb74d"
             }
         }
@@ -97,6 +97,10 @@ const CATEGORY_HIERARCHY = {
             "disability-physical": {
                 "label": "Physical Disability",
                 "darkColor": "#507689"
+            },
+            "mental-health": {
+                "label": "Mental Health Condition",
+                "darkColor": "#64a7c8"
             }
         }
     },
@@ -116,7 +120,7 @@ const CATEGORY_HIERARCHY = {
             },
             "anti-liberal": {
                 "label": "Anti-Liberal",
-                "darkColor": "#3949ab"
+                "darkColor": "#4856ad"
             },
             "fascist": {
                 "label": "Fascist",
@@ -141,6 +145,10 @@ const CATEGORY_HIERARCHY = {
             "regionalist": {
                 "label": "Regionalist",
                 "darkColor": "#6a9a36"
+            },
+            "welfare-chauvinism": {
+                "label": "Welfare Chauvinism",
+                "darkColor": "#749253"
             }
         }
     },
@@ -159,19 +167,55 @@ const CATEGORY_HIERARCHY = {
                 "darkColor": "#e91e63"
             },
             "climate change denier": {
-                "label": "Climate Change Denier",
+                "label": "Climate Change Denial",
                 "darkColor": "#ff9800"
+            },
+            "psuedoscience": {
+                "label": "Pseudoscience",
+                "darkColor": "#d0810b"
+            },
+            "conspiracy": {
+                "label": "Conspiracy",
+                "darkColor": "#c87e0e"
+            }
+        }
+    },
+    "rhetoricalManipulation": {
+        "label": "Rhetorical Manipulation",
+        "lightColor": "#987cec",
+        "hoverColor": "#6f5bac",
+        "darkColor": "#7b67b8",
+        "sub": {
+            "bad-faith": {
+                "label": "Bad Faith",
+                "darkColor": "#755bc2"
+            },
+            "deflection ": {
+                "label": "Deflection/Performative",
+                "darkColor": "#5b4795"
+            },
+            "personal-responsibility": {
+                "label": "Personal Responsibility",
+                "darkColor": "#5d43ac"
+            },
+            "dehumanisation": {
+                "label": "Dehumanisation",
+                "darkColor": "#7660b8"
+            },
+            "emotional-dismissal": {
+                "label": "Emotional Dismissal",
+                "darkColor": "#987cec"
             }
         }
     }
 };
 
-/**
- * Get the full category hierarchy
- * @returns {Object} The complete CATEGORY_HIERARCHY object
- */
-function getCategoryHierarchy() {
-    return CATEGORY_HIERARCHY;
+    /**
+     * Get the full category hierarchy
+     * @returns {Object} The complete CATEGORY_HIERARCHY object
+     */
+    function getCategoryHierarchy() {
+        return CATEGORY_HIERARCHY;
 }
 
 /**

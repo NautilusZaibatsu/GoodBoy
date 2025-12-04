@@ -5,16 +5,61 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.4.0] - 2025-12-04
+
+### Added
+- **Databases** 
+  - Mental health condition subcategory
+
+### Changed
+- **Webapp** 
+  - Buttons now scale to fit smaller screens, the UI should be much tidier on mobile devices now
+  - Changed the way we calculate the number of dog whistles and harmful terms in the databases
+  - Modified about section to include a mission statement, and some notes on use
+  - Color theming changes
+  - Removed links from tooltips, please use the attributions section to visit sources instead
+  - When generating a tooltip for a flagged dog whistle up to 6 random variations are displayed instead of an exhaustive list. If the list has been cut for brevity the label will be "Variations include" instead of "Variations"
+- **Unified place-demonym lookup system**
+  - Now matches place/demonyms hierarchically such that 'Keep Liverpool Liverpudlian' still matches but now 'Keep Liverpool English', 'Keep Liverpool British' and 'Keep Liverpool European' now match as well
+  - Dynamically detected regionalist phrases are now correctly categorized by the matcher
+- **Databases** 
+  - +700 Ethnic slurs added to harmful language database
+  - Additional curated dog whistles and harmful language
+  - Added transcontinental cities and islands and correctly tagged transcontinental countries
+  - Combined anti-asian and anti-latino into a broader racism category
+  - Added a new main category: Rhetorical Manipulation, including the sub-categories Bad Faith, Deflection/Performative, Personal-Responsibility, Dehumanisation and Emotional Dismissal
+  - Added sectarian and hinduphobic sub categories to the religion category - more to come as the database expands
+  - Changed all references to "offensive language" to "harmful language"
+- **Obfuscation**
+  - If an obfuscated word or phrase matches with a term in the harmful language database, then the tooltip will clearly display the unobfuscated term
+  - Obfuscation algorithm now handles replacement of C with K to catch more meme speak
+  - Random punctuaton inserted mid word will now allow matching,for example "b/l/o/o/d & h/o/n/o/r"
+  - Stacked numeric hate symbols are now properly flagged when appended to other dog whistles and hateful terms, eg "hh13" and "2813" with both be flagged as two matches
+  - Spaces and special chararacters between emojis are now ignored, so "🤡 🌎" and "🤡/🌎" now match 🤡🌎
+  - **Numeric-to-Word Obfuscation System** (`/js/number-obfuscation-utils.js`):
+    - Automatically detects and matches numeric hate symbols in both digit and word forms
+    - Bidirectional matching: "1488" matches "fourteen eighty eight" and vice versa
+    - Mixed-form support: "1488" matches "14 eighty eight", "fourteen 88", "14 hundred 88", etc.
+    - Supports 0-9999 range (covers all numeric codes in database)
+    - Multiple word variations: formal ("one thousand four hundred eighty eight"), informal ("fourteen eighty eight"), with/without "and" conjunction
+    - Segmented pattern generation: breaks 4-digit numbers into parts where each segment can be digit OR word
+    - Flexible whitespace: matches spaces, hyphens, underscores ("eighty-eight", "eighty_eight", "eighty eight")
+    - Zero memory overhead: uses lazy pattern generation instead of pre-computing all variations
+    - Examples detected:
+      - "1488" matches: "1488", "14 88", "fourteen eighty eight", "14 eighty eight", "fourteen 88", "fourteen hundred eighty eight"
+      - "88" matches: "88", "eighty eight", "eighty-eight"
+      - "14" matches: "14", "fourteen"
+
+
+### Known Issues
+- **Database character issues** 
+  - Database entries with an extreme amount of 'unusual' characters such as Аляска are currently not supported as the obfuscation utils pattern match too greedily. All examples have been commented out of the data for now
 
 ## [0.3.1] - 2025-12-03
 
-### Added
-- **Database expansion** 
-  - 50+ dog whistles from ADL's hate symbols database Hate On Display
-
 ### Changed
-- **Spelling fixes** 
+- **Databases** 
+  - 50+ dog whistles from ADL's hate symbols database Hate On Display
   - Fixed spelling errors in dog whistle data
 
 ## [0.3.0] - 2025-12-02
@@ -40,7 +85,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Reworked tooltip source attribution to use database
   - Reworked attribution section to read from database
   - Updated all databases to use source ids
-- **Obfuscatioin**
+- **Obfuscation**
   - Obfuscation algorithm now handles replacement of A and E with 0 to catch more meme speak
 - **Harmful term tooltip** 
   - Removed variations and root term as this feature was too open to exploitation. This tool is not supposed to be a slur thesaurus
@@ -48,8 +93,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - All buttons are now visually disabled when unavailable
 
 ### Known Issues
-- **Place-demonym system issues** 
-  - Place names or demonyms with an extreme amount of 'unusual' characters such as Аляска are currently not supported as the obfuscation utils pattern match too greedily. All examples have been commented out of the data for now
+- **Database character issues** 
+  - Database entries with an extreme amount of 'unusual' characters such as Аляска are currently not supported as the obfuscation utils pattern match too greedily. All examples have been commented out of the data for now
 
 ## [0.2.0] - 2025-11-28
 
@@ -89,7 +134,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Now uses ALL generated demonyms with ObfuscationUtils for flexible matching
   - Pattern extraction processes both root and variation terms with deduplication
   - Collect-then-filter architecture (gather all potential matches, sort by length, filter overlaps)
-  - Added 's?' suffix to patterns for proper plural matching (consistent with DogWhistleMatcher/OffensiveTermMatcher)
+  - Added 's?' suffix to patterns for proper plural matching (consistent with DogWhistleMatcher/HarmfulTermMatcher)
 - `calculateSignalScore()` now returns object with `total` and `breakdown` properties
   - Maintains backward compatibility through structured return value
   - Enables transparent, dynamic tooltip updates

@@ -38,6 +38,10 @@
             color: var(--link-active);
         }
 
+        p {
+            margin-bottom: 1rem;
+        }
+
         .container {
             max-width: 1000px;
             margin: 0 auto;
@@ -288,8 +292,8 @@
             text-decoration: none;
         }
 
-        /* Offensive terms: ONLY underline, NO background color */
-        .highlight.offensiveTerm {
+        /* Harmful terms: ONLY underline, NO background color */
+        .highlight.harmfulTerm {
             background-color: transparent !important;
             text-decoration: none;
         }
@@ -407,7 +411,7 @@
         }
 
         .tooltip-source a {
-            color: var(--text-tooltip-link);
+            color: var(--link-tooltip);
             text-decoration: none;
         }
 
@@ -442,6 +446,7 @@
         .expand-div-toggle {
             font-size: 1.2em;
             transition: transform 0.3s;
+            color: var(--btn-primary-bg);
         }
 
         .expand-div-toggle.expanded {
@@ -458,7 +463,7 @@
         }
 
         footer a {
-            color: var(--text-link);
+            color: var(--link-unvisited);
             text-decoration: none;
         }
 
@@ -487,6 +492,31 @@
 
             .tooltip {
                 width: 280px;
+            }
+
+            /* Responsive button styling for mobile */
+            .button-row {
+                flex-wrap: wrap;
+                gap: var(--spacing-xs);
+                /* Reduce gap from 8px to 4px */
+            }
+
+            button {
+                padding: var(--spacing-sm) var(--spacing-md);
+                /* 8px 12px instead of 12px 30px */
+                font-size: var(--font-size-sm);
+                /* 0.9em instead of 1em */
+                flex: 1 1 auto;
+                /* Allow flexible sizing */
+                min-width: 70px;
+                /* Prevent buttons from becoming too small */
+            }
+
+            .loading {
+                width: 100%;
+                /* Force loading text to new line */
+                text-align: center;
+                margin-top: var(--spacing-xs);
             }
         }
     </style>
@@ -547,34 +577,39 @@
         </div>
 
         <footer>
-            <div class="expandable-div" onclick="toggleInstructions()">
+            <div class="expandable-div" onclick="toggleSection('instructionContent')">
                 <h3>Help</h3>
                 <span class="expand-div-toggle">▼</span>
             </div>
             <div class="expandable-div-content" id="instructionContent">
-
                 <table style="width: 100%">
                     <tr>
                         <td style="width: 70%; vertical-align:top">
-                            <p>
                             <h3>Instructions</h3>
-                            <br>
-                            <b>1.</b> Type or paste your text into the input area.<br>
-                            <b>2.</b> Click 'Analyze'.<br>
-                            <b>3.</b> Hover over highlighted or underlined terms to see their meanings.
-                            <br>
-                            The color denotes the category (see legend).<br>
-                            <b>4.</b> Check the signal score to see how much coded or harmful language appears.
-                            <br>
-                            <b>5.</b> Hover over the ⓘ icon for signal score calculation details
-                            </p>
-                            <br>
                             <p>
-                                <b>Note:</b> A high signal score doesn't automatically indicate harmful intent.<br>
+                                <br>
+                                <b>1.</b> Type or paste your text into the input area.<br>
+                                <b>2.</b> Click 'Analyze'.<br>
+                                <b>3.</b> Hover over highlighted or underlined terms to see their meanings.
+                                <br>
+                                The highlight / underling color denotes the category (see legend).<br>
+                                <b>4.</b> Check the signal score to see how much coded or harmful language appears.
+                                <br>
+                                <b>5.</b> Hover over the ⓘ icon for signal score calculation details
                             </p>
-                            <br>
+                            <p>
+                                <b>Notes:</b>
+                                <p>
+                                A high signal score doesn't automatically indicate harmful intent.
+                                </p>
+                                <p>
+                                There is often considerable crossover between categories, we have done our best to
+                                categorise broadly however due to the nature of coded language it is difficult to be
+                                absolute. Use context clues in the text to help you decipher intent.
+                                </p>
+                            </p>
                         </td>
-                        <td style="padding-left: var(--spacing-lg); padding-right: var(--spacing-lg)">
+                        <td style="padding-left: var(--spacing-lg); padding-right: var(--spacing-lg); vertical-align:top">
                             <h3>Legend</h3>
                             <div id="legend"></div>
                         </td>
@@ -584,7 +619,7 @@
         </footer>
 
         <footer>
-            <div class="expandable-div" onclick="toggleAbout()">
+            <div class="expandable-div" onclick="toggleSection('aboutContent')">
                 <h3>About</h3>
                 <span class="expand-div-toggle">▼</span>
             </div>
@@ -593,32 +628,34 @@
                     GoodBoy is a free, open-source tool for identifying dog whistles and harmful language, designed to
                     promote understanding of coded rhetoric and help users recognise hateful or discriminatory content.
                 </p>
-                <br>
                 <p>
-                    All analysis happens locally in your browser. No data is sent to any server.
+                    All analysis happens locally in your browser — no data is sent anywhere.
                 </p>
-                <br>
+                <p>
+                    We built GoodBoy to support social awareness and understanding, so it’s made to be free,
+                    privacy-respecting, lightweight, and easy to use in any browser. The goal is simple: make the tool
+                    as accessible and frictionless as possible so more people can learn to spot coded language.
+                </p>
                 <p>
                     Database: <strong><span id="dbTermCount">Loading...</span></strong>
                 </p>
-                <br>
-
                 <p>
                     Created by the GoodBoy Team | <a href=https://ko-fi.com/nautiluszaibatsu> Support this project ↗</a>
                     <br>
                     Contributions welcome via the official <a href=https://github.com/NautilusZaibatsu/GoodBoy> GitHub
                         Repository ↗</a>
                 </p>
-                <br>
                 <p>
-                    License: Source-Available. © GoodBoy 2026<br>
-                    Free to use. No redistribution, modification, or re-hosting permitted.<br>
+                    License: Source-Available. © GoodBoy 2026
+                    <br>
+                    Free to use. No redistribution, modification, or re-hosting permitted.
+                    <br>
                 </p>
             </div>
         </footer>
 
         <footer>
-            <div class="expandable-div" onclick="toggleAttribution()">
+            <div class="expandable-div" onclick="toggleSection('attributionContent')">
                 <h3>Data Sources</h3>
                 <span class="expand-div-toggle">▼</span>
             </div>
@@ -633,11 +670,14 @@
     <!-- Load the dog whistle database -->
     <script src="data/dogwhistle_data.js"></script>
 
-    <!-- Load the offensive term database -->
-    <script src="data/offensive_term_data.js"></script>
+    <!-- Load the harmful term database -->
+    <script src="data/harmful_term_data.js"></script>
 
     <!-- Load the source  database -->
     <script src="data/source_data.js"></script>
+
+    <!-- Load number obfuscation utilities (must load before obfuscation-utils.js) -->
+    <script src="js/number-obfuscation-utils.js"></script>
 
     <!-- Load shared obfuscation utilities (DRY - single source of truth) -->
     <script src="js/obfuscation-utils.js"></script>
@@ -658,7 +698,7 @@
         renderAttributions();
         // Initialize the pattern matchers
         let matcher = null;
-        let offensiveTermMatcher = null;
+        let harmfulTermMatcher = null;
 
         // Store original text for re-analysis
         let originalAnalyzedText = '';
@@ -678,15 +718,16 @@
         /**
          * POPULIST PATTERN MATCHING SYSTEM
          *
-         * Detects nationalist and localist language patterns by recognizing place/group names
+         * Detects nationalist, regionalist and localist language patterns by recognizing place/group names
          * and checking if similar patterns exist in the dog whistle database with different places.
          *
          * Example: If database contains "America First", it will also flag "Britain First",
          * "Make Liverpool Great Again" (from "MAGA"), "hard-working Indians" (from "hard-working Americans")
          *
          * Hybrid Categorization:
-         * - Dynamic patterns with nationalist/localist category → auto-categorize by place type:
+         * - Dynamic patterns with nationalist/regionalist/localist category → auto-categorize by place type:
          *   - Countries → Nationalist
+         *   - Regions  → Regionalist
          *   - Regions/cities → Localist
          * - Dynamic patterns with other categories (racist, antisemitic, etc.) → preserve original category
          */
@@ -846,23 +887,23 @@
                 return null;
             },
 
-            // Find demonym in text and return place info
+            // Find demonym in text and return place info (includes hierarchical demonyms)
             findDemonymInText(text) {
                 const lowerText = text.toLowerCase();
 
-                // Iterate through all places and check if any of their demonyms appear in text
+                // Iterate through all places and check if any of their demonyms (including hierarchical) appear in text
                 for (const placeVariant of this.allPlaces) {
-                    const placeData = PLACE_DEMONYM_LOOKUP.findPlaceByVariant(placeVariant);
-                    if (!placeData) continue;
+                    // Get ALL demonyms including hierarchical ones (e.g., Rome → Italian, European)
+                    const allDemonyms = PLACE_DEMONYM_LOOKUP.getAllDemonymsWithHierarchy(placeVariant);
 
-                    // Check each demonym for this place
-                    for (const demonym of placeData.demonyms) {
-                        const regex = new RegExp(`\\b${demonym}\\b`, 'i');
+                    for (const demonymObj of allDemonyms) {
+                        const regex = new RegExp(`\\b${demonymObj.demonym}\\b`, 'i');
                         if (regex.test(text)) {
                             return {
-                                demonym: demonym,
-                                place: placeData.canonical,
-                                type: placeData.type
+                                demonym: demonymObj.demonym,
+                                place: demonymObj.place,  // The place this demonym comes from (could be parent)
+                                type: PLACE_DEMONYM_LOOKUP.findPlaceByVariant(placeVariant).type,
+                                basePlace: placeVariant  // The base place we're checking
                             };
                         }
                     }
@@ -889,7 +930,9 @@
                         const placeData = PLACE_DEMONYM_LOOKUP.findPlaceByVariant(placeVariant);
                         if (!placeData) return;
 
-                        const allDemonyms = placeData.demonyms;
+                        // Get ALL demonyms including hierarchical ones (e.g., Rome → Roman, Italian, European)
+                        const allDemonymObjs = PLACE_DEMONYM_LOOKUP.getAllDemonymsWithHierarchy(placeVariant);
+                        const allDemonyms = allDemonymObjs.map(d => d.demonym);
                         let expectedTexts = [];
 
                         if (pattern.placeholders.includes('place') && pattern.placeholders.includes('demonym')) {
@@ -966,17 +1009,17 @@
                         matches.push(match);
                     }
                 });
-
-                console.log(`Pattern matching complete: ${matches.length} matches found`);
                 return { matches };
             },
 
             // Determine category based on place type
             determineCategory(placeInfo) {
-                // Check place type (countries = nationalist, regions/cities = localist)
+                // Check place type (countries = nationalist, regions = regionalist, cities = localist)
                 if (placeInfo.type === 'country') {
                     return 'nationalist';
-                } else if (placeInfo.type === 'region' || placeInfo.type === 'city') {
+                } else if (placeInfo.type === 'region') {
+                    return 'regionalist';
+                } else if (placeInfo.type === 'city') {
                     return 'localist';
                 }
                 return 'nationalist'; // Default
@@ -1036,7 +1079,7 @@
                     a.href = source.url;
                     a.target = '_blank';
                     a.rel = 'noopener';
-                    a.textContent = 'View Dataset ↗';
+                    a.textContent = 'Website ↗';
                     links.push(a);
                 }
                 if (source.paper) {
@@ -1176,8 +1219,16 @@
                     }
 
                     // Skip if it's a punctuation/case/hyphenation variant of root
+                    // BUT: only if the variation isn't a meaningful shorter form
+                    // Example: "inner-city" is redundant with "inner city" (filter out)
+                    // Example: "13" is NOT redundant with "13%" (keep it - it's a meaningful form)
                     if (ObfuscationUtils.isPunctuationVariant(variation, root)) {
-                        return false;
+                        // Check if variation is shorter - if so, it might be a meaningful abbreviation
+                        // Only filter if they're the same length (just different punctuation)
+                        if (variation.length >= root.length) {
+                            return false;
+                        }
+                        // Variation is shorter - keep it as it's likely a meaningful form
                     }
 
                     // Check for duplicate normalized forms
@@ -1185,7 +1236,13 @@
                     const varClean = varNorm.replace(/[\s\-_]/g, '');
 
                     if (seenNormalized.has(varClean)) {
-                        return false;
+                        // Already seen this normalized form
+                        // BUT: if this variation is shorter than the root, keep it (meaningful abbreviation)
+                        // Example: "13" should be kept even though "13%" normalizes to the same thing
+                        if (variation.length >= root.length) {
+                            return false;
+                        }
+                        // Variation is shorter - keep it
                     }
 
                     // Check if this is a plural of root or another kept variation
@@ -1235,7 +1292,7 @@
             document.getElementById('clearBtn').disabled = true;
 
             let dogWhistleData = null;
-            let offensiveTermData = null;
+            let harmfulTermData = null;
 
             // Check dog whistle database
             if (typeof GOODBOY_DATA !== 'undefined') {
@@ -1245,38 +1302,38 @@
                     ...GOODBOY_DATA,
                     terms: filteredTerms
                 };
-                console.log(`✓ Loaded ${GOODBOY_DATA.uniqueTerms} dog whistles`);
+                console.log(`✓ Loaded ${GOODBOY_DATA.total} dog whistles`);
             } else {
                 console.error('Failed to load dog whistle database');
             }
 
-            // Check offensive term database
-            if (typeof GOODBOY_OFFENSIVE_TERM_DATA !== 'undefined') {
+            // Check harmful term database
+            if (typeof GOODBOY_HARMFUL_TERM_DATA !== 'undefined') {
                 // Filter redundant variations using our pattern matching logic
-                const filteredOffensiveTerms = filterRedundantVariations(GOODBOY_OFFENSIVE_TERM_DATA.terms);
-                offensiveTermData = {
-                    ...GOODBOY_OFFENSIVE_TERM_DATA,
-                    terms: filteredOffensiveTerms
+                const filteredHarmfulTerms = filterRedundantVariations(GOODBOY_HARMFUL_TERM_DATA.terms);
+                harmfulTermData = {
+                    ...GOODBOY_HARMFUL_TERM_DATA,
+                    terms: filteredHarmfulTerms
                 };
-                console.log(`✓ Loaded ${GOODBOY_OFFENSIVE_TERM_DATA.uniqueTerms} offensive terms`);
+                console.log(`✓ Loaded ${GOODBOY_HARMFUL_TERM_DATA.uniqueTerms} harmful terms`);
             } else {
-                console.error('Failed to load offensive term database');
+                console.error('Failed to load harmful term database');
             }
 
             // Update database term count in footer
             const dbTermCountEl = document.getElementById('dbTermCount');
             if (dbTermCountEl) {
-                const dogWhistleCount = dogWhistleData ? dogWhistleData.uniqueTerms : 0;
-                const offensiveTermCount = offensiveTermData ? offensiveTermData.uniqueTerms : 0;
+                const dogWhistleCount = dogWhistleData ? dogWhistleData.totalTerms : 0;
+                const harmfulTermCount = harmfulTermData ? harmfulTermData.totalTerms : 0;
 
-                if (dogWhistleCount > 0 && offensiveTermCount > 0) {
-                    const offensiveTermText = offensiveTermCount === 1 ? 'harmful term' : 'harmful terms';
-                    dbTermCountEl.textContent = `${dogWhistleCount} dog whistles and ${offensiveTermCount} ${offensiveTermText}`;
+                if (dogWhistleCount > 0 && harmfulTermCount > 0) {
+                    const harmfulTermText = harmfulTermCount === 1 ? 'harmful term' : 'harmful terms';
+                    dbTermCountEl.textContent = `${dogWhistleCount} dog whistles and ${harmfulTermCount} ${harmfulTermText}`;
                 } else if (dogWhistleCount > 0) {
                     dbTermCountEl.textContent = `${dogWhistleCount} dog whistles`;
-                } else if (offensiveTermCount > 0) {
-                    const offensiveTermText = offensiveTermCount === 1 ? 'harmful term' : 'harmful terms';
-                    dbTermCountEl.textContent = `${offensiveTermCount} ${offensiveTermText}`;
+                } else if (harmfulTermCount > 0) {
+                    const harmfulTermText = harmfulTermCount === 1 ? 'harmful term' : 'harmful terms';
+                    dbTermCountEl.textContent = `${harmfulTermCount} ${harmfulTermText}`;
                 } else {
                     dbTermCountEl.textContent = 'Error loading';
                 }
@@ -1289,10 +1346,10 @@
                 console.error('Error: Failed to load dog whistle database.');
             }
 
-            if (offensiveTermData) {
-                offensiveTermMatcher = new OffensiveTermMatcher(offensiveTermData);
+            if (harmfulTermData) {
+                harmfulTermMatcher = new HarmfulTermMatcher(harmfulTermData);
             } else {
-                console.error('Error: Failed to load offensive term database.');
+                console.error('Error: Failed to load harmful term database.');
             }
 
             // Initialize pattern matcher for populist detection
@@ -1303,7 +1360,7 @@
                 console.warn('Place-demonym lookup not loaded, populist pattern matching disabled');
             }
 
-            if (!dogWhistleData && !offensiveTermData) {
+            if (!dogWhistleData && !harmfulTermData) {
                 alert('Error: Failed to load databases. Please refresh the page.');
             }
         });
@@ -1313,26 +1370,10 @@
             clearAnalysisHighlights();
         }
 
-        function toggleInstructions() {
-            const content = document.getElementById('instructionContent');
+        // Helper function to toggle a section of the page
+        function toggleSection(div_section) {
+            const content = document.getElementById(div_section);
             const toggle = document.querySelector('.expand-div-toggle');
-
-            content.classList.toggle('visible');
-            toggle.classList.toggle('expanded');
-        }
-
-        function toggleAbout() {
-            const content = document.getElementById('aboutContent');
-            const toggle = document.querySelector('.expand-div-toggle');
-
-            content.classList.toggle('visible');
-            toggle.classList.toggle('expanded');
-        }
-
-        function toggleAttribution() {
-            const content = document.getElementById('attributionContent');
-            const toggle = document.querySelector('.expand-div-toggle');
-
             content.classList.toggle('visible');
             toggle.classList.toggle('expanded');
         }
@@ -1390,9 +1431,27 @@
                     const flexiblePattern = ObfuscationUtils.createFlexiblePattern(variation);
                     // Add optional 's' at the end to catch plurals
                     const pluralPattern = `${flexiblePattern}s?`;
-                    // Use lookahead/lookbehind instead of \b to handle non-word chars like $ and @
-                    // This ensures pattern works even when word chars are replaced with symbols
-                    const regex = new RegExp(`(?<![a-z0-9])${pluralPattern}(?![a-z0-9])`, 'gi');
+
+                    // Special handling for purely numeric terms (e.g., "88", "28", "1488")
+                    // These should match within larger numbers (e.g., "1828" contains "28")
+                    // But NOT with leading zeros (e.g., "088") or letters (e.g., "c88")
+                    const isNumericTerm = /^\d+$/.test(variation);
+                    const isLetterTerm = /^[a-z]+$/i.test(variation);
+
+                    let regex;
+                    if (isNumericTerm) {
+                        // For numeric terms: match anywhere, validation will filter out bad matches
+                        // Allow both "blood88" and "88blood" - validation handles context
+                        regex = new RegExp(`${pluralPattern}`, 'gi');
+                    } else if (isLetterTerm) {
+                        // For purely letter terms (e.g., "hh"): prevent other letters but allow numbers
+                        // This allows "hh88" to match "hh"
+                        regex = new RegExp(`(?<![a-z])${pluralPattern}(?![a-z])`, 'gi');
+                    } else {
+                        // For mixed terms: use standard word boundaries
+                        // Use lookahead/lookbehind instead of \b to handle non-word chars like $ and @
+                        regex = new RegExp(`(?<![a-z0-9])${pluralPattern}(?![a-z0-9])`, 'gi');
+                    }
 
                     let match;
                     let lastIndex = -1;
@@ -1403,17 +1462,140 @@
                         }
                         lastIndex = match.index;
 
+                        // Trim trailing non-alphanumeric characters from the match
+                        // This prevents highlighting trailing punctuation like quotes, commas, periods
+                        let matchedText = match[0];
+                        let trimmedLength = matchedText.length;
+                        while (trimmedLength > 0 && /[^a-zA-Z0-9]/.test(matchedText[trimmedLength - 1])) {
+                            trimmedLength--;
+                        }
+                        if (trimmedLength < matchedText.length) {
+                            matchedText = matchedText.substring(0, trimmedLength);
+                            if (matchedText.length === 0) continue; // Skip if nothing left
+                        }
+
+                        // Validate numeric matches - BOTH numeric terms AND non-numeric terms that match digits
+                        // Example: variation "lgb" can match "168" via char substitutions (l→1, g→6, b→8)
+                        // Also: variation "DEI" can match "de 1" where "1" is from "136"
+                        // Strategy: Allow the match UNLESS it's part of a longer number that isn't a known term
+                        const matchIsDigits = /^\d+$/.test(matchedText);
+                        const matchIsMultiDigit = matchIsDigits && matchedText.length >= 2;
+                        const matchContainsDigit = /\d/.test(matchedText);
+
+                        // Validate if: variation is numeric OR match contains digits
+                        // For numeric terms: check if surrounding number is also a known term
+                        // For non-numeric terms: check if digits are pulled from longer numbers
+                        if (isNumericTerm || matchIsMultiDigit || matchContainsDigit) {
+                            const matchStart = match.index;
+                            const matchEnd = match.index + match[0].length;
+                            const matchLength = match[0].length;
+
+                            // For numeric variations (like "168"), validate context
+                            // This applies whether matched as digits "168" OR letters "lgb" matching digits
+
+                            // Check surrounding context - look for consecutive digits OR letters in the text
+                            let countBefore = 0;
+                            let countAfter = 0;
+
+                            // Count similar characters before (digits if match is digits, letters if match is letters)
+                            const isDigitMatch = /^\d+$/.test(matchedText);
+                            const isLetterMatch = /^[a-z]+$/i.test(matchedText);
+                            const isMixedMatch = !isDigitMatch && !isLetterMatch;
+
+                            if (isDigitMatch) {
+                                // Count digits before and after
+                                for (let i = matchStart - 1; i >= 0 && /\d/.test(text[i]); i--) {
+                                    countBefore++;
+                                }
+                                for (let i = matchEnd; i < text.length && /\d/.test(text[i]); i++) {
+                                    countAfter++;
+                                }
+                            } else if (isLetterMatch) {
+                                // For letter obfuscations like "lbg", check if it's in a long digit sequence
+                                // by looking at the broader context
+                                for (let i = matchStart - 1; i >= 0 && /\d/.test(text[i]); i--) {
+                                    countBefore++;
+                                }
+                                for (let i = matchEnd; i < text.length && /\d/.test(text[i]); i++) {
+                                    countAfter++;
+                                }
+                            } else if (isMixedMatch) {
+                                // For mixed matches like "de 1", check if any digit is part of a larger number
+                                // Find each digit position in the match and check its context
+                                for (let i = 0; i < matchedText.length; i++) {
+                                    if (/\d/.test(matchedText[i])) {
+                                        const digitPos = matchStart + i;
+                                        // Count digits before this digit
+                                        let digitCountBefore = 0;
+                                        for (let j = digitPos - 1; j >= 0 && /\d/.test(text[j]); j--) {
+                                            digitCountBefore++;
+                                        }
+                                        // Count digits after this digit
+                                        let digitCountAfter = 0;
+                                        for (let j = digitPos + 1; j < text.length && /\d/.test(text[j]); j++) {
+                                            digitCountAfter++;
+                                        }
+                                        // If this digit has extra digits around it, accumulate
+                                        countBefore = Math.max(countBefore, digitCountBefore);
+                                        countAfter = Math.max(countAfter, digitCountAfter);
+                                    }
+                                }
+                            }
+
+                            const extraChars = countBefore + countAfter;
+
+                            // Check what's immediately before and after the sequence
+                            const seqStart = matchStart - countBefore;
+                            const seqEnd = matchEnd + countAfter;
+                            const charBefore = seqStart > 0 ? text[seqStart - 1] : '';
+                            const charAfter = seqEnd < text.length ? text[seqEnd] : '';
+
+                            // If in a long sequence with no adjacent letters, likely random
+                            const hasLetterBefore = /[a-z]/i.test(charBefore);
+                            const hasLetterAfter = /[a-z]/i.test(charAfter);
+
+                            // Reject if there are extra digits and no adjacent letters
+                            // BUT: allow if extra digits form other known terms (overlapping numeric terms)
+                            // This prevents "13" from matching in "135" but allows "13" and "28" in "2813"
+                            if (!hasLetterBefore && !hasLetterAfter && extraChars > 0) {
+                                let hasKnownOverlap = false;
+
+                                // Check if digits before form a known term
+                                if (countBefore > 0) {
+                                    const digitsBefore = text.substring(seqStart, matchStart);
+                                    if (this.variationMap.has(digitsBefore)) {
+                                        hasKnownOverlap = true;
+                                    }
+                                }
+
+                                // Check if digits after form a known term
+                                if (countAfter > 0) {
+                                    const digitsAfter = text.substring(matchEnd, seqEnd);
+                                    if (this.variationMap.has(digitsAfter)) {
+                                        hasKnownOverlap = true;
+                                    }
+                                }
+
+                                if (!hasKnownOverlap) {
+                                    // Extra digits don't form known terms - likely random sequence
+                                    continue;
+                                }
+                                // Otherwise allow it - overlapping with other known numeric terms
+                            }
+                        }
+
                         allMatches.push({
                             start: match.index,
-                            end: match.index + match[0].length,
-                            length: match[0].length,
-                            text: match[0],
+                            end: match.index + matchedText.length,
+                            length: matchedText.length,
+                            text: matchedText,
                             type: 'dogwhistle',
                             term: termData.root,
                             category: termData.category,
                             definition: termData.definition,
                             variations: termData.variations,
-                            source: termData.source // Pass through source field
+                            source: termData.source, // Pass through source field
+                            isNumeric: isNumericTerm
                         });
                     }
                 });
@@ -1429,11 +1611,30 @@
                 const usedRanges = [];
 
                 // Keep matches that don't overlap with already-selected matches
+                // EXCEPT: allow numeric terms to overlap with each other (e.g., "1813" can match both "18" and "13")
                 for (const match of allMatches) {
-                    const hasOverlap = usedRanges.some(range => ObfuscationUtils.overlaps(match, range));
-                    if (!hasOverlap) {
+                    const isNumericMatch = match.isNumeric || false;
+
+                    // Check if this match overlaps with any already-selected match
+                    let hasBlockingOverlap = false;
+                    for (const range of usedRanges) {
+                        if (ObfuscationUtils.overlaps(match, range)) {
+                            // Allow overlap if BOTH terms are purely numeric
+                            const rangeIsNumeric = range.isNumeric;
+                            if (!(isNumericMatch && rangeIsNumeric)) {
+                                hasBlockingOverlap = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!hasBlockingOverlap) {
                         matches.push(match);
-                        usedRanges.push({ start: match.start, end: match.end });
+                        usedRanges.push({
+                            start: match.start,
+                            end: match.end,
+                            isNumeric: isNumericMatch
+                        });
                     }
                 }
 
@@ -1451,14 +1652,14 @@
             }
         }
 
-        class OffensiveTermMatcher {
-            constructor(offensiveTermData) {
-                // Store offensive term data
-                this.offensiveTermData = offensiveTermData;
-                this.offensiveTermTerms = offensiveTermData.terms;
+        class HarmfulTermMatcher {
+            constructor(harmfulTermData) {
+                // Store harmful term data
+                this.harmfulTermData = harmfulTermData;
+                this.harmfulTermTerms = harmfulTermData.terms;
 
-                // Build lookup map for offensive terms using DRY helper
-                this.variationMap = ObfuscationUtils.buildVariationMap(this.offensiveTermTerms);
+                // Build lookup map for harmful terms using DRY helper
+                this.variationMap = ObfuscationUtils.buildVariationMap(this.harmfulTermTerms);
             }
 
             analyze(text) {
@@ -1467,13 +1668,31 @@
 
                 const allMatches = [];
 
-                // Find all offensive term matches
+                // Find all harmful term matches
                 this.variationMap.forEach((termData, variation) => {
                     // Create flexible regex pattern that catches obfuscation
                     const flexiblePattern = ObfuscationUtils.createFlexiblePattern(variation);
                     // Add optional 's' at the end to catch plurals
                     const pluralPattern = `${flexiblePattern}s?`;
-                    const regex = new RegExp(`(?<![a-z0-9])${pluralPattern}(?![a-z0-9])`, 'gi');
+
+                    // Special handling for purely numeric terms (e.g., "88", "28", "1488")
+                    // These should match within larger numbers (e.g., "1828" contains "28")
+                    // But NOT with leading zeros (e.g., "088") or letters (e.g., "c88")
+                    const isNumericTerm = /^\d+$/.test(variation);
+                    const isLetterTerm = /^[a-z]+$/i.test(variation);
+
+                    let regex;
+                    if (isNumericTerm) {
+                        // For numeric terms: match anywhere, validation will filter out bad matches
+                        // Allow both "blood88" and "88blood" - validation handles context
+                        regex = new RegExp(`${pluralPattern}`, 'gi');
+                    } else if (isLetterTerm) {
+                        // For purely letter terms: prevent other letters but allow numbers
+                        regex = new RegExp(`(?<![a-z])${pluralPattern}(?![a-z])`, 'gi');
+                    } else {
+                        // For mixed terms: use standard word boundaries
+                        regex = new RegExp(`(?<![a-z0-9])${pluralPattern}(?![a-z0-9])`, 'gi');
+                    }
 
                     let match;
                     let lastIndex = -1;
@@ -1484,17 +1703,141 @@
                         }
                         lastIndex = match.index;
 
+                        // Trim trailing non-alphanumeric characters from the match
+                        // This prevents highlighting trailing punctuation like quotes, commas, periods
+                        let matchedText = match[0];
+                        let trimmedLength = matchedText.length;
+                        while (trimmedLength > 0 && /[^a-zA-Z0-9]/.test(matchedText[trimmedLength - 1])) {
+                            trimmedLength--;
+                        }
+                        if (trimmedLength < matchedText.length) {
+                            matchedText = matchedText.substring(0, trimmedLength);
+                            if (matchedText.length === 0) continue; // Skip if nothing left
+                        }
+
+                        // Validate numeric matches - BOTH numeric terms AND non-numeric terms that match digits
+                        // Example: variation "lgb" can match "168" via char substitutions (l→1, g→6, b→8)
+                        // Also: variation "DEI" can match "de 1" where "1" is from "136"
+                        // Strategy: Allow the match UNLESS it's part of a longer number that isn't a known term
+                        const matchIsDigits = /^\d+$/.test(matchedText);
+                        const matchIsMultiDigit = matchIsDigits && matchedText.length >= 2;
+                        const matchContainsDigit = /\d/.test(matchedText);
+
+                        // Validate if: variation is numeric OR match contains digits
+                        // For numeric terms: check if surrounding number is also a known term
+                        // For non-numeric terms: check if digits are pulled from longer numbers
+                        if (isNumericTerm || matchIsMultiDigit || matchContainsDigit) {
+                            const matchStart = match.index;
+                            const matchEnd = match.index + match[0].length;
+                            const matchLength = match[0].length;
+
+                            // For numeric variations (like "168"), validate context
+                            // This applies whether matched as digits "168" OR letters "lgb" matching digits
+
+                            // Check surrounding context - look for consecutive digits OR letters in the text
+                            let countBefore = 0;
+                            let countAfter = 0;
+
+                            // Count similar characters before (digits if match is digits, letters if match is letters)
+                            const isDigitMatch = /^\d+$/.test(matchedText);
+                            const isLetterMatch = /^[a-z]+$/i.test(matchedText);
+                            const isMixedMatch = !isDigitMatch && !isLetterMatch;
+
+                            if (isDigitMatch) {
+                                // Count digits before and after
+                                for (let i = matchStart - 1; i >= 0 && /\d/.test(text[i]); i--) {
+                                    countBefore++;
+                                }
+                                for (let i = matchEnd; i < text.length && /\d/.test(text[i]); i++) {
+                                    countAfter++;
+                                }
+                            } else if (isLetterMatch) {
+                                // For letter obfuscations like "lbg", check if it's in a long digit sequence
+                                // by looking at the broader context
+                                for (let i = matchStart - 1; i >= 0 && /\d/.test(text[i]); i--) {
+                                    countBefore++;
+                                }
+                                for (let i = matchEnd; i < text.length && /\d/.test(text[i]); i++) {
+                                    countAfter++;
+                                }
+                            } else if (isMixedMatch) {
+                                // For mixed matches like "de 1", check if any digit is part of a larger number
+                                // Find each digit position in the match and check its context
+                                for (let i = 0; i < matchedText.length; i++) {
+                                    if (/\d/.test(matchedText[i])) {
+                                        const digitPos = matchStart + i;
+                                        // Count digits before this digit
+                                        let digitCountBefore = 0;
+                                        for (let j = digitPos - 1; j >= 0 && /\d/.test(text[j]); j--) {
+                                            digitCountBefore++;
+                                        }
+                                        // Count digits after this digit
+                                        let digitCountAfter = 0;
+                                        for (let j = digitPos + 1; j < text.length && /\d/.test(text[j]); j++) {
+                                            digitCountAfter++;
+                                        }
+                                        // If this digit has extra digits around it, accumulate
+                                        countBefore = Math.max(countBefore, digitCountBefore);
+                                        countAfter = Math.max(countAfter, digitCountAfter);
+                                    }
+                                }
+                            }
+
+                            const extraChars = countBefore + countAfter;
+
+                            // Check what's immediately before and after the sequence
+                            const seqStart = matchStart - countBefore;
+                            const seqEnd = matchEnd + countAfter;
+                            const charBefore = seqStart > 0 ? text[seqStart - 1] : '';
+                            const charAfter = seqEnd < text.length ? text[seqEnd] : '';
+
+                            // If in a long sequence with no adjacent letters, likely random
+                            const hasLetterBefore = /[a-z]/i.test(charBefore);
+                            const hasLetterAfter = /[a-z]/i.test(charAfter);
+
+                            // Reject if there are extra digits and no adjacent letters
+                            // BUT: allow if extra digits form other known terms (overlapping numeric terms)
+                            // This prevents "13" from matching in "135" but allows "13" and "28" in "2813"
+                            if (!hasLetterBefore && !hasLetterAfter && extraChars > 0) {
+                                let hasKnownOverlap = false;
+
+                                // Check if digits before form a known term
+                                if (countBefore > 0) {
+                                    const digitsBefore = text.substring(seqStart, matchStart);
+                                    if (this.variationMap.has(digitsBefore)) {
+                                        hasKnownOverlap = true;
+                                    }
+                                }
+
+                                // Check if digits after form a known term
+                                if (countAfter > 0) {
+                                    const digitsAfter = text.substring(matchEnd, seqEnd);
+                                    if (this.variationMap.has(digitsAfter)) {
+                                        hasKnownOverlap = true;
+                                    }
+                                }
+
+                                if (!hasKnownOverlap) {
+                                    // Extra digits don't form known terms - likely random sequence
+                                    continue;
+                                }
+                                // Otherwise allow it - overlapping with other known numeric terms
+                            }
+                        }
+
                         allMatches.push({
                             start: match.index,
-                            end: match.index + match[0].length,
-                            length: match[0].length,
-                            text: match[0],
-                            type: 'offensiveTerm',
+                            end: match.index + matchedText.length,
+                            length: matchedText.length,
+                            text: matchedText,
+                            type: 'harmfulTerm',
                             term: termData.root,
+                            matchedTerm: variation,
                             category: termData.category,
                             definition: termData.definition,
                             variations: termData.variations,
-                            source: termData.source
+                            source: termData.source,
+                            isNumeric: isNumericTerm
                         });
                     }
                 });
@@ -1508,11 +1851,31 @@
                 const matches = [];
                 const usedRanges = [];
 
+                // Keep matches that don't overlap with already-selected matches
+                // EXCEPT: allow numeric terms to overlap with each other (e.g., "1813" can match both "18" and "13")
                 for (const match of allMatches) {
-                    const hasOverlap = usedRanges.some(range => ObfuscationUtils.overlaps(match, range));
-                    if (!hasOverlap) {
+                    const isNumericMatch = match.isNumeric || false;
+
+                    // Check if this match overlaps with any already-selected match
+                    let hasBlockingOverlap = false;
+                    for (const range of usedRanges) {
+                        if (ObfuscationUtils.overlaps(match, range)) {
+                            // Allow overlap if BOTH terms are purely numeric
+                            const rangeIsNumeric = range.isNumeric;
+                            if (!(isNumericMatch && rangeIsNumeric)) {
+                                hasBlockingOverlap = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!hasBlockingOverlap) {
                         matches.push(match);
-                        usedRanges.push({ start: match.start, end: match.end });
+                        usedRanges.push({
+                            start: match.start,
+                            end: match.end,
+                            isNumeric: isNumericMatch
+                        });
                     }
                 }
 
@@ -1544,7 +1907,7 @@
                     categoryPercent: 30,
                     matchCount: 0,
                     wordCount: 0,
-                    offensiveCount: 0,
+                    harmfulCount: 0,
                     dogWhistleCount: 0,
                     uniqueCategories: 0
                 }
@@ -1554,16 +1917,14 @@
             const matchDensity = matches.length / wordCount;
             const densityScore = Math.min(matchDensity * 100, 20);
 
-            // 2. Match Type Weight (50%) - Offensive terms weighted higher than dog whistles
-            // Offensive terms are explicit, dog whistles are coded
-            const offensiveCount = matches.filter(m => m.type === 'offensiveTerm').length;
+            // 2. Match Type Weight (50%) - Harmful terms weighted higher than dog whistles
+            // Harmful terms are explicit, dog whistles are coded
+            const harmfulCount = matches.filter(m => m.type === 'harmfulTerm').length;
             const dogWhistleCount = matches.filter(m => m.type === 'dogwhistle').length;
 
-            // Weight: offensive terms = 2x, dog whistles = 1x
-            const weightedMatches = (offensiveCount * 2) + dogWhistleCount;
-            console.log(weightedMatches + " weighted matches of " + matches.length);
+            // Weight: harmful terms = 2x, dog whistles = 1x
+            const weightedMatches = (harmfulCount * 2) + dogWhistleCount;
             const avgWeight = weightedMatches / matches.length;
-            console.log("avgWeight is " + avgWeight);
 
             // Map avg weight (1.0 to 1.5) to score (0 to 30)
             const typeWeight = ((avgWeight - 1.0) / 0.5) * 30;
@@ -1595,7 +1956,7 @@
                     categoryPercent: 30,
                     matchCount: matches.length,
                     wordCount: wordCount,
-                    offensiveCount: offensiveCount,
+                    harmfulCount: harmfulCount,
                     dogWhistleCount: dogWhistleCount,
                     uniqueCategories: uniqueCategories
                 }
@@ -1620,7 +1981,7 @@
                 <div class="tooltip-item">
                     <div class="tooltip-item-label">Match Type Weight (${breakdown.typePercent}%)</div>
                     <div class="tooltip-item-value">${breakdown.typeWeight} points</div>
-                    <div class="tooltip-item-value" style="font-size: 0.9em; opacity: 0.8;">${breakdown.offensiveCount} offensive, ${breakdown.dogWhistleCount} dog whistles</div>
+                    <div class="tooltip-item-value" style="font-size: 0.9em; opacity: 0.8;">${breakdown.harmfulCount} harmful, ${breakdown.dogWhistleCount} dog whistles</div>
                 </div>
                 <div class="tooltip-item">
                     <div class="tooltip-item-label">Category Diversity (${breakdown.categoryPercent}%)</div>
@@ -1644,7 +2005,7 @@
                 return;
             }
 
-            if (!matcher && !offensiveTermMatcher) {
+            if (!matcher && !harmfulTermMatcher) {
                 alert('Databases not loaded. Please refresh the page.');
                 return;
             }
@@ -1660,7 +2021,7 @@
             setTimeout(() => {
                 // Analyze with both matchers
                 const dogWhistleResults = matcher ? matcher.analyze(text) : { matches: [], categoryCount: 0, categories: [] };
-                const offensiveTermResults = offensiveTermMatcher ? offensiveTermMatcher.analyze(text) : { matches: [], categoryCount: 0, categories: [] };
+                const harmfulTermResults = harmfulTermMatcher ? harmfulTermMatcher.analyze(text) : { matches: [], categoryCount: 0, categories: [] };
 
                 // Analyze for populist patterns
                 const patternResults = PatternMatcher.place_demonym_lookup_loaded ? PatternMatcher.analyze(text) : { matches: [] };
@@ -1668,7 +2029,7 @@
                 // Combine results (pattern matches are also dog whistles)
                 const allMatches = [
                     ...dogWhistleResults.matches,
-                    ...offensiveTermResults.matches,
+                    ...harmfulTermResults.matches,
                     ...patternResults.matches
                 ];
 
@@ -1699,14 +2060,14 @@
                 // Count all unique categories
                 const allCategories = new Set([
                     ...dogWhistleResults.categories,
-                    ...offensiveTermResults.categories,
+                    ...harmfulTermResults.categories,
                     ...patternResults.matches.map(m => m.category)
                 ]);
 
                 const combinedResults = {
                     matches: combinedMatches,
                     dogWhistleCount: dogWhistleResults.matches.length + patternResults.matches.length,
-                    offensiveTermCount: offensiveTermResults.matches.length,
+                    harmfulTermCount: harmfulTermResults.matches.length,
                     categoryCount: allCategories.size,
                     categories: Array.from(allCategories)
                 };
@@ -1731,14 +2092,14 @@
             const categoryCount = document.getElementById('categoryCount');
             const inputLabel = document.getElementById('inputLabel');
 
-            // Count for dog whistles and offensive terms
+            // Count for dog whistles and harmful terms
             const dogWhistleMatches = results.matches.filter(m => m.type === 'dogwhistle');
-            const offensiveTermMatches = results.matches.filter(m => m.type === 'offensiveTerm');
+            const harmfulTermMatches = results.matches.filter(m => m.type === 'harmfulTerm');
 
             // Update total count
             const totalCount = results.matches.length;
             const dogWhistleCount = dogWhistleMatches.length;
-            const offensiveTermCount = offensiveTermMatches.length;
+            const harmfulTermCount = harmfulTermMatches.length;
 
             // Update Terms Flagged count
             termCount.textContent = totalCount;
@@ -1753,9 +2114,9 @@
                     lines.push({ count: dogWhistleCount, text: `${dogWhistleCount} ${dogWhistleText}` });
                 }
 
-                if (offensiveTermCount > 0) {
-                    const offensiveTermText = offensiveTermCount === 1 ? 'offensive term' : 'offensive terms';
-                    lines.push({ count: offensiveTermCount, text: `${offensiveTermCount} ${offensiveTermText}` });
+                if (harmfulTermCount > 0) {
+                    const harmfulTermText = harmfulTermCount === 1 ? 'harmful term' : 'harmful terms';
+                    lines.push({ count: harmfulTermCount, text: `${harmfulTermCount} ${harmfulTermText}` });
                 }
 
                 // Sort by count (descending)
@@ -1849,7 +2210,7 @@
             // Build highlighted text
             let displayHtml = '';
             if (results.matches.length === 0) {
-                displayHtml = '<div class="no-results">✓ No dog whistles or offensive terms detected in this text.</div>' +
+                displayHtml = '<div class="no-results">✓ No dog whistles or harmful terms detected in this text.</div>' +
                     '<div style="margin-top: 15px;">' + escapeHtml(originalText) + '</div>';
             } else {
                 let lastIndex = 0;
@@ -1886,6 +2247,49 @@
             setupTooltips();
         }
 
+        /**
+         * Generate matched term HTML if obfuscation is detected
+         * DRY helper for both dog whistle and harmful term tooltips
+         *
+         * @param {string} matchedTerm - The canonical term that was matched
+         * @param {string} displayedText - The actual text shown in the document
+         * @param {string} label - Label to use ("Term" or "Derivation")
+         * @returns {string} HTML string or empty string if no obfuscation
+         */
+        function getMatchedTermHtml(matchedTerm, displayedText, label = 'Term') {
+            if (!matchedTerm) return '';
+
+            // Check if obfuscation detected (case-insensitive comparison)
+            const isObfuscated = matchedTerm.toLowerCase() !== displayedText.toLowerCase();
+
+            if (!isObfuscated) return '';
+
+            return `<div class="tooltip-item"><div class="tooltip-item-label">${label}:</div><div class="tooltip-item-value">${escapeHtml(matchedTerm)}</div></div>`;
+        }
+
+        /**
+         * Format variations list, limiting to 6 random items if list is too long
+         *
+         * @param {Array<string>} variations - Array of variation strings
+         * @returns {string} HTML string or empty string if no variations
+         */
+        function getVariationsHtml(variations) {
+            if (!variations || variations.length === 0) return '';
+
+            let displayVariations = variations;
+            let label = 'Variations';
+
+            // If more than 6 variations, select 6 random ones
+            if (variations.length > 6) {
+                // Shuffle and take first 6
+                const shuffled = [...variations].sort(() => Math.random() - 0.5);
+                displayVariations = shuffled.slice(0, 6);
+                label = `Variations include`;
+            }
+
+            return `<div class="tooltip-item"><div class="tooltip-item-label">${label}:</div><div class="tooltip-item-value tooltip-variations">${escapeHtml(displayVariations.join(' / '))}</div></div>`;
+        }
+
         function createHighlightedSpan(match) {
             const typeClass = match.type || 'dogwhistle';
             const categoryClass = getCategoryClass(match.category);
@@ -1893,24 +2297,33 @@
             const formattedCategoryLabel = getFormattedCategoryLabel(match.category);
             const capitalizedDefinition = capitalizeFirst(match.definition);
 
-            // Check if there are actual variations (not empty and not just the root)
-            const hasVariations = match.variations && match.variations.length > 0;
-            const variationsHtml = hasVariations
-                ? `<div class="tooltip-item"><div class="tooltip-item-label">Variations:</div><div class="tooltip-item-value tooltip-variations">${escapeHtml(match.variations.join(', '))}</div></div>`
-                : '';
-
-            // Show "Derived from:" for pattern matches, "Term:" for direct matches
-            const termLabel = match.isDerived ? 'Derivation' : 'Term';
-
-            if (match.type === 'offensiveTerm') {
+            if (match.type === 'harmfulTerm') {
                 // Harmful term
                 const underlineStyle = `border-bottom: 3px solid ${categoryColor}; text-decoration: none;`;
                 const sourceHtml = getTooltipSourceHtml(match.source);
-                return `<span class="highlight offensiveTerm" style="${underlineStyle}">${escapeHtml(match.text)}<span class="tooltip"><div class="tooltip-category" style="background-color: ${categoryColor}">${escapeHtml(formattedCategoryLabel)}</div><div class="tooltip-item"><div class="tooltip-item-label">Definition:</div><div class="tooltip-item-value">${escapeHtml(capitalizedDefinition)}</div></div>${sourceHtml}</span></span>`;
+
+                // Show matched term if obfuscation detected (DRY helper)
+                const matchedTermHtml = getMatchedTermHtml(match.matchedTerm, match.text, 'Term');
+
+                return `<span class="highlight harmfulTerm" style="${underlineStyle}">${escapeHtml(match.text)}<span class="tooltip"><div class="tooltip-category" style="background-color: ${categoryColor}">${escapeHtml(formattedCategoryLabel)}</div>${matchedTermHtml}<div class="tooltip-item"><div class="tooltip-item-label">Definition:</div><div class="tooltip-item-value">${escapeHtml(capitalizedDefinition)}</div></div>${sourceHtml}</span></span>`;
             } else {
                 // Dog whistle
                 const sourceHtml = getTooltipSourceHtml(match.source);
-                return `<span class="highlight ${categoryClass} dogwhistle">${escapeHtml(match.text)}<span class="tooltip"><div class="tooltip-category" style="background-color: ${categoryColor}">${escapeHtml(formattedCategoryLabel)}</div><div class="tooltip-item"><div class="tooltip-item-label">${termLabel}:</div><div class="tooltip-item-value">${escapeHtml(match.term)}</div></div>${variationsHtml}<div class="tooltip-item"><div class="tooltip-item-label">Dog Whistle:</div><div class="tooltip-item-value">${escapeHtml(capitalizedDefinition)}</div></div>${sourceHtml}</span></span>`;
+
+                // Determine what to show for the term
+                let termHtml = '';
+                if (match.isDerived) {
+                    // Derived terms always show "Derivation: [root term]"
+                    termHtml = `<div class="tooltip-item"><div class="tooltip-item-label">Derivation:</div><div class="tooltip-item-value">${escapeHtml(match.term)}</div></div>`;
+                } else {
+                    // Non-derived terms: show matched term only if obfuscated (DRY helper)
+                    termHtml = getMatchedTermHtml(match.matchedTerm, match.text, 'Term');
+                }
+
+                // Limit variations to 6 random items if needed (DRY helper)
+                const variationsHtml = getVariationsHtml(match.variations);
+
+                return `<span class="highlight ${categoryClass} dogwhistle">${escapeHtml(match.text)}<span class="tooltip"><div class="tooltip-category" style="background-color: ${categoryColor}">${escapeHtml(formattedCategoryLabel)}</div>${termHtml}${variationsHtml}<div class="tooltip-item"><div class="tooltip-item-label">Dog Whistle:</div><div class="tooltip-item-value">${escapeHtml(capitalizedDefinition)}</div></div>${sourceHtml}</span></span>`;
             }
         }
 
@@ -1933,7 +2346,7 @@
             const displayString = escapeHtml(sourceEntry.string || sourceId);
 
             if (sourceEntry.url) {
-                return `<div class="tooltip-source">Source: <a href="${sourceEntry.url}" target="_blank" rel="noopener">${displayString} ↗</a></div>`;
+                return `<div class="tooltip-source">Source: ${displayString}</div>`;
             } else {
                 return `<div class="tooltip-source">Source: ${displayString}</div>`;
             }

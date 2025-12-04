@@ -111,8 +111,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "canonical": "Palestine",
       "variants": ["Palestine",
         "Palestinian Territories",
-        "West Bank",
-        "Gaza"],
+        "West Bank"],
       "demonyms": ["Palestinian"],
       "type": "country",
     "partOf": ["asia", "levant", "middle_east"]
@@ -121,10 +120,9 @@ const PLACE_DEMONYM_LOOKUP = {
       "canonical": "New Zealand",
       "variants": ["New Zealand",
         "Aotearoa"],
-      "demonyms": ["New Zealander",
-        "Kiwi"],
+      "demonyms": ["New Zealander", "Newzealander", "Kiwi"],
       "type": "country",
-    "partOf": ["oceania"]
+    "partOf": ["oceania", "polynesia"]
     },
     "new_york": {
       "canonical": "New York",
@@ -347,7 +345,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "variants": ["Australia", "Straya", "Oz"],
       "demonyms": ["australian", "aussie"],
       "type": "country",
-    "partOf": ["oceania"]
+    "partOf": ["oceania", "asia"]
     },
     "austria": {
       "canonical": "Austria",
@@ -465,7 +463,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "variants": ["Brunei"],
       "demonyms": ["bruneian"],
       "type": "country",
-    "partOf": ["asia"]
+    "partOf": ["asia", "oceania"]
     },
     "bulgaria": {
       "canonical": "Bulgaria",
@@ -639,7 +637,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "variants": ["Egypt"],
       "demonyms": ["egyptian"],
       "type": "country",
-    "partOf": ["africa", "middle_east"]
+    "partOf": ["africa", "middle_east", "asia"]
     },
     "el_salvador": {
       "canonical": "El Salvador",
@@ -685,7 +683,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "variants": ["Fiji"],
       "demonyms": ["fijian"],
       "type": "country",
-    "partOf": ["oceania"]
+    "partOf": ["oceania", "polynesia"]
     },
     "finland": {
       "canonical": "Finland",
@@ -725,7 +723,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "variants": ["Georgia"],
       "demonyms": ["georgian"],
       "type": "country",
-    "partOf": ["europe", "caucasus"]
+    "partOf": ["europe", "caucasus", "asia"]
     },
     "ghana": {
       "canonical": "Ghana",
@@ -805,7 +803,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "demonyms": ["icelandic",
         "icelander"],
       "type": "country",
-    "partOf": ["europe"]
+    "partOf": ["europe", "north_america"]
     },
     "india": {
       "canonical": "India",
@@ -820,7 +818,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "variants": ["Indonesia"],
       "demonyms": ["indonesian"],
       "type": "country",
-    "partOf": ["asia"]
+    "partOf": ["asia", "oceania"]
     },
     "iran": {
       "canonical": "Iran",
@@ -871,7 +869,7 @@ const PLACE_DEMONYM_LOOKUP = {
     "italy": {
       "canonical": "Italy",
       "variants": ["Italy"],
-      "demonyms": ["italyian"],
+      "demonyms": ["italian"],
       "type": "country",
     "partOf": ["europe"]
     },
@@ -903,7 +901,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "demonyms": ["kazakhstani",
         "kazakh"],
       "type": "country",
-    "partOf": ["asia"]
+    "partOf": ["asia", "europe"]
     },
     "kenya": {
       "canonical": "Kenya",
@@ -918,7 +916,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "demonyms": ["kiribati",
         "i Kiribati"],
       "type": "country",
-    "partOf": ["oceania"]
+    "partOf": ["oceania", "polynesia"]
     },
     "kuwait": {
       "canonical": "Kuwait",
@@ -1024,7 +1022,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "variants": ["Malaysia"],
       "demonyms": ["malaysian"],
       "type": "country",
-    "partOf": ["asia"]
+    "partOf": ["asia", "oceania"]
     },
     "maldives": {
       "canonical": "Maldives",
@@ -1081,7 +1079,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "variants": ["Micronesia"],
       "demonyms": ["micronesian"],
       "type": "country",
-    "partOf": ["oceania"]
+    "partOf": ["oceania", "polynesia"]
     },
     "moldova": {
       "canonical": "Moldova",
@@ -1225,7 +1223,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "demonyms": ["papua new guinean",
         "papuan"],
       "type": "country",
-    "partOf": ["oceania"]
+    "partOf": ["oceania", "polynesia", "asia"]
     },
     "paraguay": {
       "canonical": "Paraguay",
@@ -1248,7 +1246,7 @@ const PLACE_DEMONYM_LOOKUP = {
         "filipino",
         "filipina"],
       "type": "country",
-    "partOf": ["asia"]
+    "partOf": ["asia", "oceania"]
     },
     "poland": {
       "canonical": "Poland",
@@ -1304,7 +1302,7 @@ const PLACE_DEMONYM_LOOKUP = {
     },
     "saint_vincent_and_the_grenadines": {
       "canonical": "Saint Vincent and the Grenadines",
-      "variants": ["Saint Vincent and the Grenadines"],
+      "variants": ["Saint Vincent and the Grenadines", "Saint Vincent"],
       "demonyms": ["saint vincentian",
         "vincentian"],
       "type": "country",
@@ -1315,7 +1313,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "variants": ["Samoa"],
       "demonyms": ["samoan"],
       "type": "country",
-    "partOf": ["oceania"]
+    "partOf": ["oceania", "polynesia"]
     },
     "san_marino": {
       "canonical": "San Marino",
@@ -1399,7 +1397,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "demonyms": ["solomon island",
         "solomon islander"],
       "type": "country",
-    "partOf": ["oceania"]
+    "partOf": ["oceania", "polynesia"]
     },
     "somalia": {
       "canonical": "Somalia",
@@ -1419,9 +1417,9 @@ const PLACE_DEMONYM_LOOKUP = {
     "spain": {
       "canonical": "Spain",
       "variants": ["Spain"],
-      "demonyms": ["spanish"],
+      "demonyms": ["spanish", "spaniard"],
       "type": "country",
-        "partOf": ["iberia", "europe"]
+        "partOf": ["iberia", "europe", "africa"]
     },
     "sri_lanka": {
       "canonical": "Sri Lanka",
@@ -1508,13 +1506,13 @@ const PLACE_DEMONYM_LOOKUP = {
       "type": "country",
     "partOf": ["asia"]
     },
-    "timorleste": {
+    "timor_leste": {
       "canonical": "Timor-Leste",
       "variants": ["Timor-Leste",
         "Timor"],
       "demonyms": ["timorese"],
       "type": "country",
-    "partOf": ["asia"]
+    "partOf": ["asia", "oceania"]
     },
     "togo": {
       "canonical": "Togo",
@@ -1528,7 +1526,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "variants": ["Tonga"],
       "demonyms": ["tongan"],
       "type": "country",
-    "partOf": ["oceania"]
+    "partOf": ["oceania", "polynesia"]
     },
     "trinidad_and_tobago": {
       "canonical": "Trinidad and Tobago",
@@ -1564,7 +1562,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "variants": ["Tuvalu"],
       "demonyms": ["tuvaluan"],
       "type": "country",
-    "partOf": ["oceania"]
+    "partOf": ["oceania", "polynesia"]
     },
     "uganda": {
       "canonical": "Uganda",
@@ -1615,7 +1613,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "variants": ["Venezuela"],
       "demonyms": ["venezuelan"],
       "type": "country",
-    "partOf": ["south_america"]
+    "partOf": ["south_america", "north_america"]
     },
     "vietnam": {
       "canonical": "Vietnam",
@@ -1629,7 +1627,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "variants": ["Yemen"],
       "demonyms": ["yemeni"],
       "type": "country",
-    "partOf": ["asia", "middle_east"]
+    "partOf": ["asia", "middle_east", "africa"]
     },
     "zambia": {
       "canonical": "Zambia",
@@ -1859,7 +1857,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "demonyms": ["greenlandic",
         "greenlander"],
       "type": "region",
-      "partOf": ["denmark"]
+      "partOf": ["denmark", "north_america"]
     },
     "quebec": {
       "canonical": "Quebec",
@@ -1897,7 +1895,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "variants": ["Sicily"],
       "demonyms": ["sicilian"],
       "type": "region",
-      "partOf": ["italy"]
+      "partOf": ["italy", "africa"]
     },
     "wallonia": {
       "canonical": "Wallonia",
@@ -2997,7 +2995,7 @@ const PLACE_DEMONYM_LOOKUP = {
     "variants": ["Hawaii", "Hawai'i", "Aloha State"],
     "demonyms": ["Hawaiian"],
     "type": "region",
-    "partOf": ["united_states"]
+    "partOf": ["united_states", "oceania"]
   },
   "Idaho": {
     "canonical": "Idaho",
@@ -3266,7 +3264,7 @@ const PLACE_DEMONYM_LOOKUP = {
   },
   "oceania": {
     "canonical": "Oceania",
-    "variants": ["Oceania", "Australasia", "Melenesia", "Micronesia", "Polynesia"],
+    "variants": ["Oceania", "Australasia", "Melenesia"],
     "demonyms": ["Oceanian"],
     "type": "region"
   },
@@ -3348,6 +3346,356 @@ const PLACE_DEMONYM_LOOKUP = {
     "demonyms": ["Manhattanite", "Knickerbocker"],
     "type": "city",
     "partOf": ["new_york"]
+  },
+  "cardiff": {
+    "canonical": "Cardiff",
+    "variants": ["Cardiff", "Caerdydd"],
+    "demonyms": ["Cardiffian", "Taff", "Taffy"],
+    "type": "city",
+    "partOf": ["wales"]
+  },
+  "swansea": {
+    "canonical": "Swansea",
+    "variants": ["Swansea"],
+    "demonyms": ["Swansea jack", "Jack"],
+    "type": "city",
+    "partOf": ["wales"]
+  },
+  "madeira": {
+    "canonical": "Madeira",
+    "variants": ["Madeira"],
+    "demonyms": ["Madeiran", "Madeirense"],
+    "type": "city",
+    "partOf": ["portugal", "africa"]
+  },
+  "malpelo": {
+    "canonical": "Malpelo Island",
+    "variants": ["Malpelo Island", "Malpelo"],
+    "demonyms": ["Malpelo Islander"],
+    "type": "city",
+    "partOf": ["colombia", "oceania"]
+  },
+  "trinidad": {
+    "canonical": "Trinidad",
+    "variants": ["Trinidad"],
+    "demonyms": ["Trinidadian"],
+    "type": "city",
+    "partOf": ["trinidad_and_tobago", "south_america"]
+  },
+  "tobago": {
+    "canonical": "Tobago",
+    "variants": ["Tobago"],
+    "demonyms": ["Tobagonian"],
+    "type": "city",
+    "partOf": ["trinidad_and_tobago", "caribbean"]
+  },
+  "easter_island": {
+    "canonical": "Easter Island",
+    "variants": ["Easter Island", "Isla de Pascua", "Rapa Nui"],
+    "demonyms": ["Easter Islander"],
+    "type": "city",
+    "partOf": ["chile", "oceania"]
+  },
+  "insular_chile": {
+    "canonical": "Insular Chile",
+    "variants": ["Insular Chile", "The Sporadic Islands", "Las islas Esporádicas"],
+    "demonyms": [],
+    "type": "city",
+    "partOf": ["chile", "oceania"]
+  },
+  "polynesia": {
+    "canonical": "Polynesia",
+    "variants": ["Polynesia"],
+    "demonyms": ["Polynesian"],
+    "type": "region",
+    "partOf": ["oceania"]
+  },
+  "Christmas_island": {
+    "canonical": "Christmas Island",
+    "variants": ["Christmas Island"],
+    "demonyms": ["Christmas Islander"],
+    "type": "city",
+    "partOf": ["australia", "asia"]
+  },
+  "bonin_islands": {
+    "canonical": "Bonin Islands",
+    "variants": ["Bonin Islands", "Ogasawara Islands"],
+    "demonyms": ["Bonin Islander", "Ogasawara Islander"],
+    "type": "city",
+    "partOf": ["japan", "oceania"]
+  },
+  "rhodes": {
+    "canonical": "Rhodes",
+    "variants": ["Rhodes", /*"Ρόδος"*/],
+    "demonyms": ["Rhodian", "Rhodiot", "Rhodiote"],
+    "type": "city",
+    "partOf": ["greece", "asia"]
+  },
+    "kos": {
+    "canonical": "Kos",
+    "variants": ["Kos"/*, "Κως"*/],
+    "demonyms": ["Koan", "Coan"],
+    "type": "city",
+    "partOf": ["greece", "asia"]
+  },
+   "samos": {
+    "canonical": "Samos",
+    "variants": ["Samos"/*, "Περιφερειακή ενότητα", "Σάμου"*/],
+    "demonyms": ["Samian", "Samiot"],
+    "type": "city",
+    "partOf": ["greece", "asia"]
+  },
+    "chios": {
+    "canonical": "Chios",
+    "variants": ["Chios"/*, "Χίος"*/],
+    "demonyms": [],
+    "type": "city",
+    "partOf": ["greece", "asia"]
+  },
+  "lesbos": {
+    "canonical": "Lesbos",
+    "variants": ["Lesbos"/*, "Περιφερειακή ενότητα", "Λέσβου"*/],
+    "demonyms": ["Lesbian", "Lesvian"],
+    "type": "city",
+    "partOf": ["greece", "asia"]
+  },
+  "kastellorizo": {
+    "canonical": "Kastellorizo",
+    "variants": ["Kastellorizo"/*, "Καστελλόριζο", "Μεγíστη"*/],
+    "demonyms": ["Kastellorizians"],
+    "type": "city",
+    "partOf": ["greece", "asia"]
+  },
+  "canary_islands": {
+    "canonical": "Canary Islands",
+    "variants": ["Canary Islands", "Islas Canarias"],
+    "demonyms": ["Canarian", "Canario", "Canaria"],
+    "type": "city",
+    "partOf": ["spain", "africa"]
+  },
+  "tenerife": {
+    "canonical": "Tenerife",
+    "variants": ["Tenerife"],
+    "demonyms": [],
+    "type": "city",
+    "partOf": ["canary_islands"]
+  },
+  "lanzarote": {
+    "canonical": "Lanzarote",
+    "variants": ["Lanzarote"],
+    "demonyms": [],
+    "type": "city",
+    "partOf": ["canary_islands"]
+  },
+  "gran_canaria": {
+    "canonical": "Gran Canaria",
+    "variants": ["Gran Canaria"],
+    "demonyms": [],
+    "type": "city",
+    "partOf": ["canary_islands"]
+  },
+  "la_palma": {
+    "canonical": "La Palma",
+    "variants": ["La Palma", "Palma"],
+    "demonyms": [],
+    "type": "city",
+    "partOf": ["canary_islands"]
+  },
+  "la_gomera": {
+    "canonical": "La Gomera",
+    "variants": ["La Gomera", "Gomera"],
+    "demonyms": [],
+    "type": "city",
+    "partOf": ["canary_islands"]
+  },
+  "el_hierro": {
+    "canonical": "El Hierro",
+    "variants": ["El Hierro", "Hierro"],
+    "demonyms": [],
+    "type": "city",
+    "partOf": ["canary_islands"]
+  } ,
+  "la_graciosa": {
+    "canonical": "La Graciosa",
+    "variants": ["La Graciosa", "Graciosa"],
+    "demonyms": [],
+    "type": "city",
+    "partOf": ["canary_islands"]
+  },
+  "ceuta": {
+    "canonical": "Ceuta",
+    "variants": ["Ceuta"],
+    "demonyms": ["Ceutan", "Ceuti", "Caballa", "Mackerel"],
+    "type": "city",
+    "partOf": ["spain", "africa"]
+  },
+  "melila": {
+    "canonical": "Melila",
+    "variants": ["Melila"],
+    "demonyms": ["Melillan"],
+    "type": "city",
+    "partOf": ["spain", "africa"]
+  },
+  "plazas_de_soberana": {
+    "canonical": "Plazas de soberanía",
+    "variants": ["Plazas de soberanía"],
+    "demonyms": [],
+    "type": "city",
+    "partOf": ["spain", "africa"]
+  },
+  "lesser_antilles": {
+    "canonical": "Lesser Anttilles",
+    "variants": ["Lesser Anttilles", "Kleine Antillen", "Petites Antilles", "Antiya Minores", "Antillas Menores", "Tibannzil Lézantiy"],
+    "demonyms": ["Lesser Antillean"],
+    "type": "city",
+    "partOf": ["netherlands", "caribbean"]
+  },
+  "american_samoa": {
+    "canonical": "American Samoa",
+    "variants": ["American Samoa", "Amerika Sāmoa"],
+    "demonyms": ["American Samoan"],
+    "type": "city",
+    "partOf": ["united_states", "polynesia"]
+  },
+  "guam": {
+    "canonical": "Guam",
+    "variants": ["Guam", "Guåhan"],
+    "demonyms": ["Guamanian"],
+    "type": "city",
+    "partOf": ["united_states", "micronesia"]
+  },
+  "guadeloupe": {
+    "canonical": "Guadeloupe",
+    "variants": ["Guadeloupe", "Gwadloup", "Karukera"],
+    "demonyms": ["Guadeloupean"],
+    "type": "city",
+    "partOf": ["france", "north_america"]
+  },
+  "french_guiana": {
+    "canonical": "French Guiana",
+    "variants": ["French Guiana", "Guyane", "Lagwiyann"],
+    "demonyms": ["French Guianan", "French Guianese"],
+    "type": "city",
+    "partOf": ["france", "south_america"]
+  },
+  "martinique": {
+    "canonical": "Martinique",
+    "variants": ["Martinique", "Matinik", "Matnik", "Madinina", "Madiana"],
+    "demonyms": ["Martinican", "Martiniquais", "Martiniquaise"],
+    "type": "city",
+    "partOf": ["france", "north_america"]
+  },
+  "saint_barthelemy": {
+    "canonical": "Saint Barthélemy",
+    "variants": ["Saint Barthélemy"],
+    "demonyms": ["Barthélemois", "Saint Barth"],
+    "type": "city",
+    "partOf": ["france", "north_america"]
+  },
+  "saint_martin": {
+    "canonical": "Collectivity of Saint Martin",
+    "variants": ["Collectivity of Saint Martin", "Saint Martin"],
+    "demonyms": ["Saint Martinois"],
+    "type": "city",
+    "partOf": ["france", "north_america"]
+  },
+  "sant_pierre_and_miquelon": {
+    "canonical": "Saint Pierre and Miquelon",
+    "variants": ["Saint Pierre and Miquelon", "Saint Pierre", "Miquelon"],
+    "demonyms": ["Saint Pierrais", "Pierran", "Miquelonnais"],
+    "type": "city",
+    "partOf": ["france", "north_america"]
+  },
+  "mayotte": {
+    "canonical": "Mayotte",
+    "variants": ["Mayotte"],
+    "demonyms": ["Mahoran"],
+    "type": "city",
+    "partOf": ["france", "africa"]
+  },
+  "reunion": {
+    "canonical": "Réunion",
+    "variants": ["Réunion", "La Réunion", "La Rényon"],
+    "demonyms": ["Réunionese"],
+    "type": "city",
+    "partOf": ["france", "africa"]
+  },
+  "falkland_islands": {
+    "canonical": "Falkland Islands",
+    "variants": ["Falkland Islands", "Falklands"],
+    "demonyms": ["Falkland Islander", "Falklander"],
+    "type": "city",
+    "partOf": ["united_kingdom", "south_america", "argentina"]
+  },
+  "pitcairn_islands": {
+    "canonical": "Pitcairn Islands",
+    "variants": ["Pitcairn Islands", "Pitkern Ailen"],
+    "demonyms": ["Pitcairn Islander", "Pitkern", "Pitcairnese"],
+    "type": "city",
+    "partOf": ["united_kingdom", "oceania"]
+  },
+  "saint_helena": {
+    "canonical": "Saint Helena, Ascension and Tristan da Cunha",
+    "variants": ["Saint Helena, Ascension and Tristan da Cunha", "Saint Helena", "Ascension", "Tristan Da Cunha"],
+    "demonyms": [],
+    "type": "city",
+    "partOf": ["united_kingdom", "africa"]
+  },
+  "akrotiri_dhekelia": {
+    "canonical": "Akrotiri and Dhekelia",
+    "variants": ["Akrotiri and Dhekelia", "Akrotiri", "Dhekelia"],
+    "demonyms": [],
+    "type": "city",
+    "partOf": ["united_kingdom", "asia"]
+  },
+  "british_antarctic_territory": {
+    "canonical": "British Antarctic Territory",
+    "variants": ["British Antarctic Territory"],
+    "demonyms": [],
+    "type": "city",
+    "partOf": ["united_kingdom", "antarctica"]
+  },
+  "biot": {
+    "canonical": "British Indian Ocean Territory",
+    "variants": ["British Indian Ocean Territory", "BIOT"],
+    "demonyms": [],
+    "type": "city",
+    "partOf": ["united_kingdom", "asia", "africa"]
+  },
+  "south_georgia_islands": {
+    "canonical": "South Georgia and the South Sandwich Islands",
+    "variants": ["South Georgia and the South Sandwich Islands", "South Georgia", "South Sandwich Islands"],
+    "demonyms": ["South Georgian", "South Sandwich Islander"],
+    "type": "city",
+    "partOf": ["united_kingdom", "antarctica", "south_america"]
+  },
+  "guadalupe_island": {
+    "canonical": "Guadalupe Island",
+    "variants": ["Guadalupe Island", "Isla Guadalupe"],
+    "demonyms": [],
+    "type": "city",
+    "partOf": ["mexico", "oceania"]
+  },
+  "revillagigedo_islands": {
+    "canonical": "Revillagigedo Islands",
+    "variants": ["Revillagigedo Islands", "Islas Revillagigedo"],
+    "demonyms": [],
+    "type": "city",
+    "partOf": ["mexico", "oceania"]
+  },
+  "cocos_island": {
+    "canonical": "Cocos Island",
+    "variants": ["Cocos Island", "Cocos Island National Park"],
+    "demonyms": [],
+    "type": "city",
+    "partOf": ["costa_rica", "oceania"]
+  },
+  "galapagos_islands": {
+    "canonical": "Galápagos Islands",
+    "variants": ["Galápagos Islands"],
+    "demonyms": [],
+    "type": "city",
+    "partOf": ["ecuador", "oceania"]
   }
 },
 
@@ -3473,6 +3821,67 @@ const PLACE_DEMONYM_LOOKUP = {
     const variants = [];
     places.forEach(place => variants.push(...place.variants));
     return variants;
+  },
+
+  /**
+   * Get all demonyms for a place including hierarchical parents
+   * Traverses the partOf chain to collect demonyms from parent places
+   * Example: Rome → Italian (from Italy) → European (from Europe)
+   * Follows ALL branches in partOf array (e.g., Abkhazia → Georgia AND Russia)
+   *
+   * @param {string} placeVariant - Place name or variant (e.g., "Rome", "USA")
+   * @returns {Array} - Array of {demonym, place, level, isDirect} objects
+   */
+  getAllDemonymsWithHierarchy: function(placeVariant) {
+    if (!this._indices) this.buildIndices();
+
+    // Find the canonical key for this place
+    const baseCanonicalKey = this._indices.variantToCanonical[placeVariant.toLowerCase()];
+    if (!baseCanonicalKey) return [];
+
+    const allDemonyms = [];
+    const visited = new Set();
+
+    // Use BFS to traverse all branches
+    const queue = [{key: baseCanonicalKey, level: 0}];
+
+    while (queue.length > 0) {
+        const {key: currentKey, level} = queue.shift();
+
+        // Skip if already visited or max depth reached
+        if (visited.has(currentKey) || level > 10) continue;
+        visited.add(currentKey);
+
+        const placeData = this.places[currentKey];
+        if (!placeData) continue;
+
+        // Add demonyms from current level
+        if (placeData.demonyms && placeData.demonyms.length > 0) {
+            for (const demonym of placeData.demonyms) {
+                // Avoid duplicates (same demonym from different paths)
+                if (!allDemonyms.some(d => d.demonym.toLowerCase() === demonym.toLowerCase())) {
+                    allDemonyms.push({
+                        demonym: demonym,
+                        place: placeData.canonical,
+                        level: level,
+                        isDirect: level === 0
+                    });
+                }
+            }
+        }
+
+        // Add ALL parents to queue (follows all branches)
+        const partOf = placeData.partOf;
+        if (partOf && partOf.length > 0) {
+            for (const parentKey of partOf) {
+                if (!visited.has(parentKey)) {
+                    queue.push({key: parentKey, level: level + 1});
+                }
+            }
+        }
+    }
+
+    return allDemonyms;
   }
 };
 
