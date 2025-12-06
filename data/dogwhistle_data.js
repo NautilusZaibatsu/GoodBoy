@@ -1,55 +1,218 @@
 const GOODBOY_DATA = {
   version: "1.0.0",
-  generated: "2025-12-04T17:04:36.433Z",
+  generated: "2025-12-06T03:40:33.157Z",
   datasetSize: 16258,
-  uniqueTerms: 433,
-  totalTerms: 1326,
+  uniqueTerms: 446,
+  totalTerms: 1439,
   categoryBreakdown: [
-    { name: "racist", count: 186 },
-    { name: "white-supremacist", count: 157 },
-    { name: "fascist", count: 151 },
-    { name: "transphobic", count: 146 },
-    { name: "antisemitic", count: 143 },
-    { name: "xenophobic", count: 91 },
+    { name: "racist", count: 178 },
+    { name: "fascist", count: 162 },
+    { name: "white-supremacist", count: 151 },
+    { name: "antisemitic", count: 147 },
+    { name: "xenophobic", count: 146 },
+    { name: "transphobic", count: 139 },
     { name: "welfare-chauvinism", count: 68 },
-    { name: "anti-liberal", count: 61 },
-    { name: "islamophobic", count: 60 },
+    { name: "nationalist", count: 66 },
+    { name: "islamophobic", count: 63 },
+    { name: "anti-liberal", count: 59 },
     { name: "conservative", count: 39 },
-    { name: "nationalist", count: 36 },
     { name: "bad-faith", count: 33 },
     { name: "anti-lgbtq", count: 26 },
+    { name: "emotional-dismissal", count: 23 },
+    { name: "misogynistic", count: 23 },
+    { name: "conspiracy", count: 19 },
     { name: "homophobic", count: 16 },
     { name: "disability-cognitive", count: 14 },
-    { name: "misogynistic", count: 14 },
-    { name: "emotional-dismissal", count: 13 },
     { name: "personal-responsibility", count: 13 },
     { name: "disability-physical", count: 12 },
-    { name: "conspiracy", count: 9 },
+    { name: "dehumanisation", count: 10 },
     { name: "deflection ", count: 9 },
     { name: "anti-vax", count: 8 },
-    { name: "dehumanisation", count: 6 },
     { name: "liberal", count: 5 },
+    { name: "ageist", count: 4 },
     { name: "climate change denier", count: 4 },
-    { name: "psuedoscience", count: 4 },
     { name: "anti-gmo", count: 1 },
     { name: "welfare-chauvinsm", count: 1 },
+    { name: "christophobia", count: 0 },
     { name: "hinduphobic", count: 0 },
     { name: "localist", count: 0 },
     { name: "mental-health", count: 0 },
     { name: "misandristic", count: 0 },
+    { name: "non-believers", count: 0 },
     { name: "prostitution", count: 0 },
     { name: "regionalist", count: 0 },
-    { name: "sectarian", count: 0 }
+    { name: "religious-minorities", count: 0 },
+    { name: "religious-populism", count: 0 },
+    { name: "sectarian", count: 0 },
+    { name: "sikhophobia", count: 0 }
   ],
   sourceBreakdown: [
-    { name: "goodboy", count: 679 },
-    { name: "silent_signals", count: 475 },
-    { name: "adl", count: 90 },
+    { name: "goodboy", count: 812 },
+    { name: "silent_signals", count: 460 },
+    { name: "adl", count: 85 },
     { name: "swu", count: 81 },
     { name: "wiki", count: 1 },
+    { name: "aos", count: 0 },
+    { name: "citg", count: 0 },
     { name: "wsp", count: 0 }
   ],
   terms: [
+    {
+      root: "Women belong in the kitchen",
+      variations: [
+        "Woman belongs in the kitchen",
+        "Woman's place is in the kitchen",
+        "Get back in the kitchen",
+        "Go back to the kitchen",
+        "Make me a sandwich",
+        "Go to the kitchen and make me a sandwich",
+        "Get back in the kitchen and make me a sandwich"
+      ],
+      category: "misogynistic",
+      definition: "A woman's primary role is domestic or subservient",
+      source: "goodboy"
+    },
+    {
+      root: "M-she-U",
+      variations: [],
+      category: "misogynistic",
+      definition: "Opposition to women's visibility in media, specifically the Marvel Cinematic Universe",
+      source: "goodboy"
+    },
+    {
+      root: "Some, I assume, are good people",
+      variations: [],
+      category: "xenophobic",
+      definition: "Sarcastic remark about an out-group, implying that said \"good people\" are so rare the speaker has never met them",
+      source: "goodboy"
+    },
+    {
+      root: "Have you tried being normal?",
+      variations: [
+        "Have you tried acting normal?",
+        "Have you tried not being",
+        "Have you tried just not being",
+        "Have you tried stopping being",
+        "Why don't you just not be",
+        "Maybe stop being",
+        "Have you tried choosing not to be",
+        "Have you tried choosing not being",
+        "Just stop being"
+      ],
+      category: "emotional-dismissal",
+      definition: "Tactic used to make out that person's identity, condition, or experience is voluntary or trivial, and can simply be \"stopped\" through willpower — minimizing the legitimacy of their lived reality",
+      source: "goodboy"
+    },
+    {
+      root: "HH",
+      variations: [
+        "Heil Hitler",
+        "88"
+      ],
+      category: "fascist",
+      definition: "\"Heil Hitler\"",
+      source: "goodboy"
+    },
+    {
+      root: "Diktat",
+      variations: [],
+      category: "fascist",
+      definition: "An imposed order or decree — usually harsh, non-negotiable, and handed down by an authority. Because of its historical usage (e.g., Treaty of Versailles framed as a Versailles Diktat” by Nazis), it now frequently serves as coded authoritarian or populist signalling",
+      source: "goodboy"
+    },
+    {
+      root: "National Socialist Party",
+      variations: [
+        "National Socialist",
+        "National Socialism",
+        "Nat Soc",
+        "NS ideology",
+        "NS value",
+        "NS comrade",
+        "NS revival",
+        "NS movement",
+        "NSDAP",
+        "Nationalsozialistische Deutsche Arbeiterpartei",
+        "Nationalsozialistische"
+      ],
+      category: "fascist",
+      definition: "Nazi",
+      source: "goodboy"
+    },
+    {
+      root: "Exclusively to the German people",
+      variations: [
+        "Exclusively to German",
+        "Exclusively to the German",
+        "Exclusively German"
+      ],
+      category: "nationalist",
+      definition: "Belonging or pertaining to one identity only",
+      source: "goodboy",
+      categoryMode: "dynamic",
+      placesFound: [],
+      demonymsFound: [
+        {
+          demonym: "German",
+          place: "Germany"
+        }
+      ]
+    },
+    {
+      root: "Alien race",
+      variations: [
+        "Parasitic race",
+        "Parasitic people",
+        "Alien element"
+      ],
+      category: "dehumanisation",
+      definition: "This group is biologically or culturally incompatible with the nation",
+      source: "goodboy"
+    },
+    {
+      root: "Hit the wall",
+      variations: [
+        "Wall-hitting",
+        "Wall age",
+        "Menopause marker"
+      ],
+      category: "ageist",
+      definition: "Women lose social, sexual, or economic value after menopause",
+      source: "goodboy"
+    },
+    {
+      root: "Religion of Peace",
+      variations: [
+        "So-called religion of peace",
+        "ROP",
+        "Peaceful culture, btw"
+      ],
+      category: "islamophobic",
+      definition: "Islam, used sarcastically to imply that Islam is inherently violent, backward, or responsible for terrorism, while pretending to compliment it",
+      source: "goodboy"
+    },
+    {
+      root: "Crisis actor",
+      variations: [
+        "False flag actor",
+        "Scripted witness",
+        "Scripted witnesses",
+        "Fake victims",
+        "Professional mourners"
+      ],
+      category: "conspiracy",
+      definition: "Victims, survivors, or their families are actors hired to manipulate public perception by faking an event or their reaction to it",
+      source: "goodboy"
+    },
+    {
+      root: "Paid protestor",
+      variations: [
+        "Paid activists"
+      ],
+      category: "conspiracy",
+      definition: "Protestors are not genuine, this protest was manufactured by a hidden element",
+      source: "goodboy"
+    },
     {
       root: "Touch of the tar brush",
       variations: [],
@@ -61,7 +224,7 @@ const GOODBOY_DATA = {
       root: "Stop sign emoji",
       variations: [
         "Stop emoji",
-        "🛑",
+        "🛑"
       ],
       category: "anti-liberal",
       definition: "Signals anti-woke / anti-PC ideology",
@@ -396,13 +559,13 @@ const GOODBOY_DATA = {
         "Reproduce if you can't afford it",
         "Reproduce if they can't afford it",
         "Don't have kids you can't afford",
-        "Don’t have kids if you're on welfare",
+        "Don't have kids if you're on welfare",
         "Don't have children you can't afford",
-        "Don’t have babies you can’t afford",
-        "Having kids you can’t afford",
-        "People having kids they can’t afford",
-        "Stop having kids you can’t afford",
-        "Stop having babies you can’t afford",
+        "Don't have babies you can't afford",
+        "Having kids you can't afford",
+        "People having kids they can't afford",
+        "Stop having kids you can't afford",
+        "Stop having babies you can't afford",
         "Irresponsible baby making",
         "Irresponsible reproduction on welfare",
         "Breeding on welfare",
@@ -414,10 +577,10 @@ const GOODBOY_DATA = {
         "Stop making babies on welfare",
         "No more babies on welfare",
         "No more kids on welfare",
-        "If you can’t afford kids, don’t have them",
-        "If they can’t afford kids, they shouldn’t have them",
-        "If you can’t pay for kids, don’t have them",
-        "If they can’t pay for kids, they shouldn’t have them",
+        "If you can't afford kids, don't have them",
+        "If they can't afford kids, they shouldn't have them",
+        "If you can't pay for kids, don't have them",
+        "If they can't pay for kids, they shouldn't have them",
         "Living on welfare and having kids",
         "On welfare but still having kids",
         "Breeding while on welfare",
@@ -437,11 +600,10 @@ const GOODBOY_DATA = {
       variations: [
         "Take care of our own",
         "Help our own first",
-        "Prioritize our own",
-        "Prioritise our own"
+        "Prioritize our own"
       ],
       category: "nationalist",
-      definition: "We should exclude immigrants, minorities and “outsiders”. Our resources should be reserved for the in-group",
+      definition: "We should exclude immigrants, minorities and \"outsiders\". Our resources should be reserved for the in-group",
       source: "goodboy"
     },
     {
@@ -590,9 +752,7 @@ const GOODBOY_DATA = {
       variations: [
         "My honor is loyalty",
         "My honor is called loyalty",
-        "Unser ehre heisst treue",
-        "My honour is loyalty",
-        "My honour is called loyalty"
+        "Unser ehre heisst treue"
       ],
       category: "fascist",
       definition: "A motto of the Waffen SS in Nazi Germany",
@@ -757,9 +917,11 @@ const GOODBOY_DATA = {
     },
     {
       root: "ACAB",
-      variations: [],
+      variations: [
+        "1312"
+      ],
       category: "white-supremacist",
-      definition: "“All Cops Are Bastards” and is a slogan of long standing in the skinhead subculture. Because non-racist skinheads may use this acronym as well as racist skinheads, it should be carefully judged in the context in which it appears",
+      definition: "\"All Cops Are Bastards\" and is a slogan of long standing in the skinhead subculture. Because non-racist skinheads may use this acronym as well as racist skinheads, it should be carefully judged in the context in which it appears",
       source: "adl"
     },
     {
@@ -768,21 +930,21 @@ const GOODBOY_DATA = {
         "9 percent"
       ],
       category: "white-supremacist",
-      definition: "9% is a numeric white supremacist symbol that refers to the percentage of the world’s population that is purportedly white.s",
+      definition: "9% is a numeric white supremacist symbol that refers to the percentage of the world's population that is purportedly white.s",
       source: "adl"
     },
     {
       root: "83",
       variations: [],
       category: "white-supremacist",
-      definition: "83 is a white supremacist numeric symbol standing for “Heil Christ” or California-based white supremacist gang present on California’s streets and in its prisons. The numbers 737 correspond to the letters P, D, and S on a telephone keypad; the initials PDS stand for Peni Death Squad, another name for the group",
+      definition: "83 is a white supremacist numeric symbol standing for \"Heil Christ\" or California-based white supremacist gang present on California's streets and in its prisons. The numbers 737 correspond to the letters P, D, and S on a telephone keypad; the initials PDS stand for Peni Death Squad, another name for the group",
       source: "adl"
     },
     {
       root: "737",
       variations: [],
       category: "white-supremacist",
-      definition: "The number 737 is a numeric symbol used by Public Enemy Number 1 (PENI), a California-based white supremacist gang present on California’s streets and in its prisons. The numbers 737 correspond to the letters P, D, and S on a telephone keypad; the initials PDS stand for Peni Death Squad, another name for the group",
+      definition: "The number 737 is a numeric symbol used by Public Enemy Number 1 (PENI), a California-based white supremacist gang present on California's streets and in its prisons. The numbers 737 correspond to the letters P, D, and S on a telephone keypad; the initials PDS stand for Peni Death Squad, another name for the group",
       source: "goodboy"
     },
     {
@@ -803,16 +965,14 @@ const GOODBOY_DATA = {
       root: "38",
       variations: [],
       category: "white-supremacist",
-      definition: "The number 38 is used as a numeric symbol by members of the Hammerskins, a racist skinhead group. Substituting letters for numbers, 38 stands for CH or “Crossed Hammers,” a reference to the crossed hammers of the group’s logo",
+      definition: "The number 38 is used as a numeric symbol by members of the Hammerskins, a racist skinhead group. Substituting letters for numbers, 38 stands for CH or \"Crossed Hammers\", a reference to the crossed hammers of the group's logo",
       source: "adl"
     },
     {
       root: "33/6",
-      variations: [
-        "33 6"
-      ],
+      variations: [],
       category: "white-supremacist",
-      definition: "Used by Ku Klux Klan adherents to signify the Ku Klux Klan: since the 11th letter of the alphabet is K, three Ks signify “KKK” or the Ku Klux Klan. Klan members will frequently follow this with the number 6, to indicate the historical “era” of the Klan they think the Klan currently is in",
+      definition: "Used by Ku Klux Klan adherents to signify the Ku Klux Klan: since the 11th letter of the alphabet is K, three Ks signify \"KKK\" or the Ku Klux Klan. Klan members will frequently follow this with the number 6, to indicate the historical \"era\" of the Klan they think the Klan currently is in",
       source: "adl"
     },
     {
@@ -828,14 +988,12 @@ const GOODBOY_DATA = {
       root: "311",
       variations: [],
       category: "white-supremacist",
-      definition: "Ku Klux Klan. The eleventh letter of the alphabet is the “K”; thus 3 times 11 equals “KKK,”",
+      definition: "Ku Klux Klan. The eleventh letter of the alphabet is the \"K\"; thus 3 times 11 equals \"KKK\"",
       source: "adl"
     },
     {
       root: "23/16",
-      variations: [
-        "23 16"
-      ],
+      variations: [],
       category: "white-supremacist",
       definition: "White Power numerical symbol",
       source: "adl"
@@ -860,10 +1018,7 @@ const GOODBOY_DATA = {
     },
     {
       root: "23",
-      variations: [
-        "14/23",
-        "1423"
-      ],
+      variations: [],
       category: "white-supremacist",
       definition: "Reference to the \"23 precepts\", a list of rules that Southern Brotherhood members must follow, or a numeric symbol for the letter W (white)",
       source: "adl"
@@ -1005,7 +1160,7 @@ const GOODBOY_DATA = {
         "Highly skilled professionals"
       ],
       category: "xenophobic",
-      definition: "Used ironically in anti-immigrant or white nationalist discourse to signal skepticism of elite migrants or “skilled immigrants,” implying they’re undesirable despite credentials",
+      definition: "Used ironically in anti-immigrant or white nationalist discourse to signal skepticism of elite migrants or \"skilled immigrants\", implying they're undesirable despite credentials",
       source: "goodboy"
     },
     {
@@ -1039,9 +1194,7 @@ const GOODBOY_DATA = {
     },
     {
       root: "Westernkind",
-      variations: [
-        "Western kind"
-      ],
+      variations: [],
       category: "fascist",
       definition: "White people or western racial identity",
       source: "goodboy"
@@ -1093,7 +1246,7 @@ const GOODBOY_DATA = {
         "Ray Peat"
       ],
       category: "fascist",
-      definition: "Bio/nutrition figure co-opted in far-right spaces for his metabolic / hormone ideas; often cited to signal “right-wing biology” interest",
+      definition: "Bio/nutrition figure co-opted in far-right spaces for his metabolic / hormone ideas; often cited to signal \"right-wing biology\" interest",
       source: "goodboy"
     },
     {
@@ -1103,7 +1256,7 @@ const GOODBOY_DATA = {
         "Raw milk"
       ],
       category: "fascist",
-      definition: "A symbolic marker of alt-right / far-right persona, signaling adherence to “vitalist” or pseudo-scientific physical ideals",
+      definition: "A symbolic marker of alt-right / far-right persona, signaling adherence to \"vitalist\" or pseudo-scientific physical ideals",
       source: "goodboy"
     },
     {
@@ -1122,7 +1275,7 @@ const GOODBOY_DATA = {
         "Culturally pozzed"
       ],
       category: "anti-liberal",
-      definition: "Originally HIV-positive shorthand; in alt-right usage, refers to influence of diversity, “wokeness,” or political correctness",
+      definition: "Originally HIV-positive shorthand; in alt-right usage, refers to influence of diversity, \"wokeness\", or political correctness",
       source: "goodboy"
     },
     {
@@ -1145,7 +1298,7 @@ const GOODBOY_DATA = {
         "Looks determine character",
         "Physiognomic"
       ],
-      category: "psuedoscience",
+      category: "racist",
       definition: "Treating facial/body traits as determinative of character; used in alt-right spaces to justify racial or hierarchical beliefs",
       source: "goodboy"
     },
@@ -1179,7 +1332,6 @@ const GOODBOY_DATA = {
     {
       root: "Latinx",
       variations: [
-        "Latin X",
         "Latine"
       ],
       category: "racist",
@@ -1214,7 +1366,7 @@ const GOODBOY_DATA = {
         "Hyperborean race"
       ],
       category: "fascist",
-      definition: "Mythical land in Nazi mythology, purported origin of “true Aryans”",
+      definition: "Mythical land in Nazi mythology, purported origin of \"true Aryans\"",
       source: "goodboy"
     },
     {
@@ -1224,7 +1376,7 @@ const GOODBOY_DATA = {
         "Fiume spirit"
       ],
       category: "fascist",
-      definition: "Reference to the Free State of Fiume (1920–1924) and Gabriele D’Annunzio’s fascist-led coup; signaling admiration for early Italian fascism",
+      definition: "Reference to the Free State of Fiume (1920–1924) and Gabriele D'Annunzio's fascist-led coup; signaling admiration for early Italian fascism",
       source: "goodboy"
     },
     {
@@ -1239,10 +1391,8 @@ const GOODBOY_DATA = {
       source: "goodboy"
     },
     {
-      root: "Samizdat",
-      variations: [
-        "Samiz dat"
-      ],
+      root: "Samiz dat",
+      variations: [],
       category: "fascist",
       definition: "Underground Soviet publishing, signals sharing of \"hidden / forbidden\" radical content",
       source: "goodboy"
@@ -1250,7 +1400,6 @@ const GOODBOY_DATA = {
     {
       root: "Bioleninism",
       variations: [
-        "Bio Leninism",
         "Boi Leninist",
         "Bio Lenin"
       ],
@@ -1407,17 +1556,71 @@ const GOODBOY_DATA = {
         "Plague of immigrants",
         "Migrant plague",
         "Refugee invasion",
-        "They’re coming for us",
+        "They're coming for us",
         "Our country is being invaded",
         "Flood of immigrants",
         "Invasion by foreigners",
         "Not in a position to take in",
         "Aren't in a position to take in",
         "Not in the position to take in",
-        "Aren't in the position to take in"
+        "Aren't in the position to take in",
+        "Hordes on our shores",
+        "Waves of migrants",
+        "Swarms of migrants",
+        "Swarms on our shores",
+        "Swarms crossing the channel",
+        "A human tidal wave",
+        "Tsunami of migrants",
+        "Overrun by migrants",
+        "Overflowing with refugees",
+        "Flooded by foreigners",
+        "Storming our borders",
+        "Storming across the border",
+        "Breaching the border",
+        "Stampede of migrants",
+        "Endless stream of migrants",
+        "Masses at the border",
+        "Millions pouring in",
+        "Millions flooding in",
+        "They're pouring in",
+        "They're flooding in",
+        "Our borders are collapsing",
+        "Border under siege",
+        "Country under siege",
+        "Under migrant siege",
+        "Being overrun",
+        "Being replaced by migrants",
+        "Outnumbered in our own country",
+        "They're taking over",
+        "Unvetted hordes",
+        "Third-world hordes",
+        "Channel invaders",
+        "Foreign influx",
+        "Uncontrolled influx",
+        "Dangerous influx",
+        "Refugee tidal wave",
+        "Invasion by stealth",
+        "Taking over the country",
+        "Overrunning the country",
+        "Overrunning this country",
+        "Overrunning our country",
+        "Overrun the country",
+        "Overrun this country",
+        "Overrun our country",
+        "They're not sending their best",
+        "They're sending their worst",
+        "They're bringing drugs",
+        "They're bringing in drugs",
+        "They bring drugs",
+        "They're bringing crime",
+        "They bring crime",
+        "They're sending their criminals",
+        "They're sending us their criminals",
+        "They're sending gang members",
+        "They're sending gangs"
       ],
       category: "xenophobic",
-      definition: "Immigration (or asylum‑seeking) is a societal or national crisis — portraying migrants/refugees as a threat, burden, or source of social breakdown",
+      definition: "Immigration (or asylum‑seeking) is a societal or national crisis — portraying migrants/refugees as a threat, burden, or destabilising force",
       source: "goodboy"
     },
     {
@@ -1480,12 +1683,12 @@ const GOODBOY_DATA = {
         "Kebab remover",
         "Turk remover",
         "Karadžić, lead your serb",
-        "Boom boom boom",
+        "Boom, boom, boom",
         "Accordion guy",
         "Accordion nationalist"
       ],
       category: "islamophobic",
-      definition: "Title / lyrics from a 1990s Serbian nationalist song (“Remove Kebab”) created during the Yugoslav Wars",
+      definition: "Title / lyrics from a 1990s Serbian nationalist song (\"Remove Kebab\") created during the Yugoslav Wars",
       categoryMode: "original",
       placesFound: [
         {
@@ -1586,7 +1789,8 @@ const GOODBOY_DATA = {
       variations: [
         "America not globalism",
         "Americanism vs globalism",
-        "Anti globalist america"
+        "Anti globalist america",
+        "American not globalism"
       ],
       category: "nationalist",
       definition: "Foreign influence, global institutions or international cooperation are threats",
@@ -1636,14 +1840,13 @@ const GOODBOY_DATA = {
       source: "goodboy"
     },
     {
-      root: "Blood & Honour",
+      root: "Blood & Honor",
       variations: [
         "28",
-        "Blood and Honor",
         "Blut und ehre"
       ],
       category: "white-supremacist",
-      definition: "Blood & Honour, a white supremacist network. (2 = B, 8 = H)",
+      definition: "Blood & Honor, a white supremacist slogan and network",
       source: "goodboy"
     },
     {
@@ -1799,11 +2002,32 @@ const GOODBOY_DATA = {
       root: "Keep England English",
       variations: [
         "England is for the English",
+        "England's for the English",
         "England is for English",
-        "England belongs to the English"
+        "England's for English",
+        "England belongs to the English",
+        "England to the English",
+        "England was and is an English",
+        "England was and is English",
+        "England will forever be English",
+        "England must forever be English",
+        "England will always be an English",
+        "England will always be English",
+        "England must remain English",
+        "England will remain English",
+        "England for English",
+        "England for the English",
+        "England is an English",
+        "England's an English",
+        "England is not an English",
+        "England's not an English",
+        "England's not English",
+        "England is not English",
+        "England's not English anymore",
+        "England is not English anymore"
       ],
-      category: "racist",
-      definition: "This nation belongs only to one ethnically defined 'native' group",
+      category: "nationalist",
+      definition: "This place has and will always belong only to one group",
       source: "goodboy",
       categoryMode: "dynamic",
       placesFound: [
@@ -1905,25 +2129,21 @@ const GOODBOY_DATA = {
       variations: [
         "13",
         "13/50",
-        "1350",
-        "13/52",
-        "1352"
+        "13/52"
       ],
       category: "racist",
       definition: "A reference to the false statistic that African Americans are only 13% of the US population but commit a disproportionate number of violent crimes. Also used by the Aryan Circle, a Texas-based prison gang",
       source: "silent_signals"
     },
     {
-      root: "1488",
+      root: "14",
       variations: [
         "14 words",
-        "14/88",
-        "88",
-        "Hh"
+        "We must secure the existence of our people and a future for white children"
       ],
       category: "white-supremacist",
-      definition: "The 14 Words by white supremacist David Lane and the number 88, or HH, as code for Heil Hitler",
-      source: "silent_signals"
+      definition: "\"The 14 Words\" by white supremacist David Lane",
+      source: "goodboy"
     },
     {
       root: "41%",
@@ -2423,7 +2643,11 @@ const GOODBOY_DATA = {
       root: "Central banker",
       variations: [
         "International banker",
-        "International bank"
+        "International bank",
+        "Jewish banker",
+        "Jewish bank",
+        "Jewish financier",
+        "Jew finance"
       ],
       category: "antisemitic",
       definition: "Jewish people who control all the money",
@@ -2497,7 +2721,7 @@ const GOODBOY_DATA = {
     {
       root: "COIN",
       variations: [
-        "Co opting intersex narratives",
+        "Co-opting intersex narratives",
         "COINing"
       ],
       category: "transphobic",
@@ -2577,7 +2801,9 @@ const GOODBOY_DATA = {
     {
       root: "Cultural Marxism",
       variations: [
+        "Marxization",
         "Cultural Bolshevism",
+        "Bolshevization",
         "Marxist agenda",
         "Woke marxist",
         "Marxist indoctrination"
@@ -2863,19 +3089,12 @@ const GOODBOY_DATA = {
     {
       root: "Gender socialization",
       variations: [
-        "Gender socialisation",
         "Female socialization",
-        "Female socialisation",
         "Male socialization",
-        "Male socialisation",
         "Socialized as female",
         "Socialized as male",
-        "Socialised as female",
-        "Socialised as male",
         "Socialized female",
-        "Socialized male",
-        "Socialised female",
-        "Socialised male"
+        "Socialized male"
       ],
       category: "transphobic",
       definition: "Trans men will always be women, and trans women will always be men",
@@ -2994,22 +3213,20 @@ const GOODBOY_DATA = {
     {
       root: "Hard working American",
       variations: [],
-      category: "racist",
-      definition: "Depending on the context, can be used in a way that implies a racial hierarchy or nationalist/localist exclusion",
+      category: "nationalist",
+      definition: "Depending on the context, can be used in a way that implies a racial hierarchy or exclusion according to identity",
       source: "silent_signals",
       categoryMode: "dynamic",
       demonymsFound: [
         {
-          demonym: "american",
+          demonym: "American",
           place: "America"
         }
       ]
     },
     {
       root: "He wuz a good boy",
-      variations: [
-        "He was a good boy"
-      ],
+      variations: [],
       category: "racist",
       definition: "Black people are unintelligent and/or criminals",
       source: "silent_signals"
@@ -3180,7 +3397,7 @@ const GOODBOY_DATA = {
       variations: [],
       category: "antisemitic",
       definition: "Jews control US politics",
-      categoryMode: "antisemitic",
+      categoryMode: "original",
       source: "silent_signals"
     },
     {
@@ -3277,7 +3494,7 @@ const GOODBOY_DATA = {
     {
       root: "Lesbian erasure",
       variations: [
-        "Erasing lesbians"
+        "Erasing lesbian"
       ],
       category: "transphobic",
       definition: "Trans people are threatening cis lesbians",
@@ -3339,7 +3556,7 @@ const GOODBOY_DATA = {
     {
       root: "MAGA",
       variations: [
-        "Make america great again"
+        "Make America Great Again"
       ],
       category: "nationalist",
       definition: "A form of nationalism/localism that has been linked to racist ideologies",
@@ -3417,10 +3634,9 @@ const GOODBOY_DATA = {
       root: "Multiculturalism",
       variations: [
         "Multi kulti",
-        "Multi culti",
-        "Multi cultural",
-        "Multi culturalism",
-        "Multi culturalist"
+        "Multiculti",
+        "Multicultural",
+        "Multiculturalist"
       ],
       category: "islamophobic",
       definition: "Too many Muslims",
@@ -3513,7 +3729,7 @@ const GOODBOY_DATA = {
       variations: [],
       category: "antisemitic",
       definition: "Jews are pushing for immigration to ruin other countries except for Israel",
-      categoryMode: "antisemitic",
+      categoryMode: "original",
       source: "silent_signals"
     },
     {
@@ -3929,9 +4145,7 @@ const GOODBOY_DATA = {
     {
       root: "Soy boy",
       variations: [
-        "Soy",
-        "Soy boi",
-        "Soi boi"
+        "Soy"
       ],
       category: "anti-liberal",
       definition: "Liberal or establishment Republican men",
@@ -4008,7 +4222,7 @@ const GOODBOY_DATA = {
         "Reclaim the country"
       ],
       category: "nationalist",
-      definition: "Migrants, refugees, or minority communities have “taken over,” and that “true” country should be reclaimed for (implicitly) the native or majority population.",
+      definition: "Migrants, refugees, or minority communities have \"taken over\" and that \"true\" country should be reclaimed for (implicitly) the native or majority population.",
       source: "swu"
     },
     {
@@ -4018,7 +4232,7 @@ const GOODBOY_DATA = {
         "Shut it down"
       ],
       category: "antisemitic",
-      definition: "“The Goyim Know” is an anti-Semitic phrase portraying the ostensible reaction of Jews when their supposedly conspiratorial or manipulative misdeeds are revealed to the public. Often combined with “Shut It Down.”",
+      definition: "\"The Goyim Know\" is an anti-Semitic phrase portraying the ostensible reaction of Jews when their supposedly conspiratorial or manipulative misdeeds are revealed to the public. Often combined with \"Shut It Down\"",
       source: "goodboy"
     },
     {
@@ -4217,10 +4431,7 @@ const GOODBOY_DATA = {
       root: "We wuz kangz",
       variations: [
         "We wuz kangs",
-        "We wuz kings",
-        "We wus kangs",
-        "We wus kangz",
-        "We wus kings"
+        "We wuz kings"
       ],
       category: "racist",
       definition: "Mocks claims of black nationalism by using mock AAVE",

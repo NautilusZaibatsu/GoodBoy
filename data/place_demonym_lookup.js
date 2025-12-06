@@ -1,5 +1,5 @@
 /**
- * GoodBoy Unified Place-Demonym Lookup
+ * GoodBoy Place-Demonym Lookup
  */
 
 const PLACE_DEMONYM_LOOKUP = {
@@ -249,10 +249,10 @@ const PLACE_DEMONYM_LOOKUP = {
       "canonical": "Lombardy",
       "variants": ["Lombardy",
         "Lombardia"],
-      "demonyms": ["lombardyian",
-        "lombardo",
-        "lombarda",
-        "lombard"],
+      "demonyms": ["Lombardyian",
+        "Lombardo",
+        "Lombarda",
+        "Lombard"],
       "type": "country",
       "partOf": ["italy"]
     },
@@ -260,7 +260,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "canonical": "Valencia",
       "variants": ["Valencia",
         "València"],
-      "demonyms": ["valencian"],
+      "demonyms": ["Valencian"],
       "type": "country",
       "partOf": ["spain"]
     },
@@ -268,7 +268,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "canonical": "Scania",
       "variants": ["Scania",
         "Skåne"],
-      "demonyms": ["scanian"],
+      "demonyms": ["Scanian"],
       "type": "region",
       "partOf": ["sweden"]
     },
@@ -276,96 +276,96 @@ const PLACE_DEMONYM_LOOKUP = {
       "canonical": "Pacific Northwest",
       "variants": ["Pacific Northwest",
         "PNW"],
-      "demonyms": ["pacific Nothwestener"],
+      "demonyms": ["Pacific Nothwestener"],
       "type": "region",
       "partOf": ["united_states", "canada"],
     },
     "afghanistan": {
       "canonical": "Afghanistan",
       "variants": ["Afghanistan"],
-      "demonyms": ["afghan",
-        "pashtun",
-        "tajik",
-        "hazara"],
+      "demonyms": ["Afghan",
+        "Pashtun",
+        "Tajik",
+        "Hazara"],
       "type": "country",
     "partOf": ["asia", "middle_east"]
     },
     "albania": {
       "canonical": "Albania",
       "variants": ["Albania"],
-      "demonyms": ["albanian"],
+      "demonyms": ["Albanian"],
       "type": "country",
         "partOf": ["europe", "balkans"]
     },
     "algeria": {
       "canonical": "Algeria",
       "variants": ["Algeria"],
-      "demonyms": ["algerian"],
+      "demonyms": ["Algerian"],
       "type": "country",
     "partOf": ["africa", "maghreb"]
     },
     "andorra": {
       "canonical": "Andorra",
       "variants": ["Andorra"],
-      "demonyms": ["andorran"],
+      "demonyms": ["Andorran"],
       "type": "country",
     "partOf": ["europe", "iberia"]
     },
     "angola": {
       "canonical": "Angola",
       "variants": ["Angola"],
-      "demonyms": ["angolan"],
+      "demonyms": ["Angolan"],
       "type": "country",
     "partOf": ["africa"]
     },
     "antigua_and_barbuda": {
       "canonical": "Antigua and Barbuda",
       "variants": ["Antigua and Barbuda"],
-      "demonyms": ["antiguan",
-        "barbudan"],
+      "demonyms": ["Antiguan",
+        "Barbudan"],
       "type": "country",
         "partOf": ["caribbean", "north_america"]
     },
     "argentina": {
       "canonical": "Argentina",
       "variants": ["Argentina"],
-      "demonyms": ["argentinan"],
+      "demonyms": ["Argentinan"],
       "type": "country",
     "partOf": ["south_america"]
     },
     "armenia": {
       "canonical": "Armenia",
       "variants": ["Armenia"],
-      "demonyms": ["armenian"],
+      "demonyms": ["Armenian"],
       "type": "country",
     "partOf": ["asia", "caucasus"]
     },
     "australia": {
       "canonical": "Australia",
       "variants": ["Australia", "Straya", "Oz"],
-      "demonyms": ["australian", "aussie"],
+      "demonyms": ["Australian", "Aussie"],
       "type": "country",
     "partOf": ["oceania", "asia"]
     },
     "austria": {
       "canonical": "Austria",
       "variants": ["Austria"],
-      "demonyms": ["austrian"],
+      "demonyms": ["Austrian"],
       "type": "country",
     "partOf": ["europe"]
     },
     "azerbaijan": {
       "canonical": "Azerbaijan",
       "variants": ["Azerbaijan"],
-      "demonyms": ["azerbaijani",
-        "azeri"],
+      "demonyms": ["Azerbaijani",
+        "Azeri"],
       "type": "country",
             "partOf": ["caucasus", "europe", "asia"]
     },
     "bahamas": {
       "canonical": "Bahamas",
       "variants": ["Bahamas"],
-      "demonyms": ["bahamian",
+      "demonyms": ["Bahamian",
       ],
       "type": "country",
         "partOf": ["caribbean", "north_america"]
@@ -373,465 +373,465 @@ const PLACE_DEMONYM_LOOKUP = {
     "bahrain": {
       "canonical": "Bahrain",
       "variants": ["Bahrain"],
-      "demonyms": ["bahraini"],
+      "demonyms": ["Bahraini"],
       "type": "country",
     "partOf": ["asia", "middle_east"]
     },
     "bangladesh": {
       "canonical": "Bangladesh",
       "variants": ["Bangladesh"],
-      "demonyms": ["bangladeshi"],
+      "demonyms": ["Bangladeshi"],
       "type": "country",
     "partOf": ["asia"]
     },
     "barbados": {
       "canonical": "Barbados",
       "variants": ["Barbados"],
-      "demonyms": ["barbadodian",
-        "bajan"],
+      "demonyms": ["Barbadodian",
+        "Bajan"],
       "type": "country",
         "partOf": ["caribbean", "north_america"]
     },
     "belarus": {
       "canonical": "Belarus",
       "variants": ["Belarus"],
-      "demonyms": ["belarusian"],
+      "demonyms": ["Belarusian"],
       "type": "country",
     "partOf": ["europe"]
     },
     "belgium": {
       "canonical": "Belgium",
       "variants": ["Belgium"],
-      "demonyms": ["belgian"],
+      "demonyms": ["Belgian"],
       "type": "country",
     "partOf": ["europe"]
     },
     "belize": {
       "canonical": "Belize",
       "variants": ["Belize"],
-      "demonyms": ["belizeian"],
+      "demonyms": ["Belizeian"],
       "type": "country",
     "partOf": ["north_america"]
     },
     "benin": {
       "canonical": "Benin",
       "variants": ["Benin"],
-      "demonyms": ["beninese",
-        "beninois"],
+      "demonyms": ["Beninese",
+        "Beninois"],
       "type": "country",
     "partOf": ["africa"]
     },
     "bhutan": {
       "canonical": "Bhutan",
       "variants": ["Bhutan"],
-      "demonyms": ["bhutanese"],
+      "demonyms": ["Bhutanese"],
       "type": "country",
     "partOf": ["asia"]
     },
     "bolivia": {
       "canonical": "Bolivia",
       "variants": ["Bolivia"],
-      "demonyms": ["bolivian"],
+      "demonyms": ["Bolivian"],
       "type": "country",
     "partOf": ["south_america"]
     },
     "bosnia_and_herzegovina": {
       "canonical": "Bosnia and Herzegovina",
       "variants": ["Bosnia and Herzegovina"],
-      "demonyms": ["bosnian",
-        "herzegovinian"],
+      "demonyms": ["Bosnian",
+        "Herzegovinian"],
       "type": "country",
         "partOf": ["balkans", "europe"]
     },
     "botswana": {
       "canonical": "Botswana",
       "variants": ["Botswana"],
-      "demonyms": ["batswana",
-        "motswana"],
+      "demonyms": ["Batswana",
+        "Motswana"],
       "type": "country",
     "partOf": ["africa"]
     },
     "brazil": {
       "canonical": "Brazil",
       "variants": ["Brazil"],
-      "demonyms": ["brazilian"],
+      "demonyms": ["Brazilian"],
       "type": "country",
     "partOf": ["south_america"]
     },
     "brunei": {
       "canonical": "Brunei",
       "variants": ["Brunei"],
-      "demonyms": ["bruneian"],
+      "demonyms": ["Bruneian"],
       "type": "country",
     "partOf": ["asia", "oceania"]
     },
     "bulgaria": {
       "canonical": "Bulgaria",
       "variants": ["Bulgaria"],
-      "demonyms": ["bulgarian"],
+      "demonyms": ["Bulgarian"],
       "type": "country",
     "partOf": ["europe", "balkans"]
     },
     "burkina_faso": {
       "canonical": "Burkina Faso",
       "variants": ["Burkina Faso"],
-      "demonyms": ["burkinabes"],
+      "demonyms": ["Burkinabes"],
       "type": "country",
     "partOf": ["africa", "sahel"]
     },
     "burundi": {
       "canonical": "Burundi",
       "variants": ["Burundi"],
-      "demonyms": ["burundian",
-        "barundi"],
+      "demonyms": ["Burundian",
+        "Barundi"],
       "type": "country",
     "partOf": ["africa"]
     },
     "cabo_verde": {
       "canonical": "Cabo Verde",
       "variants": ["Cabo Verde", "Cape Verde"],
-      "demonyms": ["cabo verdean"],
+      "demonyms": ["Cabo verdean"],
       "type": "country",
     "partOf": ["africa"]
     },
     "cambodia": {
       "canonical": "Cambodia",
       "variants": ["Cambodia"],
-      "demonyms": ["cambodian"],
+      "demonyms": ["Cambodian"],
       "type": "country",
     "partOf": ["asia"]
     },
     "cameroon": {
       "canonical": "Cameroon",
       "variants": ["Cameroon"],
-      "demonyms": ["cameroonian"],
+      "demonyms": ["Cameroonian"],
       "type": "country",
     "partOf": ["africa"]
     },
     "canada": {
       "canonical": "Canada",
       "variants": ["Canada"],
-      "demonyms": ["canadian",
-        "canuck"],
+      "demonyms": ["Canadian",
+        "Canuck"],
       "type": "country",
     "partOf": ["north_america"]
     },
     "central_african_republic": {
       "canonical": "Central African Republic",
       "variants": ["Central African Republic"],
-      "demonyms": ["central african"],
+      "demonyms": ["Central african"],
       "type": "country",
     "partOf": ["africa"]
     },
     "chad": {
       "canonical": "Chad",
       "variants": ["Chad"],
-      "demonyms": ["chadian"],
+      "demonyms": ["Chadian"],
       "type": "country",
     "partOf": ["africa"]
     },
     "chile": {
       "canonical": "Chile",
       "variants": ["Chile"],
-      "demonyms": ["chilean"],
+      "demonyms": ["Chilean"],
       "type": "country",
     "partOf": ["south_america"]
     },
     "china": {
       "canonical": "China",
       "variants": ["China"],
-      "demonyms": ["chinese",
-        "han"],
+      "demonyms": ["Chinese",
+        "Han"],
       "type": "country",
     "partOf": ["asia"]
     },
     "colombia": {
       "canonical": "Colombia",
       "variants": ["Colombia"],
-      "demonyms": ["colombian"],
+      "demonyms": ["Colombian"],
       "type": "country",
     "partOf": ["south_america"]
     },
     "comoros": {
       "canonical": "Comoros",
       "variants": ["Comoros"],
-      "demonyms": ["comoran",
-        "comorian"],
+      "demonyms": ["Comoran",
+        "Comorian"],
       "type": "country",
     "partOf": ["africa"]
     },
     "congo": {
       "canonical": "Congo",
       "variants": ["Congo"],
-      "demonyms": ["congolese"],
+      "demonyms": ["Congolese"],
       "type": "country",
     "partOf": ["africa"]
     },
     "costa_rica": {
       "canonical": "Costa Rica",
       "variants": ["Costa Rica"],
-      "demonyms": ["costa rican"],
+      "demonyms": ["Costa rican"],
       "type": "country",
     "partOf": ["north_america"]
     },
     "croatia": {
       "canonical": "Croatia",
       "variants": ["Croatia"],
-      "demonyms": ["croatian",
-        "croats"],
+      "demonyms": ["Croatian",
+        "Croats"],
       "type": "country",
     "partOf": ["europe", "balkans"]
     },
     "cuba": {
       "canonical": "Cuba",
       "variants": ["Cuba"],
-      "demonyms": ["cuban"],
+      "demonyms": ["Cuban"],
       "type": "country",
     "partOf": ["north_america", "caribbean"]
     },
     "cyprus": {
       "canonical": "Cyprus",
       "variants": ["Cyprus"],
-      "demonyms": ["cypriot"],
+      "demonyms": ["Cypriot"],
       "type": "country",
         "partOf": ["asia", "europe", "levant", "middle_east"]
     },
     "denmark": {
       "canonical": "Denmark",
       "variants": ["Denmark"],
-      "demonyms": ["danish",
-        "dane"],
+      "demonyms": ["Danish",
+        "Dane"],
       "type": "country",
     "partOf": ["europe", "scandanavia"]
     },
     "djibouti": {
       "canonical": "Djibouti",
       "variants": ["Djibouti"],
-      "demonyms": ["djiboutian"],
+      "demonyms": ["Djiboutian"],
       "type": "country",
     "partOf": ["africa"]
     },
     "dominica": {
       "canonical": "Dominica",
       "variants": ["Dominica"],
-      "demonyms": ["dominican"],
+      "demonyms": ["Dominican"],
       "type": "country",
         "partOf": ["caribbean", "north_america"]
     },
     "dominican_republic": {
       "canonical": "Dominican Republic",
       "variants": ["Dominican Republic"],
-      "demonyms": ["dominican"],
+      "demonyms": ["Dominican"],
       "type": "country",
         "partOf": ["caribbean", "north_america"]
     },
     "ecuador": {
       "canonical": "Ecuador",
       "variants": ["Ecuador"],
-      "demonyms": ["ecuadorian"],
+      "demonyms": ["Ecuadorian"],
       "type": "country",
     "partOf": ["south_america"]
     },
     "egypt": {
       "canonical": "Egypt",
       "variants": ["Egypt"],
-      "demonyms": ["egyptian"],
+      "demonyms": ["Egyptian"],
       "type": "country",
     "partOf": ["africa", "middle_east", "asia"]
     },
     "el_salvador": {
       "canonical": "El Salvador",
       "variants": ["El Salvador"],
-      "demonyms": ["salvadoran",
-        "salvadorian",
-        "salvadorean"],
+      "demonyms": ["Salvadoran",
+        "Salvadorian",
+        "Salvadorean"],
       "type": "country",
     "partOf": ["north_america"]
     },
     "equatorial_guinea": {
       "canonical": "Equatorial Guinea",
       "variants": ["Equatorial Guinea"],
-      "demonyms": ["equatorial guinean",
-        "equatoguinean"],
+      "demonyms": ["Equatorial guinean",
+        "Equatoguinean"],
       "type": "country",
     "partOf": ["africa"]
     },
     "eritrea": {
       "canonical": "Eritrea",
       "variants": ["Eritrea"],
-      "demonyms": ["eritrean"],
+      "demonyms": ["Eritrean"],
       "type": "country",
     "partOf": ["africa"]
     },
     "estonia": {
       "canonical": "Estonia",
       "variants": ["Estonia"],
-      "demonyms": ["estonian"],
+      "demonyms": ["Estonian"],
       "type": "country",
     "partOf": ["europe"]
     },
     "ethiopia": {
       "canonical": "Ethiopia",
       "variants": ["Ethiopia"],
-      "demonyms": ["ethiopian",
-        "habesha"],
+      "demonyms": ["Ethiopian",
+        "Habesha"],
       "type": "country",
     "partOf": ["africa"]
     },
     "fiji": {
       "canonical": "Fiji",
       "variants": ["Fiji"],
-      "demonyms": ["fijian"],
+      "demonyms": ["Fijian"],
       "type": "country",
     "partOf": ["oceania", "polynesia"]
     },
     "finland": {
       "canonical": "Finland",
       "variants": ["Finland"],
-      "demonyms": ["finnish",
-        "finn"],
+      "demonyms": ["Finnish",
+        "Finn"],
       "type": "country",
     "partOf": ["europe"]
     },
     "france": {
       "canonical": "France",
       "variants": ["France"],
-      "demonyms": ["french",
-        "francophone",
-        "frenchmen",
-        "frenchwomen"],
+      "demonyms": ["French",
+        "Francophone",
+        "Frenchmen",
+        "Frenchwomen"],
       "type": "country",
     "partOf": ["europe"]
     },
     "gabon": {
       "canonical": "Gabon",
       "variants": ["Gabon"],
-      "demonyms": ["gabonese",
-        "gabonaise"],
+      "demonyms": ["Gabonese",
+        "Gabonaise"],
       "type": "country",
     "partOf": ["africa"]
     },
     "gambia": {
       "canonical": "Gambia",
       "variants": ["Gambia"],
-      "demonyms": ["gambian"],
+      "demonyms": ["Gambian"],
       "type": "country",
     "partOf": ["africa"]
     },
     "georgia_caucasus": {
       "canonical": "Georgia",
       "variants": ["Georgia"],
-      "demonyms": ["georgian"],
+      "demonyms": ["Georgian"],
       "type": "country",
     "partOf": ["europe", "caucasus", "asia"]
     },
     "ghana": {
       "canonical": "Ghana",
       "variants": ["Ghana"],
-      "demonyms": ["ghanaian"],
+      "demonyms": ["Ghanaian"],
       "type": "country",
     "partOf": ["africa"]
     },
     "greece": {
       "canonical": "Greece",
       "variants": ["Greece"],
-      "demonyms": ["greek",
-        "hellene"],
+      "demonyms": ["Greek",
+        "Hellene"],
       "type": "country",
     "partOf": ["europe", "balkans"]
     },
     "grenada": {
       "canonical": "Grenada",
       "variants": ["Grenada"],
-      "demonyms": ["grenadian"],
+      "demonyms": ["Grenadian"],
       "type": "country",
     "partOf": ["north_america", "caribbean"]
     },
     "guatemala": {
       "canonical": "Guatemala",
       "variants": ["Guatemala"],
-      "demonyms": ["guatemalan"],
+      "demonyms": ["Guatemalan"],
       "type": "country",
     "partOf": ["north_america"]
     },
     "guinea": {
       "canonical": "Guinea",
       "variants": ["Guinea"],
-      "demonyms": ["guinean"],
+      "demonyms": ["Guinean"],
       "type": "country",
     "partOf": ["africa"]
     },
     "guineabissau": {
       "canonical": "Guinea-Bissau",
       "variants": ["Guinea-Bissau"],
-      "demonyms": ["bissau-guinean"],
+      "demonyms": ["Bissau-guinean"],
       "type": "country",
     "partOf": ["africa"]
     },
     "guyana": {
       "canonical": "Guyana",
       "variants": ["Guyana"],
-      "demonyms": ["guyanese"],
+      "demonyms": ["Guyanese"],
       "type": "country",
     "partOf": ["south_america"]
     },
     "haiti": {
       "canonical": "Haiti",
       "variants": ["Haiti"],
-      "demonyms": ["haitian"],
+      "demonyms": ["Haitian"],
       "type": "country",
     "partOf": ["north_america", "caribbean"]
     },
     "honduras": {
       "canonical": "Honduras",
       "variants": ["Honduras"],
-      "demonyms": ["honduran"],
+      "demonyms": ["Honduran"],
       "type": "country",
     "partOf": ["north_america"]
     },
     "hungary": {
       "canonical": "Hungary",
       "variants": ["Hungary"],
-      "demonyms": ["hungarian",
-        "magyar"],
+      "demonyms": ["Hungarian",
+        "Magyar"],
       "type": "country",
     "partOf": ["europe"]
     },
     "iceland": {
       "canonical": "Iceland",
       "variants": ["Iceland"],
-      "demonyms": ["icelandic",
-        "icelander"],
+      "demonyms": ["Icelandic",
+        "Icelander"],
       "type": "country",
     "partOf": ["europe", "north_america"]
     },
     "india": {
       "canonical": "India",
       "variants": ["India"],
-      "demonyms": ["indian",
-        "desi"],
+      "demonyms": ["Indian",
+        "Desi"],
       "type": "country",
     "partOf": ["asia"]
     },
     "indonesia": {
       "canonical": "Indonesia",
       "variants": ["Indonesia"],
-      "demonyms": ["indonesian"],
+      "demonyms": ["Indonesian"],
       "type": "country",
     "partOf": ["asia", "oceania"]
     },
     "iran": {
       "canonical": "Iran",
       "variants": ["Iran"],
-      "demonyms": ["iranian"],
+      "demonyms": ["Iranian"],
       "type": "country",
     "partOf": ["asia", "caucasus", "middle_east"]
     },
     "iraq": {
       "canonical": "Iraq",
       "variants": ["Iraq"],
-      "demonyms": ["iraqi",
-        "mesopotamian"],
+      "demonyms": ["Iraqi",
+        "Mesopotamian"],
       "type": "country",
     "partOf": ["asia", "middle_east"]
     },
@@ -839,9 +839,9 @@ const PLACE_DEMONYM_LOOKUP = {
       "canonical": "Republic of Ireland",
       "variants": ["Ireland",
         "Republic of Ireland"],
-      "demonyms": ["irish",
-        "irishman",
-        "irishwoman"],
+      "demonyms": ["Irish",
+        "Irishman",
+        "Irishwoman"],
       "type": "country",
     "partOf": ["europe"]
     },
@@ -849,567 +849,567 @@ const PLACE_DEMONYM_LOOKUP = {
       "canonical": "Northern Ireland",
       "variants": ["Ireland",
         "Northern Ireland"],
-      "demonyms": ["irish",
-        "irishman",
-        "irishwoman",
-        "northern irish",
-        "northern irishman",
-        "northern irishwoman"],
+      "demonyms": ["Irish",
+        "Irishman",
+        "Irishwoman",
+        "Northern irish",
+        "Northern irishman",
+        "Northern irishwoman"],
       "type": "country",
     "partOf": ["europe", "united_kingdom"]
     },
     "israel": {
       "canonical": "Israel",
       "variants": ["Israel"],
-      "demonyms": ["israeli",
-        "sabran"],
+      "demonyms": ["Israeli",
+        "Sabran"],
       "type": "country",
     "partOf": ["asia", "levant", "middle_east"]
     },
     "italy": {
       "canonical": "Italy",
       "variants": ["Italy"],
-      "demonyms": ["italian"],
+      "demonyms": ["Italian"],
       "type": "country",
     "partOf": ["europe"]
     },
     "jamaica": {
       "canonical": "Jamaica",
       "variants": ["Jamaica"],
-      "demonyms": ["jamaican"],
+      "demonyms": ["Jamaican"],
       "type": "country",
     "partOf": ["north_america", "caribbean"]
     },
     "japan": {
       "canonical": "Japan",
       "variants": ["Japan"],
-      "demonyms": ["japanese",
-        "ainu"],
+      "demonyms": ["Japanese",
+        "Ainu"],
       "type": "country",
     "partOf": ["asia"]
     },
     "jordan": {
       "canonical": "Jordan",
       "variants": ["Jordan"],
-      "demonyms": ["jordanian"],
+      "demonyms": ["Jordanian"],
       "type": "country",
     "partOf": ["asia", "levant", "middle_east"]
     },
     "kazakhstan": {
       "canonical": "Kazakhstan",
       "variants": ["Kazakhstan"],
-      "demonyms": ["kazakhstani",
-        "kazakh"],
+      "demonyms": ["Kazakhstani",
+        "Kazakh"],
       "type": "country",
     "partOf": ["asia", "europe"]
     },
     "kenya": {
       "canonical": "Kenya",
       "variants": ["Kenya"],
-      "demonyms": ["kenyan"],
+      "demonyms": ["Kenyan"],
       "type": "country",
     "partOf": ["africa"]
     },
     "kiribati": {
       "canonical": "Kiribati",
       "variants": ["Kiribati"],
-      "demonyms": ["kiribati",
-        "i Kiribati"],
+      "demonyms": ["Kiribati",
+        "I Kiribati"],
       "type": "country",
     "partOf": ["oceania", "polynesia"]
     },
     "kuwait": {
       "canonical": "Kuwait",
       "variants": ["Kuwait"],
-      "demonyms": ["kuwaiti"],
+      "demonyms": ["Kuwaiti"],
       "type": "country",
     "partOf": ["asia", "middle_east"]
     },
     "kyrgyzstan": {
       "canonical": "Kyrgyzstan",
       "variants": ["Kyrgyzstan"],
-      "demonyms": ["kyrgyzstani",
-        "kyrgyz",
-        "kirgiz",
-        "kirghiz"],
+      "demonyms": ["Kyrgyzstani",
+        "Kyrgyz",
+        "Kirgiz",
+        "Kirghiz"],
       "type": "country",
     "partOf": ["asia"]
     },
     "laos": {
       "canonical": "Laos",
       "variants": ["Laos"],
-      "demonyms": ["lao",
-        "laotian"],
+      "demonyms": ["Lao",
+        "Laotian"],
       "type": "country",
     "partOf": ["asia"]
     },
     "latvia": {
       "canonical": "Latvia",
       "variants": ["Latvia"],
-      "demonyms": ["latvian",
-        "letts"],
+      "demonyms": ["Latvian",
+        "Letts"],
       "type": "country",
     "partOf": ["europe"]
     },
     "lebanon": {
       "canonical": "Lebanon",
       "variants": ["Lebanon"],
-      "demonyms": ["lebanonese"],
+      "demonyms": ["Lebanonese"],
       "type": "country",
     "partOf": ["asia", "levant", "middle_east"]
     },
     "lesotho": {
       "canonical": "Lesotho",
       "variants": ["Lesotho"],
-      "demonyms": ["basotho",
-        "mosotho"],
+      "demonyms": ["Basotho",
+        "Mosotho"],
       "type": "country",
     "partOf": ["africa"]
     },
     "liberia": {
       "canonical": "Liberia",
       "variants": ["Liberia"],
-      "demonyms": ["liberian"],
+      "demonyms": ["Liberian"],
       "type": "country",
     "partOf": ["africa"]
     },
     "libya": {
       "canonical": "Libya",
       "variants": ["Libya"],
-      "demonyms": ["libyan"],
+      "demonyms": ["Libyan"],
       "type": "country",
     "partOf": ["africa", "maghreb", "middle_east"]
     },
     "liechtenstein": {
       "canonical": "Liechtenstein",
       "variants": ["Liechtenstein"],
-      "demonyms": ["liechtensteiner"],
+      "demonyms": ["Liechtensteiner"],
       "type": "country",
     "partOf": ["europe"]
     },
     "lithuania": {
       "canonical": "Lithuania",
       "variants": ["Lithuania"],
-      "demonyms": ["lithuanian"],
+      "demonyms": ["Lithuanian"],
       "type": "country",
     "partOf": ["europe"]
     },
     "luxembourg": {
       "canonical": "Luxembourg",
       "variants": ["Luxembourg"],
-      "demonyms": ["luxembourg",
-        "luxembourgish"],
+      "demonyms": ["Luxembourg",
+        "Luxembourgish"],
       "type": "country",
     "partOf": ["europe"]
     },
     "madagascar": {
       "canonical": "Madagascar",
       "variants": ["Madagascar"],
-      "demonyms": ["madagascan",
-        "malagasy"],
+      "demonyms": ["Madagascan",
+        "Malagasy"],
       "type": "country",
     "partOf": ["africa"]
     },
     "malawi": {
       "canonical": "Malawi",
       "variants": ["Malawi"],
-      "demonyms": ["malawian"],
+      "demonyms": ["Malawian"],
       "type": "country",
     "partOf": ["africa"]
     },
     "malaysia": {
       "canonical": "Malaysia",
       "variants": ["Malaysia"],
-      "demonyms": ["malaysian"],
+      "demonyms": ["Malaysian"],
       "type": "country",
     "partOf": ["asia", "oceania"]
     },
     "maldives": {
       "canonical": "Maldives",
       "variants": ["Maldives"],
-      "demonyms": ["maldivinian"],
+      "demonyms": ["Maldivinian"],
       "type": "country",
     "partOf": ["asia"]
     },
     "mali": {
       "canonical": "Mali",
       "variants": ["Mali"],
-      "demonyms": ["malian",
-        "malinese"],
+      "demonyms": ["Malian",
+        "Malinese"],
       "type": "country",
     "partOf": ["africa", "sahel"]
     },
     "malta": {
       "canonical": "Malta",
       "variants": ["Malta"],
-      "demonyms": ["maltese"],
+      "demonyms": ["Maltese"],
       "type": "country",
     "partOf": ["europe"]
     },
     "marshall_islands": {
       "canonical": "Marshall Islands",
       "variants": ["Marshall Islands"],
-      "demonyms": ["marshallese"],
+      "demonyms": ["Marshallese"],
       "type": "country",
     "partOf": ["oceania"]
     },
     "mauritania": {
       "canonical": "Mauritania",
       "variants": ["Mauritania"],
-      "demonyms": ["mauritanian"],
+      "demonyms": ["Mauritanian"],
       "type": "country",
     "partOf": ["africa", "maghreb"]
     },
     "mauritius": {
       "canonical": "Mauritius",
       "variants": ["Mauritius"],
-      "demonyms": ["mauritian"],
+      "demonyms": ["Mauritian"],
       "type": "country",
     "partOf": ["africa"]
     },
     "mexico": {
       "canonical": "Mexico",
       "variants": ["Mexico"],
-      "demonyms": ["mexican"],
+      "demonyms": ["Mexican"],
       "type": "country",
     "partOf": ["north_america"]
     },
     "micronesia": {
       "canonical": "Micronesia",
       "variants": ["Micronesia"],
-      "demonyms": ["micronesian"],
+      "demonyms": ["Micronesian"],
       "type": "country",
     "partOf": ["oceania", "polynesia"]
     },
     "moldova": {
       "canonical": "Moldova",
       "variants": ["Moldova"],
-      "demonyms": ["moldovan"],
+      "demonyms": ["Moldovan"],
       "type": "country",
     "partOf": ["europe"]
     },
     "monaco": {
       "canonical": "Monaco",
       "variants": ["Monaco"],
-      "demonyms": ["monégasques",
-        "monacans"],
+      "demonyms": ["Monégasques",
+        "Monacans"],
       "type": "country",
     "partOf": ["europe"]
     },
     "mongolia": {
       "canonical": "Mongolia",
       "variants": ["Mongolia"],
-      "demonyms": ["mongolian",
-        "mongol"],
+      "demonyms": ["Mongolian",
+        "Mongol"],
       "type": "country",
     "partOf": ["asia"]
     },
     "montenegro": {
       "canonical": "Montenegro",
       "variants": ["Montenegro"],
-      "demonyms": ["montenegrin"],
+      "demonyms": ["Montenegrin"],
       "type": "country",
     "partOf": ["europe", "balkans"]
     },
     "morocco": {
       "canonical": "Morocco",
       "variants": ["Morocco"],
-      "demonyms": ["moroccan",
-        "maghrebi"],
+      "demonyms": ["Moroccan",
+        "Maghrebi"],
       "type": "country",
     "partOf": ["africa", "maghreb"]
     },
     "mozambique": {
       "canonical": "Mozambique",
       "variants": ["Mozambique"],
-      "demonyms": ["mozambican"],
+      "demonyms": ["Mozambican"],
       "type": "country",
     "partOf": ["africa"]
     },
     "namibia": {
       "canonical": "Namibia",
       "variants": ["Namibia"],
-      "demonyms": ["namibian"],
+      "demonyms": ["Namibian"],
       "type": "country",
     "partOf": ["africa"]
     },
     "nauru": {
       "canonical": "Nauru",
       "variants": ["Nauru"],
-      "demonyms": ["nauruan"],
+      "demonyms": ["Nauruan"],
       "type": "country",
     "partOf": ["oceania"]
     },
     "nepal": {
       "canonical": "Nepal",
       "variants": ["Nepal"],
-      "demonyms": ["nepali",
-        "nepalese"],
+      "demonyms": ["Nepali",
+        "Nepalese"],
       "type": "country",
     "partOf": ["asia"]
     },
     "nicaragua": {
       "canonical": "Nicaragua",
       "variants": ["Nicaragua"],
-      "demonyms": ["nicaraguan",
-        "nica",
-        "pinoleros"],
+      "demonyms": ["Nicaraguan",
+        "Nica",
+        "Pinoleros"],
       "type": "country",
     "partOf": ["north_america"]
     },
     "niger": {
       "canonical": "Niger",
       "variants": ["Niger"],
-      "demonyms": ["nigerien"],
+      "demonyms": ["Nigerien"],
       "type": "country",
     "partOf": ["africa", "sahel"]
     },
     "nigeria": {
       "canonical": "Nigeria",
       "variants": ["Nigeria"],
-      "demonyms": ["nigerian"],
+      "demonyms": ["Nigerian"],
       "type": "country",
     "partOf": ["africa"]
     },
     "north_macedonia": {
       "canonical": "North Macedonia",
       "variants": ["North Macedonia"],
-      "demonyms": ["macedonian"],
+      "demonyms": ["Macedonian"],
       "type": "country",
     "partOf": ["europe", "balkans"]
     },
     "norway": {
       "canonical": "Norway",
       "variants": ["Norway"],
-      "demonyms": ["norwegian",
-        "norse"],
+      "demonyms": ["Norwegian",
+        "Norse"],
       "type": "country",
     "partOf": ["europe", "scandanavia"]
     },
     "oman": {
       "canonical": "Oman",
       "variants": ["Oman"],
-      "demonyms": ["omani"],
+      "demonyms": ["Omani"],
       "type": "country",
     "partOf": ["asia", "middle_east"]
     },
     "pakistan": {
       "canonical": "Pakistan",
       "variants": ["Pakistan"],
-      "demonyms": ["pakistani",
-        "punjabi",
-        "sindhi",
-        "pashtun"],
+      "demonyms": ["Pakistani",
+        "Punjabi",
+        "Sindhi",
+        "Pashtun"],
       "type": "country",
     "partOf": ["asia", "middle_east"]
     },
     "palau": {
       "canonical": "Palau",
       "variants": ["Palau"],
-      "demonyms": ["palauan"],
+      "demonyms": ["Palauan"],
       "type": "country",
     "partOf": ["oceania"]
     },
     "panama": {
       "canonical": "Panama",
       "variants": ["Panama"],
-      "demonyms": ["panamanian"],
+      "demonyms": ["Panamanian"],
       "type": "country",
     "partOf": ["north_america"]
     },
     "papua_new_guinea": {
       "canonical": "Papua New Guinea",
       "variants": ["Papua New Guinea"],
-      "demonyms": ["papua new guinean",
-        "papuan"],
+      "demonyms": ["Papua new guinean",
+        "Papuan"],
       "type": "country",
     "partOf": ["oceania", "polynesia", "asia"]
     },
     "paraguay": {
       "canonical": "Paraguay",
       "variants": ["Paraguay"],
-      "demonyms": ["paraguayan"],
+      "demonyms": ["Paraguayan"],
       "type": "country",
     "partOf": ["south_america"]
     },
     "peru": {
       "canonical": "Peru",
       "variants": ["Peru"],
-      "demonyms": ["peruvian"],
+      "demonyms": ["Peruvian"],
       "type": "country",
     "partOf": ["south_america"]
     },
     "philippines": {
       "canonical": "Philippines",
       "variants": ["Philippines"],
-      "demonyms": ["philippine",
-        "filipino",
-        "filipina"],
+      "demonyms": ["Philippine",
+        "Filipino",
+        "Filipina"],
       "type": "country",
     "partOf": ["asia", "oceania"]
     },
     "poland": {
       "canonical": "Poland",
       "variants": ["Poland"],
-      "demonyms": ["polish",
-        "pole"],
+      "demonyms": ["Polish",
+        "Pole"],
       "type": "country",
     "partOf": ["europe"]
     },
     "portugal": {
       "canonical": "Portugal",
       "variants": ["Portugal"],
-      "demonyms": ["portuguese"],
+      "demonyms": ["Portuguese"],
       "type": "country",
         "partOf": ["iberia", "europe"]
     },
     "qatar": {
       "canonical": "Qatar",
       "variants": ["Qatar"],
-      "demonyms": ["qatari"],
+      "demonyms": ["Qatari"],
       "type": "country",
     "partOf": ["asia", "middle_east"]
     },
     "romania": {
       "canonical": "Romania",
       "variants": ["Romania"],
-      "demonyms": ["romanian"],
+      "demonyms": ["Romanian"],
       "type": "country",
     "partOf": ["europe", "balkans"]
     },
     "rwanda": {
       "canonical": "Rwanda",
       "variants": ["Rwanda"],
-      "demonyms": ["rwandan",
-        "banyarwanda"],
+      "demonyms": ["Rwandan",
+        "Banyarwanda"],
       "type": "country",
     "partOf": ["africa"]
     },
     "saint_kitts_and_nevis": {
       "canonical": "Saint Kitts and Nevis",
       "variants": ["Saint Kitts and Nevis"],
-      "demonyms": ["kittian",
-        "nevisian"],
+      "demonyms": ["Kittian",
+        "Nevisian"],
       "type": "country",
         "partOf": ["caribbean", "north_america"]
     },
     "saint_lucia": {
       "canonical": "Saint Lucia",
       "variants": ["Saint Lucia"],
-      "demonyms": ["saint lucian"],
+      "demonyms": ["Saint lucian"],
       "type": "country",
         "partOf": ["caribbean", "north_america"]
     },
     "saint_vincent_and_the_grenadines": {
       "canonical": "Saint Vincent and the Grenadines",
       "variants": ["Saint Vincent and the Grenadines", "Saint Vincent"],
-      "demonyms": ["saint vincentian",
-        "vincentian"],
+      "demonyms": ["Saint vincentian",
+        "Vincentian"],
       "type": "country",
         "partOf": ["caribbean", "north_america"]
     },
     "samoa": {
       "canonical": "Samoa",
       "variants": ["Samoa"],
-      "demonyms": ["samoan"],
+      "demonyms": ["Samoan"],
       "type": "country",
     "partOf": ["oceania", "polynesia"]
     },
     "san_marino": {
       "canonical": "San Marino",
       "variants": ["San Marino"],
-      "demonyms": ["san marinese",
-        "sammarinese"],
+      "demonyms": ["San marinese",
+        "Sammarinese"],
       "type": "country",
     "partOf": ["europe"]
     },
     "sao_tome_and_principe": {
       "canonical": "Sao Tome and Principe",
       "variants": ["Sao Tome and Principe"],
-      "demonyms": ["são toméan"],
+      "demonyms": ["São toméan"],
       "type": "country",
     "partOf": ["africa"]
     },
     "saudi_arabia": {
       "canonical": "Saudi Arabia",
       "variants": ["Saudi Arabia"],
-      "demonyms": ["saudi arabian",
-        "saudi"],
+      "demonyms": ["Saudi arabian",
+        "Saudi"],
       "type": "country",
     "partOf": ["asia", "middle_east"]
     },
     "senegal": {
       "canonical": "Senegal",
       "variants": ["Senegal"],
-      "demonyms": ["senegalese"],
+      "demonyms": ["Senegalese"],
       "type": "country",
     "partOf": ["africa"]
     },
     "serbia": {
       "canonical": "Serbia",
       "variants": ["Serbia"],
-      "demonyms": ["serbian"],
+      "demonyms": ["Serbian"],
       "type": "country",
     "partOf": ["europe", "balkans"]
     },
     "seychelles": {
       "canonical": "Seychelles",
       "variants": ["Seychelles"],
-      "demonyms": ["seychellois",
-        "seychelloise"],
+      "demonyms": ["Seychellois",
+        "Seychelloise"],
       "type": "country",
     "partOf": ["africa"]
     },
     "sierra_leone": {
       "canonical": "Sierra Leone",
       "variants": ["Sierra Leone"],
-      "demonyms": ["sierra leonean"],
+      "demonyms": ["Sierra leonean"],
       "type": "country",
     "partOf": ["africa"]
     },
     "singapore": {
       "canonical": "Singapore",
       "variants": ["Singapore"],
-      "demonyms": ["singapore",
-        "singaporean"],
+      "demonyms": ["Singapore",
+        "Singaporean"],
       "type": "city",
     "partOf": ["asia"]
     },
     "slovakia": {
       "canonical": "Slovakia",
       "variants": ["Slovakia"],
-      "demonyms": ["slovakian",
-        "slovak"],
+      "demonyms": ["Slovakian",
+        "Slovak"],
       "type": "country",
     "partOf": ["europe"]
     },
     "slovenia": {
       "canonical": "Slovenia",
       "variants": ["Slovenia"],
-      "demonyms": ["slovenian",
-        "slovene"],
+      "demonyms": ["Slovenian",
+        "Slovene"],
       "type": "country",
     "partOf": ["europe", "balkans"]
     },
     "solomon_islands": {
       "canonical": "Solomon Islands",
       "variants": ["Solomon Islands"],
-      "demonyms": ["solomon island",
-        "solomon islander"],
+      "demonyms": ["Solomon island",
+        "Solomon islander"],
       "type": "country",
     "partOf": ["oceania", "polynesia"]
     },
     "somalia": {
       "canonical": "Somalia",
       "variants": ["Somalia"],
-      "demonyms": ["somali"],
+      "demonyms": ["Somali"],
       "type": "country",
     "partOf": ["africa"]
     },
     "south_africa": {
       "canonical": "South Africa",
       "variants": ["South Africa"],
-      "demonyms": ["south african",
+      "demonyms": ["South african",
       ],
       "type": "country",
     "partOf": ["africa"]
@@ -1417,92 +1417,92 @@ const PLACE_DEMONYM_LOOKUP = {
     "spain": {
       "canonical": "Spain",
       "variants": ["Spain"],
-      "demonyms": ["spanish", "spaniard"],
+      "demonyms": ["Spanish", "Spaniard"],
       "type": "country",
         "partOf": ["iberia", "europe", "africa"]
     },
     "sri_lanka": {
       "canonical": "Sri Lanka",
       "variants": ["Sri Lanka"],
-      "demonyms": ["sri lankan"],
+      "demonyms": ["Sri lankan"],
       "type": "country",
     "partOf": ["asia"]
     },
     "sudan": {
       "canonical": "Sudan",
       "variants": ["Sudan"],
-      "demonyms": ["sudanian",
-        "sudanians",
-        "sudanish",
-        "sudanese",
-        "sudani",
-        "sudanis"],
+      "demonyms": ["Sudanian",
+        "Sudanians",
+        "Sudanish",
+        "Sudanese",
+        "Sudani",
+        "Sudanis"],
       "type": "country",
     "partOf": ["asia"]
     },
     "south_sudan": {
       "canonical": "South Sudan",
       "variants": ["South Sudan"],
-      "demonyms": ["south sudanese"],
+      "demonyms": ["South sudanese"],
       "type": "country",
     "partOf": ["asia"]
     },
     "suriname": {
       "canonical": "Suriname",
       "variants": ["Suriname"],
-      "demonyms": ["surinamese"],
+      "demonyms": ["Surinamese"],
       "type": "country",
     "partOf": ["south_america"]
     },
     "sweden": {
       "canonical": "Sweden",
       "variants": ["Sweden"],
-      "demonyms": ["swedish",
-        "swede"],
+      "demonyms": ["Swedish",
+        "Swede"],
       "type": "country",
     "partOf": ["europe", "scandanavia"]
     },
     "switzerland": {
       "canonical": "Switzerland",
       "variants": ["Switzerland"],
-      "demonyms": ["swiss"],
+      "demonyms": ["Swiss"],
       "type": "country",
     "partOf": ["europe"]
     },
     "syria": {
       "canonical": "Syria",
       "variants": ["Syria"],
-      "demonyms": ["syrian"],
+      "demonyms": ["Syrian"],
       "type": "country",
     "partOf": ["asia", "levant", "middle_east"]
     },
     "taiwan": {
       "canonical": "Taiwan",
       "variants": ["Taiwan"],
-      "demonyms": ["taiwanese",
-        "formosan"],
+      "demonyms": ["Taiwanese",
+        "Formosan"],
       "type": "country",
             "partOf": ["asia", "china"]
     },
     "tajikistan": {
       "canonical": "Tajikistan",
       "variants": ["Tajikistan"],
-      "demonyms": ["tajikistani",
-        "tajik"],
+      "demonyms": ["Tajikistani",
+        "Tajik"],
       "type": "country",
     "partOf": ["asia"]
     },
     "tanzania": {
       "canonical": "Tanzania",
       "variants": ["Tanzania"],
-      "demonyms": ["tanzanian"],
+      "demonyms": ["Tanzanian"],
       "type": "country",
     "partOf": ["africa"]
     },
     "thailand": {
       "canonical": "Thailand",
       "variants": ["Thailand"],
-      "demonyms": ["thai"],
+      "demonyms": ["Thai"],
       "type": "country",
     "partOf": ["asia"]
     },
@@ -1510,236 +1510,236 @@ const PLACE_DEMONYM_LOOKUP = {
       "canonical": "Timor-Leste",
       "variants": ["Timor-Leste",
         "Timor"],
-      "demonyms": ["timorese"],
+      "demonyms": ["Timorese"],
       "type": "country",
     "partOf": ["asia", "oceania"]
     },
     "togo": {
       "canonical": "Togo",
       "variants": ["Togo"],
-      "demonyms": ["togolese"],
+      "demonyms": ["Togolese"],
       "type": "country",
     "partOf": ["africa"]
     },
     "tonga": {
       "canonical": "Tonga",
       "variants": ["Tonga"],
-      "demonyms": ["tongan"],
+      "demonyms": ["Tongan"],
       "type": "country",
     "partOf": ["oceania", "polynesia"]
     },
     "trinidad_and_tobago": {
       "canonical": "Trinidad and Tobago",
       "variants": ["Trinidad and Tobago"],
-      "demonyms": ["trinidadian",
-        "tobagonian"],
+      "demonyms": ["Trinidadian",
+        "Tobagonian"],
       "type": "country",
         "partOf": ["caribbean", "north_america"]
     },
     "tunisia": {
       "canonical": "Tunisia",
       "variants": ["Tunisia"],
-      "demonyms": ["tunisian"],
+      "demonyms": ["Tunisian"],
       "type": "country",
     "partOf": ["africa", "maghreb"]
     },
     "turkiye": {
       "canonical": "Türkiye",
       "variants": ["Türkiye", "Turkey"],
-      "demonyms": ["turkish", "turk"],
+      "demonyms": ["Turkish", "Turk"],
       "type": "country",
         "partOf": ["asia", "europe", "middle_east"]
     },
     "turkmenistan": {
       "canonical": "Turkmenistan",
       "variants": ["Turkmenistan"],
-      "demonyms": ["turkmen"],
+      "demonyms": ["Turkmen"],
       "type": "country",
     "partOf": ["asia"]
     },
     "tuvalu": {
       "canonical": "Tuvalu",
       "variants": ["Tuvalu"],
-      "demonyms": ["tuvaluan"],
+      "demonyms": ["Tuvaluan"],
       "type": "country",
     "partOf": ["oceania", "polynesia"]
     },
     "uganda": {
       "canonical": "Uganda",
       "variants": ["Uganda"],
-      "demonyms": ["ugandan"],
+      "demonyms": ["Ugandan"],
       "type": "country",
     "partOf": ["africa"]
     },
     "ukraine": {
       "canonical": "Ukraine",
       "variants": ["Ukraine"],
-      "demonyms": ["ukrainian"],
+      "demonyms": ["Ukrainian"],
       "type": "country",
     "partOf": ["europe"]
     },
     "uruguay": {
       "canonical": "Uruguay",
       "variants": ["Uruguay"],
-      "demonyms": ["uruguayan"],
+      "demonyms": ["Uruguayan"],
       "type": "country",
     "partOf": ["south_america"]
     },
     "uzbekistan": {
       "canonical": "Uzbekistan",
       "variants": ["Uzbekistan"],
-      "demonyms": ["uzbekistani",
-        "uzbek"],
+      "demonyms": ["Uzbekistani",
+        "Uzbek"],
       "type": "country",
     "partOf": ["asia"]
     },
     "vanuatu": {
       "canonical": "Vanuatu",
       "variants": ["Vanuatu"],
-      "demonyms": ["vanuatuan",
-        "ni vanuatu"],
+      "demonyms": ["Vanuatuan",
+        "Ni vanuatu"],
       "type": "country",
     "partOf": ["oceania"]
     },
     "vatican_city": {
       "canonical": "Vatican City",
       "variants": ["Vatican City"],
-      "demonyms": ["vaticanian"],
+      "demonyms": ["Vaticanian"],
       "type": "country",
             "partOf": ["europe", "rome", "italy"]
     },
     "venezuela": {
       "canonical": "Venezuela",
       "variants": ["Venezuela"],
-      "demonyms": ["venezuelan"],
+      "demonyms": ["Venezuelan"],
       "type": "country",
     "partOf": ["south_america", "north_america"]
     },
     "vietnam": {
       "canonical": "Vietnam",
       "variants": ["Vietnam"],
-      "demonyms": ["vietnamese"],
+      "demonyms": ["Vietnamese"],
       "type": "country",
     "partOf": ["asia"]
     },
     "yemen": {
       "canonical": "Yemen",
       "variants": ["Yemen"],
-      "demonyms": ["yemeni"],
+      "demonyms": ["Yemeni"],
       "type": "country",
     "partOf": ["asia", "middle_east", "africa"]
     },
     "zambia": {
       "canonical": "Zambia",
       "variants": ["Zambia"],
-      "demonyms": ["zambian"],
+      "demonyms": ["Zambian"],
       "type": "country",
     "partOf": ["africa"]
     },
     "zimbabwe": {
       "canonical": "Zimbabwe",
       "variants": ["Zimbabwe"],
-      "demonyms": ["zimbabwean"],
+      "demonyms": ["Zimbabwean"],
       "type": "country",
     "partOf": ["africa"]
     },
     "kosovo": {
       "canonical": "Kosovo",
       "variants": ["Kosovo"],
-      "demonyms": ["kosovar",
-        "kosovan"],
+      "demonyms": ["Kosovar",
+        "Kosovan"],
       "type": "country",
     "partOf": ["europe", "balkans"]
     },
     "northern_cyprus": {
       "canonical": "Northern Cyprus",
       "variants": ["Northern Cyprus"],
-      "demonyms": ["northern cypriot",
-        "turkish cypriot"],
+      "demonyms": ["Northern cypriot",
+        "Turkish cypriot"],
       "type": "country",
     "partOf": ["asia"]
     },
     "western_sahara": {
       "canonical": "Western Sahara",
       "variants": ["Western Sahara"],
-      "demonyms": ["western saharan",
-        "sahrawi"],
+      "demonyms": ["Western saharan",
+        "Sahrawi"],
       "type": "country",
             "partOf": ["europe", "africa", "morocco", "maghreb"]
     },
     "south_ossetia": {
       "canonical": "South Ossetia",
       "variants": ["South Ossetia"],
-      "demonyms": ["south ossetian"],
+      "demonyms": ["South ossetian"],
       "type": "country",
     "partOf": ["georgia_US"]
     },
     "abkhazia": {
       "canonical": "Abkhazia",
       "variants": ["Abkhazia"],
-      "demonyms": ["abkhaz",
-        "abkhazian"],
+      "demonyms": ["Abkhaz",
+        "Abkhazian"],
       "type": "country",
             "partOf": ["georgia_caucasus", "russia"],
     },
     "nagornokarabakh": {
       "canonical": "Nagorno-Karabakh",
       "variants": ["Nagorno-Karabakh"],
-      "demonyms": ["karabakhi",
-        "azerbaijani",
-        "artsakhi",
-        "armenian"],
+      "demonyms": ["Karabakhi",
+        "Azerbaijani",
+        "Artsakhi",
+        "Armenian"],
       "type": "country",
       "partOf": ["azerbaijan"]
     },
     "donetsk": {
       "canonical": "Donetsk",
       "variants": ["Donetsk"],
-      "demonyms": ["donechchany",
-        "donchane"],
+      "demonyms": ["Donechchany",
+        "Donchane"],
       "type": "city",
       "partOf": ["ukraine"]
     },
     "luhansk": {
       "canonical": "Luhansk",
       "variants": ["Luhansk"],
-      "demonyms": ["luhansian"],
+      "demonyms": ["Luhansian"],
       "type": "city",
       "partOf": ["ukraine"]
     },
     "crimea": {
       "canonical": "Crimea",
       "variants": ["Crimea"],
-      "demonyms": ["crimean"],
+      "demonyms": ["Crimean"],
       "type": "region",
       "partOf": ["ukraine", "russia"]
     },
     "transnistria": {
       "canonical": "Transnistria",
       "variants": ["Transnistria"],
-      "demonyms": ["transnistrian"],
+      "demonyms": ["Transnistrian"],
       "type": "region",
       "partOf": ["moldova", "ukraine"]
     },
     "somaliland": {
       "canonical": "Somaliland",
       "variants": ["Somaliland"],
-      "demonyms": ["somalilander"],
+      "demonyms": ["Somalilander"],
       "type": "region",
       "partOf": ["djibouti", "ethiopia", "somalia"]
     },
     "tibet": {
       "canonical": "Tibet",
       "variants": ["Tibet"],
-      "demonyms": ["tibetan"],
+      "demonyms": ["Tibetan"],
       "type": "region",
       "partOf": ["china"]
     },
     "hong_kong": {
       "canonical": "Hong Kong",
       "variants": ["Hong Kong"],
-      "demonyms": ["hong kongese",
-        "hong konger",
+      "demonyms": ["Hong kongese",
+        "Hong konger",
         "HKer"],
       "type": "city",
       "partOf": ["china"]
@@ -1747,92 +1747,92 @@ const PLACE_DEMONYM_LOOKUP = {
     "macau": {
       "canonical": "Macau",
       "variants": ["Macau"],
-      "demonyms": ["macanese"],
+      "demonyms": ["Macanese"],
       "type": "country",
     "partOf": ["china"]
     },
     "kurdistan": {
       "canonical": "Kurdistan",
       "variants": ["Kurdistan"],
-      "demonyms": ["kurd",
-        "kurdish",
-        "kurdistani"],
+      "demonyms": ["Kurd",
+        "Kurdish",
+        "Kurdistani"],
       "type": "region",
       "partOf": ["turkiye", "iraq", "iran", "syria"]
     },
     "balochistan": {
       "canonical": "Balochistan",
       "variants": ["Balochistan"],
-      "demonyms": ["balochi"],
+      "demonyms": ["Balochi"],
       "type": "region",
       "partOf": ["pakistan"]
     },
     "aceh": {
       "canonical": "Aceh",
       "variants": ["Aceh"],
-      "demonyms": ["acehnese"],
+      "demonyms": ["Acehnese"],
       "type": "region",
       "partOf": ["indonesia"]
     },
     "west_papua": {
       "canonical": "West Papua",
       "variants": ["West Papua"],
-      "demonyms": ["west papuan",
-        "papuan"],
+      "demonyms": ["West papuan",
+        "Papuan"],
       "type": "country",
       "partOf": ["indonesia"]
     },
     "land": {
       "canonical": "Åland",
       "variants": ["Åland"],
-      "demonyms": ["ålandian island",
-        "ålanders"],
+      "demonyms": ["Ålandian island",
+        "Ålanders"],
       "type": "country",
       "partOf": ["finland"]
     },
     "aragon": {
       "canonical": "Aragon",
       "variants": ["Aragon"],
-      "demonyms": ["aragonese"],
+      "demonyms": ["Aragonese"],
       "type": "country",
       "partOf": ["spain"]
     },
     "biafra": {
       "canonical": "Biafra",
       "variants": ["Biafra"],
-      "demonyms": ["biafran"],
+      "demonyms": ["Biafran"],
       "type": "country",
       "partOf": ["nigeria"]
     },
     "chechnya": {
       "canonical": "Chechnya",
       "variants": ["Chechnya"],
-      "demonyms": ["chechen"],
+      "demonyms": ["Chechen"],
       "type": "country",
       "partOf": ["russia", "caucasus"]
     },
     "corsica": {
       "canonical": "Corsica",
       "variants": ["Corsica"],
-      "demonyms": ["corsican"],
+      "demonyms": ["Corsican"],
       "type": "country",
       "partOf": ["france"]
     },
     "england": {
       "canonical": "England",
       "variants": ["England"],
-      "demonyms": ["english",
-        "englishman",
-        "englishwoman",
-        "anglo-saxon"],
+      "demonyms": ["English",
+        "Englishman", "Englishmen",
+        "Englishwoman", "Englishwomen",
+        "Anglo-saxon"],
       "type": "country",
       "partOf": ["united_kingdom"]
     },
     "flanders": {
       "canonical": "Flanders",
       "variants": ["Flanders"],
-      "demonyms": ["fleming",
-        "flemish"],
+      "demonyms": ["Fleming",
+        "Flemish"],
       "type": "region",
       "partOf": ["belgium"]
     },
@@ -1840,101 +1840,101 @@ const PLACE_DEMONYM_LOOKUP = {
       "canonical": "Friesland",
       "variants": ["Friesland",
         "Frisia"],
-      "demonyms": ["frisian"],
+      "demonyms": ["Frisian"],
       "type": "country",
       "partOf": ["netherlands", "germany", "denmark"]
     },
     "galicia": {
       "canonical": "Galicia",
       "variants": ["Galicia"],
-      "demonyms": ["galician"],
+      "demonyms": ["Galician"],
       "type": "region",
       "partOf": ["spain"]
     },
     "greenland": {
       "canonical": "Greenland",
       "variants": ["Greenland"],
-      "demonyms": ["greenlandic",
-        "greenlander"],
+      "demonyms": ["Greenlandic",
+        "Greenlander"],
       "type": "region",
       "partOf": ["denmark", "north_america"]
     },
     "quebec": {
       "canonical": "Quebec",
       "variants": ["Quebec"],
-      "demonyms": ["quebecer",
-        "quebecker",
-        "québécois",
-        "québécoise"],
+      "demonyms": ["Quebecer",
+        "Quebecker",
+        "Québécois",
+        "Québécoise"],
       "type": "region",
       "partOf": ["canada"]
     },
     "sardinia": {
       "canonical": "Sardinia",
       "variants": ["Sardinia"],
-      "demonyms": ["sardinian"],
+      "demonyms": ["Sardinian"],
       "type": "region",
       "partOf": ["italy"]
     },
     "scotland": {
       "canonical": "Scotland",
       "variants": ["Scotland"],
-      "demonyms": ["scottish",
-        "scot",
-        "scots",
-        "scotch",
-        "scotsman",
-        "scotswoman",
-        "scotsmen",
-        "scotswomen"],
+      "demonyms": ["Scottish",
+        "A Scot",
+        "Scots",
+        "Scotch",
+        "Scotsman",
+        "Scotswoman",
+        "Scotsmen",
+        "Scotswomen"],
       "type": "country",
       "partOf": ["united_kingdom"]
     },
     "sicily": {
       "canonical": "Sicily",
       "variants": ["Sicily"],
-      "demonyms": ["sicilian"],
+      "demonyms": ["Sicilian"],
       "type": "region",
       "partOf": ["italy", "africa"]
     },
     "wallonia": {
       "canonical": "Wallonia",
       "variants": ["Wallonia"],
-      "demonyms": ["walloon",
-        "wallon",
-        "wallonne",
-        "walon",
-        "walone"],
+      "demonyms": ["Walloon",
+        "Wallon",
+        "Wallonne",
+        "Walon",
+        "Walone"],
       "type": "region",
       "partOf": ["belgium"]
     },
     "wales": {
       "canonical": "Wales",
       "variants": ["Wales"],
-      "demonyms": ["welsh",
-        "welshman",
-        "welshwoman"],
+      "demonyms": ["Welsh",
+        "Welshman",
+        "Welshwoman"],
       "type": "country",
       "partOf": ["united_kingdom"]
     },
     "new_zealand_mori": {
       "canonical": "New Zealand Māori",
       "variants": ["New Zealand Māori"],
-      "demonyms": ["māori"],
+      "demonyms": ["Māori"],
       "type": "country",
       "partOf": ["new zealand"]
     },
     "california": {
       "canonical": "California",
       "variants": ["California", "Golden State"],
-      "demonyms": ["californian", "Californo", "Californiano"],
+      "demonyms": ["Californian", "Californo", "Californiano"],
       "type": "region",
       "partOf": ["united_states"]
     },
     "andalusia": {
       "canonical": "Andalusia",
       "variants": ["Andalusia"],
-      "demonyms": ["andalusian"],
+      "demonyms": ["Andalusian"],
       "type": "region",
       "partOf": ["spain"]
     },
@@ -1942,7 +1942,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "canonical": "Cornwall",
       "variants": ["Cornwall",
         "Kernow"],
-      "demonyms": ["cornish",
+      "demonyms": ["Cornish",
         "Kernowek"],
       "type": "region",
       "partOf": ["england"],
@@ -1950,83 +1950,83 @@ const PLACE_DEMONYM_LOOKUP = {
     "karelia": {
       "canonical": "Karelia",
       "variants": ["Karelia"],
-      "demonyms": ["karelian"],
+      "demonyms": ["Karelian"],
       "type": "region",
       "partOf": ["finland", "russia"]
     },
     "midlands": {
       "canonical": "Midlands",
       "variants": ["Midlands"],
-      "demonyms": ["midlander",
-        "mercian"],
+      "demonyms": ["Midlander",
+        "Mercian"],
       "type": "region",
       "partOf": ["england"]
     },
     "new_england": {
       "canonical": "New England",
       "variants": ["New England"],
-      "demonyms": ["new englander",
-        "yankee"],
+      "demonyms": ["New englander",
+        "Yankee"],
       "type": "region",
       "partOf": ["united_states"]
     },
     "appalachia": {
       "canonical": "Appalachia",
       "variants": ["Appalachia"],
-      "demonyms": ["appalachian"],
+      "demonyms": ["Appalachian"],
       "type": "region",
       "partOf": ["united_states"]
     },
     "balkans": {
       "canonical": "Balkans",
       "variants": ["Balkans", "Balkan States"],
-      "demonyms": ["balkan",
-        "balkaner",
-        "balkanian"],
+      "demonyms": ["Balkan",
+        "Balkaner",
+        "Balkanian"],
       "type": "region",
     "partOf": ["europe"]
     },
     "baltic_states": {
       "canonical": "Baltic States",
       "variants": ["Baltic States"],
-      "demonyms": ["balts"],
+      "demonyms": ["Balts"],
       "type": "region",
       "partOf": ["georgia_caucasus", "russia"]
     },
     "iberia": {
       "canonical": "Iberia",
       "variants": ["Iberia", "Iberian Peninsula"],
-      "demonyms": ["iberian"],
+      "demonyms": ["Iberian"],
       "type": "region",
           "partOf": ["europe"]
     },
     "levant": {
       "canonical": "Levant",
       "variants": ["Levant"],
-      "demonyms": ["levantine"],
+      "demonyms": ["Levantine"],
       "type": "region",
     "partOf": ["asia"]
     },
     "caucasus": {
       "canonical": "Caucasus",
       "variants": ["Caucasus"],
-      "demonyms": ["caucasian"],
+      "demonyms": ["Caucasian"],
       "type": "region",
         "partOf": ["europe", "asia"]
     },
     "maghreb": {
       "canonical": "Maghreb",
       "variants": ["Maghreb"],
-      "demonyms": ["maghrebi"],
+      "demonyms": ["Maghrebi"],
       "type": "region",
     "partOf": ["africa"]
     },
     "sahel": {
       "canonical": "Sahel",
       "variants": ["Sahel, Sahel States"],
-      "demonyms": ["fula",
-        "fulani",
-        "fulɓe"],
+      "demonyms": ["Fula",
+        "Fulani",
+        "Fulɓe"],
       "type": "region",
     "partOf": ["africa"]
     },
@@ -2034,8 +2034,8 @@ const PLACE_DEMONYM_LOOKUP = {
       "canonical": "Amsterdam",
       "variants": ["Amsterdam",
         "Mokum"],
-      "demonyms": ["amsterdammers",
-        "mokumers",
+      "demonyms": ["Amsterdammers",
+        "Mokumers",
       ],
       "type": "city",
     "partOf": ["netherlands"],
@@ -2043,326 +2043,326 @@ const PLACE_DEMONYM_LOOKUP = {
     "athens": {
       "canonical": "Athens",
       "variants": ["Athens"],
-      "demonyms": ["athenian"],
+      "demonyms": ["Athenian"],
       "type": "city",
       "partOf": ["greece"]
     },
     "atlanta": {
       "canonical": "Atlanta",
       "variants": ["Atlanta"],
-      "demonyms": ["atlantan"],
+      "demonyms": ["Atlantan"],
       "type": "city",
     "partOf": ["georgia_US"]
     },
     "auckland": {
       "canonical": "Auckland",
       "variants": ["Auckland"],
-      "demonyms": ["aucklander",
-        "jafa"],
+      "demonyms": ["Aucklander",
+        "Jafa"],
       "type": "city",
       "partOf": ["new zealand"]
     },
     "baghdad": {
       "canonical": "Baghdad",
       "variants": ["Baghdad"],
-      "demonyms": ["baghdadi"],
+      "demonyms": ["Baghdadi"],
       "type": "city",
       "partOf": ["iraq"]
     },
     "baku": {
       "canonical": "Baku",
       "variants": ["Baku"],
-      "demonyms": ["bakuvian"],
+      "demonyms": ["Bakuvian"],
       "type": "city",
       "partOf": ["azerbaijan"]
     },
     "baltimore": {
       "canonical": "Baltimore",
       "variants": ["Baltimore"],
-      "demonyms": ["baltimoron",
-        "baltimorean"],
+      "demonyms": ["Baltimoron",
+        "Baltimorean"],
       "type": "city",
     "partOf": ["maryland"]
     },
     "bangkok": {
       "canonical": "Bangkok",
       "variants": ["Bangkok"],
-      "demonyms": ["bangkokian"],
+      "demonyms": ["Bangkokian"],
       "type": "city",
       "partOf": ["thailand"]
     },
     "barcelona": {
       "canonical": "Barcelona",
       "variants": ["Barcelona"],
-      "demonyms": ["barcelonan",
-        "catalan"],
+      "demonyms": ["Barcelonan",
+        "Catalan"],
       "type": "city",
       "partOf": ["catalonia", "spain"]
     },
     "beirut": {
       "canonical": "Beirut",
       "variants": ["Beirut"],
-      "demonyms": ["beiruti"],
+      "demonyms": ["Beiruti"],
       "type": "city",
       "partOf": ["lebanon"]
     },
     "belfast": {
       "canonical": "Belfast",
       "variants": ["Belfast"],
-      "demonyms": ["belfastian",
-        "belfaster",
-        "belfastite"],
+      "demonyms": ["Belfastian",
+        "Belfaster",
+        "Belfastite"],
       "type": "city",
       "partOf": ["northern_ireland"]
     },
     "belgrade": {
       "canonical": "Belgrade",
       "variants": ["Belgrade"],
-      "demonyms": ["belgradian"],
+      "demonyms": ["Belgradian"],
       "type": "city",
       "partOf": ["serbia"]
     },
     "berlin": {
       "canonical": "Berlin",
       "variants": ["Berlin"],
-      "demonyms": ["berliner"],
+      "demonyms": ["Berliner"],
       "type": "city",
       "partOf": ["germany"]
     },
     "birmingham_UK": {
       "canonical": "Birmingham",
       "variants": ["Birmingham"],
-      "demonyms": ["brummie"],
+      "demonyms": ["Brummie"],
       "type": "city",
       "partOf": ["england"]
     },
     "bogot": {
       "canonical": "Bogotá",
       "variants": ["Bogotá"],
-      "demonyms": ["bogotano",
-        "bogotana",
-        "bogotan",
-        "rolo",
-        "rola",
-        "cachaco"],
+      "demonyms": ["Bogotano",
+        "Bogotana",
+        "Bogotan",
+        "Rolo",
+        "Rola",
+        "Cachaco"],
       "type": "city",
       "partOf": ["colombia"]
     },
     "boston": {
       "canonical": "Boston",
       "variants": ["Boston"],
-      "demonyms": ["bostonian"],
+      "demonyms": ["Bostonian"],
       "type": "city",
     "partOf": ["massachusetts"]
     },
     "braslia": {
       "canonical": "Brasília",
       "variants": ["Brasília"],
-      "demonyms": ["brasílian"],
+      "demonyms": ["Brasílian"],
       "type": "city",
       "partOf": ["brazil"]
     },
     "brussels": {
       "canonical": "Brussels",
       "variants": ["Brussels"],
-      "demonyms": ["brusselian",
-        "brusseler",
-        "bruxellois",
-        "brusselaar"],
+      "demonyms": ["Brusselian",
+        "Brusseler",
+        "Bruxellois",
+        "Brusselaar"],
       "type": "city",
       "partOf": ["belgium"]
     },
     "bucharest": {
       "canonical": "Bucharest",
       "variants": ["Bucharest"],
-      "demonyms": ["bucharester",
-        "bucureștean"],
+      "demonyms": ["Bucharester",
+        "Bucureștean"],
       "type": "city",
       "partOf": ["romania"]
     },
     "budapest": {
       "canonical": "Budapest",
       "variants": ["Budapest"],
-      "demonyms": ["budapestian"],
+      "demonyms": ["Budapestian"],
       "type": "city",
       "partOf": ["hungary"]
     },
     "buenos_aires": {
       "canonical": "Buenos Aires",
       "variants": ["Buenos Aires"],
-      "demonyms": ["porteño",
-        "porteña"],
+      "demonyms": ["Porteño",
+        "Porteña"],
       "type": "city",
       "partOf": ["argentina"]
     },
     "cairo": {
       "canonical": "Cairo",
       "variants": ["Cairo"],
-      "demonyms": ["cairene"],
+      "demonyms": ["Cairene"],
       "type": "city",
       "partOf": ["egypt"]
     },
     "calgary": {
       "canonical": "Calgary",
       "variants": ["Calgary"],
-      "demonyms": ["calgarian"],
+      "demonyms": ["Calgarian"],
       "type": "city",
       "partOf": ["canada"]
     },
     "cape_town": {
       "canonical": "Cape Town",
       "variants": ["Cape Town"],
-      "demonyms": ["capetonian"],
+      "demonyms": ["Capetonian"],
       "type": "city",
       "partOf": ["south_africa"]
     },
     "caracas": {
       "canonical": "Caracas",
       "variants": ["Caracas"],
-      "demonyms": ["caraquenian",
-        "caraqueño",
-        "caraqueña"],
+      "demonyms": ["Caraquenian",
+        "Caraqueño",
+        "Caraqueña"],
       "type": "city",
       "partOf": ["venezuela"]
     },
     "casablanca": {
       "canonical": "Casablanca",
       "variants": ["Casablanca"],
-      "demonyms": ["casablancan"],
+      "demonyms": ["Casablancan"],
       "type": "city",
       "partOf": ["morocco"]
     },
     "chicago": {
       "canonical": "Chicago",
       "variants": ["Chicago"],
-      "demonyms": ["chicagoan"],
+      "demonyms": ["Chicagoan"],
       "type": "city",
     "partOf": ["illinois"]
     },
     "copenhagen": {
       "canonical": "Copenhagen",
       "variants": ["Copenhagen"],
-      "demonyms": ["copenhagener"],
+      "demonyms": ["Copenhagener"],
       "type": "city",
       "partOf": ["denmark"]
     },
     "dallas": {
       "canonical": "Dallas",
       "variants": ["Dallas"],
-      "demonyms": ["dallasite"],
+      "demonyms": ["Dallasite"],
       "type": "city",
       "partOf": ["texas"]
     },
     "detroit": {
       "canonical": "Detroit",
       "variants": ["Detroit"],
-      "demonyms": ["detroiter"],
+      "demonyms": ["Detroiter"],
       "type": "city",
     "partOf": ["michigan"]
     },
     "doha": {
       "canonical": "Doha",
       "variants": ["Doha"],
-      "demonyms": ["dohaite"],
+      "demonyms": ["Dohaite"],
       "type": "city",
       "partOf": ["qatar"]
     },
     "dubai": {
       "canonical": "Dubai",
       "variants": ["Dubai"],
-      "demonyms": ["dubaian"],
+      "demonyms": ["Dubaian"],
       "type": "city",
       "partOf": ["united arab emirates"]
     },
     "dublin": {
       "canonical": "Dublin",
       "variants": ["Dublin"],
-      "demonyms": ["dubliner",
-        "dub"],
+      "demonyms": ["Dubliner",
+        "Dub"],
       "type": "city",
       "partOf": ["northern_ireland"]
     },
     "edinburgh": {
       "canonical": "Edinburgh",
       "variants": ["Edinburgh"],
-      "demonyms": ["edinburgher",
-        "edinburghian"],
+      "demonyms": ["Edinburgher",
+        "Edinburghian"],
       "type": "city",
       "partOf": ["scotland"]
     },
     "frankfurt": {
       "canonical": "Frankfurt",
       "variants": ["Frankfurt"],
-      "demonyms": ["frankfurter"],
+      "demonyms": ["Frankfurter"],
       "type": "city",
       "partOf": ["germany"]
     },
     "geneva": {
       "canonical": "Geneva",
       "variants": ["Geneva"],
-      "demonyms": ["genevan",
-        "genevese"],
+      "demonyms": ["Genevan",
+        "Genevese"],
       "type": "city",
       "partOf": ["switzerland"]
     },
     "glasgow": {
       "canonical": "Glasgow",
       "variants": ["Glasgow"],
-      "demonyms": ["glaswegian",
-        "weegie"],
+      "demonyms": ["Glaswegian",
+        "Weegie"],
       "type": "city",
       "partOf": ["scotland"]
     },
     "hamburg": {
       "canonical": "Hamburg",
       "variants": ["Hamburg"],
-      "demonyms": ["hamburger"],
+      "demonyms": ["Hamburger"],
       "type": "city",
       "partOf": ["germany"]
     },
     "havana": {
       "canonical": "Havana",
       "variants": ["Havana"],
-      "demonyms": ["habanero",
-        "habanera"],
+      "demonyms": ["Habanero",
+        "Habanera"],
       "type": "city",
       "partOf": ["cuba"]
     },
     "helsinki": {
       "canonical": "Helsinki",
       "variants": ["Helsinki"],
-      "demonyms": ["helsinkian",
-        "helsinkiläinen",
-        "helsingforsare"],
+      "demonyms": ["Helsinkian",
+        "Helsinkiläinen",
+        "Helsingforsare"],
       "type": "city",
       "partOf": ["finland", "scandanavia"]
     },
     "houston": {
       "canonical": "Houston",
       "variants": ["Houston"],
-      "demonyms": ["houstonian"],
+      "demonyms": ["Houstonian"],
       "type": "city",
       "partOf": ["texas"]
     },
     "istanbul": {
       "canonical": "Istanbul",
       "variants": ["Istanbul"],
-      "demonyms": ["istanbulite",
-        "istanbullu"],
+      "demonyms": ["Istanbulite",
+        "Istanbullu"],
       "type": "city",
       "partOf": ["turkiye"]
     },
     "jakarta": {
       "canonical": "Jakarta",
       "variants": ["Jakarta"],
-      "demonyms": ["jakartan"],
+      "demonyms": ["Jakartan"],
       "type": "city",
       "partOf": ["indonesia"]
     },
     "karachi": {
       "canonical": "Karachi",
       "variants": ["Karachi"],
-      "demonyms": ["karachiite"],
+      "demonyms": ["Karachiite"],
       "type": "city",
       "partOf": ["pakistan"]
     },
@@ -2370,15 +2370,15 @@ const PLACE_DEMONYM_LOOKUP = {
       "canonical": "Kiev",
       "variants": ["Kyev",
         "Kiev"],
-      "demonyms": ["kyivan",
-        "kievan"],
+      "demonyms": ["Kyivan",
+        "Kievan"],
       "type": "city",
       "partOf": ["ukraine"]
     },
     "kuala_lumpur": {
       "canonical": "Kuala Lumpur",
       "variants": ["Kuala Lumpur"],
-      "demonyms": ["kuala lumpurian",
+      "demonyms": ["Kuala lumpurian",
         "Klite"],
       "type": "city",
       "partOf": ["malaysia"]
@@ -2386,89 +2386,89 @@ const PLACE_DEMONYM_LOOKUP = {
     "kolkata": {
       "canonical": "Kolkata",
       "variants": ["Kolkata"],
-      "demonyms": ["kolkatan"],
+      "demonyms": ["Kolkatan"],
       "type": "city",
       "partOf": ["india"]
     },
     "kyoto": {
       "canonical": "Kyoto",
       "variants": ["Kyoto"],
-      "demonyms": ["kjóťan",
-        "kjóťanka"],
+      "demonyms": ["Kjóťan",
+        "Kjóťanka"],
       "type": "city",
       "partOf": ["japan"]
     },
     "lagos": {
       "canonical": "Lagos",
       "variants": ["Lagos"],
-      "demonyms": ["lagosian",
-        "èkó"],
+      "demonyms": ["Lagosian",
+        "Èkó"],
       "type": "city",
       "partOf": ["nigeria"]
     },
     "lahore": {
       "canonical": "Lahore",
       "variants": ["Lahore"],
-      "demonyms": ["lahori"],
+      "demonyms": ["Lahori"],
       "type": "city",
       "partOf": ["pakistan"]
     },
     "las_vegas": {
       "canonical": "Las Vegas",
       "variants": ["Las Vegas"],
-      "demonyms": ["las vegan"],
+      "demonyms": ["Las vegan"],
       "type": "city",
     "partOf": ["nevada"]
     },
     "leeds": {
       "canonical": "Leeds",
       "variants": ["Leeds"],
-      "demonyms": ["loiner",
-        "leodensian"],
+      "demonyms": ["Loiner",
+        "Leodensian"],
       "type": "city",
       "partOf": ["england"]
     },
     "lima": {
       "canonical": "Lima",
       "variants": ["Lima"],
-      "demonyms": ["limeño",
-        "limeña"],
+      "demonyms": ["Limeño",
+        "Limeña"],
       "type": "city",
       "partOf": ["peru"]
     },
     "lisbon": {
       "canonical": "Lisbon",
       "variants": ["Lisbon"],
-      "demonyms": ["lisboeta",
-        "lisbonite",
-        "lisboner"],
+      "demonyms": ["Lisboeta",
+        "Lisbonite",
+        "Lisboner"],
       "type": "city",
       "partOf": ["portugal"]
     },
     "liverpool": {
       "canonical": "Liverpool",
       "variants": ["Liverpool"],
-      "demonyms": ["liverpudlian",
-        "scouser",
-        "scouse"],
+      "demonyms": ["Liverpudlian",
+        "Scouser",
+        "Scouse"],
       "type": "city",
       "partOf": ["england"]
     },
     "london": {
       "canonical": "London",
       "variants": ["London"],
-      "demonyms": ["londoner"],
+      "demonyms": ["Londoner"],
       "type": "city",
       "partOf": ["united_kingdom"]
     },
     "madrid": {
       "canonical": "Madrid",
       "variants": ["Madrid"],
-      "demonyms": ["madrilenian",
-        "madrileño",
-        "madrileña",
-        "matritense",
-        "gato",
+      "demonyms": ["Madrilenian",
+        "Madrileño",
+        "Madrileña",
+        "Matritense",
+        "Gato",
       ],
       "type": "city",
       "partOf": ["spain"]
@@ -2476,41 +2476,41 @@ const PLACE_DEMONYM_LOOKUP = {
     "manchester": {
       "canonical": "Manchester",
       "variants": ["Manchester"],
-      "demonyms": ["mancunian",
-        "manc"],
+      "demonyms": ["Mancunian",
+        "Manc"],
       "type": "city",
       "partOf": ["england"]
     },
     "manila": {
       "canonical": "Manila",
       "variants": ["Manila"],
-      "demonyms": ["manileño",
+      "demonyms": ["Manileño",
         "Mmnileña",
-        "taga-maynila"],
+        "Taga-maynila"],
       "type": "city",
       "partOf": ["philippines"]
     },
     "melbourne": {
       "canonical": "Melbourne",
       "variants": ["Melbourne"],
-      "demonyms": ["melburnian",
-        "melbournian",
-        "naarm"],
+      "demonyms": ["Melburnian",
+        "Melbournian",
+        "Naarm"],
       "type": "city",
       "partOf": ["australia"]
     },
     "miami": {
       "canonical": "Miami",
       "variants": ["Miami"],
-      "demonyms": ["miamian"],
+      "demonyms": ["Miamian"],
       "type": "city",
     "partOf": ["florida"]
     },
     "milan": {
       "canonical": "Milan",
       "variants": ["Milan"],
-      "demonyms": ["milanese",
-        "milanesi"],
+      "demonyms": ["Milanese",
+        "Milanesi"],
       "type": "city",
       "partOf": ["italy"]
     },
@@ -2524,266 +2524,266 @@ const PLACE_DEMONYM_LOOKUP = {
     "moscow": {
       "canonical": "Moscow",
       "variants": ["Moscow"],
-      "demonyms": ["moscowian",
-        "moscowians",
-        "moscowish",
-        "moscowese",
-        "moscowi",
-        "moscowis"],
+      "demonyms": ["Moscowian",
+        "Moscowians",
+        "Moscowish",
+        "Moscowese",
+        "Moscowi",
+        "Moscowis"],
       "type": "city",
       "partOf": ["russia"]
     },
     "c": {
       "canonical": "Munich",
       "variants": ["Munich"],
-      "demonyms": ["münchner",
-        "munichois",
-        "munichite"],
+      "demonyms": ["Münchner",
+        "Munichois",
+        "Munichite"],
       "type": "city",
       "partOf": ["germany"]
     },
     "new_orleans": {
       "canonical": "New Orleans",
       "variants": ["New Orleans"],
-      "demonyms": ["new orleanian"],
+      "demonyms": ["New orleanian"],
       "type": "city",
     "partOf": ["louisana"]
     },
     "osaka": {
       "canonical": "Osaka",
       "variants": ["Osaka"],
-      "demonyms": ["osakan",
-        "osakien",
-        "osakienne"],
+      "demonyms": ["Osakan",
+        "Osakien",
+        "Osakienne"],
       "type": "city",
       "partOf": ["japan"]
     },
     "oslo": {
       "canonical": "Oslo",
       "variants": ["Oslo"],
-      "demonyms": ["osloenser",
-        "oslojente",
-        "oslogutt",
-        "oslovian",
-        "oslofolk"],
+      "demonyms": ["Osloenser",
+        "Oslojente",
+        "Oslogutt",
+        "Oslovian",
+        "Oslofolk"],
       "type": "city",
       "partOf": ["norway"]
     },
     "ottawa": {
       "canonical": "Ottawa",
       "variants": ["Ottawa"],
-      "demonyms": ["ottawan"],
+      "demonyms": ["Ottawan"],
       "type": "city",
       "partOf": ["canada"]
     },
     "paris": {
       "canonical": "Paris",
       "variants": ["Paris"],
-      "demonyms": ["parisian"],
+      "demonyms": ["Parisian"],
       "type": "city",
       "partOf": ["france"]
     },
     "phoenix": {
       "canonical": "Phoenix",
       "variants": ["Phoenix"],
-      "demonyms": ["phoenician"],
+      "demonyms": ["Phoenician"],
       "type": "city",
     "partOf": ["arizona"]
     },
     "prague": {
       "canonical": "Prague",
       "variants": ["Prague"],
-      "demonyms": ["praguer",
-        "pražan",
-        "pražak"],
+      "demonyms": ["Praguer",
+        "Pražan",
+        "Pražak"],
       "type": "city",
       "partOf": ["czech republic"]
     },
     "reykjavik": {
       "canonical": "Reykjavik",
       "variants": ["Reykjavik"],
-      "demonyms": ["reykjavikingur"],
+      "demonyms": ["Reykjavikingur"],
       "type": "city",
       "partOf": ["iceland", "scandanavia"]
     },
     "rio_de_janeiro": {
       "canonical": "Rio de Janeiro",
       "variants": ["Rio de Janeiro"],
-      "demonyms": ["carioca",
-        "fluminenses"],
+      "demonyms": ["Carioca",
+        "Fluminenses"],
       "type": "city",
       "partOf": ["brazil"]
     },
     "rome": {
       "canonical": "Rome",
       "variants": ["Rome"],
-      "demonyms": ["roman"],
+      "demonyms": ["Roman"],
       "type": "city",
       "partOf": ["italy"]
     },
     "san_diego": {
       "canonical": "San Diego",
       "variants": ["San Diego"],
-      "demonyms": ["san diegan"],
+      "demonyms": ["San diegan"],
       "type": "city",
       "partOf": ["california"]
     },
     "san_jose": {
       "canonical": "San Jose",
       "variants": ["San Jose"],
-      "demonyms": ["san josean",
-        "san josefina",
-        "san josefino"],
+      "demonyms": ["San josean",
+        "San josefina",
+        "San josefino"],
       "type": "city",
       "partOf": ["costa_rica"]
     },
     "santiago": {
       "canonical": "Santiago",
       "variants": ["Santiago"],
-      "demonyms": ["santiaguino",
-        "santiagueño",
-        "santiaguero",
-        "santiagan",
-        "compostelano"],
+      "demonyms": ["Santiaguino",
+        "Santiagueño",
+        "Santiaguero",
+        "Santiagan",
+        "Compostelano"],
       "type": "city",
       "partOf": ["chile"]
     },
     "sao_paulo": {
       "canonical": "São Paulo",
       "variants": ["São Paulo"],
-      "demonyms": ["paulistano",
-        "paulisa"],
+      "demonyms": ["Paulistano",
+        "Paulisa"],
       "type": "city",
       "partOf": ["brazil"]
     },
     "seoul": {
       "canonical": "Seoul",
       "variants": ["Seoul"],
-      "demonyms": ["seoulite"],
+      "demonyms": ["Seoulite"],
       "type": "city",
       "partOf": ["south korea"]
     },
     "shanghai": {
       "canonical": "Shanghai",
       "variants": ["Shanghai"],
-      "demonyms": ["shanghainese",
-        "shanghairen",
-        "shanghailander"],
+      "demonyms": ["Shanghainese",
+        "Shanghairen",
+        "Shanghailander"],
       "type": "city",
       "partOf": ["china"]
     },
     "stockholm": {
       "canonical": "Stockholm",
       "variants": ["Stockholm"],
-      "demonyms": ["stockholmer",
-        "stockholmite",
-        "stockholmare"],
+      "demonyms": ["Stockholmer",
+        "Stockholmite",
+        "Stockholmare"],
       "type": "city",
       "partOf": ["sweden"]
     },
     "stuttgart": {
       "canonical": "Stuttgart",
       "variants": ["Stuttgart"],
-      "demonyms": ["stuttgarer"],
+      "demonyms": ["Stuttgarer"],
       "type": "city",
       "partOf": ["germany"]
     },
     "sydney": {
       "canonical": "Sydney",
       "variants": ["Sydney"],
-      "demonyms": ["sydneysider",
-        "sydneyite",
-        "sydneyan"],
+      "demonyms": ["Sydneysider",
+        "Sydneyite",
+        "Sydneyan"],
       "type": "city",
       "partOf": ["australia"]
     },
     "tallinn": {
       "canonical": "Tallinn",
       "variants": ["Tallinn"],
-      "demonyms": ["tallinner",
-        "tallinlane"],
+      "demonyms": ["Tallinner",
+        "Tallinlane"],
       "type": "city",
       "partOf": ["estonia"]
     },
     "tehran": {
       "canonical": "Tehran",
       "variants": ["Tehran"],
-      "demonyms": ["tehrani"],
+      "demonyms": ["Tehrani"],
       "type": "city",
       "partOf": ["iran"]
     },
     "tokyo": {
       "canonical": "Tokyo",
       "variants": ["Tokyo"],
-      "demonyms": ["tokyoite",
-        "tomin",
-        "edokko"],
+      "demonyms": ["Tokyoite",
+        "Tomin",
+        "Edokko"],
       "type": "city",
       "partOf": ["japan"]
     },
     "toronto": {
       "canonical": "Toronto",
       "variants": ["Toronto"],
-      "demonyms": ["torontonian",
-        "torontois",
-        "torontoise"],
+      "demonyms": ["Torontonian",
+        "Torontois",
+        "Torontoise"],
       "type": "city",
       "partOf": ["canada"]
     },
     "vancouver": {
       "canonical": "Vancouver",
       "variants": ["Vancouver"],
-      "demonyms": ["vancouverite"],
+      "demonyms": ["Vancouverite"],
       "type": "city",
       "partOf": ["canada"]
     },
     "vienna": {
       "canonical": "Vienna",
       "variants": ["Vienna"],
-      "demonyms": ["viennese",
-        "wiener",
-        "wienerin"],
+      "demonyms": ["Viennese",
+        "Wiener",
+        "Wienerin"],
       "type": "city",
       "partOf": ["austria"]
     },
     "vilnius": {
       "canonical": "Vilnius",
       "variants": ["Vilnius"],
-      "demonyms": ["vilnian",
-        "vilnietis",
-        "vilnietė"],
+      "demonyms": ["Vilnian",
+        "Vilnietis",
+        "Vilnietė"],
       "type": "city",
       "partOf": ["lithuania"]
     },
     "warsaw": {
       "canonical": "Warsaw",
       "variants": ["Warsaw"],
-      "demonyms": ["varsovian",
-        "warszawianin",
-        "warszawiak",
-        "waszawianka"],
+      "demonyms": ["Varsovian",
+        "Warszawianin",
+        "Warszawiak",
+        "Waszawianka"],
       "type": "city",
       "partOf": ["poland"]
     },
     "washington": {
       "canonical": "Washington",
       "variants": ["Washington", "DC", "Evergreen State"],
-      "demonyms": ["washingtonian"],
+      "demonyms": ["Washingtonian"],
       "type": "city",
       "partOf": ["united_states"]
     },
     "wellington": {
       "canonical": "Wellington",
       "variants": ["Wellington"],
-      "demonyms": ["wellingtonian"],
+      "demonyms": ["Wellingtonian"],
       "type": "city",
       "partOf": ["new zealand"]
     },
     "zurich": {
       "canonical": "Zürich",
       "variants": ["Zürich"],
-      "demonyms": ["zürcher",
-        "zürcherin"],
+      "demonyms": ["Zürcher",
+        "Zürcherin"],
       "type": "city",
       "partOf": ["switzerland"]
     },
@@ -2805,15 +2805,15 @@ const PLACE_DEMONYM_LOOKUP = {
       "canonical": "Gaza City",
       "variants": ["Gaza City",
         "Gaza"],
-      "demonyms": ["gazan"],
+      "demonyms": ["Gazan"],
       "type": "city",
       "partOf": ["palestine"]
     },
     "hebron": {
       "canonical": "Hebron",
       "variants": ["Hebron"],
-      "demonyms": ["hebroniate",
-        "khalili"],
+      "demonyms": ["Hebroniate",
+        "Khalili"],
       "type": "city",
       "partOf": ["palestine"]
     },
@@ -2827,110 +2827,110 @@ const PLACE_DEMONYM_LOOKUP = {
     "mariupol": {
       "canonical": "Mariupol",
       "variants": ["Mariupol"],
-      "demonyms": ["mariupolian",
-        "mariupolitan",
-        "azov",
-        "tauro",
-        "romaic"],
+      "demonyms": ["Mariupolian",
+        "Mariupolitan",
+        "Azov",
+        "Tauro",
+        "Romaic"],
       "type": "city",
       "partOf": ["ukraine"]
     },
     "sevastopol": {
       "canonical": "Sevastopol",
       "variants": ["Sevastopol"],
-      "demonyms": ["sevastopolitan",
-        "sevastopolian"],
+      "demonyms": ["Sevastopolitan",
+        "Sevastopolian"],
       "type": "city",
       "partOf": ["crimea"]
     },
     "simferopol": {
       "canonical": "Simferopol",
       "variants": ["Simferopol"],
-      "demonyms": ["simferopolitan"],
+      "demonyms": ["Simferopolitan"],
       "type": "city",
       "partOf": ["crimea"]
     },
     "pristina": {
       "canonical": "Pristina",
       "variants": ["Pristina"],
-      "demonyms": ["prishtinase",
-        "prishtinas",
-        "pristinali",
-        "pristinalie"],
+      "demonyms": ["Prishtinase",
+        "Prishtinas",
+        "Pristinali",
+        "Pristinalie"],
       "type": "city",
       "partOf": ["kosovo"]
     },
     "stepanakert": {
       "canonical": "Stepanakert",
       "variants": ["Stepanakert"],
-      "demonyms": ["stepanakertian"],
+      "demonyms": ["Stepanakertian"],
       "type": "city",
       "partOf": ["azerbaijan"]
     },
     "shusha": {
       "canonical": "Shusha",
       "variants": ["Shusha"],
-      "demonyms": ["shushali",
-        "shushalinsk"],
+      "demonyms": ["Shushali",
+        "Shushalinsk"],
       "type": "city",
       "partOf": ["azerbaijan"]
     },
     "islamabad": {
       "canonical": "Islamabad",
       "variants": ["Islamabad"],
-      "demonyms": ["islamabadi"],
+      "demonyms": ["Islamabadi"],
       "type": "city",
       "partOf": ["pakistan"]
     },
     "srinagar": {
       "canonical": "Srinagar",
       "variants": ["Srinagar"],
-      "demonyms": ["srinagari",
-        "sirinagari",
-        "sirinagaruk",
-        "shaharuk",
-        "srinagarite"],
+      "demonyms": ["Srinagari",
+        "Sirinagari",
+        "Sirinagaruk",
+        "Shaharuk",
+        "Srinagarite"],
       "type": "city",
       "partOf": ["india"]
     },
     "damascus": {
       "canonical": "Damascus",
       "variants": ["Damascus"],
-      "demonyms": ["damascene",
-        "dimašqī"],
+      "demonyms": ["Damascene",
+        "Dimašqī"],
       "type": "city",
       "partOf": ["syria"]
     },
     "yerevan": {
       "canonical": "Yerevan",
       "variants": ["Yerevan"],
-      "demonyms": ["yerevantsi",
-        "yerevanite",
-        "yerevanian"],
+      "demonyms": ["Yerevantsi",
+        "Yerevanite",
+        "Yerevanian"],
       "type": "city",
       "partOf": ["armenia"]
     },
     "tabriz": {
       "canonical": "Tabriz",
       "variants": ["Tabriz"],
-      "demonyms": ["tabrizi",
-        "azeri",
-        "azari"],
+      "demonyms": ["Tabrizi",
+        "Azeri",
+        "Azari"],
       "type": "city",
       "partOf": ["iran"]
     },
     "ankara": {
       "canonical": "Ankara",
       "variants": ["Ankara"],
-      "demonyms": ["ankaran",
-        "ankaralı"],
+      "demonyms": ["Ankaran",
+        "Ankaralı"],
       "type": "city",
       "partOf": ["turkiye"]
     },
     "alabama": {
       "canonical": "Alabama",
       "variants": ["Alabama", "Bama", "Yellowhammer State", "Dixie", "Cotton State"],
-      "demonyms": ["alabaman", "alabamian"],
+      "demonyms": ["Alabaman", "Alabamian"],
       "type": "region",
       "partOf": ["united_states"]
     },
@@ -2951,28 +2951,28 @@ const PLACE_DEMONYM_LOOKUP = {
   "arkansas": {
     "canonical": "Arkansas",
     "variants": ["Arkansas", "Natural State"],
-    "demonyms": ["arkansan", "arkansawyer", "arkanite"],
+    "demonyms": ["Arkansan", "Arkansawyer", "Arkanite"],
     "type": "region",
     "partOf": ["united_states"]
   },
   "colorado": {
     "canonical": "Colorado",
     "variants": ["Colorado", "Centennial State"],
-    "demonyms": ["coloradan"],
+    "demonyms": ["Coloradan"],
     "type": "region",
     "partOf": ["united_states"]
   },
   "connecticut": {
     "canonical": "Connecticut",
     "variants": ["Connecticut", "Constitution State", "Nutmeg State", "Provisions State"],
-    "demonyms": ["nutmegger", "connecticuter", "connecticutian"],
+    "demonyms": ["Nutmegger", "Connecticuter", "Connecticutian"],
     "type": "region",
     "partOf": ["united_states"]
   },
   "delaware": {
     "canonical": "Delaware",
     "variants": ["Delaware", "First State", "Small Wonder", "Blue Hen State", "Diamon State"],
-    "demonyms": ["delawarean"],
+    "demonyms": ["Delawarean"],
     "type": "region",
     "partOf": ["united_states"]
   },
@@ -3007,7 +3007,7 @@ const PLACE_DEMONYM_LOOKUP = {
   "illinois": {
     "canonical": "Illinois",
     "variants": ["Illinois", "Land of Lincoln", "Prairie state", "Inland Empire State"],
-    "demonyms": ["illinoisan"],
+    "demonyms": ["Illinoisan"],
     "type": "region",
     "partOf": ["united_states"]
   },
@@ -3696,6 +3696,13 @@ const PLACE_DEMONYM_LOOKUP = {
     "demonyms": [],
     "type": "city",
     "partOf": ["ecuador", "oceania"]
+  },
+  "anDanzig": {
+    "canonical": "Gdańsk",
+    "variants": ["Gdańsk", "Wolne Miasto Gdańsk", "Danzig", "Freie Stadt Danzig", "Danzig"],
+    "demonyms": ["Gdańszczanie", "Danziger"],
+    "type": "city",
+    "partOf": ["poland", "germany"]
   }
 },
 

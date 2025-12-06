@@ -32,10 +32,21 @@ const SOURCE_DATA = {
             "url": "https://www.adl.org/sites/default/files/ADL%20Hate%20on%20Display%20Printable_0.pdf",
         },
         {
+            "id": "citg",
+            "string": "Chew Glossary",
+            "description": "Chew Inclusive Terminology Glossary",
+            "url": " https://itg.nls.uk/wiki/LGBTQIA%2B_Slurs_and_Slang",
+        },
+        {
+            "id": "aos",
+            "string": "Action on Sectarianism",
+            "description": "Action on Sectarianism Glossary",
+            "url": "https://www.actiononsectarianism.info/library-main/research/sectarianism-glossary-of-terms",
+        }, {
             "id": "wiki",
             "string": "Wikipedia",
             "description": "Wikipedia",
             "url": "https://www.wikipedia.org",
-        },
+        },   
     ]
 };

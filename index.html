@@ -318,6 +318,12 @@
             pointer-events: auto;
         }
 
+        /* Mobile touch visibility control */
+        .tooltip.tooltip-touch-active {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+
         /* Tooltip arrow - default (pointing down from top tooltip) */
         .tooltip::after {
             content: '';
@@ -590,26 +596,32 @@
                                 <br>
                                 <b>1.</b> Type or paste your text into the input area.<br>
                                 <b>2.</b> Click 'Analyze'.<br>
-                                <b>3.</b> Hover over highlighted or underlined terms to see their meanings.
+                                <b>3.</b> Hover over or touch highlighted / underlined terms to see their meanings.
+                                <br>
+                                On touch enabled devices, touch anywhere other than the term to close the tooltip.
+                                <br>
+                                Highlighting indicates potentially coded language, underlining indicates a potentially
+                                harmful term.
                                 <br>
                                 The highlight / underling color denotes the category (see legend).<br>
                                 <b>4.</b> Check the signal score to see how much coded or harmful language appears.
                                 <br>
-                                <b>5.</b> Hover over the ⓘ icon for signal score calculation details
+                                <b>5.</b> Hover over or touch the ⓘ icon for signal score calculation details.
                             </p>
                             <p>
                                 <b>Notes:</b>
-                                <p>
+                            <p>
                                 A high signal score doesn't automatically indicate harmful intent.
-                                </p>
-                                <p>
+                            </p>
+                            <p>
                                 There is often considerable crossover between categories, we have done our best to
                                 categorise broadly however due to the nature of coded language it is difficult to be
                                 absolute. Use context clues in the text to help you decipher intent.
-                                </p>
+                            </p>
                             </p>
                         </td>
-                        <td style="padding-left: var(--spacing-lg); padding-right: var(--spacing-lg); vertical-align:top">
+                        <td
+                            style="padding-left: var(--spacing-lg); padding-right: var(--spacing-lg); vertical-align:top">
                             <h3>Legend</h3>
                             <div id="legend"></div>
                         </td>
@@ -642,7 +654,7 @@
                 <p>
                     Created by the GoodBoy Team | <a href=https://ko-fi.com/nautiluszaibatsu> Support this project ↗</a>
                     <br>
-                    Contributions welcome via the official <a href=https://github.com/NautilusZaibatsu/GoodBoy> GitHub
+                    Contributions welcome via the <a href=https://github.com/NautilusZaibatsu/GoodBoy> GitHub
                         Repository ↗</a>
                 </p>
                 <p>
@@ -656,7 +668,7 @@
 
         <footer>
             <div class="expandable-div" onclick="toggleSection('attributionContent')">
-                <h3>Data Sources</h3>
+                <h3>Sources</h3>
                 <span class="expand-div-toggle">▼</span>
             </div>
             <div class="expandable-div-content" id="attributionContent">
@@ -681,6 +693,7 @@
 
     <!-- Load shared obfuscation utilities (DRY - single source of truth) -->
     <script src="js/obfuscation-utils.js"></script>
+    <script src="js/matchers.js"></script>
 
 
     <!-- Load theme configuration (design system) -->
@@ -688,6 +701,12 @@
 
     <!-- Load category hierarchy (shared with dev-tools) -->
     <script src="js/category-config.js"></script>
+
+    <!-- Load signal score calculator module -->
+    <script src="js/signal-score.js"></script>
+
+    <!-- Load religionym lookup -->
+    <script src="data/religionym_lookup.js"></script>
 
     <!-- Load unified place-demonym lookup -->
     <script src="data/place_demonym_lookup.js"></script>
@@ -712,8 +731,35 @@
         });
         legendDiv.innerHTML = legendHtml;
 
+        // Initialize matchers when data is loaded
+        const dogWhistleData = typeof GOODBOY_DATA !== 'undefined' ? GOODBOY_DATA : null;
+        const harmfulTermData = typeof GOODBOY_HARMFUL_TERM_DATA !== 'undefined' ? GOODBOY_HARMFUL_TERM_DATA : null;
+
+        if (dogWhistleData) {
+            matcher = new DogWhistleMatcher(dogWhistleData);
+        } else {
+            console.error('Error: Failed to load dog whistle database.');
+        }
+
+        if (harmfulTermData) {
+            harmfulTermMatcher = new HarmfulTermMatcher(harmfulTermData);
+        } else {
+            console.error('Error: Failed to load harmful term database.');
+        }
+
+        // Initialize pattern matcher for populist detection
+        if (dogWhistleData && typeof PLACE_DEMONYM_LOOKUP !== 'undefined') {
+            PatternMatcher.initialize(dogWhistleData.terms);
+            console.log('✓ Pattern matcher initialized for populist detection');
+        } else if (typeof PLACE_DEMONYM_LOOKUP === 'undefined') {
+            console.warn('Place-demonym lookup not loaded, populist pattern matching disabled');
+        }
+
+        if (!dogWhistleData && !harmfulTermData) {
+            alert('Error: Failed to load databases. Please refresh the page.');
+        }
+
         // Theme configuration loaded from js/theme-config.js
-        // THEME_CONFIG and initializeTheme() are now defined in that file
 
         /**
          * POPULIST PATTERN MATCHING SYSTEM
@@ -731,324 +777,6 @@
          *   - Regions/cities → Localist
          * - Dynamic patterns with other categories (racist, antisemitic, etc.) → preserve original category
          */
-
-        // Morphological generator: converts places to group names (demonyms)
-        // MorphologyUtils is now imported from /js/morphology-utils.js (shared with dev-tools)
-
-        // Pattern extractor and matcher for populist language
-        const PatternMatcher = {
-            patterns: [],
-            place_demonym_lookup_loaded: false,
-
-            // Initialize by extracting patterns from dog whistles
-            initialize(dogWhistles) {
-                if (typeof PLACE_DEMONYM_LOOKUP === 'undefined') {
-                    console.warn('Place-demonym lookup not loaded yet, pattern matching disabled');
-                    return;
-                }
-
-                // Build indices for fast lookups
-                PLACE_DEMONYM_LOOKUP.buildIndices();
-
-                this.place_demonym_lookup_loaded = true;
-                this.allPlaces = PLACE_DEMONYM_LOOKUP.getAllVariants();
-
-                // Build place → type mapping for backward compatibility
-                this.placeTypes = {};
-                ['country', 'region', 'city'].forEach(type => {
-                    const places = PLACE_DEMONYM_LOOKUP.getPlacesByType(type);
-                    places.forEach(place => {
-                        place.variants.forEach(variant => {
-                            this.placeTypes[variant.toLowerCase()] = type;
-                        });
-                    });
-                });
-
-                // Extract patterns from dog whistles
-                this.extractPatterns(dogWhistles);
-            },
-
-            // Extract patterns from existing dog whistles
-            extractPatterns(dogWhistles) {
-                const seenPatterns = new Set(); // Deduplicate by pattern text
-
-                dogWhistles.forEach(dw => {
-                    // SKIP if not dynamic mode - location-specific patterns shouldn't generate variations
-                    if (!dw.categoryMode || dw.categoryMode !== 'dynamic') {
-                        return; // Don't extract pattern - location-specific (e.g., "Israel Lobby", "China Virus")
-                    }
-
-                    // Process root AND all variations
-                    const termsToCheck = [dw.root, ...(dw.variations || [])];
-
-                    termsToCheck.forEach(term => {
-                        let placeFound = this.findPlaceInText(term);
-                        let demonymFound = this.findDemonymInText(term);
-
-                        // If both place and demonym found, check if they overlap
-                        // If they overlap, choose the longer match (e.g., "Americans" over "America")
-                        if (placeFound && demonymFound) {
-                            const lowerTerm = term.toLowerCase();
-                            const placeIndex = lowerTerm.indexOf(placeFound.place.toLowerCase());
-                            const demonymIndex = lowerTerm.indexOf(demonymFound.demonym.toLowerCase());
-                            const placeEnd = placeIndex + placeFound.place.length;
-                            const demonymEnd = demonymIndex + demonymFound.demonym.length;
-
-                            // Check for overlap: ranges overlap if start < otherEnd AND end > otherStart
-                            if (placeIndex < demonymEnd && placeEnd > demonymIndex) {
-                                // They overlap - choose the longer one
-                                if (demonymFound.demonym.length > placeFound.place.length) {
-                                    placeFound = null; // Keep demonym
-                                } else {
-                                    demonymFound = null; // Keep place
-                                }
-                            }
-                            // If no overlap, keep both (e.g., "Keep England English")
-                        }
-
-                        // 3. Create pattern with placeholders
-                        let patternText = term.toLowerCase();
-                        let placeholders = [];
-                        let demonymForm = null;
-                        let basePlace = null;
-
-                        if (placeFound && demonymFound) {
-                            // Both place and demonym → two placeholders
-                            // Replace place first, then demonym to avoid conflicts
-                            patternText = patternText
-                                .replace(placeFound.matchedText.toLowerCase(), '[place]')
-                                .replace(demonymFound.demonym.toLowerCase(), '[demonym]');
-
-                            placeholders = ['place', 'demonym'];
-                            demonymForm = demonymFound.form;
-
-                        } else if (placeFound) {
-                            // Only place → single placeholder (like "America First")
-                            patternText = patternText.replace(placeFound.matchedText.toLowerCase(), '[place]');
-                            placeholders = ['place'];
-
-                        } else if (demonymFound) {
-                            // Only demonym → reverse-lookup place, single placeholder
-                            patternText = patternText.replace(demonymFound.demonym.toLowerCase(), '[demonym]');
-                            placeholders = ['demonym'];
-                            demonymForm = demonymFound.form;
-                            basePlace = demonymFound.place;
-                        }
-
-                        // Only add pattern if we found at least one placeholder and there's context
-                        if (placeholders.length > 0) {
-                            // Check that there's context around the placeholder(s)
-                            const hasContext = patternText.replace(/\[place\]/g, '').replace(/\[demonym\]/g, '').trim().length > 0;
-
-                            if (hasContext) {
-                                // Deduplicate: only add if we haven't seen this pattern text before
-                                if (!seenPatterns.has(patternText)) {
-                                    seenPatterns.add(patternText);
-                                    const pattern = {
-                                        original: term,
-                                        pattern: patternText,
-                                        placeholders: placeholders,
-                                        demonymForm: demonymForm,
-                                        basePlace: basePlace, // For demonym-only patterns
-                                        dogWhistle: dw
-                                    };
-                                    this.patterns.push(pattern);
-                                }
-                            }
-                        }
-                    });
-                });
-
-                console.log(`Extracted ${this.patterns.length} dynamic patterns`);
-            },
-
-            // Find place names in text
-            findPlaceInText(text) {
-                const lowerText = text.toLowerCase();
-
-                // Iterate through all place variants and check if they appear in text
-                for (const placeVariant of this.allPlaces) {
-                    const lowerPlace = placeVariant.toLowerCase();
-                    const regex = new RegExp(`\\b${lowerPlace}\\b`, 'i');
-
-                    if (regex.test(text)) {
-                        const placeData = PLACE_DEMONYM_LOOKUP.findPlaceByVariant(placeVariant);
-                        if (placeData) {
-                            return {
-                                place: placeData.canonical,
-                                type: placeData.type,
-                                isGroup: false,
-                                matchedText: placeVariant  // Add the actual matched variant
-                            };
-                        }
-                    }
-                }
-
-                return null;
-            },
-
-            // Find demonym in text and return place info (includes hierarchical demonyms)
-            findDemonymInText(text) {
-                const lowerText = text.toLowerCase();
-
-                // Iterate through all places and check if any of their demonyms (including hierarchical) appear in text
-                for (const placeVariant of this.allPlaces) {
-                    // Get ALL demonyms including hierarchical ones (e.g., Rome → Italian, European)
-                    const allDemonyms = PLACE_DEMONYM_LOOKUP.getAllDemonymsWithHierarchy(placeVariant);
-
-                    for (const demonymObj of allDemonyms) {
-                        const regex = new RegExp(`\\b${demonymObj.demonym}\\b`, 'i');
-                        if (regex.test(text)) {
-                            return {
-                                demonym: demonymObj.demonym,
-                                place: demonymObj.place,  // The place this demonym comes from (could be parent)
-                                type: PLACE_DEMONYM_LOOKUP.findPlaceByVariant(placeVariant).type,
-                                basePlace: placeVariant  // The base place we're checking
-                            };
-                        }
-                    }
-                }
-
-                return null;
-            },
-
-            // Analyze text for pattern matches
-            analyze(text) {
-                if (!this.place_demonym_lookup_loaded || this.patterns.length === 0) {
-                    console.log(
-                        'Pattern matching skipped:',
-                        !this.place_demonym_lookup_loaded ? 'place_demonym_lookup not loaded' : 'no patterns'
-                    );
-                    return { matches: [] };
-                }
-
-                const potentialMatches = [];
-                const lowerText = text.toLowerCase();
-
-                this.patterns.forEach(pattern => {
-                    this.allPlaces.forEach(placeVariant => {
-                        const placeData = PLACE_DEMONYM_LOOKUP.findPlaceByVariant(placeVariant);
-                        if (!placeData) return;
-
-                        // Get ALL demonyms including hierarchical ones (e.g., Rome → Roman, Italian, European)
-                        const allDemonymObjs = PLACE_DEMONYM_LOOKUP.getAllDemonymsWithHierarchy(placeVariant);
-                        const allDemonyms = allDemonymObjs.map(d => d.demonym);
-                        let expectedTexts = [];
-
-                        if (pattern.placeholders.includes('place') && pattern.placeholders.includes('demonym')) {
-                            allDemonyms.forEach(demonym => {
-                                const expected = pattern.pattern
-                                    .replace('[place]', placeVariant)    // preserve dataset variant capitalization
-                                    .replace('[demonym]', demonym);     // preserve demonym capitalization
-                                expectedTexts.push({ text: expected, demonym: demonym, isGroup: true });
-                            });
-
-                        } else if (pattern.placeholders.includes('place')) {
-                            const expected = pattern.pattern.replace('[place]', placeVariant);
-                            expectedTexts.push({ text: expected, demonym: null, isGroup: false });
-
-                        } else if (pattern.placeholders.includes('demonym')) {
-                            allDemonyms.forEach(demonym => {
-                                const expected = pattern.pattern.replace('[demonym]', demonym);
-                                expectedTexts.push({ text: expected, demonym: demonym, isGroup: true });
-                            });
-                        }
-
-                        expectedTexts.forEach(({ text: expectedText, demonym, isGroup }) => {
-                            // Case-insensitive flexible matching
-                            const patternString = ObfuscationUtils.createFlexiblePattern(expectedText);
-                            const flexiblePattern = new RegExp(`${patternString}s?`, 'gi'); // catch plurals
-
-                            let match;
-                            while ((match = flexiblePattern.exec(text)) !== null) {
-                                const start = match.index;
-                                const end = start + match[0].length;
-                                const actualMatchedText = text.substring(start, end); // preserves input capitalization
-
-                                const placeInfo = {
-                                    place: placeData.canonical,
-                                    type: this.placeTypes[placeVariant.toLowerCase()],
-                                    isGroup: isGroup
-                                };
-
-                                const category = this.determineCategoryForMatch(pattern, placeInfo);
-
-                                potentialMatches.push({
-                                    type: 'dogwhistle',
-                                    text: actualMatchedText,                       // use matched text for UI
-                                    term: `${pattern.dogWhistle.root} → ${expectedText}`, // derivation
-                                    category: category,
-                                    definition: pattern.dogWhistle.definition,
-                                    variations: pattern.dogWhistle.variations,
-                                    isPatternMatch: true,
-                                    originalPattern: pattern.original,
-                                    detectedPlace: placeVariant,                  // preserve dataset variant for reference
-                                    isDerived: true,
-                                    derivedFrom: pattern.dogWhistle.root,
-                                    start: start,
-                                    end: end,
-                                    source: pattern.dogWhistle.source
-                                });
-                            }
-                        });
-                    });
-                });
-
-                // Filter overlapping matches - keep longest ones
-                const matches = [];
-                potentialMatches.sort((a, b) => (b.end - b.start) - (a.end - a.start)); // Sort by length (longest first)
-
-                potentialMatches.forEach(match => {
-                    // Check if this match overlaps with any already-kept match
-                    const hasOverlap = matches.some(existing => {
-                        return match.start < existing.end && match.end > existing.start;
-                    });
-
-                    if (!hasOverlap) {
-                        console.log(`✓ Pattern match: "${match.text}" (pattern: ${match.originalPattern})`);
-                        matches.push(match);
-                    }
-                });
-                return { matches };
-            },
-
-            // Determine category based on place type
-            determineCategory(placeInfo) {
-                // Check place type (countries = nationalist, regions = regionalist, cities = localist)
-                if (placeInfo.type === 'country') {
-                    return 'nationalist';
-                } else if (placeInfo.type === 'region') {
-                    return 'regionalist';
-                } else if (placeInfo.type === 'city') {
-                    return 'localist';
-                }
-                return 'nationalist'; // Default
-            },
-
-            // Determine category for a match using hybrid logic
-            determineCategoryForMatch(pattern, placeInfo) {
-                const originalCategory = pattern.dogWhistle.category;
-
-                // For dynamic patterns, use hybrid approach:
-                // - If original is nationalist/localist → auto-categorize by place type
-                // - Otherwise (racist, antisemitic, etc.) → preserve original category
-                if (originalCategory === 'nationalist' || originalCategory === 'localist') {
-                    // Auto-categorize based on place type
-                    return this.determineCategory(placeInfo);
-                }
-
-                // For all other categories, preserve the original
-                // This ensures racist patterns stay racist, antisemitic stay antisemitic, etc.
-                return originalCategory;
-            }
-        };
-
-        // ObfuscationUtils is loaded from js/obfuscation-utils.js (DRY principle)
-        // Single source of truth for all pattern matching logic
-
-        // Hierarchical category system - Main categories used for highlighting colors
-        // Subcategories shown in tooltips and detailed breakdowns
-        // CATEGORY_HIERARCHY is now imported from /js/category-config.js
 
         // Build reverse mapping: subcategory -> main category
         const SUBCATEGORY_TO_MAIN = {};
@@ -1108,8 +836,6 @@
         function getMainCategory(subcategory) {
             return SUBCATEGORY_TO_MAIN[subcategory?.toLowerCase()] || null;
         }
-
-
         // Default colors for unknown categories
         const DEFAULT_COLORS = {
             lightColor: "var(--color-primary)",
@@ -1409,592 +1135,10 @@
             }
         }
 
-        class DogWhistleMatcher {
-            constructor(dogWhistleData) {
-                // Store dog whistle data
-                this.dogWhistleData = dogWhistleData;
-                this.dogWhistleTerms = dogWhistleData.terms;
-
-                // Build lookup map for dog whistles using DRY helper
-                this.variationMap = ObfuscationUtils.buildVariationMap(this.dogWhistleTerms);
-            }
-
-            analyze(text) {
-                // Normalize Unicode characters to ensure consistent matching
-                text = text.normalize('NFC');
-
-                const allMatches = [];
-
-                // Find all dog whistle matches
-                this.variationMap.forEach((termData, variation) => {
-                    // Create flexible regex pattern that catches obfuscation
-                    const flexiblePattern = ObfuscationUtils.createFlexiblePattern(variation);
-                    // Add optional 's' at the end to catch plurals
-                    const pluralPattern = `${flexiblePattern}s?`;
-
-                    // Special handling for purely numeric terms (e.g., "88", "28", "1488")
-                    // These should match within larger numbers (e.g., "1828" contains "28")
-                    // But NOT with leading zeros (e.g., "088") or letters (e.g., "c88")
-                    const isNumericTerm = /^\d+$/.test(variation);
-                    const isLetterTerm = /^[a-z]+$/i.test(variation);
-
-                    let regex;
-                    if (isNumericTerm) {
-                        // For numeric terms: match anywhere, validation will filter out bad matches
-                        // Allow both "blood88" and "88blood" - validation handles context
-                        regex = new RegExp(`${pluralPattern}`, 'gi');
-                    } else if (isLetterTerm) {
-                        // For purely letter terms (e.g., "hh"): prevent other letters but allow numbers
-                        // This allows "hh88" to match "hh"
-                        regex = new RegExp(`(?<![a-z])${pluralPattern}(?![a-z])`, 'gi');
-                    } else {
-                        // For mixed terms: use standard word boundaries
-                        // Use lookahead/lookbehind instead of \b to handle non-word chars like $ and @
-                        regex = new RegExp(`(?<![a-z0-9])${pluralPattern}(?![a-z0-9])`, 'gi');
-                    }
-
-                    let match;
-                    let lastIndex = -1;
-                    while ((match = regex.exec(text)) !== null) {
-                        if (match.index === lastIndex && match[0].length === 0) {
-                            regex.lastIndex++;
-                            continue;
-                        }
-                        lastIndex = match.index;
-
-                        // Trim trailing non-alphanumeric characters from the match
-                        // This prevents highlighting trailing punctuation like quotes, commas, periods
-                        let matchedText = match[0];
-                        let trimmedLength = matchedText.length;
-                        while (trimmedLength > 0 && /[^a-zA-Z0-9]/.test(matchedText[trimmedLength - 1])) {
-                            trimmedLength--;
-                        }
-                        if (trimmedLength < matchedText.length) {
-                            matchedText = matchedText.substring(0, trimmedLength);
-                            if (matchedText.length === 0) continue; // Skip if nothing left
-                        }
-
-                        // Validate numeric matches - BOTH numeric terms AND non-numeric terms that match digits
-                        // Example: variation "lgb" can match "168" via char substitutions (l→1, g→6, b→8)
-                        // Also: variation "DEI" can match "de 1" where "1" is from "136"
-                        // Strategy: Allow the match UNLESS it's part of a longer number that isn't a known term
-                        const matchIsDigits = /^\d+$/.test(matchedText);
-                        const matchIsMultiDigit = matchIsDigits && matchedText.length >= 2;
-                        const matchContainsDigit = /\d/.test(matchedText);
-
-                        // Validate if: variation is numeric OR match contains digits
-                        // For numeric terms: check if surrounding number is also a known term
-                        // For non-numeric terms: check if digits are pulled from longer numbers
-                        if (isNumericTerm || matchIsMultiDigit || matchContainsDigit) {
-                            const matchStart = match.index;
-                            const matchEnd = match.index + match[0].length;
-                            const matchLength = match[0].length;
-
-                            // For numeric variations (like "168"), validate context
-                            // This applies whether matched as digits "168" OR letters "lgb" matching digits
-
-                            // Check surrounding context - look for consecutive digits OR letters in the text
-                            let countBefore = 0;
-                            let countAfter = 0;
-
-                            // Count similar characters before (digits if match is digits, letters if match is letters)
-                            const isDigitMatch = /^\d+$/.test(matchedText);
-                            const isLetterMatch = /^[a-z]+$/i.test(matchedText);
-                            const isMixedMatch = !isDigitMatch && !isLetterMatch;
-
-                            if (isDigitMatch) {
-                                // Count digits before and after
-                                for (let i = matchStart - 1; i >= 0 && /\d/.test(text[i]); i--) {
-                                    countBefore++;
-                                }
-                                for (let i = matchEnd; i < text.length && /\d/.test(text[i]); i++) {
-                                    countAfter++;
-                                }
-                            } else if (isLetterMatch) {
-                                // For letter obfuscations like "lbg", check if it's in a long digit sequence
-                                // by looking at the broader context
-                                for (let i = matchStart - 1; i >= 0 && /\d/.test(text[i]); i--) {
-                                    countBefore++;
-                                }
-                                for (let i = matchEnd; i < text.length && /\d/.test(text[i]); i++) {
-                                    countAfter++;
-                                }
-                            } else if (isMixedMatch) {
-                                // For mixed matches like "de 1", check if any digit is part of a larger number
-                                // Find each digit position in the match and check its context
-                                for (let i = 0; i < matchedText.length; i++) {
-                                    if (/\d/.test(matchedText[i])) {
-                                        const digitPos = matchStart + i;
-                                        // Count digits before this digit
-                                        let digitCountBefore = 0;
-                                        for (let j = digitPos - 1; j >= 0 && /\d/.test(text[j]); j--) {
-                                            digitCountBefore++;
-                                        }
-                                        // Count digits after this digit
-                                        let digitCountAfter = 0;
-                                        for (let j = digitPos + 1; j < text.length && /\d/.test(text[j]); j++) {
-                                            digitCountAfter++;
-                                        }
-                                        // If this digit has extra digits around it, accumulate
-                                        countBefore = Math.max(countBefore, digitCountBefore);
-                                        countAfter = Math.max(countAfter, digitCountAfter);
-                                    }
-                                }
-                            }
-
-                            const extraChars = countBefore + countAfter;
-
-                            // Check what's immediately before and after the sequence
-                            const seqStart = matchStart - countBefore;
-                            const seqEnd = matchEnd + countAfter;
-                            const charBefore = seqStart > 0 ? text[seqStart - 1] : '';
-                            const charAfter = seqEnd < text.length ? text[seqEnd] : '';
-
-                            // If in a long sequence with no adjacent letters, likely random
-                            const hasLetterBefore = /[a-z]/i.test(charBefore);
-                            const hasLetterAfter = /[a-z]/i.test(charAfter);
-
-                            // Reject if there are extra digits and no adjacent letters
-                            // BUT: allow if extra digits form other known terms (overlapping numeric terms)
-                            // This prevents "13" from matching in "135" but allows "13" and "28" in "2813"
-                            if (!hasLetterBefore && !hasLetterAfter && extraChars > 0) {
-                                let hasKnownOverlap = false;
-
-                                // Check if digits before form a known term
-                                if (countBefore > 0) {
-                                    const digitsBefore = text.substring(seqStart, matchStart);
-                                    if (this.variationMap.has(digitsBefore)) {
-                                        hasKnownOverlap = true;
-                                    }
-                                }
-
-                                // Check if digits after form a known term
-                                if (countAfter > 0) {
-                                    const digitsAfter = text.substring(matchEnd, seqEnd);
-                                    if (this.variationMap.has(digitsAfter)) {
-                                        hasKnownOverlap = true;
-                                    }
-                                }
-
-                                if (!hasKnownOverlap) {
-                                    // Extra digits don't form known terms - likely random sequence
-                                    continue;
-                                }
-                                // Otherwise allow it - overlapping with other known numeric terms
-                            }
-                        }
-
-                        allMatches.push({
-                            start: match.index,
-                            end: match.index + matchedText.length,
-                            length: matchedText.length,
-                            text: matchedText,
-                            type: 'dogwhistle',
-                            term: termData.root,
-                            category: termData.category,
-                            definition: termData.definition,
-                            variations: termData.variations,
-                            source: termData.source, // Pass through source field
-                            isNumeric: isNumericTerm
-                        });
-                    }
-                });
-
-                // Remove overlapping matches, keeping the longest/most specific ones
-                // Sort by: 1) length (descending), 2) position (ascending)
-                allMatches.sort((a, b) => {
-                    if (b.length !== a.length) return b.length - a.length;
-                    return a.start - b.start;
-                });
-
-                const matches = [];
-                const usedRanges = [];
-
-                // Keep matches that don't overlap with already-selected matches
-                // EXCEPT: allow numeric terms to overlap with each other (e.g., "1813" can match both "18" and "13")
-                for (const match of allMatches) {
-                    const isNumericMatch = match.isNumeric || false;
-
-                    // Check if this match overlaps with any already-selected match
-                    let hasBlockingOverlap = false;
-                    for (const range of usedRanges) {
-                        if (ObfuscationUtils.overlaps(match, range)) {
-                            // Allow overlap if BOTH terms are purely numeric
-                            const rangeIsNumeric = range.isNumeric;
-                            if (!(isNumericMatch && rangeIsNumeric)) {
-                                hasBlockingOverlap = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!hasBlockingOverlap) {
-                        matches.push(match);
-                        usedRanges.push({
-                            start: match.start,
-                            end: match.end,
-                            isNumeric: isNumericMatch
-                        });
-                    }
-                }
-
-                // Sort final matches by position for display
-                matches.sort((a, b) => a.start - b.start);
-
-                // Count unique categories
-                const foundCategories = new Set(matches.map(m => m.category));
-
-                return {
-                    matches,
-                    categoryCount: foundCategories.size,
-                    categories: Array.from(foundCategories)
-                };
-            }
-        }
-
-        class HarmfulTermMatcher {
-            constructor(harmfulTermData) {
-                // Store harmful term data
-                this.harmfulTermData = harmfulTermData;
-                this.harmfulTermTerms = harmfulTermData.terms;
-
-                // Build lookup map for harmful terms using DRY helper
-                this.variationMap = ObfuscationUtils.buildVariationMap(this.harmfulTermTerms);
-            }
-
-            analyze(text) {
-                // Normalize Unicode characters to ensure consistent matching
-                text = text.normalize('NFC');
-
-                const allMatches = [];
-
-                // Find all harmful term matches
-                this.variationMap.forEach((termData, variation) => {
-                    // Create flexible regex pattern that catches obfuscation
-                    const flexiblePattern = ObfuscationUtils.createFlexiblePattern(variation);
-                    // Add optional 's' at the end to catch plurals
-                    const pluralPattern = `${flexiblePattern}s?`;
-
-                    // Special handling for purely numeric terms (e.g., "88", "28", "1488")
-                    // These should match within larger numbers (e.g., "1828" contains "28")
-                    // But NOT with leading zeros (e.g., "088") or letters (e.g., "c88")
-                    const isNumericTerm = /^\d+$/.test(variation);
-                    const isLetterTerm = /^[a-z]+$/i.test(variation);
-
-                    let regex;
-                    if (isNumericTerm) {
-                        // For numeric terms: match anywhere, validation will filter out bad matches
-                        // Allow both "blood88" and "88blood" - validation handles context
-                        regex = new RegExp(`${pluralPattern}`, 'gi');
-                    } else if (isLetterTerm) {
-                        // For purely letter terms: prevent other letters but allow numbers
-                        regex = new RegExp(`(?<![a-z])${pluralPattern}(?![a-z])`, 'gi');
-                    } else {
-                        // For mixed terms: use standard word boundaries
-                        regex = new RegExp(`(?<![a-z0-9])${pluralPattern}(?![a-z0-9])`, 'gi');
-                    }
-
-                    let match;
-                    let lastIndex = -1;
-                    while ((match = regex.exec(text)) !== null) {
-                        if (match.index === lastIndex && match[0].length === 0) {
-                            regex.lastIndex++;
-                            continue;
-                        }
-                        lastIndex = match.index;
-
-                        // Trim trailing non-alphanumeric characters from the match
-                        // This prevents highlighting trailing punctuation like quotes, commas, periods
-                        let matchedText = match[0];
-                        let trimmedLength = matchedText.length;
-                        while (trimmedLength > 0 && /[^a-zA-Z0-9]/.test(matchedText[trimmedLength - 1])) {
-                            trimmedLength--;
-                        }
-                        if (trimmedLength < matchedText.length) {
-                            matchedText = matchedText.substring(0, trimmedLength);
-                            if (matchedText.length === 0) continue; // Skip if nothing left
-                        }
-
-                        // Validate numeric matches - BOTH numeric terms AND non-numeric terms that match digits
-                        // Example: variation "lgb" can match "168" via char substitutions (l→1, g→6, b→8)
-                        // Also: variation "DEI" can match "de 1" where "1" is from "136"
-                        // Strategy: Allow the match UNLESS it's part of a longer number that isn't a known term
-                        const matchIsDigits = /^\d+$/.test(matchedText);
-                        const matchIsMultiDigit = matchIsDigits && matchedText.length >= 2;
-                        const matchContainsDigit = /\d/.test(matchedText);
-
-                        // Validate if: variation is numeric OR match contains digits
-                        // For numeric terms: check if surrounding number is also a known term
-                        // For non-numeric terms: check if digits are pulled from longer numbers
-                        if (isNumericTerm || matchIsMultiDigit || matchContainsDigit) {
-                            const matchStart = match.index;
-                            const matchEnd = match.index + match[0].length;
-                            const matchLength = match[0].length;
-
-                            // For numeric variations (like "168"), validate context
-                            // This applies whether matched as digits "168" OR letters "lgb" matching digits
-
-                            // Check surrounding context - look for consecutive digits OR letters in the text
-                            let countBefore = 0;
-                            let countAfter = 0;
-
-                            // Count similar characters before (digits if match is digits, letters if match is letters)
-                            const isDigitMatch = /^\d+$/.test(matchedText);
-                            const isLetterMatch = /^[a-z]+$/i.test(matchedText);
-                            const isMixedMatch = !isDigitMatch && !isLetterMatch;
-
-                            if (isDigitMatch) {
-                                // Count digits before and after
-                                for (let i = matchStart - 1; i >= 0 && /\d/.test(text[i]); i--) {
-                                    countBefore++;
-                                }
-                                for (let i = matchEnd; i < text.length && /\d/.test(text[i]); i++) {
-                                    countAfter++;
-                                }
-                            } else if (isLetterMatch) {
-                                // For letter obfuscations like "lbg", check if it's in a long digit sequence
-                                // by looking at the broader context
-                                for (let i = matchStart - 1; i >= 0 && /\d/.test(text[i]); i--) {
-                                    countBefore++;
-                                }
-                                for (let i = matchEnd; i < text.length && /\d/.test(text[i]); i++) {
-                                    countAfter++;
-                                }
-                            } else if (isMixedMatch) {
-                                // For mixed matches like "de 1", check if any digit is part of a larger number
-                                // Find each digit position in the match and check its context
-                                for (let i = 0; i < matchedText.length; i++) {
-                                    if (/\d/.test(matchedText[i])) {
-                                        const digitPos = matchStart + i;
-                                        // Count digits before this digit
-                                        let digitCountBefore = 0;
-                                        for (let j = digitPos - 1; j >= 0 && /\d/.test(text[j]); j--) {
-                                            digitCountBefore++;
-                                        }
-                                        // Count digits after this digit
-                                        let digitCountAfter = 0;
-                                        for (let j = digitPos + 1; j < text.length && /\d/.test(text[j]); j++) {
-                                            digitCountAfter++;
-                                        }
-                                        // If this digit has extra digits around it, accumulate
-                                        countBefore = Math.max(countBefore, digitCountBefore);
-                                        countAfter = Math.max(countAfter, digitCountAfter);
-                                    }
-                                }
-                            }
-
-                            const extraChars = countBefore + countAfter;
-
-                            // Check what's immediately before and after the sequence
-                            const seqStart = matchStart - countBefore;
-                            const seqEnd = matchEnd + countAfter;
-                            const charBefore = seqStart > 0 ? text[seqStart - 1] : '';
-                            const charAfter = seqEnd < text.length ? text[seqEnd] : '';
-
-                            // If in a long sequence with no adjacent letters, likely random
-                            const hasLetterBefore = /[a-z]/i.test(charBefore);
-                            const hasLetterAfter = /[a-z]/i.test(charAfter);
-
-                            // Reject if there are extra digits and no adjacent letters
-                            // BUT: allow if extra digits form other known terms (overlapping numeric terms)
-                            // This prevents "13" from matching in "135" but allows "13" and "28" in "2813"
-                            if (!hasLetterBefore && !hasLetterAfter && extraChars > 0) {
-                                let hasKnownOverlap = false;
-
-                                // Check if digits before form a known term
-                                if (countBefore > 0) {
-                                    const digitsBefore = text.substring(seqStart, matchStart);
-                                    if (this.variationMap.has(digitsBefore)) {
-                                        hasKnownOverlap = true;
-                                    }
-                                }
-
-                                // Check if digits after form a known term
-                                if (countAfter > 0) {
-                                    const digitsAfter = text.substring(matchEnd, seqEnd);
-                                    if (this.variationMap.has(digitsAfter)) {
-                                        hasKnownOverlap = true;
-                                    }
-                                }
-
-                                if (!hasKnownOverlap) {
-                                    // Extra digits don't form known terms - likely random sequence
-                                    continue;
-                                }
-                                // Otherwise allow it - overlapping with other known numeric terms
-                            }
-                        }
-
-                        allMatches.push({
-                            start: match.index,
-                            end: match.index + matchedText.length,
-                            length: matchedText.length,
-                            text: matchedText,
-                            type: 'harmfulTerm',
-                            term: termData.root,
-                            matchedTerm: variation,
-                            category: termData.category,
-                            definition: termData.definition,
-                            variations: termData.variations,
-                            source: termData.source,
-                            isNumeric: isNumericTerm
-                        });
-                    }
-                });
-
-                // Remove overlapping matches, keeping the longest/most specific ones
-                allMatches.sort((a, b) => {
-                    if (b.length !== a.length) return b.length - a.length;
-                    return a.start - b.start;
-                });
-
-                const matches = [];
-                const usedRanges = [];
-
-                // Keep matches that don't overlap with already-selected matches
-                // EXCEPT: allow numeric terms to overlap with each other (e.g., "1813" can match both "18" and "13")
-                for (const match of allMatches) {
-                    const isNumericMatch = match.isNumeric || false;
-
-                    // Check if this match overlaps with any already-selected match
-                    let hasBlockingOverlap = false;
-                    for (const range of usedRanges) {
-                        if (ObfuscationUtils.overlaps(match, range)) {
-                            // Allow overlap if BOTH terms are purely numeric
-                            const rangeIsNumeric = range.isNumeric;
-                            if (!(isNumericMatch && rangeIsNumeric)) {
-                                hasBlockingOverlap = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!hasBlockingOverlap) {
-                        matches.push(match);
-                        usedRanges.push({
-                            start: match.start,
-                            end: match.end,
-                            isNumeric: isNumericMatch
-                        });
-                    }
-                }
-
-                // Sort final matches by position for display
-                matches.sort((a, b) => a.start - b.start);
-
-                // Count unique categories
-                const foundCategories = new Set(matches.map(m => m.category));
-
-                return {
-                    matches,
-                    categoryCount: foundCategories.size,
-                    categories: Array.from(foundCategories)
-                };
-            }
-        }
-
-        function calculateSignalScore(text, matches) {
-            // Count words in text
-            const wordCount = text.trim().split(/\s+/).length;
-            if (matches.length === 0 || wordCount === 0) return {
-                total: 0,
-                breakdown: {
-                    densityScore: 0,
-                    typeWeight: 0,
-                    categoryScore: 0,
-                    densityPercent: 20,
-                    typePercent: 50,
-                    categoryPercent: 30,
-                    matchCount: 0,
-                    wordCount: 0,
-                    harmfulCount: 0,
-                    dogWhistleCount: 0,
-                    uniqueCategories: 0
-                }
-            };
-
-            // 1. Match Density (20%) - Percentage of words that are problematic
-            const matchDensity = matches.length / wordCount;
-            const densityScore = Math.min(matchDensity * 100, 20);
-
-            // 2. Match Type Weight (50%) - Harmful terms weighted higher than dog whistles
-            // Harmful terms are explicit, dog whistles are coded
-            const harmfulCount = matches.filter(m => m.type === 'harmfulTerm').length;
-            const dogWhistleCount = matches.filter(m => m.type === 'dogwhistle').length;
-
-            // Weight: harmful terms = 2x, dog whistles = 1x
-            const weightedMatches = (harmfulCount * 2) + dogWhistleCount;
-            const avgWeight = weightedMatches / matches.length;
-
-            // Map avg weight (1.0 to 1.5) to score (0 to 30)
-            const typeWeight = ((avgWeight - 1.0) / 0.5) * 30;
-
-            // 3. Category Diversity (10%) - Multiple categories = more problematic
-            const uniqueCategories = new Set(matches.map(m => m.category.toLowerCase())).size;
-            let categoryScore = 0;
-            if (uniqueCategories >= 5) {
-                categoryScore = 30;
-            } else if (uniqueCategories >= 3) {
-                categoryScore = 22.5;
-            } else if (uniqueCategories >= 2) {
-                categoryScore = 15;
-            } else {
-                categoryScore = 7.5; // Even 1 category gets some points
-            }
-
-            // Calculate final score
-            const totalScore = Math.round(densityScore + typeWeight + categoryScore);
-
-            return {
-                total: Math.min(totalScore, 100), // Cap at 100%
-                breakdown: {
-                    densityScore: Math.round(densityScore),
-                    typeWeight: Math.round(typeWeight),
-                    categoryScore: Math.round(categoryScore),
-                    densityPercent: 20,
-                    typePercent: 50,
-                    categoryPercent: 30,
-                    matchCount: matches.length,
-                    wordCount: wordCount,
-                    harmfulCount: harmfulCount,
-                    dogWhistleCount: dogWhistleCount,
-                    uniqueCategories: uniqueCategories
-                }
-            };
-        }
-
-        function updateScoreBreakdownTooltip(breakdown) {
-            const tooltip = document.querySelector('.info-icon .tooltip');
-            if (!tooltip) return;
-
-            const total = breakdown.densityScore + breakdown.typeWeight + breakdown.categoryScore;
-
-            tooltip.innerHTML = `
-                <div class="tooltip-item">
-                    <div class="tooltip-item-label">Signal Score Breakdown</div>
-                </div>
-                <div class="tooltip-item">
-                    <div class="tooltip-item-label">Match Density (${breakdown.densityPercent}%)</div>
-                    <div class="tooltip-item-value">${breakdown.densityScore} points</div>
-                    <div class="tooltip-item-value" style="font-size: 0.9em; opacity: 0.8;">${breakdown.matchCount} matches / ${breakdown.wordCount} words</div>
-                </div>
-                <div class="tooltip-item">
-                    <div class="tooltip-item-label">Match Type Weight (${breakdown.typePercent}%)</div>
-                    <div class="tooltip-item-value">${breakdown.typeWeight} points</div>
-                    <div class="tooltip-item-value" style="font-size: 0.9em; opacity: 0.8;">${breakdown.harmfulCount} harmful, ${breakdown.dogWhistleCount} dog whistles</div>
-                </div>
-                <div class="tooltip-item">
-                    <div class="tooltip-item-label">Category Diversity (${breakdown.categoryPercent}%)</div>
-                    <div class="tooltip-item-value">${breakdown.categoryScore} points</div>
-                    <div class="tooltip-item-value" style="font-size: 0.9em; opacity: 0.8;">${breakdown.uniqueCategories} unique categories</div>
-                </div>
-                <div class="tooltip-source" style="text-align: center;">
-                    <strong>Total: ${total} points</strong>
-                </div>
-            `;
-        }
+        let analyzedYet = false;
 
         function analyzeText() {
+
             const textInput = document.getElementById('textInput');
 
             // Always get text from textarea (it's editable)
@@ -2033,7 +1177,6 @@
                     ...patternResults.matches
                 ];
 
-                // Deduplicate overlapping matches from different matchers (keep longest)
                 allMatches.sort((a, b) => {
                     if (b.end - b.start !== a.end - a.start) {
                         return (b.end - b.start) - (a.end - a.start); // Sort by length (longest first)
@@ -2176,36 +1319,20 @@
             subCategoryList.innerHTML = subCategoryHtml;
 
             // Calculate Signal Score
-            const scoreResult = calculateSignalScore(originalText, results.matches);
+            const scoreResult = SignalScore.calculate(originalText, results.matches);
             const signalScore = scoreResult.total;
             document.getElementById('signalScore').textContent = `${signalScore}%`;
 
             // Update signal indicator
             const signalIndicator = document.getElementById('signalIndicator');
-            let indicatorClass = '';
-            let indicatorText = '';
-
-            if (signalScore === 0) {
-                indicatorClass = 'signal-low';
-                indicatorText = 'Clean';
-            } else if (signalScore <= 25) {
-                indicatorClass = 'signal-low';
-                indicatorText = 'Low';
-            } else if (signalScore <= 50) {
-                indicatorClass = 'signal-moderate';
-                indicatorText = 'Moderate';
-            } else if (signalScore <= 75) {
-                indicatorClass = 'signal-high';
-                indicatorText = 'High';
-            } else {
-                indicatorClass = 'signal-severe';
-                indicatorText = 'Severe';
-            }
+            const signalLevel = SignalScore.getSignalLevel(signalScore);
+            const indicatorClass = signalLevel.className;
+            const indicatorText = signalLevel.level;
 
             signalIndicator.innerHTML = `<span class="signal-indicator ${indicatorClass}">${indicatorText}</span><span class="highlight info-icon">ⓘ<span class="tooltip"></span></span>`;
 
             // Update score breakdown tooltip
-            updateScoreBreakdownTooltip(scoreResult.breakdown);
+            SignalScore.updateTooltip(scoreResult.breakdown);
 
             // Build highlighted text
             let displayHtml = '';
@@ -2312,8 +1439,8 @@
 
                 // Determine what to show for the term
                 let termHtml = '';
-                if (match.isDerived) {
-                    // Derived terms always show "Derivation: [root term]"
+                if (match.isDerived && match.category !== "religious-populism") {
+                    // Derived regionalist/localist/regionalist terms always show "Derivation: [root term]"
                     termHtml = `<div class="tooltip-item"><div class="tooltip-item-label">Derivation:</div><div class="tooltip-item-value">${escapeHtml(match.term)}</div></div>`;
                 } else {
                     // Non-derived terms: show matched term only if obfuscated (DRY helper)
@@ -2364,9 +1491,24 @@
             return text.charAt(0).toUpperCase() + text.slice(1);
         }
 
+        // Track currently visible tooltip on mobile
+        let activeTooltip = null;
+
+        // Detect if device supports touch (mobile/tablet) - used by multiple functions
+        const isTouchDevice = window.matchMedia('(hover: none)').matches
+            || ('ontouchstart' in window);
+
         function setupTooltips() {
             const highlights = document.querySelectorAll('.highlight');
 
+            if (isTouchDevice) {
+                setupTouchBehavior(highlights);
+            } else {
+                setupHoverBehavior(highlights);
+            }
+        }
+
+        function setupHoverBehavior(highlights) {
             highlights.forEach(highlight => {
                 const tooltip = highlight.querySelector('.tooltip');
                 if (!tooltip) return;
@@ -2376,6 +1518,45 @@
                     positionTooltip(highlight, tooltip);
                 });
             });
+        }
+
+        function setupTouchBehavior(highlights) {
+            // Touch on highlight: show tooltip
+            highlights.forEach(highlight => {
+                const tooltip = highlight.querySelector('.tooltip');
+                if (!tooltip) return;
+
+                highlight.addEventListener('touchstart', (e) => {
+                    e.preventDefault(); // Prevent default touch behavior
+                    e.stopPropagation(); // Don't trigger document listener
+
+                    // Hide previous tooltip if different
+                    if (activeTooltip && activeTooltip !== tooltip) {
+                        hideTooltip(activeTooltip);
+                    }
+
+                    // Show this tooltip
+                    showTooltip(highlight, tooltip);
+                    activeTooltip = tooltip;
+                });
+            });
+
+            // Touch anywhere else: hide tooltip
+            document.addEventListener('touchstart', () => {
+                if (activeTooltip) {
+                    hideTooltip(activeTooltip);
+                    activeTooltip = null;
+                }
+            });
+        }
+
+        function showTooltip(highlight, tooltip) {
+            tooltip.classList.add('tooltip-touch-active');
+            positionTooltip(highlight, tooltip);
+        }
+
+        function hideTooltip(tooltip) {
+            tooltip.classList.remove('tooltip-touch-active');
         }
 
         function positionTooltip(highlight, tooltip) {
@@ -2522,9 +1703,13 @@
             clearTimeout(tooltipRepositionTimeout);
             tooltipRepositionTimeout = setTimeout(() => {
                 // Reposition any visible tooltips
-                document.querySelectorAll('.highlight:hover').forEach(highlight => {
-                    const tooltip = highlight.querySelector('.tooltip');
-                    if (tooltip) {
+                // Desktop: use hover selector, Mobile: use .tooltip-touch-active selector
+                const selector = isTouchDevice ? '.tooltip.tooltip-touch-active' : '.highlight:hover .tooltip';
+                const visibleTooltips = document.querySelectorAll(selector);
+
+                visibleTooltips.forEach(tooltip => {
+                    const highlight = tooltip.closest('.highlight');
+                    if (highlight) {
                         positionTooltip(highlight, tooltip);
                     }
                 });
@@ -2533,9 +1718,13 @@
 
         window.addEventListener('scroll', () => {
             // Reposition tooltips on scroll (since they use fixed positioning)
-            document.querySelectorAll('.highlight:hover').forEach(highlight => {
-                const tooltip = highlight.querySelector('.tooltip');
-                if (tooltip) {
+            // Desktop: use hover selector, Mobile: use .tooltip-touch-active selector
+            const selector = isTouchDevice ? '.tooltip.tooltip-touch-active' : '.highlight:hover .tooltip';
+            const visibleTooltips = document.querySelectorAll(selector);
+
+            visibleTooltips.forEach(tooltip => {
+                const highlight = tooltip.closest('.highlight');
+                if (highlight) {
                     positionTooltip(highlight, tooltip);
                 }
             });

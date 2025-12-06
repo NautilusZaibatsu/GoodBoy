@@ -213,7 +213,8 @@ const NumberObfuscationUtils = {
         const patterns = [];
 
         // DRY: Use shared flexible whitespace pattern
-        const ws = typeof ObfuscationUtils !== 'undefined' ? ObfuscationUtils.FLEXIBLE_WHITESPACE_REQUIRED : '[\\s\\-_#/]+';
+        // Use OPTIONAL to allow both "thirtythree" and "thirty three" to work
+        const ws = typeof ObfuscationUtils !== 'undefined' ? ObfuscationUtils.FLEXIBLE_WHITESPACE_OPTIONAL : '[\\s\\-_#/]*';
 
         // Always include the full digit form
         patterns.push(String(num));
@@ -251,8 +252,8 @@ const NumberObfuscationUtils = {
             const secondDigit = '(?:' + secondDigitPatterns.join('|') + ')';
 
             // Combine with flexible whitespace between digits
-            // This creates: (2|[t7][wúùûüū][o0óòôöõō])[\s\-_#/]+(8|[e3£][i1!|][g9][h#][t7])
-            const ws = typeof ObfuscationUtils !== 'undefined' ? ObfuscationUtils.FLEXIBLE_WHITESPACE_REQUIRED : '[\\s\\-_#/]+';
+            // Use OPTIONAL to allow "28", "2 8", "twentyeight", and "twenty eight"
+            const ws = typeof ObfuscationUtils !== 'undefined' ? ObfuscationUtils.FLEXIBLE_WHITESPACE_OPTIONAL : '[\\s\\-_#/]*';
             patterns.push(firstDigit + ws + secondDigit);
 
             // Also add pattern for complete word form variants (e.g., "twenty 8", "7w£n7y eight")

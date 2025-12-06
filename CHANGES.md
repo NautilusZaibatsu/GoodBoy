@@ -5,11 +5,48 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.5] - 2025-12-06
+
+### Added
+- **Detection**
+  - The dog whistle matcher now recognises use of religionyms in place of demonyms, for example "Keep England Protestant" will now be flagged as it is essentially a derivation of the "Keep England English" pattern
+- **Databases** 
+  - New database: religionym_lookup.js
+  - Christophobia, Sikhophobia, Religious Minorities, Non-Believers, Religious Populism and Ageist sub-categories
+  - Harmful Gender & Sexuality terms from the Chew Inclusive Terminology Glossary
+  - Harmful sectarian terms from the Action on Sectarianism Glossary
+  - Harmful religious terms (all sub-categories)
+  - Harmful Ageist terms
+  - Additional curated dog whistles and harmful terms
+- **Obfuscation**
+  - UK / US spellings and contractions
+  - Slang / Eye dialect 
+  - Meme speak
+- **Webapp** 
+  - On touch enabled devices you can now touch a term or icon to open the tooltip, then touch anywhere else to close the tooltip.
+
+### Changed
+- **Performance**
+  - Analysis now happens much faster due to major refactoring
+- **Signal Score Calculation** 
+  - Total rework of the calculation system, it should now give much more useful results.
+- **Databases** 
+  - Reclassified Jew-to-Jew harmful terms under the antisemitic subcategory to ensure consistent treatment of all antisemitic content, regardless of speaker identity
+  - Removed the Pseudoscience subcategory as it was too broad, moved all pseudoscientific terms into other cattegories
+  - Category color tweaks to improve readability
+- **Detection**
+  - Dynamically detected populist phrases that include both a location and an identity are now correctly categorised using the demonym:
+    - "Liverpool is for Liverpudlians" → localist ✓
+    - "Liverpool is for Englishmen" → nationalist ✓
+    - "Liverpool is for Europeans" → regionalist ✓
+
 ## [0.4.0] - 2025-12-04
 
 ### Added
 - **Databases** 
   - Mental health condition subcategory
+  - Rhetorical Manipulation category, including the sub-categories Bad Faith, Deflection/Performative, Personal-Responsibility, Dehumanisation and Emotional Dismissal
+  - Sectarian and hinduphobic sub categories to the religion category - more to come as the database expands
 
 ### Changed
 - **Webapp** 
@@ -27,8 +64,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Additional curated dog whistles and harmful language
   - Added transcontinental cities and islands and correctly tagged transcontinental countries
   - Combined anti-asian and anti-latino into a broader racism category
-  - Added a new main category: Rhetorical Manipulation, including the sub-categories Bad Faith, Deflection/Performative, Personal-Responsibility, Dehumanisation and Emotional Dismissal
-  - Added sectarian and hinduphobic sub categories to the religion category - more to come as the database expands
   - Changed all references to "offensive language" to "harmful language"
 - **Obfuscation**
   - If an obfuscated word or phrase matches with a term in the harmful language database, then the tooltip will clearly display the unobfuscated term
@@ -80,7 +115,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Bidirectional O(1) hash lookups (311x performance improvement over runtime generation)
   - Fixes "USA is for Americans" matching (variant linking prevents incorrect demonym generation)
   - Removed substateNations entirely as they are functionally the same as countries
-  - Fixed an issue causing derivation info in dogwhistle tooltips to be lowercase.
+  - Fixed an issue causing derivation info in dog whistle tooltips to be lowercase.
 - **Source database** (`/data/source_data.js`):
   - Reworked tooltip source attribution to use database
   - Reworked attribution section to read from database

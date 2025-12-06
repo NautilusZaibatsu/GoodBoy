@@ -132,7 +132,7 @@ Calculates 0-100% score based on three factors:
 - **Category Diversity (10%)**: Diversity of problematic categories
 
 ### Performance
-- Databases: < 300KB (compresses well with gzip)
+- Databases: < 350KB (compresses well with gzip)
 - Load time: Instant on modern browsers
 - Analysis time: Near-instant for typical text lengths
 - Memory usage: Minimal (~2-3 MB)

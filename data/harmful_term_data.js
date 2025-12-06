@@ -1,24 +1,29 @@
 const GOODBOY_HARMFUL_TERM_DATA = {
   version: "1.0.0",
-  generated: "2025-12-04T17:04:36.439Z",
-  uniqueTerms: 493,
-  totalTerms: 933,
+  generated: "2025-12-06T03:40:33.164Z",
+  uniqueTerms: 587,
+  totalTerms: 1114,
   categoryBreakdown: [
-    { name: "racist", count: 732 },
-    { name: "disability-cognitive", count: 37 },
-    { name: "antisemitic", count: 32 },
-    { name: "anti-lgbtq", count: 29 },
+    { name: "racist", count: 717 },
+    { name: "homophobic", count: 85 },
+    { name: "sectarian", count: 43 },
+    { name: "islamophobic", count: 42 },
+    { name: "disability-cognitive", count: 39 },
+    { name: "antisemitic", count: 38 },
     { name: "disability-physical", count: 27 },
+    { name: "ageist", count: 18 },
     { name: "prostitution", count: 16 },
-    { name: "islamophobic", count: 11 },
-    { name: "misogynistic", count: 11 },
-    { name: "xenophobic", count: 11 },
-    { name: "sectarian", count: 9 },
+    { name: "christophobia", count: 15 },
+    { name: "misogynistic", count: 13 },
+    { name: "non-believers", count: 13 },
+    { name: "xenophobic", count: 10 },
+    { name: "anti-lgbtq", count: 9 },
     { name: "mental-health", count: 8 },
-    { name: "hinduphobic", count: 3 },
-    { name: "transphobic", count: 3 },
-    { name: "homophobic", count: 2 },
+    { name: "hinduphobic", count: 6 },
+    { name: "transphobic", count: 6 },
+    { name: "religious-minorities", count: 5 },
     { name: "islamophobia", count: 2 },
+    { name: "sikhophobia", count: 2 },
     { name: "anti-gmo", count: 0 },
     { name: "anti-liberal", count: 0 },
     { name: "anti-vax", count: 0 },
@@ -35,21 +40,874 @@ const GOODBOY_HARMFUL_TERM_DATA = {
     { name: "misandristic", count: 0 },
     { name: "nationalist", count: 0 },
     { name: "personal-responsibility", count: 0 },
-    { name: "psuedoscience", count: 0 },
     { name: "regionalist", count: 0 },
+    { name: "religious-populism", count: 0 },
     { name: "welfare-chauvinism", count: 0 },
     { name: "white-supremacist", count: 0 }
   ],
   sourceBreakdown: [
-    { name: "wiki", count: 734 },
-    { name: "goodboy", count: 186 },
-    { name: "wsp", count: 11 },
-    { name: "wik", count: 2 },
+    { name: "wiki", count: 815 },
+    { name: "goodboy", count: 212 },
+    { name: "citg", count: 65 },
+    { name: "wsp", count: 12 },
+    { name: "aos", count: 6 },
+    { name: "wik", count: 4 },
     { name: "adl", count: 0 },
     { name: "silent_signals", count: 0 },
     { name: "swu", count: 0 }
   ],
   terms: [
+    {
+    root: "Bitch",
+    variations: [],
+    category: "misogynistic",
+    definition: "A woman. From the name for a female dog",
+    source: "goodboy"
+  },
+    {
+    root: "Transvestite",
+    variations: [],
+    category: "transphobic",
+    definition: "An outdated term for people who cross-dress; commonly used as a slur against trans people",
+    source: "goodboy"
+  },
+    {
+    root: "Shemale",
+    variations: [],
+    category: "transphobic",
+    definition: "A transgender person, especially a trans woman. Reclaimed by some communities but generally considered highly offensive",
+    source: "goodboy"
+  },
+    {
+    root: "Fag",
+    variations: [
+      "Faggot"
+    ],
+    category: "homophobic",
+    definition: "A historically derogatory slur for gay men, used to demean or dehumanise them. In some LGBTQ+ in-group contexts it has been reclaimed, but it remains offensive and harmful in general use",
+    source: "goodboy"
+  },
+    {
+    root: "Queer",
+    variations: [],
+    category: "anti-lgbtq",
+    definition: "An LGBTQ+ person. Has been reclaimed but often still offensive depending on the context and speaker",
+    source: "goodboy"
+  },
+    {
+    root: "Nigga",
+    variations: [],
+    category: "racist",
+    definition: "A black person. Has been reclaimed, but still offensive depending on the speaker",
+    source: "goodboy"
+  },
+    {
+      root: "Wrinkled old prune",
+      variations: [],
+      category: "ageist",
+      definition: "An old person. Reference to wrinkled skin and consumption of fiber, comparing them to dehydrated plums",
+      source: "wiki"
+    },
+    {
+      root: "Spinster",
+      variations: [
+        "Sheng nu"
+      ],
+      category: "ageist",
+      definition: "A woman who, in her own culture, is single beyond the age at which most people get married",
+      source: "wiki"
+    },
+    {
+      root: "Old cow",
+      variations: [],
+      category: "ageist",
+      definition: "An older woman, especially one who is overweight or obese and homely",
+      source: "wiki"
+    },
+    {
+      root: "Old bat",
+      variations: [],
+      category: "disability-cognitive",
+      definition: "A senile older woman",
+      source: "wiki"
+    },
+    {
+      root: "Old bag",
+      variations: [
+        "Old hag",
+        "Crone"
+      ],
+      category: "ageist",
+      definition: "An older, unappealing and ugly woman",
+      source: "wiki"
+    },
+    {
+      root: "Okay, boomer",
+      variations: [
+        "OK, boomer"
+      ],
+      category: "ageist",
+      definition: "A retort to opinions that are associated with the Baby boomer generation",
+      source: "wiki"
+    },
+    {
+      root: "MILF",
+      variations: [],
+      category: "ageist",
+      definition: "\"Mother I'd like to fuck\". Considered sexist and ageist by some and positive or neutral by others",
+      source: "wiki"
+    },
+    {
+      root: "DILF",
+      variations: [],
+      category: "ageist",
+      definition: "\"Daddy I'd like to fuck\". Considered sexist and ageist by some and positive or neutral by others",
+      source: "goodboy"
+    },
+    {
+      root: "GILF",
+      variations: [],
+      category: "ageist",
+      definition: "\"Granny I'd like to fuck\". Considered sexist and ageist by some and positive or neutral by others",
+      source: "goodboy"
+    },
+    {
+      root: "Maggot in the rice",
+      variations: [
+        "Maggots in the rice"
+      ],
+      category: "ageist",
+      definition: "Used in contemporary Chinese culture to refer to baby girls; the term is typically associated with 20th century China's authoritarian \"One Child Policy\", which limited birth of children per family and also favoured male children",
+      source: "wiki"
+    },
+    {
+      root: "Lolita",
+      variations: [],
+      category: "ageist",
+      definition: "A term for a sexualized minor child, typically a girl; the term has pedophilic connotations and is often used to fetishize or exploit vulnerable preteen girls. \"Lolita\" is a term of endearment from the book Lolita by Vladimir Nabokov",
+      source: "wiki"
+    },
+    {
+      root: "Jailbait",
+      variations: [],
+      category: "ageist",
+      definition: "Used to identify a person who is under the age of consent as a sexual object",
+      source: "wiki"
+    },
+    {
+      root: "Barely legal",
+      variations: [],
+      category: "ageist",
+      definition: "A fetishizing term used to market pornography featuring young people who are \"barely legal\" (only just reached legal age of majority or the age of consent, or both)",
+      source: "wiki"
+    },
+    {
+      root: "Bed blocker",
+      variations: [],
+      category: "ageist",
+      definition: "An older person who takes up hospital beds in a healthcare system",
+      source: "wiki"
+    },
+    {
+      root: "Mushrik",
+      variations: [],
+      category: "non-believers",
+      definition: "A person who doesn't believe in Tawhid and practices polytheism, worships idols, saints, ancestors or graves",
+      source: "wiki"
+    },
+    {
+      root: "Murtad",
+      variations: [],
+      category: "non-believers",
+      definition: "A person who left Islam or criticizes Islam",
+      source: "wiki"
+    },
+    {
+      root: "Kafir",
+      variations: [],
+      category: "non-believers",
+      definition: "A person who is not a Muslim",
+      source: "wiki"
+    },
+    {
+      root: "Infidel",
+      variations: [],
+      category: "non-believers",
+      definition: "A person who is accused of disbelief in the central tenets of one's own religion, such as members of another religion, or irreligious people",
+      source: "wiki"
+    },
+    {
+      root: "Heathen",
+      variations: [
+        "Pagan"
+      ],
+      category: "non-believers",
+      definition: "A person who does not belong to a major religion",
+      source: "wiki"
+    },
+    {
+      root: "Giaour",
+      variations: [],
+      category: "non-believers",
+      definition: "A person who is not Muslim, but especially Christians. Adapted from the Turkish \"gâvur\"",
+      source: "wiki"
+    },
+    {
+      root: "Obeah",
+      variations: [],
+      category: "religious-minorities",
+      definition: "Practitioners of Obeah or Black Jamaicans",
+      source: "wiki"
+    },
+    {
+      root: "Voodoo",
+      variations: [],
+      category: "religious-minorities",
+      definition: "A Vodouist or African diaspora person, particularly Haitian Americans",
+      source: "wiki"
+    },
+    {
+      root: "Clam",
+      variations: [],
+      category: "religious-minorities",
+      definition: "A Scientologist",
+      source: "wik"
+    },
+    {
+      root: "Devil worshipper",
+      variations: [],
+      category: "religious-minorities",
+      definition: "A Yazidi",
+      source: "wiki"
+    },
+    {
+      root: "Fire Worshipper",
+      variations: [],
+      category: "religious-minorities",
+      definition: "A Zoroastrian",
+      source: "wik"
+    },
+    {
+      root: "Lassi",
+      variations: [],
+      category: "Sikhophobia",
+      definition: "A Sikh",
+      source: "wiki"
+    },
+    {
+      root: "Khalistani",
+      variations: [],
+      category: "Sikhophobia",
+      definition: "A Khalsa Sikh",
+      source: "wiki"
+    },
+    {
+      root: "Cow piss drinker",
+      variations: [
+        "Guamutra"
+      ],
+      category: "hinduphobic",
+      definition: "A Hindu",
+      source: "wiki"
+    },
+    {
+      root: "Bongal",
+      variations: [],
+      category: "hinduphobic",
+      definition: "A Bangladeshi Hindu. Used in India",
+      source: "wiki"
+    },
+    {
+      root: "Wahhabi",
+      variations: [],
+      category: "sectarian",
+      definition: "A Salafi Muslim. Derived from the name of Salafism's founder Muhammad ibn Abd al-Wahhab",
+      source: "wiki"
+    },
+    {
+      root: "Rapefugee",
+      variations: [],
+      category: "islamophobic",
+      definition: "A Muslim. Derived from \"rape\" + \"refugee\"",
+      source: "wiki"
+    },
+    {
+      root: "Rafida",
+      variations: [
+        "Rawafid"
+      ],
+      category: "sectarian",
+      definition: "Sh īʿi Muslims. Term originally denoting extremist Shīʿites who reject \"rafd\" the caliphates of Abu Bakr and Umar",
+      source: "wiki"
+    },
+    {
+      root: "Qadiani",
+      variations: [
+        "Q-word"
+      ],
+      category: "sectarian",
+      definition: "The Ahmadiyya Muslim Jama'at. Usied in Pakistan. The term originates from Qadian, a small town in present-day Indian Punjab, the birthplace of Mirza Ghulam Ahmad, the founder of the Ahmadiyya movement",
+      source: "wiki"
+    },
+    {
+      root: "Peacefool",
+      variations: [
+        "Pissful",
+        "Shantidoot"
+      ],
+      category: "islamophobic",
+      definition: "A Muslim. Derived from the common sarcastic dog whistle that Islam is a \"religion of peace\"",
+      source: "goodboy"
+    },
+    {
+      root: "Namazi",
+      variations: [
+        "Andhnamazi"
+      ],
+      category: "islamophobic",
+      definition: "A Muslim. Used in India. Derived from \"namaz\", the Persian word for obligatory daily prayers",
+      source: "wiki"
+    },
+    {
+      root: "Mulla",
+      variations: [
+        "Mullah",
+        "Kathmulla",
+        "Sulla",
+        "Bulla"
+      ],
+      category: "islamophobic",
+      definition: "A Muslim. Used in India and Iran. Derived from \"mullah\"",
+      source: "wiki"
+    },
+    {
+      root: "Mujeet",
+      variations: [
+        "Abdul",
+        "Adbool",
+        "Bougnole",
+        "Jihadi",
+        "Muzzie",
+        "Osama"
+      ],
+      category: "islamophobic",
+      definition: "A Muslim",
+      source: "wiki"
+    },
+    {
+      root: "Miya",
+      variations: [],
+      category: "islamophobic",
+      definition: "A Bangladeshi Muslim. Use in Assam, India. Derived from the honorific \"Mian\"",
+      source: "wiki"
+    },
+    {
+      root: "Khatmal",
+      variations: [],
+      category: "islamophobic",
+      definition: "A Sh īʿi Muslim. Derived from the Urdu word for \"bedbug\"",
+      source: "wiki"
+    },
+    {
+      root: "Kala",
+      variations: [
+        "Kaliya"
+      ],
+      category: "islamophobic",
+      definition: "A Muslim or Rohingya person. Used in India and Myanmar. Means \"black\"",
+      source: "wiki"
+    },
+    {
+      root: "Kadrun",
+      variations: [],
+      category: "islamophobic",
+      definition: "Islamic fundamentalism and reactionaries, sometimes Jokowi opposition although different religion. Used in Indonesia. Literally \"desert lizard\"",
+      source: "wiki"
+    },
+    {
+      root: "Chuslim",
+      variations: [],
+      category: "islamophobic",
+      definition: "A Muslim. Used in India. Derived from \"chus\" or \"chusna\", meaning \"to suck\" in Hindi/Urdu",
+      source: "wiki"
+    },
+    {
+      root: "Bicot",
+      variations: [],
+      category: "islamophobic",
+      definition: "A Muslim or any Arab. Clipping of \"arbicot\" (a diminutive of arbi - meaning Arab). French word usually used for Arabs/Maghrebis and Muslims",
+      source: "wiki"
+    },
+    {
+      root: "Mocky",
+      variations: [
+        "Red Sea pedestrian",
+        "Sheenie",
+        "Sheeny",
+        "Hymie",
+        "Heeb",
+        "Hebe",
+        "Feuj",
+        "Christ Killer",
+        "Oven Dodger"
+      ],
+      category: "antisemitic",
+      definition: "A Jewish person",
+      source: "wiki"
+    },
+    {
+      root: "Molly Mormon",
+      variations: [
+        "Jack Mormon",
+        "Peter Priesthood"
+      ],
+      category: "sectarian",
+      definition: "A \"perfect\" member of the LDS Church",
+      source: "wiki"
+    },
+    {
+      root: "Nestorian",
+      variations: [],
+      category: "sectarian",
+      definition: "The Assyrian Church of the East and the Ancient Church of the East. Originates from a historical misinterpretation of the Antiochene Dyophysite Christology of Theodore of Mopsuestia.",
+      source: "wiki"
+    },
+    {
+      root: "Jacobite",
+      variations: [],
+      category: "sectarian",
+      definition: "Syriac Orthodox. Named after Jacob Baradeus who liberated the Oriental Orthodox from persecution in the mid-6th century. This title is rejected by the Syriac Orthodox as it assumes that the Church had been started by Jacob",
+      source: "wiki"
+    },
+    {
+      root: "Shaveling",
+      variations: [
+        "Romanist",
+        "Papist",
+        "Mackerel Snapper",
+        "Left footer",
+        "Bead Rattler"
+      ],
+      category: "sectarian",
+      definition: "A Roman Catholic",
+      source: "goodboy"
+    },
+    {
+      root: "Red Letter tribe",
+      variations: [],
+      category: "sectarian",
+      definition: "Roman Catholics",
+      source: "wiki"
+    },
+    {
+      root: "Christfag",
+      variations: [
+        "Cross-hugger",
+        "Jesus Freak",
+        "Churchie"
+      ],
+      category: "christophobia",
+      definition: "A Christian",
+      source: "goodboy"
+    },
+    {
+      root: "Wee Free",
+      variations: [],
+      category: "sectarian",
+      definition: "A member of the Free Church of Scotland",
+      source: "wiki"
+    },
+    {
+      root: "Soup taker",
+      variations: [],
+      category: "sectarian",
+      definition: "A Christian who has \"sold out\" their beliefs. Reference to the Great Famine of Ireland when some Catholics converted to a Protestant faith in order to gain access to a free meal",
+      source: "wiki"
+    },
+    {
+      root: "Shouting Methodist",
+      variations: [],
+      category: "sectarian",
+      definition: "A Methodist",
+      source: "wiki"
+    },
+    {
+      root: "Shaker",
+      variations: [],
+      category: "sectarian",
+      definition: "A Christian",
+      source: "wiki"
+    },
+    {
+      root: "Russellite",
+      variations: [],
+      category: "sectarian",
+      definition: "A Jehovah's Wittness",
+      source: "wiki"
+    },
+    {
+      root: "Orangie",
+      variations: [],
+      category: "sectarian",
+      definition: "An Ulster Protestant",
+      source: "wiki"
+    },
+    {
+      root: "Jaffa",
+      variations: [
+        "Proddy",
+        "Prod",
+        "Proddywhoddy",
+        "Proddywoddy"
+      ],
+      category: "sectarian",
+      definition: "A Christian Protestant",
+      source: "wiki"
+    },
+    {
+      root: "Zombie",
+      variations: [],
+      category: "sectarian",
+      definition: "A Rangers Football Club fan",
+      source: "aos"
+    },
+    {
+      root: "Tattie muncher",
+      variations: [
+        "Tattie picker",
+        "Tarrier",
+        "Dogan",
+        "Dogun",
+        "Fenian"
+      ],
+      category: "sectarian",
+      definition: "An Irish Catholic",
+      source: "goodboy"
+    },
+    {
+      root: "Pape",
+      variations: [],
+      category: "sectarian",
+      definition: "A Catholic",
+      source: "aos"
+    },
+    {
+      root: "Jungle Jim",
+      variations: [],
+      category: "sectarian",
+      definition: "A fan of Celtic Football Club. Cockney rhyming slang of \"Tim\"",
+      source: "aos"
+    },
+    {
+      root: "Tim",
+      variations: [],
+      category: "sectarian",
+      definition: "A fan of Celtic Football Club. From \"Tim Malloys\", an Irish Catholic street gang that operated in Glasgow in the early 1900s",
+      source: "aos"
+    },
+    {
+      root: "Current Bun",
+      variations: [],
+      category: "sectarian",
+      definition: "A fan of Rangers Football Club. Cockney rhyming slang of \"hun\"",
+      source: "aos"
+    },
+    {
+      root: "Altar Boy",
+      variations: [],
+      category: "sectarian",
+      definition: "A fan of Celtic Football Club",
+      source: "aos"
+    },
+    {
+      root: "Holly Roller",
+      variations: [],
+      category: "christophobia",
+      definition: "Methodists of the Holiness Movement, Holiness Pentecostals. Named after church services involving spontaneous acts of worship, such as sobbing, wailing, groaning, and kneeling",
+      source: "wiki"
+    },
+    {
+      root: "Campbellite",
+      variations: [],
+      category: "christophobia",
+      definition: "Followers of the Church of Christ, from American Restoration Movement leaders Thomas Campbell and Alexander Campbell, the latter being one of two key people considered the founders of the movement",
+      source: "wiki"
+    },
+    {
+      root: "Rice Christian",
+      variations: [
+        "Rice bag"
+      ],
+      category: "christophobia",
+      definition: "A person who has formally declared themself a Christian for material benefits rather than for religious reasons. In India, the term has been extended to refer to any Christian convert",
+      source: "wiki"
+    },
+    {
+      root: "Isai",
+      variations: [],
+      category: "christophobia",
+      definition: "A Christian. Used in Pakistan. From \"Isa Masih\", a name of Jesus Christ in the Hindi-language Bible",
+      source: "wiki"
+    },
+    {
+      root: "God botherer",
+      variations: [],
+      category: "christophobia",
+      definition: "A Chtistian person",
+      source: "wiki"
+    },
+    {
+      root: "Fundie",
+      variations: [],
+      category: "christophobia",
+      definition: "Christian fundamentalist",
+      source: "wiki"
+    },
+    {
+      root: "Chuhra",
+      variations: [],
+      category: "christophobia",
+      definition: "A Christian. Used in Punjab. Derived from the Chuhra caste, a Dalit community whose traditional occupation was sweeping and cleaning. Most Christians in Punjab, along with many in Uttar Pradesh, are from the Chuhra and Chamar communities",
+      source: "wiki"
+    },
+    {
+      root: "Cafeteria Christian",
+      variations: [],
+      category: "sectarian",
+      definition: "A Christian perceived \"pick and choose\" which Christian doctrines they believe and those they do not",
+      source: "wiki"
+    },
+    {
+      root: "Bible thumper",
+      variations: [],
+      category: "christophobia",
+      definition: "A Christian, expecially fundamentalists",
+      source: "wiki"
+    },
+    {
+      root: "Bible basher",
+      variations: [
+        "Bible beater"
+      ],
+      category: "christophobia",
+      definition: "A Baptist, Methodist or Pentecostal evangelical, or any evangelising christian",
+      source: "wiki"
+    },
+    {
+      root: "Bean flicker",
+      variations: [
+        "Carpet muncher",
+        "Kitty Puncher",
+        "Lesbo",
+        "Lezzer",
+        "Lezzie",
+        "Lezzy",
+        "Muff diver",
+        "Pussy puncher",
+        "Rug muncher",
+        "Todger Dodger"
+      ],
+      category: "homophobic",
+      definition: "A lesbian or masculine woman",
+      source: "citg"
+    },
+    {
+      root: "Arse bandit",
+      variations: [
+        "Ass fucker",
+        "Booty bandit",
+        "Bum bandit",
+        "Bum boy",
+        "Butt pirate",
+        "Bender",
+        "Bum chum",
+        "Chutney ferret",
+        "Cocksucker",
+        "Effie",
+        "Flit",
+        "Flitty",
+        "Fudge packer",
+        "Girlyboy",
+        "Light in the loafers",
+        "Limp wristed",
+        "Mincer",
+        "Mincing",
+        "Pansy",
+        "Pillow biter",
+        "Ponce",
+        "Poncy",
+        "Shirt lifter",
+        "Shirtlfterish",
+        "Sissy",
+        "Sissified",
+        "Three letter man",
+        "Turd burglar"
+      ],
+      category: "homophobic",
+      definition: "A gay or feminine man",
+      source: "citg"
+    },
+    {
+      root: "Stoke-On-Trent",
+      variations: [
+        "Stoke"
+      ],
+      category: "homophobic",
+      definition: "A gay man. Cockney rhyming slang for \"bent\"",
+      source: "citg"
+    },
+    {
+      root: "Bent",
+      variations: [],
+      category: "homophobic",
+      definition: "Homosexual",
+      source: "goodboy"
+    },
+    {
+      root: "Nancy boy",
+      variations: [
+        "Nancy",
+        "Gaylord",
+        "Gay lord",
+        "Batty boy",
+        "Batty bwoy",
+        "Batty man",
+        "Batiman",
+        "Chi chi boy",
+        "Chi chi bwoy",
+        "Chi chi man",
+        "Fairy",
+        "Fairies",
+        "Fruit",
+        "Fruity",
+        "Fudgepacker",
+        "Poof",
+        "Poofter",
+        "Bufty",
+        "Queen"
+      ],
+      category: "homophobic",
+      definition: "A gay man",
+      source: "goodboy"
+    },
+    {
+      root: "Lipstick lesbian",
+      variations: [],
+      category: "homophobic",
+      definition: "Usually refers to a lesbian with a feminine gender expression. Can be used in a positive or a derogatory way, depending on who is using it. Is sometimes also used to refer to a lesbian who is seen as automatically \"passing\" for heterosexual",
+      source: "citg"
+    },
+    {
+      root: "Homo",
+      variations: [],
+      category: "homophobic",
+      definition: "A homosexual person",
+      source: "citg"
+    },
+    {
+      root: "Harry Hoofter",
+      variations: [
+        "Iron hoofter",
+        "Iron hoof",
+        "Woolie woofter"
+      ],
+      category: "homophobic",
+      definition: "A gay man. From Cockney rhyming slang for \"poofter\"",
+      source: "citg"
+    },
+    {
+      root: "Flame",
+      variations: [
+        "Flamer",
+        "Flaming"
+      ],
+      category: "homophobic",
+      definition: "\"Flaming\" can be used generally as an intensifier or curse, but has become especially associated with feminine gay men and campness. Often still used fondly, especially by older generations of gay men, but offensive if applied by others",
+      source: "citg"
+    },
+    {
+      root: "Fag Hag",
+      variations: [],
+      category: "homophobic",
+      definition: "A woman, typically a heterosexual one, possibly ageing, who prefers, enjoys, or seeks out the company of homosexual men. This term is offensive to gay men and misogynistic to heterosexual women",
+      source: "citg"
+    },
+    {
+      root: "Faggotry",
+      variations: [
+        "Faggy"
+      ],
+      category: "homophobic",
+      definition: "Used to imply someone is effeminate; lacking power or vigour; weak, cowardly; ineffectual. Hate speech when used about a gay man, especially in the US",
+      source: "citg"
+    },
+    {
+      root: "Bulldyke",
+      variations: [
+        "Bulldagger"
+      ],
+      category: "homophobic",
+      definition: "A butch or masculine queer woman",
+      source: "citg"
+    },
+    {
+      root: "Dyke",
+      variations: [],
+      category: "homophobic",
+      definition: "A lesbian or transmasc person. Term has been reclaimed by some lesbian communities",
+      source: "citg"
+    },
+    {
+      root: "Doric love",
+      variations: [],
+      category: "homophobic",
+      definition: "Gay sex/romance, sometimes with overtones of pederasty. A reference to classical Greece",
+      source: "citg"
+    },
+    {
+      root: "Curry queen",
+      variations: [],
+      category: "racist",
+      definition: "A gay man who is attracted to Indian men",
+      source: "citg"
+    },
+    {
+      root: "Cornholer",
+      variations: [],
+      category: "homophobic",
+      definition: "A gay man or person who engages in anal sex",
+      source: "citg"
+    },
+    {
+      root: "Tranny chaser",
+      variations: [
+        "Chaser"
+      ],
+      category: "transphobic",
+      definition: "A person who sees trans people (usually trans women) as inherently sexual, and sexually objectifies them. As opposed to someone who simply is predominantly attracted to trans women; a chaser does not view trans women respectfully as people with humanity and agency, but rather as players in a sexual fantasy",
+      source: "citg"
+    },
+    {
+      root: "Capon",
+      variations: [],
+      category: "homophobic",
+      definition: "A young or inexperienced gay man. From a word for a castrated rooster",
+      source: "citg"
+    },
+    {
+      root: "Bean queen",
+      variations: [],
+      category: "racist",
+      definition: "A Mexican homosexual, Latinx drag queen or white man who it attracted to Latino men",
+      source: "citg"
+    },
+    {
+      root: "Alphabet people",
+      variations: [],
+      category: "anti-lgbtq",
+      definition: "LGBTQ+ people",
+      source: "citg"
+    },
     {
       root: "Zhyd",
       variations: [
@@ -103,7 +961,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Yid",
       variations: [],
       category: "antisemitic",
-      definition: "A Jewish person. Derived from its use as an endonym among Yiddish-speaking Jews. In the United Kingdom, \"yid\" is also used to refer to supporters of the Tottenham Hotspur football club",
+      definition: "A Jewish person. Derived from its use as an endonym among Yiddish-speaking Jews. In the United Kingdom, \"yid\" is also used to refer to supporters of the Tottenham Hotspur football club. Has been reclaimed in some communities",
       source: "wiki"
     },
     {
@@ -249,7 +1107,6 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Paddy wagon",
         "Mick",
         "Bog",
-        "Bogtrotter",
         "Bog trotter"
       ],
       category: "racist",
@@ -301,7 +1158,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
     {
       root: "Vuzvuz",
       variations: [],
-      category: "racist",
+      category: "antisemitic",
       definition: "An Ashkenai Jew. Used by Sephardi and Mizrahi Jews. Onomatopoeia of the Yiddish word for \"what\"",
       source: "wiki"
     },
@@ -332,7 +1189,6 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Ustaše",
         "Ustaši",
         "Ustasha",
-        "Ustashe",
         "Ustashe"
       ],
       category: "racist",
@@ -405,7 +1261,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
     {
       root: "Turko",
       variations: [],
-      category: "racist",
+      category: "antisemitic",
       definition: "An Ashkenazi Jew. Used by Sephardic Jews. From a Ladino word meaning \"Turk\"",
       source: "wiki"
     },
@@ -480,7 +1336,6 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Crow",
         "Blackie",
         "Nigger",
-        "Nigga",
         "Nibba",
         "Negro",
         "Nig Nog",
@@ -568,7 +1423,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Thambiya"
       ],
       category: "islamophobic",
-      definition: "A Muslim person, especially Sri Lankan Moors. From the Tamil word தம்பி \"tambi\" meaning \"younger brother\"",
+      definition: "A Muslim, especially Sri Lankan Moors. From the Tamil word தம்பி \"tambi\" meaning \"younger brother\"",
       source: "wiki"
     },
     {
@@ -915,9 +1770,10 @@ const GOODBOY_HARMFUL_TERM_DATA = {
     {
       root: "Shiksa",
       variations: [
-        "Sheigetz"
+        "Sheigetz",
+        "Shegetz"
       ],
-      category: "racist",
+      category: "non-believers",
       definition: "A non-Jewish person",
       source: "wiki"
     },
@@ -933,21 +1789,6 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       variations: [],
       category: "racist",
       definition: "A Welsh or New Zealander person",
-      source: "wiki"
-    },
-    {
-      root: "Sheenie",
-      variations: [
-        "Sheeny",
-        "Hymie",
-        "Heeb",
-        "Hebe",
-        "Feuj",
-        "Christ Killer",
-        "Oven Dodger"
-      ],
-      category: "antisemitic",
-      definition: "A Jewish person",
       source: "wiki"
     },
     {
@@ -1052,7 +1893,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Sand Nigger",
       variations: [],
       category: "racist",
-      definition: "An Arab or Muslim person",
+      definition: "An Arab or Muslim",
       source: "wiki"
     },
     {
@@ -1152,7 +1993,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Towel head"
       ],
       category: "racist",
-      definition: "An Arab, Indian or Sikh person. Alternatively anyone who wears a traditional headdress such as a turban or keffiyeh",
+      definition: "An Arab, Indian or Sikh. Alternatively anyone who wears a traditional headdress such as a turban or keffiyeh",
       source: "wiki"
     },
     {
@@ -1376,7 +2217,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Pakki"
       ],
       category: "racist",
-      definition: "A Pakistani person, or other South Asians",
+      definition: "A Pakistani person, or other South Asians. Has been reclaimed by some British Pakistanis",
       source: "wiki"
     },
     {
@@ -1458,9 +2299,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
     {
       root: "Transformer",
       variations: [
-        "Tranny",
-        "Transvestite"
-      ],
+        "Tranny"],
       category: "transphobic",
       definition: "A transgender person",
       source: "goodboy"
@@ -1492,7 +2331,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Nere",
       variations: [],
       category: "islamophobic",
-      definition: "A Muslim person. Used by Bengali Hindus",
+      definition: "A Muslim. Used by Bengali Hindus",
       source: "wiki"
     },
     {
@@ -1612,7 +2451,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Mohamedaner",
       variations: [],
       category: "islamophobic",
-      definition: "A Muslim person. Danish term",
+      definition: "A Muslim. Danish term",
       source: "wiki"
     },
     {
@@ -1687,7 +2526,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Malaun",
       variations: [],
       category: "hinduphobic",
-      definition: "A Hindu person. Derived from Bengali মালাউন (maalaaun), which in turn was derived from Arabic \"ملعون\" (mal'un), which means \"cursed\" or deprived of God's mercy",
+      definition: "A Hindu. Derived from Bengali মালাউন (maalaaun), which in turn was derived from Arabic \"ملعون\" (mal'un), which means \"cursed\" or deprived of God's mercy",
       source: "wiki"
     },
     {
@@ -2065,10 +2904,16 @@ const GOODBOY_HARMFUL_TERM_DATA = {
     {
       root: "Katwa",
       variations: [
-        "Katwe"
+        "Katwe",
+        "Katuve",
+        "Katua",
+        "K2a",
+        "K2o",
+        "K2wa",
+        "Kto"
       ],
       category: "islamophobic",
-      definition: "A Muslim male. From a Hindi word meaning \"to cut\", a reference to ha circumcised penis",
+      definition: "A Muslim male. From a Hindi word meaning \"to cut\", a reference to having a circumcised penis",
       source: "wiki"
     },
     {
@@ -2115,7 +2960,6 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Kaffir",
       variations: [
         "Kaffer",
-        "Kafir",
         "Kaffre",
         "Kuffar"
       ],
@@ -2325,10 +3169,8 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       source: "wiki"
     },
     {
-      root: "Ikeymo",
-      variations: [
-        "Ikey-mo"
-      ],
+      root: "Ikey-mo",
+      variations: [],
       category: "antisemitic",
       definition: "A Jewish person, derived from the names Isaac and Moses, two important figures in Hebrew culture",
       source: "wiki"
@@ -2337,7 +3179,8 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Ike",
       variations: [
         "Ikey",
-        "Iky"
+        "Iky",
+        "Itzig"
       ],
       category: "antisemitic",
       definition: "A Jewish person, derived from the name Isaac",
@@ -2374,10 +3217,8 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       source: "wiki"
     },
     {
-      root: "Huana",
-      variations: [
-        "Huan-a"
-      ],
+      root: "Huan-a",
+      variations: [],
       category: "xenophobic",
       definition: "A non-Chinese native person, literally translates to \"foreigner\"",
       source: "wiki"
@@ -2431,7 +3272,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Hun",
       variations: [],
       category: "racist",
-      definition: "A German person or, in Ireland a Christian Protestant",
+      definition: "A German person or a Christian Protestant",
       source: "wiki"
     },
     {
@@ -2465,30 +3306,15 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       source: "wiki"
     },
     {
-      root: "Proddy",
-      variations: [
-        "Prod",
-        "Proddywhoddy",
-        "Proddywoddy"
-      ],
-      category: "sectarian",
-      definition: "A Christian Protestant",
-      source: "wiki"
-    },
-    {
       root: "Half-caste",
-      variations: [
-        "Half caste"
-      ],
+      variations: [],
       category: "racist",
       definition: "A mixed race person, usually between Australian Aboriginal and white people",
       source: "wiki"
     },
     {
       root: "Half-breed",
-      variations: [
-        "Half breed"
-      ],
+      variations: [],
       category: "racist",
       definition: "A multi-ethnic person",
       source: "wiki"
@@ -2639,7 +3465,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Goyim",
         "Goyum"
       ],
-      category: "racist",
+      category: "non-believers",
       definition: "A non-Jewish person. A Hebrew biblical term for \"Nation\" or \"People\". By Roman times it had also acquired the meaning of \"non-Jew\"",
       source: "wiki"
     },
@@ -2852,16 +3678,11 @@ const GOODBOY_HARMFUL_TERM_DATA = {
     },
     {
       root: "Festival children",
-      variations: [],
+      variations: [
+        "Festival child"
+      ],
       category: "racist",
       definition: "A child of mixed ancestry, usually with a father who is black or of harmful-European origin. Not currently used, but popular in 1950s Russia",
-      source: "wiki"
-    },
-    {
-      root: "Fenian",
-      variations: [],
-      category: "sectarian",
-      definition: "An Irish Catholic person",
       source: "wiki"
     },
     {
@@ -2882,9 +3703,8 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       source: "goodboy"
     },
     {
-      root: "Fankui",
+      root: "Fan Kui",
       variations: [
-        "Fan kui",
         "Fangui",
         "Gui zi",
         "Guizi",
@@ -2895,10 +3715,8 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       source: "wiki"
     },
     {
-      root: "Eyetie",
-      variations: [
-        "Eye tie"
-      ],
+      root: "Eye tie",
+      variations: [],
       category: "racist",
       definition: "An Italian person. From a misponunciation of Italian",
       source: "wiki"
@@ -2926,15 +3744,6 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       ],
       category: "hinduphobic",
       definition: "A Hindu woman, in reference to the bindi",
-      source: "wiki"
-    },
-    {
-      root: "Dogan",
-      variations: [
-        "Dogun"
-      ],
-      category: "sectarian",
-      definition: "An Irish Catholic",
       source: "wiki"
     },
     {
@@ -3046,10 +3855,8 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       source: "wiki"
     },
     {
-      root: "Coonass",
-      variations: [
-        "Coon ass"
-      ],
+      root: "Coon ass",
+      variations: [],
       category: "racist",
       definition: "A Cajun person",
       source: "wiki"
@@ -3150,10 +3957,8 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       source: "wiki"
     },
     {
-      root: "Chowmein",
-      variations: [
-        "Chow mein"
-      ],
+      root: "Chow mein",
+      variations: [],
       category: "racist",
       definition: "A Chinese of Norheast Indian person",
       source: "wiki"
@@ -3169,9 +3974,11 @@ const GOODBOY_HARMFUL_TERM_DATA = {
     },
     {
       root: "Cholo",
-      variations: [],
+      variations: [
+        "Chola"
+      ],
       category: "racist",
-      definition: "Depending on the speaker a Bolivian / Peruvian person, or Mestizo / Indigenous person. The level of harmful intent also varies by speaker",
+      definition: "Depending on the speaker a Bolivian / Peruvian person, or Mestizo / Indigenous person. The level of harmful intent also varies by speake. Has been reclaimed in some subcultures",
       source: "wiki"
     },
     {
@@ -3350,10 +4157,8 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       source: "wiki"
     },
     {
-      root: "Burrhead",
-      variations: [
-        "Burr Head"
-      ],
+      root: "Burr head",
+      variations: [],
       category: "racist",
       definition: "A black person, a reference to Afro-textured hair",
       source: "wiki"
@@ -3608,7 +4413,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       variations: [
         "Ashke Natzi"
       ],
-      category: "racist",
+      category: "antisemitic",
       definition: "An Ashkenazi Jew. Mostly used mostly by Mizrachi Jews",
       source: "wiki"
     },
@@ -3782,7 +4587,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "American born confused Desi"
       ],
       category: "racist",
-      definition: "\"American-Born Confused Desi\" - Indian Americans or other South Asian Americans who were born in the United States",
+      definition: "\"American-Born Confused Desi\" - Indian Americans or other South Asian Americans who were born in the United States. Has been reclaimed, often now used positively to describe a shared experiencce",
       source: "wiki"
     },
     {
@@ -4027,7 +4832,8 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       variations: [
         "Spas",
         "Spaz",
-        "Spazzy"
+        "Spazzy",
+        "Spack"
       ],
       category: "disability-cognitive",
       definition: "A person who has spasticity; an intermittent or sustained involuntary contraction of muscles",
@@ -4067,49 +4873,24 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Tramp",
         "Skank",
         "Thot",
-        "Sluzza"
+        "Sluzza",
+        "Bicycle"
       ],
       category: "misogynistic",
       definition: "A person, usually a woman, who is considered sexually promiscuous",
       source: "wsp"
     },
     {
-      root: "Faggot",
+      root: "Fagot",
       variations: [
-        "Fag",
-        "Fagot",
         "Faget",
-        "Faggy",
+        "Fagged",
         "Fagala",
         "Feygele",
-        "Faygele",
-        "Sissy"
+        "Faygele"
       ],
       category: "anti-lgbtq",
-      definition: "A homosexual or feminine male",
-      source: "goodboy"
-    },
-    {
-      root: "Batty boy",
-      variations: [
-        "Batty bwoy",
-        "Batty man",
-        "Batiman",
-        "Chi chi boy",
-        "Chi chi bwoy",
-        "Chi chi man",
-        "Fairy",
-        "Fairies",
-        "Fruit",
-        "Fruity",
-        "Fudgepacker",
-        "Poof",
-        "Poofter",
-        "Bufty",
-        "Queen"
-      ],
-      category: "anti-lgbtq",
-      definition: "A homosexual male",
+      definition: "A man who is effeminate; lacking power or vigour; weak, cowardly; ineffectual. Hate speech when used about a gay man, especially in the US",
       source: "goodboy"
     },
     {
@@ -4117,16 +4898,6 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       variations: [],
       category: "anti-lgbtq",
       definition: "A homosexual couple",
-      source: "goodboy"
-    },
-    {
-      root: "Dyke",
-      variations: [
-        "Lesbo",
-        "Lezzer"
-      ],
-      category: "anti-lgbtq",
-      definition: "A homosexual female",
       source: "goodboy"
     }
   ]

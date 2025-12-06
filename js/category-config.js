@@ -10,9 +10,9 @@
 const CATEGORY_HIERARCHY = {
     "race": {
         "label": "Race & Ethnicity",
-        "lightColor": "#ffcdd2",
-        "hoverColor": "#ef9a9a",
-        "darkColor": "#e57373",
+        "lightColor": "#f79b9b",
+        "hoverColor": "#f18585",
+        "darkColor": "#e75959",
         "sub": {
             "racist": {
                 "label": "Racist",
@@ -49,38 +49,54 @@ const CATEGORY_HIERARCHY = {
             "hinduphobic": {
                 "label": "Hinduphobic",
                 "darkColor": "#d385e0"
+            },
+            "christophobia": {
+                "label": "Christophobia",
+                "darkColor": "#ae80b6"
+            },
+            "Sikhophobia": {
+                "label": "Sikhophobia",
+                "darkColor": "#b274bd"
+            },
+            "religious-minorities": {
+                "label": "Religious Minorities",
+                "darkColor": "#b36dc0"
+            },
+            "non-believers": {
+                "label": "Non-Believers",
+                "darkColor": "#ae63bc"
             }
         }
     },
     "gender": {
         "label": "Gender & Sexuality",
-        "lightColor": "#ffe0b2",
-        "hoverColor": "#ffcc80",
-        "darkColor": "#ffb74d",
+        "lightColor": "#ffe000",
+        "hoverColor": "#ffcc00",
+        "darkColor": "#ffb700",
         "sub": {
             "transphobic": {
                 "label": "Transphobic",
-                "darkColor": "#ffb74d"
+                "darkColor": "#e1a305"
             },
             "homophobic": {
                 "label": "Homophobic",
-                "darkColor": "#de9b36"
+                "darkColor": "#d49b0b"
             },
             "anti-lgbtq": {
                 "label": "Anti-LGBTQ",
-                "darkColor": "#f4ab3d"
+                "darkColor": "#c48e07"
             },
             "misogynistic": {
                 "label": "Misogynistic",
-                "darkColor": "#df9f40"
+                "darkColor": "#cd9710"
             },
             "misandristic": {
                 "label": "Misandrinistic",
-                "darkColor": "#ffa726"
+                "darkColor": "#d8a423"
             },
             "prostitution": {
                 "label": "Prostitution Stigma",
-                "darkColor": "#ffb74d"
+                "darkColor": "#e8ab11"
             }
         }
     },
@@ -100,7 +116,11 @@ const CATEGORY_HIERARCHY = {
             },
             "mental-health": {
                 "label": "Mental Health Condition",
-                "darkColor": "#64a7c8"
+                "darkColor": "#6fa3bd"
+            },
+            "ageist": {
+                "label": "Ageist",
+                "darkColor": "#5b8397"
             }
         }
     },
@@ -128,7 +148,7 @@ const CATEGORY_HIERARCHY = {
             }
         }
     },
-    "geography": {
+    "populism": {
         "label": "Populist",
         "lightColor": "#c5e1a5",
         "hoverColor": "#aed581",
@@ -146,45 +166,46 @@ const CATEGORY_HIERARCHY = {
                 "label": "Regionalist",
                 "darkColor": "#6a9a36"
             },
+            "religious-populism": {
+                "label": "Religious Populism",
+                "darkColor": "#649431"
+            },
             "welfare-chauvinism": {
                 "label": "Welfare Chauvinism",
                 "darkColor": "#749253"
             }
+            
         }
     },
     "antiIntellectualist": {
         "label": "Anti-Intellectualist",
-        "lightColor": "#f8bbd0",
-        "hoverColor": "#f48fb1",
-        "darkColor": "#f06292",
+        "lightColor": "#f8d9bb",
+        "hoverColor": "#f3b577",
+        "darkColor": "#f1963a",
         "sub": {
             "anti-gmo": {
                 "label": "Anti-GMO",
-                "darkColor": "#ec407a"
+                "darkColor": "#d27e29"
             },
             "anti-vax": {
                 "label": "Anti-Vax",
-                "darkColor": "#e91e63"
+                "darkColor": "#c47b33"
             },
             "climate change denier": {
                 "label": "Climate Change Denial",
-                "darkColor": "#ff9800"
-            },
-            "psuedoscience": {
-                "label": "Pseudoscience",
-                "darkColor": "#d0810b"
+                "darkColor": "#e9821b"
             },
             "conspiracy": {
                 "label": "Conspiracy",
-                "darkColor": "#c87e0e"
+                "darkColor": "#d88028"
             }
         }
     },
     "rhetoricalManipulation": {
         "label": "Rhetorical Manipulation",
-        "lightColor": "#987cec",
-        "hoverColor": "#6f5bac",
-        "darkColor": "#7b67b8",
+        "lightColor": "#9f91c9",
+        "hoverColor": "#a48ee5",
+        "darkColor": "#7d68ba",
         "sub": {
             "bad-faith": {
                 "label": "Bad Faith",
