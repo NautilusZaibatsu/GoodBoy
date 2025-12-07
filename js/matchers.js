@@ -1,6 +1,6 @@
 /**
  * Matchers for GoodBoy
- * Contains PatternMatcher, DogWhistleMatcher, and HarmfulTermMatcher
+ * Contains PatternMatcher, CodedTermMatcher, and HarmfulTermMatcher
  * Shared between webapp and tests for consistent behavior
  */
 
@@ -58,7 +58,7 @@ function trimMatchedText(matchedText) {
 
 /**
  * Shared helper to analyze text and find matches (DRY)
- * Used by both DogWhistleMatcher and HarmfulTermMatcher
+ * Used by both CodedTermMatcher and HarmfulTermMatcher
  */
 function analyzeTextWithVariations(text, variationMap, matchType) {
     // Normalize Unicode only (don't modify the text)
@@ -336,8 +336,8 @@ const PatternMatcher = {
         return found;
     },
 
-    // Initialize by extracting patterns from dog whistles
-    initialize(dogWhistles) {
+    // Initialize by extracting patterns from coded terms
+    initialize(codedTerms) {
         if (typeof PLACE_DEMONYM_LOOKUP === 'undefined') {
             console.warn('Place-demonym lookup not loaded yet, pattern matching disabled');
             return;
@@ -373,15 +373,15 @@ const PatternMatcher = {
             });
         });
 
-        // Extract patterns from dog whistles
-        this.extractPatterns(dogWhistles);
+        // Extract patterns from coded terms
+        this.extractPatterns(codedTerms);
     },
 
-    // Extract patterns from existing dog whistles
-    extractPatterns(dogWhistles) {
+    // Extract patterns from existing coded terms
+    extractPatterns(codedTerms) {
         const seenPatterns = new Set(); // Deduplicate by pattern text
 
-        dogWhistles.forEach(dw => {
+        codedTerms.forEach(dw => {
             // SKIP if not dynamic mode - location-specific patterns shouldn't generate variations
             if (!dw.categoryMode || dw.categoryMode !== 'dynamic') {
                 return; // Don't extract pattern - location-specific (e.g., "Israel Lobby", "China Virus")
@@ -476,7 +476,7 @@ const PatternMatcher = {
                                 placeholders: placeFound ? ['place', 'religionym'] : ['religionym'],
                                 religionymForm: demonymFound.demonym,  // Store what demonym was replaced
                                 basePlace: placeFound ? null : basePlace,  // Keep basePlace for demonym-only patterns
-                                dogWhistle: dw
+                                codedTerm: dw
                             };
                             this.patterns.push(religionymPattern);
                         }
@@ -500,7 +500,7 @@ const PatternMatcher = {
                                 basePlace: basePlace, // For demonym-only patterns
                                 originalPlace: placeFound ? placeFound.matchedText : null, // Store original place name
                                 originalDemonym: demonymFound ? demonymFound.demonym : null, // Store original demonym
-                                dogWhistle: dw
+                                codedTerm: dw
                             };
                             this.patterns.push(pattern);
                         }
@@ -728,20 +728,20 @@ const PatternMatcher = {
                         }
 
                         potentialMatches.push({
-                            type: 'dogwhistle',
+                            type: 'codedTerm',
                             text: actualMatchedText,                       // use matched text for UI highlighting
                             term: displayTerm,                             // clean text with detected place/demonym
                             category: category,
-                            definition: pattern.dogWhistle.definition,
+                            definition: pattern.codedTerm.definition,
                             variations: [],  // Don't show variations - not relevant for derived matches
                             isPatternMatch: true,
                             originalPattern: pattern.original,
                             detectedPlace: placeVariant,                  // preserve dataset variant for reference
                             isDerived: true,
-                            derivedFrom: pattern.dogWhistle.root,
+                            derivedFrom: pattern.codedTerm.root,
                             start: start,
                             end: end,
-                            source: pattern.dogWhistle.source
+                            source: pattern.codedTerm.source
                         });
                     }
                 });
@@ -816,20 +816,20 @@ const PatternMatcher = {
 
                         // Create match with religious-populism category
                         potentialMatches.push({
-                            type: 'dogwhistle',
+                            type: 'codedTerm',
                             text: actualMatchedText,
                             term: actualMatchedText,  // Standalone, not showing derivation
                             category: 'religious-populism',  // ALWAYS religious-populism
-                            definition: pattern.dogWhistle.definition,
+                            definition: pattern.codedTerm.definition,
                             variations: [],  // Don't show variations - not relevant for religionym matches
                             isPatternMatch: true,
                             originalPattern: pattern.original,
                             detectedReligionym: religionymVariant,
                             isDerived: true,
-                            derivedFrom: pattern.dogWhistle.root,
+                            derivedFrom: pattern.codedTerm.root,
                             start: start,
                             end: end,
-                            source: pattern.dogWhistle.source
+                            source: pattern.codedTerm.source
                         });
                     }
                 });
@@ -868,7 +868,7 @@ const PatternMatcher = {
 
     // Determine category for a match using hybrid logic
     determineCategoryForMatch(pattern, placeInfo) {
-        const originalCategory = pattern.dogWhistle.category;
+        const originalCategory = pattern.codedTerm.category;
 
         // For dynamic patterns, use hybrid approach:
         // - If original is nationalist/localist → auto-categorize by place type
@@ -884,19 +884,19 @@ const PatternMatcher = {
     }
 };
 
-class DogWhistleMatcher {
-    constructor(dogWhistleData) {
-        // Store dog whistle data
-        this.dogWhistleData = dogWhistleData;
-        this.dogWhistleTerms = dogWhistleData.terms;
+class CodedTermMatcher {
+    constructor(codedTermData) {
+        // Store coded term data
+        this.codedTermData = codedTermData;
+        this.codedTermTerms = codedTermData.terms;
 
-        // Build lookup map for dog whistles using DRY helper
-        this.variationMap = ObfuscationUtils.buildVariationMap(this.dogWhistleTerms);
+        // Build lookup map for coded terms using DRY helper
+        this.variationMap = ObfuscationUtils.buildVariationMap(this.codedTermTerms);
     }
 
     analyze(text) {
         // Use shared DRY helper
-        const allMatches = analyzeTextWithVariations(text, this.variationMap, 'dogwhistle');
+        const allMatches = analyzeTextWithVariations(text, this.variationMap, 'codedTerm');
 
         // Remove overlapping matches, keeping the longest/most specific ones
         // Sort by: 1) length (descending), 2) position (ascending)

@@ -1,106 +1,250 @@
 const GOODBOY_HARMFUL_TERM_DATA = {
   version: "1.0.0",
-  generated: "2025-12-06T03:40:33.164Z",
-  uniqueTerms: 587,
-  totalTerms: 1114,
+  generated: "2025-12-07T01:21:37.578Z",
+  uniqueTerms: 606,
+  totalTerms: 1163,
   categoryBreakdown: [
-    { name: "racist", count: 717 },
+    { name: "racist", count: 724 },
     { name: "homophobic", count: 85 },
-    { name: "sectarian", count: 43 },
-    { name: "islamophobic", count: 42 },
-    { name: "disability-cognitive", count: 39 },
-    { name: "antisemitic", count: 38 },
-    { name: "disability-physical", count: 27 },
-    { name: "ageist", count: 18 },
+    { name: "disability", count: 66 },
+    { name: "islamophobic", count: 46 },
+    { name: "sectarian", count: 44 },
+    { name: "antisemitic", count: 43 },
+    { name: "sexual-objectification", count: 33 },
+    { name: "non-believers", count: 17 },
     { name: "prostitution", count: 16 },
     { name: "christophobia", count: 15 },
-    { name: "misogynistic", count: 13 },
-    { name: "non-believers", count: 13 },
+    { name: "ageist", count: 12 },
+    { name: "misogynistic", count: 12 },
     { name: "xenophobic", count: 10 },
     { name: "anti-lgbtq", count: 9 },
     { name: "mental-health", count: 8 },
     { name: "hinduphobic", count: 6 },
     { name: "transphobic", count: 6 },
     { name: "religious-minorities", count: 5 },
-    { name: "islamophobia", count: 2 },
-    { name: "sikhophobia", count: 2 },
-    { name: "anti-gmo", count: 0 },
+    { name: "misandristic", count: 3 },
+    { name: "sikhophobic", count: 2 },
+    { name: "liberal", count: 1 },
+    { name: "alt-right", count: 0 },
     { name: "anti-liberal", count: 0 },
-    { name: "anti-vax", count: 0 },
     { name: "bad-faith", count: 0 },
     { name: "climate change denier", count: 0 },
     { name: "conservative", count: 0 },
     { name: "conspiracy", count: 0 },
-    { name: "deflection ", count: 0 },
-    { name: "dehumanisation", count: 0 },
+    { name: "deflection", count: 0 },
+    { name: "dehumanization", count: 0 },
     { name: "emotional-dismissal", count: 0 },
     { name: "fascist", count: 0 },
-    { name: "liberal", count: 0 },
     { name: "localist", count: 0 },
-    { name: "misandristic", count: 0 },
     { name: "nationalist", count: 0 },
     { name: "personal-responsibility", count: 0 },
+    { name: "pseudoscience", count: 0 },
     { name: "regionalist", count: 0 },
     { name: "religious-populism", count: 0 },
     { name: "welfare-chauvinism", count: 0 },
     { name: "white-supremacist", count: 0 }
   ],
   sourceBreakdown: [
-    { name: "wiki", count: 815 },
-    { name: "goodboy", count: 212 },
+    { name: "wiki", count: 821 },
+    { name: "goodboy", count: 222 },
     { name: "citg", count: 65 },
-    { name: "wsp", count: 12 },
-    { name: "aos", count: 6 },
-    { name: "wik", count: 4 },
+    { name: "wsp", count: 48 },
+    { name: "aos", count: 7 },
     { name: "adl", count: 0 },
     { name: "silent_signals", count: 0 },
     { name: "swu", count: 0 }
   ],
   terms: [
     {
-    root: "Bitch",
-    variations: [],
-    category: "misogynistic",
-    definition: "A woman. From the name for a female dog",
-    source: "goodboy"
-  },
+      root: "Libtard",
+      variations: [],
+      category: "liberal",
+      definition: "A liberal person. Portmanteau of \"liberal\" and \"retard\"",
+      source: "goodboy"
+    },
     {
-    root: "Transvestite",
-    variations: [],
-    category: "transphobic",
-    definition: "An outdated term for people who cross-dress; commonly used as a slur against trans people",
-    source: "goodboy"
-  },
+      root: "Womxn",
+      variations: [
+        "Wymmin"
+      ],
+      category: "misogynistic",
+      definition: "A woman",
+      source: "goodboy"
+    },
     {
-    root: "Shemale",
-    variations: [],
-    category: "transphobic",
-    definition: "A transgender person, especially a trans woman. Reclaimed by some communities but generally considered highly offensive",
-    source: "goodboy"
-  },
+      root: "Backslider",
+      variations: [
+        "Backsliding"
+      ],
+      category: "non-believers",
+      definition: "Someone who has left a faith or is viewed as abandoning religious morals",
+      source: "goodboy"
+    },
     {
-    root: "Fag",
-    variations: [
-      "Faggot"
-    ],
-    category: "homophobic",
-    definition: "A historically derogatory slur for gay men, used to demean or dehumanise them. In some LGBTQ+ in-group contexts it has been reclaimed, but it remains offensive and harmful in general use",
-    source: "goodboy"
-  },
+      root: "Godless",
+      variations: [],
+      category: "non-believers",
+      definition: "Someone who does not revere a deity. Implies a perceived lack of morality, based on the idea that belief in God is necessary for a moral compass",
+      source: "goodboy"
+    },
     {
-    root: "Queer",
-    variations: [],
-    category: "anti-lgbtq",
-    definition: "An LGBTQ+ person. Has been reclaimed but often still offensive depending on the context and speaker",
-    source: "goodboy"
-  },
+      root: "Faithless",
+      variations: [],
+      category: "non-believers",
+      definition: "Someone who does not follow a faith. Implies a lacks of principles or loyalty, based on the idea that belief in God is necessary for a moral compass",
+      source: "goodboy"
+    },
     {
-    root: "Nigga",
-    variations: [],
-    category: "racist",
-    definition: "A black person. Has been reclaimed, but still offensive depending on the speaker",
-    source: "goodboy"
-  },
+      root: "Feminazi",
+      variations: [
+        "Feminid",
+        "Femnazi",
+        "Femoid",
+        "Femtrash",
+        "Femoid trash",
+        "Feminazi-lite",
+        "Mini-feminazi"
+      ],
+      category: "misogynistic",
+      definition: "A woman, especially feminists",
+      source: "goodboy"
+    },
+    {
+      root: "Exotic",
+      variations: [],
+      category: "racist",
+      definition: "When applied to a person, frames them as foreign or non-white in a way that reduces them to an ethnic stereotype or objectifies them",
+      source: "goodboy"
+    },
+    {
+      root: "Exotic beauty",
+      variations: [],
+      category: "racist",
+      definition: "A racialised form of sexual objectification that frames someone as attractive because they are foreign, unusual, or non-white, reducing them to an ethnic stereotype",
+      source: "goodboy"
+    },
+    {
+      root: "Spicy Latina",
+      variations: [
+        "Fiery Latina"
+      ],
+      category: "racist",
+      definition: "Reduction of a Latina woman to an exaggeratedd, hypersexualised and aggressive caricature",
+      source: "goodboy"
+    },
+    {
+      root: "Oriental",
+      variations: [
+        "Oriental beauty"
+      ],
+      category: "racist",
+      definition: "An outdated and offensive term when used to describe people of Asian descent",
+      source: "goodboy"
+    },
+    {
+      root: "Jungle fever",
+      variations: [],
+      category: "racist",
+      definition: "A person's preference for a sexual or romantic relationship that is interracial, especially the preference of a white person for a Black person",
+      source: "goodboy"
+    },
+    {
+      root: "Yellow Fever",
+      variations: [],
+      category: "racist",
+      definition: "A sexual obsession with East Asian women",
+      source: "goodboy"
+    },
+    {
+      root: "Fuckboy",
+      variations: [
+        "F-boy"
+      ],
+      category: "misandristic",
+      definition: "A promiscuous young man who does not respect women, but uses them for sexual gratification",
+      source: "goodboy"
+    },
+    {
+      root: "Himbo",
+      variations: [],
+      category: "misandristic",
+      definition: "An attractive but unintelligent or frivolous young man, From \"Him\" and \"Bimbo\"",
+      source: "goodboy"
+    },
+    {
+      root: "Arm candy",
+      variations: [],
+      category: "sexual-objectification",
+      definition: "Reduction of a partner to a status symbol",
+      source: "wsp"
+    },
+    {
+      root: "Trophy wife",
+      variations: [],
+      category: "sexual-objectification",
+      definition: "Reduction of a female partner to a status symbol",
+      source: "wsp"
+    },
+    {
+      root: "Piece of ass",
+      variations: [
+        "Hot piece of ass",
+        "Fuck toy",
+        "Cum slut",
+        "Cum dumpster",
+        "Cum recepticle",
+        "Cock sleeve",
+        "Pornified",
+        "Sex object"
+      ],
+      category: "sexual-objectification",
+      definition: "Reduction of a woman to purely sexual terms",
+      source: "wsp"
+    },
+    {
+      root: "Bitch",
+      variations: [],
+      category: "misogynistic",
+      definition: "A derogatory term for a woman. From the name for a female dog",
+      source: "goodboy"
+    },
+    {
+      root: "Transvestite",
+      variations: [],
+      category: "transphobic",
+      definition: "An outdated term for people who cross-dress; commonly used as a slur against trans people",
+      source: "goodboy"
+    },
+    {
+      root: "Shemale",
+      variations: [],
+      category: "transphobic",
+      definition: "A transgender person, especially a trans woman. Reclaimed by some communities but generally considered highly offensive",
+      source: "goodboy"
+    },
+    {
+      root: "Fag",
+      variations: [
+        "Faggot"
+      ],
+      category: "homophobic",
+      definition: "A historically derogatory slur for gay men, used to demean or dehumanize them. In some LGBTQ+ in-group contexts it has been reclaimed, but it remains offensive and harmful in general use",
+      source: "goodboy"
+    },
+    {
+      root: "Queer",
+      variations: [],
+      category: "anti-lgbtq",
+      definition: "An LGBTQ+ person. Has been reclaimed but often still offensive depending on the context and speaker",
+      source: "goodboy"
+    },
+    {
+      root: "Nigga",
+      variations: [],
+      category: "racist",
+      definition: "A Black person. Has been reclaimed, but still offensive depending on the speaker",
+      source: "goodboy"
+    },
     {
       root: "Wrinkled old prune",
       variations: [],
@@ -127,7 +271,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
     {
       root: "Old bat",
       variations: [],
-      category: "disability-cognitive",
+      category: "disability",
       definition: "A senile older woman",
       source: "wiki"
     },
@@ -153,23 +297,23 @@ const GOODBOY_HARMFUL_TERM_DATA = {
     {
       root: "MILF",
       variations: [],
-      category: "ageist",
-      definition: "\"Mother I'd like to fuck\". Considered sexist and ageist by some and positive or neutral by others",
-      source: "wiki"
+      category: "sexual-objectification",
+      definition: "\"Mother I'd like to fuck\". Used to fetishize middle aged women. Considered sexist and ageist by some and positive or neutral by others",
+      source: "wsp"
     },
     {
       root: "DILF",
       variations: [],
-      category: "ageist",
-      definition: "\"Daddy I'd like to fuck\". Considered sexist and ageist by some and positive or neutral by others",
-      source: "goodboy"
+      category: "sexual-objectification",
+      definition: "\"Daddy I'd like to fuck\". Used to fetishize middle aged men. Considered sexist and ageist by some and positive or neutral by others",
+      source: "wsp"
     },
     {
       root: "GILF",
       variations: [],
-      category: "ageist",
-      definition: "\"Granny I'd like to fuck\". Considered sexist and ageist by some and positive or neutral by others",
-      source: "goodboy"
+      category: "sexual-objectification",
+      definition: "\"Granny I'd like to fuck\". Used to fetishize older women. Considered sexist and ageist by some and positive or neutral by others",
+      source: "wsp"
     },
     {
       root: "Maggot in the rice",
@@ -183,23 +327,26 @@ const GOODBOY_HARMFUL_TERM_DATA = {
     {
       root: "Lolita",
       variations: [],
-      category: "ageist",
-      definition: "A term for a sexualized minor child, typically a girl; the term has pedophilic connotations and is often used to fetishize or exploit vulnerable preteen girls. \"Lolita\" is a term of endearment from the book Lolita by Vladimir Nabokov",
-      source: "wiki"
+      category: "sexual-objectification",
+      definition: "A term for a sexualized minor child, typically a girl; the term has pedophilic connotations and is often used to fetishize or exploit vulnerable preteen girls. From the book Lolita by Vladimir Nabokov",
+      source: "wsp"
     },
     {
       root: "Jailbait",
       variations: [],
-      category: "ageist",
+      category: "sexual-objectification",
       definition: "Used to identify a person who is under the age of consent as a sexual object",
-      source: "wiki"
+      source: "wsp"
     },
     {
       root: "Barely legal",
-      variations: [],
-      category: "ageist",
+      variations: [
+        "Fresh meat",
+        "Schoolgirl fantasy"
+      ],
+      category: "sexual-objectification",
       definition: "A fetishizing term used to market pornography featuring young people who are \"barely legal\" (only just reached legal age of majority or the age of consent, or both)",
-      source: "wiki"
+      source: "wsp"
     },
     {
       root: "Bed blocker",
@@ -271,7 +418,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       variations: [],
       category: "religious-minorities",
       definition: "A Scientologist",
-      source: "wik"
+      source: "wiki"
     },
     {
       root: "Devil worshipper",
@@ -285,19 +432,19 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       variations: [],
       category: "religious-minorities",
       definition: "A Zoroastrian",
-      source: "wik"
+      source: "wiki"
     },
     {
       root: "Lassi",
       variations: [],
-      category: "Sikhophobia",
+      category: "sikhophobic",
       definition: "A Sikh",
       source: "wiki"
     },
     {
       root: "Khalistani",
       variations: [],
-      category: "Sikhophobia",
+      category: "sikhophobic",
       definition: "A Khalsa Sikh",
       source: "wiki"
     },
@@ -328,7 +475,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Rapefugee",
       variations: [],
       category: "islamophobic",
-      definition: "A Muslim. Derived from \"rape\" + \"refugee\"",
+      definition: "A Muslim. Portmanteau of \"rape\" + \"refugee\"",
       source: "wiki"
     },
     {
@@ -356,7 +503,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Shantidoot"
       ],
       category: "islamophobic",
-      definition: "A Muslim. Derived from the common sarcastic dog whistle that Islam is a \"religion of peace\"",
+      definition: "A Muslim. Derived from the common sarcastic coded term that Islam is a \"religion of peace\"",
       source: "goodboy"
     },
     {
@@ -388,6 +535,8 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Bougnole",
         "Jihadi",
         "Muzzie",
+        "Muslamic",
+        "Moslem",
         "Osama"
       ],
       category: "islamophobic",
@@ -449,7 +598,12 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Hebe",
         "Feuj",
         "Christ Killer",
-        "Oven Dodger"
+        "Oven Dodger",
+        "Holocauster",
+        "Shlomo",
+        "Schlomo",
+        "Skype",
+        "Khazar"
       ],
       category: "antisemitic",
       definition: "A Jewish person",
@@ -469,7 +623,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Nestorian",
       variations: [],
       category: "sectarian",
-      definition: "The Assyrian Church of the East and the Ancient Church of the East. Originates from a historical misinterpretation of the Antiochene Dyophysite Christology of Theodore of Mopsuestia.",
+      definition: "The Assyrian Church of the East and the Ancient Church of the East. Originates from a historical misinterpretation of the Antiochene Dyophysite Christology of Theodore of Mopsuestia",
       source: "wiki"
     },
     {
@@ -602,7 +756,14 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Tim",
       variations: [],
       category: "sectarian",
-      definition: "A fan of Celtic Football Club. From \"Tim Malloys\", an Irish Catholic street gang that operated in Glasgow in the early 1900s",
+      definition: "A fan of Celtic Football Club. From \"Tim Malloys\", an Irish Catholic street gang that operated in Glasgow in the early 1900s. Can be offensive depending on the context and speaker",
+      source: "aos"
+    },
+    {
+      root: "Billy",
+      variations: [],
+      category: "sectarian",
+      definition: "A fan of Rangers Football Club. From the loyalisy song \"Billy Boys\". Can be offensive depending on the context and speaker",
       source: "aos"
     },
     {
@@ -947,7 +1108,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Zinj"
       ],
       category: "racist",
-      definition: "A black person. Used by Persian and Arabic people. A reference to the Zanj rebellion",
+      definition: "A Black person. Used by Persian and Arabic people. A reference to the Zanj rebellion",
       source: "wiki"
     },
     {
@@ -971,7 +1132,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "High Yellow"
       ],
       category: "racist",
-      definition: "An Asian, mixed ethnicity or light-skin black person",
+      definition: "An Asian, mixed ethnicity or light-skin Black person",
       source: "wiki"
     },
     {
@@ -1058,7 +1219,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Whigga"
       ],
       category: "racist",
-      definition: "An Irish person, or white youth that imitate urban black youth by means of clothing style, mannerisms, and slang speech. Also used by radical Québécois in self-reference, as in the seminal 1968 book White Niggers of America",
+      definition: "An Irish person, or white youth that imitate urban Black youth by means of clothing style, mannerisms, and slang speech. Also used by radical Québécois in self-reference, as in the seminal 1968 book White Niggers of America",
       source: "wiki"
     },
     {
@@ -1199,7 +1360,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Uppity",
       variations: [],
       category: "racist",
-      definition: "A black person who is perceived as being insolent",
+      definition: "A Black person who is perceived as being insolent",
       source: "wiki"
     },
     {
@@ -1210,7 +1371,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "UPAinka"
       ],
       category: "racist",
-      definition: "A Ukrainian person. Used in Poland. Portmanteau word Ukraine + UPA (Ukrayins'ka Povstans'ka Armiia) responsible for Volhynia genocide",
+      definition: "A Ukrainian person. Used in Poland. Portmanteau of Ukraine + UPA (Ukrayins'ka Povstans'ka Armiia) responsible for Volhynia genocide",
       source: "wiki"
     },
     {
@@ -1224,7 +1385,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Uncle Tom",
       variations: [],
       category: "racist",
-      definition: "A black person who behaves in a subservient manner to white authority figures",
+      definition: "A Black person who behaves in a subservient manner to white authority figures",
       source: "wiki"
     },
     {
@@ -1367,7 +1528,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Bamboula"
       ],
       category: "racist",
-      definition: "A black person",
+      definition: "A Black person",
       source: "goodboy"
     },
     {
@@ -1558,7 +1719,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Spade",
       variations: [],
       category: "racist",
-      definition: "A black person. From the playing cards suit",
+      definition: "A Black person. From the playing cards suit",
       source: "wiki"
     },
     {
@@ -1595,7 +1756,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Smoked Irishman"
       ],
       category: "racist",
-      definition: "A black person. A 19th-century term intended to insult both blacks and Irish but used primarily for black people",
+      definition: "A Black person. A 19th-century term intended to insult both Black and Irish people but used primarily for Black people",
       source: "wiki"
     },
     {
@@ -1735,7 +1896,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       variations: [],
       category: "racist",
       definition: "An Albanian person. Used in Former Yugoslavia. From misspelled Albanian endonym \"Shqiptar\"",
-      source: "wik"
+      source: "wiki"
     },
     {
       root: "Shit skin",
@@ -1743,14 +1904,14 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Shit lip"
       ],
       category: "racist",
-      definition: "A Muslim or black person",
+      definition: "A Muslim or Black person",
       source: "wiki"
     },
     {
       root: "Shine",
       variations: [],
       category: "racist",
-      definition: "A black person. Derived from shoeshiner",
+      definition: "A Black person. Derived from shoeshiner",
       source: "wiki"
     },
     {
@@ -1795,7 +1956,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Sheboon",
       variations: [],
       category: "racist",
-      definition: "A black woman",
+      definition: "A Black woman",
       source: "wiki"
     },
     {
@@ -1812,7 +1973,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       variations: [],
       category: "racist",
       definition: "A Mizrahi Jew. Literally translates to \"black animal\"",
-      source: "wik"
+      source: "wiki"
     },
     {
       root: "Schvartse",
@@ -1900,7 +2061,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Sambo",
       variations: [],
       category: "racist",
-      definition: "An African American or black person",
+      definition: "An African American or Black person",
       source: "wiki"
     },
     {
@@ -2002,7 +2163,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Quashi"
       ],
       category: "racist",
-      definition: "A black person. Used in the Caribbean. From the West African name Kwazi, often given to a child born on a Sunday",
+      definition: "A Black person. Used in the Caribbean. From the West African name Kwazi, often given to a child born on a Sunday",
       source: "wiki"
     },
     {
@@ -2186,7 +2347,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       variations: [
         "Parsolam"
       ],
-      category: "islamophobia",
+      category: "islamophobic",
       definition: "A Batak Dalle or non-Batak person who refuses to consume pork, canine meat, blood, or alcoholic beverages",
       source: "wiki"
     },
@@ -2299,7 +2460,8 @@ const GOODBOY_HARMFUL_TERM_DATA = {
     {
       root: "Transformer",
       variations: [
-        "Tranny"],
+        "Tranny"
+      ],
       category: "transphobic",
       definition: "A transgender person",
       source: "goodboy"
@@ -2317,7 +2479,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Negroitis"
       ],
       category: "racist",
-      definition: "To feel sleepy after eating, a direct allusion to the stereotype of laziness of black Africans. Used in the Caribbean",
+      definition: "To feel sleepy after eating, a direct allusion to the stereotype of laziness of Black Africans. Used in the Caribbean",
       source: "wiki"
     },
     {
@@ -2387,7 +2549,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Mustalainen",
       variations: [],
       category: "racist",
-      definition: "A Romani person. Finnish term, Literally \"blackling,\" \"blackie,\" \"the black people\"",
+      definition: "A Romani person. Finnish term, Literally \"blackling,\" \"blackie,\" \"the Black people\"",
       source: "wiki"
     },
     {
@@ -2398,7 +2560,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Mouli"
       ],
       category: "racist",
-      definition: "A black person. Used by Italian-Americans. Deriving from \"mulignana\" the word for eggplant in some South Italian linguistic variant",
+      definition: "A Black person. Used by Italian-Americans. Deriving from \"mulignana\" the word for eggplant in some South Italian linguistic variant",
       source: "wiki"
     },
     {
@@ -2474,14 +2636,14 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Mayatero"
       ],
       category: "racist",
-      definition: "A black person. From the Spanish colloquial name of the Figeater beetle",
+      definition: "A Black person. From the Spanish colloquial name of the Figeater beetle",
       source: "wiki"
     },
     {
       root: "Mau-Mau",
       variations: [],
       category: "racist",
-      definition: "A black person. Derived from Kenyans of the Kikuyu tribe involved in the Mau Mau Rebellion in the 1950s",
+      definition: "A Black person. Derived from Kenyans of the Kikuyu tribe involved in the Mau Mau Rebellion in the 1950s",
       source: "wiki"
     },
     {
@@ -2509,7 +2671,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Malon",
       variations: [],
       category: "racist",
-      definition: "A Romani person. From Bulgarian \"мангал\" (mangal) – a type of pot. Some variants are derived from the similar-sounding loanwords \"манго\" (mango) – mango and \"мангуста\" (mangusta) – mongoose",
+      definition: "A Romani person. From Bulgarian \"мангал\" (mangal) - a type of pot. Some variants are derived from the similar-sounding loanwords \"манго\" (mango) - mango and \"мангуста\" (mangusta) - mongoose",
       source: "wiki"
     },
     {
@@ -2665,7 +2827,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Land thief",
       variations: [],
       category: "racist",
-      definition: "A white South African. The term implies that white people stole land from black people during the Apartheid era, and are therefore responsible for the current economic and social inequalities in the country",
+      definition: "A white South African. The term implies that white people stole land from Black people during the Apartheid era, and are therefore responsible for the current economic and social inequalities in the country",
       source: "wiki"
     },
     {
@@ -2679,7 +2841,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Kuronbō",
       variations: [],
       category: "racist",
-      definition: "A black person. Means \"darkie\" or \"nigga\" in Japanese",
+      definition: "A Black person. Means \"darkie\" or \"nigga\" in Japanese",
       source: "wiki"
     },
     {
@@ -2749,7 +2911,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Khamdungi",
       variations: [],
       category: "racist",
-      definition: "A black person, Korean for \"nigger\" or \"nigga\"",
+      definition: "A Black person, Korean for \"nigger\" or \"nigga\"",
       source: "wiki"
     },
     {
@@ -2817,7 +2979,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Kharadim",
       variations: [],
       category: "racist",
-      definition: "A Haredi Jewish person, blen word of khara (shit in Hebrew) + Haredi",
+      definition: "A Haredi Jewish person. Portmanteau of khara (shit in Hebrew) + Haredi",
       source: "wiki"
     },
     {
@@ -2964,7 +3126,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Kuffar"
       ],
       category: "racist",
-      definition: "A black person from Cape Coloured or Coloured ethinic groups. From the Arabic \"kafir\", meaning \"disbeliever\"",
+      definition: "A Black person from Cape Coloured or Coloured ethinic groups. From the Arabic \"kafir\", meaning \"disbeliever\"",
       source: "wiki"
     },
     {
@@ -3018,7 +3180,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Jim Crow",
       variations: [],
       category: "racist",
-      definition: "A black person, a reference to Jim Crow laws",
+      definition: "A Black person, a reference to Jim Crow laws",
       source: "wiki"
     },
     {
@@ -3227,7 +3389,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Houtkop",
       variations: [],
       category: "racist",
-      definition: "A black person. From the Afrikaans for \"wooden head\"",
+      definition: "A Black person. From the Afrikaans for \"wooden head\"",
       source: "wiki"
     },
     {
@@ -3279,14 +3441,14 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Heukhyeong",
       variations: [],
       category: "racist",
-      definition: "A black person, Korean for \"black brother\"",
+      definition: "A Black person, Korean for \"black brother\"",
       source: "wiki"
     },
     {
       root: "Heigui",
       variations: [],
       category: "racist",
-      definition: "A black person. Literally means \"black ghost\" or \"black devil\" in Mandarin",
+      definition: "A Black person. Literally means \"black ghost\" or \"black devil\" in Mandarin",
       source: "wiki"
     },
     {
@@ -3340,7 +3502,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Coloured",
       variations: [],
       category: "racist",
-      definition: "A black person. When used in the name of the Cape Coloured or Coloured ethnic groups it's unlikely that any harm is intended",
+      definition: "A Black person. When used in the name of the Cape Coloured or Coloured ethnic groups it's unlikely that any harm is intended",
       source: "goodboy"
     },
     {
@@ -3549,7 +3711,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Geomdung-i",
       variations: [],
       category: "racist",
-      definition: "A black person. From the Korean \"검둥이\" meaning \"coon\"",
+      definition: "A Black person. From the Korean \"검둥이\" meaning \"coon\"",
       source: "wiki"
     },
     {
@@ -3682,7 +3844,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Festival child"
       ],
       category: "racist",
-      definition: "A child of mixed ancestry, usually with a father who is black or of harmful-European origin. Not currently used, but popular in 1950s Russia",
+      definition: "A child of mixed ancestry, usually with a father who is Black or of harmful-European origin. Not currently used, but popular in 1950s Russia",
       source: "wiki"
     },
     {
@@ -3791,7 +3953,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Czarnucha"
       ],
       category: "racist",
-      definition: "A black person. From the Polish word \"czarny\", meaning \"black\"",
+      definition: "A Black person. From the Polish word \"czarny\", meaning \"black\"",
       source: "wiki"
     },
     {
@@ -3844,7 +4006,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Cotton picker",
       variations: [],
       category: "racist",
-      definition: "A person of African descent. Historically referred to someone who harvested cotton by hand, often used in the context of American slavery when enslaved black people were forced to pick cotton on plantations. The phrase originally referred to the actual occupation of picking cotton on plantations in the American South, but that it later became a racial slur",
+      definition: "A person of African descent. Historically referred to someone who harvested cotton by hand, often used in the context of American slavery when enslaved Black people were forced to pick cotton on plantations. The phrase originally referred to the actual occupation of picking cotton on plantations in the American South, but that it later became a racial slur",
       source: "wiki"
     },
     {
@@ -3978,7 +4140,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Chola"
       ],
       category: "racist",
-      definition: "Depending on the speaker a Bolivian / Peruvian person, or Mestizo / Indigenous person. The level of harmful intent also varies by speake. Has been reclaimed in some subcultures",
+      definition: "Depending on the speaker; a Bolivian / Peruvian, Mestizo / Indigenous or any Hispanic person. The level of harmful intent varies by speaker. Has been reclaimed in some Mexican subcultures, especially in Southern California",
       source: "wiki"
     },
     {
@@ -4160,7 +4322,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Burr head",
       variations: [],
       category: "racist",
-      definition: "A black person, a reference to Afro-textured hair",
+      definition: "A Black person, a reference to Afro-textured hair",
       source: "wiki"
     },
     {
@@ -4193,14 +4355,14 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Buckwheat",
       variations: [],
       category: "racist",
-      definition: "The curly hair of a black person. From the name of a black character that appeared in the Our Gang (Little Rascals) short films",
+      definition: "The curly hair of a Black person. From the name of a Black character that appeared in the Our Gang (Little Rascals) short films",
       source: "wiki"
     },
     {
       root: "Brillo Pad",
       variations: [],
       category: "racist",
-      definition: "The curly hair of a black person",
+      definition: "The curly hair of a Black person",
       source: "wiki"
     },
     {
@@ -4224,14 +4386,14 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Oreo"
       ],
       category: "racist",
-      definition: "A black person who is \"black on the outside, white on the inside\"",
+      definition: "A Black person who is \"Black on the outside, white on the inside\"",
       source: "wiki"
     },
     {
       root: "Bougnoule",
       variations: [],
       category: "racist",
-      definition: "An Arabian person, North Africans or black people. Originally used against Black people but broadened to brown Arabs",
+      definition: "An Arabian person, North Africans or Black people. Originally used against Black people but broadened to brown Arabs",
       source: "wiki"
     },
     {
@@ -4329,15 +4491,15 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Brown Brute"
       ],
       category: "racist",
-      definition: "A black man",
+      definition: "A Black man",
       source: "wiki"
     },
     {
       root: "Bimbo",
       variations: [],
-      category: "racist",
-      definition: "Africans, people with very dark skin in general",
-      source: "wiki"
+      category: "misogynistic",
+      definition: "An attractive but unintelligent or frivolous young woman. Sometimes used as a racist slur for Africans, or people with very dark skin in general",
+      source: "goodboy"
     },
     {
       root: "Beaner",
@@ -4405,7 +4567,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Aunt Sally"
       ],
       category: "racist",
-      definition: "A black woman, specifically one how \"kisses up\" to whites. Female counterpar of Uncle Tom",
+      definition: "A Black woman, specifically one how \"kisses up\" to whites. Female counterpar of Uncle Tom",
       source: "wiki"
     },
     {
@@ -4500,7 +4662,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Ann"
       ],
       category: "racist",
-      definition: "A White woman or \"white-acting\" black woman",
+      definition: "A White woman or \"white-acting\" Black woman",
       source: "wiki"
     },
     {
@@ -4536,7 +4698,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Tar baby"
       ],
       category: "racist",
-      definition: "A Black person, especially black children",
+      definition: "A Black person, especially Black children",
       source: "wiki"
     },
     {
@@ -4560,7 +4722,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Nigger rigging"
       ],
       category: "racist",
-      definition: "Shoddy, second-rate or unconventional, makeshift workmanship. Indirectly refers to black American people as worse or lower-valued than white American people",
+      definition: "Shoddy, second-rate or unconventional, makeshift workmanship. Indirectly refers to Black American people as worse or lower-valued than white American people",
       source: "wiki"
     },
     {
@@ -4578,7 +4740,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Abeed"
       ],
       category: "racist",
-      definition: "A black person. From the Arabic word for slave",
+      definition: "A Black person. From the Arabic word for slave",
       source: "wiki"
     },
     {
@@ -4612,14 +4774,14 @@ const GOODBOY_HARMFUL_TERM_DATA = {
     {
       root: "Yuppie Flu",
       variations: [],
-      category: "disability-physical",
+      category: "disability",
       definition: "Chronic Fatigue Syndrome (CFS)",
       source: "goodboy"
     },
     {
       root: "Supercrip",
       variations: [],
-      category: "disability-physical",
+      category: "disability",
       definition: "Someone who overcomes their disability in ways that are often seen by the public as inspiring",
       source: "goodboy"
     },
@@ -4635,7 +4797,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       variations: [
         "Freak"
       ],
-      category: "disability-physical",
+      category: "disability",
       definition: "A person who has an uncommon genetic condition",
       source: "goodboy"
     },
@@ -4652,21 +4814,21 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Humpback",
         "Quasimodo"
       ],
-      category: "disability-physical",
+      category: "disability",
       definition: "A person who has scoliosis or kyphosis",
       source: "goodboy"
     },
     {
       root: "Gimp",
       variations: [],
-      category: "disability-physical",
+      category: "disability",
       definition: "A person who has a limp",
       source: "goodboy"
     },
     {
       root: "The dumb",
       variations: [],
-      category: "disability-physical",
+      category: "disability",
       definition: "People who can not speak",
       source: "goodboy"
     },
@@ -4678,14 +4840,14 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Dwarven",
         "Munchkin"
       ],
-      category: "disability-physical",
+      category: "disability",
       definition: "Someone with restricted growth or short stature",
       source: "goodboy"
     },
     {
       root: "The blind",
       variations: [],
-      category: "disability-physical",
+      category: "disability",
       definition: "People who have visual impairments",
       source: "goodboy"
     },
@@ -4705,14 +4867,14 @@ const GOODBOY_HARMFUL_TERM_DATA = {
     {
       root: "Able-bodied",
       variations: [],
-      category: "disability-physical",
+      category: "disability",
       definition: "Non-disabled",
       source: "goodboy"
     },
     {
       root: "Invalid",
       variations: [],
-      category: "disability-physical",
+      category: "disability",
       definition: "A person who has a physical disability",
       source: "goodboy"
     },
@@ -4721,7 +4883,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       variations: [
         "Suffers from"
       ],
-      category: "disability-physical",
+      category: "disability",
       definition: "Depersonalized term for people who have physical disabilities",
       source: "goodboy"
     },
@@ -4731,7 +4893,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "The disabled",
         "The physically handicapped"
       ],
-      category: "disability-physical",
+      category: "disability",
       definition: "Collective, depersonalized term for people who have physical disabilities",
       source: "goodboy"
     },
@@ -4740,7 +4902,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       variations: [
         "Deaf mute"
       ],
-      category: "disability-physical",
+      category: "disability",
       definition: "A person who is either deaf and uses sign language or both deaf and can not speak",
       source: "goodboy"
     },
@@ -4752,14 +4914,14 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Mongoloid",
         "Mongolism"
       ],
-      category: "disability-cognitive",
+      category: "disability",
       definition: "A person who has Down's Synrome",
       source: "goodboy"
     },
     {
       root: "Demented",
       variations: [],
-      category: "disability-cognitive",
+      category: "disability",
       definition: "A person who has dementia",
       source: "goodboy"
     },
@@ -4769,7 +4931,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Crip",
         "Crippled"
       ],
-      category: "disability-physical",
+      category: "disability",
       definition: "A person who has a physical or mobility impairment. Has been reclaimed ny some people with disablities as a positive identity",
       source: "goodboy"
     },
@@ -4787,14 +4949,14 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Special Needs",
         "SPED"
       ],
-      category: "disability-cognitive",
+      category: "disability",
       definition: "A person who has a cognitive disability",
       source: "goodboy"
     },
     {
       root: "Acoustic",
       variations: [],
-      category: "disability-cognitive",
+      category: "disability",
       definition: "Autistic",
       source: "goodboy"
     },
@@ -4809,7 +4971,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Tard",
         "Tarded"
       ],
-      category: "disability-cognitive",
+      category: "disability",
       definition: "A verb meaning to delay or slow a process, used as an harmful term for a person who has a cognitive disability",
       source: "goodboy"
     },
@@ -4823,7 +4985,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Dotardy",
         "Senile"
       ],
-      category: "disability-cognitive",
+      category: "disability",
       definition: "An old person with impaired intellect; a senile person; one in their dotage",
       source: "goodboy"
     },
@@ -4835,7 +4997,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Spazzy",
         "Spack"
       ],
-      category: "disability-cognitive",
+      category: "disability",
       definition: "A person who has spasticity; an intermittent or sustained involuntary contraction of muscles",
       source: "goodboy"
     },
@@ -4851,7 +5013,6 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Call girl",
         "Street walker",
         "Joytoy",
-        "Lot lizard",
         "Working girl",
         "Whore",
         "Harlot",
@@ -4859,7 +5020,14 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       ],
       category: "prostitution",
       definition: "A woman who sells or exchanges sex",
-      source: "goodboy"
+      source: "wsp"
+    },
+    {
+      root: "Lot lizard",
+      variations: [],
+      category: "prostitution",
+      definition: "A dehumanizing term for a woman who sells or exchanges sex, particularly at truck stops in the US",
+      source: "wsp"
     },
     {
       root: "Slut",
@@ -4874,9 +5042,11 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Skank",
         "Thot",
         "Sluzza",
-        "Bicycle"
+        "Bicycle",
+        "Ho",
+        "Hoe"
       ],
-      category: "misogynistic",
+      category: "sexual-objectification",
       definition: "A person, usually a woman, who is considered sexually promiscuous",
       source: "wsp"
     },
@@ -4890,7 +5060,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Faygele"
       ],
       category: "anti-lgbtq",
-      definition: "A man who is effeminate; lacking power or vigour; weak, cowardly; ineffectual. Hate speech when used about a gay man, especially in the US",
+      definition: "A gay man or man who is effeminate; lacking power or vigour; weak, cowardly; ineffectual",
       source: "goodboy"
     },
     {

@@ -1,54 +1,53 @@
 const GOODBOY_DATA = {
   version: "1.0.0",
-  generated: "2025-12-06T03:40:33.157Z",
+  generated: "2025-12-07T01:21:37.571Z",
   datasetSize: 16258,
-  uniqueTerms: 446,
-  totalTerms: 1439,
+  uniqueTerms: 482,
+  totalTerms: 1725,
   categoryBreakdown: [
-    { name: "racist", count: 178 },
-    { name: "fascist", count: 162 },
-    { name: "white-supremacist", count: 151 },
-    { name: "antisemitic", count: 147 },
-    { name: "xenophobic", count: 146 },
-    { name: "transphobic", count: 139 },
-    { name: "welfare-chauvinism", count: 68 },
-    { name: "nationalist", count: 66 },
-    { name: "islamophobic", count: 63 },
-    { name: "anti-liberal", count: 59 },
+    { name: "racist", count: 190 },
+    { name: "white-supremacist", count: 171 },
+    { name: "xenophobic", count: 170 },
+    { name: "antisemitic", count: 159 },
+    { name: "transphobic", count: 147 },
+    { name: "alt-right", count: 131 },
+    { name: "anti-liberal", count: 72 },
+    { name: "nationalist", count: 71 },
+    { name: "islamophobic", count: 70 },
+    { name: "welfare-chauvinism", count: 69 },
+    { name: "bad-faith", count: 66 },
+    { name: "conspiracy", count: 63 },
+    { name: "fascist", count: 54 },
+    { name: "pseudoscience", count: 42 },
     { name: "conservative", count: 39 },
-    { name: "bad-faith", count: 33 },
-    { name: "anti-lgbtq", count: 26 },
-    { name: "emotional-dismissal", count: 23 },
-    { name: "misogynistic", count: 23 },
-    { name: "conspiracy", count: 19 },
+    { name: "misogynistic", count: 39 },
+    { name: "disability", count: 35 },
+    { name: "emotional-dismissal", count: 27 },
+    { name: "anti-lgbtq", count: 20 },
+    { name: "misandristic", count: 19 },
     { name: "homophobic", count: 16 },
-    { name: "disability-cognitive", count: 14 },
+    { name: "dehumanization", count: 15 },
+    { name: "deflection", count: 13 },
     { name: "personal-responsibility", count: 13 },
-    { name: "disability-physical", count: 12 },
-    { name: "dehumanisation", count: 10 },
-    { name: "deflection ", count: 9 },
-    { name: "anti-vax", count: 8 },
-    { name: "liberal", count: 5 },
+    { name: "liberal", count: 6 },
     { name: "ageist", count: 4 },
     { name: "climate change denier", count: 4 },
-    { name: "anti-gmo", count: 1 },
-    { name: "welfare-chauvinsm", count: 1 },
     { name: "christophobia", count: 0 },
     { name: "hinduphobic", count: 0 },
     { name: "localist", count: 0 },
     { name: "mental-health", count: 0 },
-    { name: "misandristic", count: 0 },
     { name: "non-believers", count: 0 },
     { name: "prostitution", count: 0 },
     { name: "regionalist", count: 0 },
     { name: "religious-minorities", count: 0 },
     { name: "religious-populism", count: 0 },
     { name: "sectarian", count: 0 },
-    { name: "sikhophobia", count: 0 }
+    { name: "sexual-objectification", count: 0 },
+    { name: "sikhophobic", count: 0 }
   ],
   sourceBreakdown: [
-    { name: "goodboy", count: 812 },
-    { name: "silent_signals", count: 460 },
+    { name: "goodboy", count: 1188 },
+    { name: "silent_signals", count: 370 },
     { name: "adl", count: 85 },
     { name: "swu", count: 81 },
     { name: "wiki", count: 1 },
@@ -56,7 +55,519 @@ const GOODBOY_DATA = {
     { name: "citg", count: 0 },
     { name: "wsp", count: 0 }
   ],
+
   terms: [
+    {
+      root: "Not all men",
+      variations: [
+        "NAM",
+        "Well not all men",
+        "Actually not all men"
+      ],
+      category: "deflection",
+      description: "A defensive phrase used to derail or minimise discussions of sexism by reframing systemic issues as attacks on men individually",
+      source: "goodboy"
+    },
+    {
+      root: "Man or the bear",
+      variations: [
+        "A man or a bear",
+        "The man or the bear",
+        "Man vs bear",
+        "Choose the bear",
+        "Choosing the bear",
+        "I'd pick the bear",
+        "Rather the bear"
+      ],
+      category: "misandristic",
+      "description": "A rhetorical meme suggesting that men are more dangerous than wild animals, implying men as a group are inherently predatory",
+      source: "goodboy"
+    },
+    {
+      root: "KAM",
+      variations: [],
+      category: "misandristic",
+      "description": "An acronym for 'Kill All Men', typically used hyperbolically or ironically but still expressing collective hostility toward men",
+      source: "goodboy"
+    },
+    {
+      root: "XY defect",
+      variations: [
+        "The xy defect"
+      ],
+      category: "misandristic",
+      "description": "A phrase implying that men are genetically inferior or defective due to possessing XY chromosomes",
+      source: "goodboy"
+    },
+    {
+      root: "All men are trash",
+      variations: [
+        "All men are pigs",
+        "All men are violent",
+        "All men are predators",
+        "All men are the problem",
+        "All men are the same",
+        "All men are liars",
+        "All men cheat"
+      ],
+      category: "misandristic",
+      "description": "A generalization used to make negative essentialist claims about men as a group (e.g., violent, trash, predators)",
+      source: "goodboy"
+    },
+    {
+      root: "AWALT",
+      variations: [
+        "All women are gold diggers",
+        "All women are liars",
+        "All women are the same",
+        "All women are crazy",
+        "All women are sluts",
+        "All women are like that"
+      ],
+      category: "misogynistic",
+      "description": "A generalization used to make negative essentialist claims about women as a group, often appearing in manosphere or alt-right rhetoric",
+      source: "goodboy"
+    },
+    {
+      root: "Shrill",
+      variations: [
+        "Shrilly",
+        "Shrill woman",
+        "Shrill feminist"
+      ],
+      category: "misogynistic",
+      definition: "A sexist insult implying that a woman's voice, tone, or behaviour is irritating, hysterical, or irrational — commonly used to undermine women expressing strong opinions",
+      source: "goodboy"
+    },
+    {
+      root: "Antifa organization",
+      variations: [
+        "Organized Antifa",
+        "Antifa HQ",
+        "Antifa command structure",
+        "Antifa leader"
+      ],
+      category: "conspiracy",
+      definition: "Paints Antifa as a centrally organised political force, used to imply a hidden militant structure despite no evidence of the existence of such an organisation",
+      source: "goodboy"
+    },
+    {
+      root: "Own the libs",
+      variations: [
+        "Owning the libs",
+        "Owned the libs",
+        "Own the libtards",
+        "Own the liberal snowflakes",
+        "Liberal self own",
+        "Typical liberal self own",
+        "Self owning liberal"
+      ],
+      category: "anti-liberal",
+      definition: "A phrase describing political actions or trolling performed solely to upset or humiliate liberals",
+      source: "goodboy"
+    },
+    {
+      root: "Lame stream media",
+      variations: [
+        "Lame media"
+      ],
+      category: "conservative",
+      definition: "A derogatory term for mainstream news outlets, implying they are biased, incompetent, or part of an establishment narrative",
+      source: "goodboy"
+    },
+    {
+      root: "Chemtrails",
+      variations: [],
+      category: "conspiracy",
+      definition: "A belief that aircraft release chemicals for mind control, population control, or secret government experiments",
+      source: "goodboy"
+    },
+    {
+      root: "Population control",
+      variations: [
+        "Pop control",
+        "Population cull",
+        "Population reduction"
+      ],
+      category: "conspiracy",
+      definition: "A claim that governments or elites use policies, vaccines, or crises to reduce or sterilize populations",
+      source: "goodboy"
+    },
+    {
+      root: "Shadow government",
+      variations: [
+        "Secret government"
+      ],
+      category: "conspiracy",
+      definition: "A belief that unelected, hidden actors secretly control national or global policy",
+      source: "goodboy"
+    },
+    {
+      root: "False flag",
+      variations: [],
+      category: "conspiracy",
+      definition: "A claim that an attack, crisis, or disaster was secretly staged to manipulate public opinion",
+      source: "goodboy"
+    },
+    {
+      root: "Redacted documents emoji",
+      variations: [
+        "🟥⬛",
+        "⬛🟥",
+        "Redacted emoji",
+        "Redacted document emoji"
+      ],
+      category: "conspiracy",
+      definition: "Emoji pair used to imply censorship, hidden truths, or secret government documents",
+      source: "goodboy"
+    },
+    {
+      root: "Great Reset",
+      variations: [
+        "The Great Reset"
+      ],
+      category: "conspiracy",
+      definition: "A conspiracy theory claiming global elites plan to reshape society through authoritarian control and economic manipulation",
+      source: "goodboy"
+    },
+    {
+      root: "Controlled opposition",
+      variations: [
+        "Controlled op"
+      ],
+      category: "conspiracy",
+      definition: "A claim that someone who appears to oppose the establishment is secretly working for it. Used to dismiss critics or internal dissent",
+      source: "goodboy"
+    },
+    {
+      root: "Safe space",
+      variations: [],
+      category: "alt-right",
+      definition: "Originally a place a person or group or people could feel safe from discrimination, now mostly used mockingly by the alt-right to paint others as overly sensitive",
+      source: "goodboy"
+    },
+    {
+      root: "Redpill",
+      variations: [
+        "Redpilled",
+        "Taking the red pill",
+        "Take the red pill",
+        "Took the red pill"
+      ],
+      category: "alt-right",
+      definition: "\"Taking the red pill\" is a self-identifying metaphor for being radicalized into believing the far-right's antisemitic, racist, and conspiratorial tropes. Appropriated from the 1999 movie \"The Matrix\"",
+      source: "goodboy"
+    },
+    {
+      root: "Blackpill",
+      variations: [
+        "Blackpilled",
+        "Taking the black pill",
+        "Take the black pill",
+        "Took the black pill"
+      ],
+      category: "alt-right",
+      definition: "\"Taking the black pill\" is a self-identifying metaphor for fatalist views about society, relationships or demographics. Often used in incel communities to justify extremist worldviews. Derived from another alt-right meme; \"red pill\"",
+      source: "goodboy"
+    },
+    {
+      root: "Bluepill",
+      variations: [
+        "Bluepilled",
+        "Taking the blue pill",
+        "Take the blue pill",
+        "Took the blue pill"
+      ],
+      category: "anti-liberal",
+      definition: "\"Taking the blue pill\" is an insult for someone who is supposedly brainwashed or ignorant, but more specifically someone who has not been radicalized into believing the far-right's antisemitic, racist, and conspiratorial tropes . Appropriated from the 1999 movie \"The Matrix\"",
+      source: "goodboy"
+    },
+    {
+      root: "Pinkpill",
+      variations: [
+        "Pinkpilled",
+        "Taking the pink pill",
+        "Take the pink pill",
+        "Took the pink pill"
+      ],
+      category: "misogynistic",
+      definition: "\"Taking the pink pill\" refers to the belief that men must understand harsh truths about female behavior and sexual strategy, often used in misogynist or incel communities",
+      source: "goodboy"
+    },
+    {
+      root: "Whitepill",
+      variations: [
+        "Whitepilled",
+        "Taking the white pill",
+        "Take the white pill",
+        "Took the white pill"
+      ],
+      category: "alt-right",
+      definition: "\"Taking the white pill\" signals optimism, empowerment, or hope, often in contrast to fatalistic blackpill thinking, within alt-right or incel communities",
+      source: "goodboy"
+    },
+    {
+      root: "Graypill",
+      variations: [
+        "Graypilled",
+        "Taking the Gray pill",
+        "Take the Gray pill",
+        "Took the Gray pill"
+      ],
+      category: "alt-right",
+      definition: "\"Taking the gray pill\" signals a cynical or neutral perspective on society, rejecting both extreme optimism (whitepill) and extreme pessimism (blackpill), often used in manosphere and alt-right circles",
+      source: "goodboy"
+    },
+    {
+      root: "Orangepill",
+      variations: [
+        "Orangepilled",
+        "Taking the orange pill",
+        "Take the orange pill",
+        "Took the orange pill"
+      ],
+      category: "alt-right",
+      definition: "\"Taking the orange pill\" signals conversion to a new ideology or belief system, derived from the red/blue/black pill meme framework",
+      source: "goodboy"
+    },
+    {
+      root: "Normie",
+      variations: [],
+      category: "alt-right",
+      definition: "A person who is not familiar with alt-right or meme culture",
+      source: "goodboy"
+    },
+    {
+      root: "DYOR",
+      variations: [
+        "Do your own research",
+        "Done your own research",
+        "Did your own research",
+        "Doing your own research",
+        "Do my own resaerch",
+        "Done my own research",
+        "Did my own research",
+        "Doing my own research",
+        "Do our own research",
+        "Done our own research",
+        "Did our own research",
+        "Doing our own research"
+      ],
+      category: "pseudoscience",
+      definition: "Used to signal independent validation of claims while rejecting scientific consensus; commonly used to promote pseudoscience, misinformation, or conspiracy theories",
+      source: "goodboy"
+    },
+    {
+      root: "Natural law",
+      variations: [
+        "Holistic science",
+        "Holistic health",
+        "Earth-based science"
+      ],
+      category: "pseudoscience",
+      definition: "Used to reject mainstream science in favor of esoteric or mystical explanations",
+      source: "goodboy"
+    },
+    {
+      root: "Healing energy",
+      variations: [
+        "Healing frequencies",
+        "Healing crystal",
+        "Vibrational healing",
+        "Energy alignment"
+      ],
+      category: "pseudoscience",
+      definition: "A non-scientific healing mechanism",
+      source: "goodboy"
+    },
+    {
+      root: "Epigenetic awakening",
+      variations: [
+        "Epigenetic diet",
+        "Epigenetic reprogramming"
+      ],
+      category: "pseudoscience",
+      definition: "Misuses scientific terminology to justify unproven health claims",
+      source: "goodboy"
+    },
+    {
+      root: "Real man",
+      variations: [
+        "Only real men",
+        "A real man"
+      ],
+      category: "transphobic",
+      definition: "A phrase used to enforce traditional ideas of masculinity and delegitimize people who do not cconfrom, including trans men or men perceived to be not \"masculine enough\". Functions as a coded way to assert gender norms",
+      source: "goodboy"
+    },
+    {
+      root: "Anti-Zionists are antisemitic",
+      variations: [
+        "Anti-Zionist is antisemitic",
+        "Anti-Zionist is antisemitism",
+        "Criticizing Israel is antisemitic",
+        "Criticizing Israel is antisemitism",
+        "Criticism of Israel is antisemitic",
+        "Criticism of Israel is antisemitism",
+        "You're anti-Jew if you oppose Zionism",
+        "It's antisemitic to criticize Israel",
+        "It's antisemitic to criticize Zionism"
+      ],
+      category: "bad-faith",
+      categoryMode: "original",
+      definition: "While criticism of the policies of the State of Israel is legitimate, this phrase is often used as a coded term to silence Jewish or non-Jewish critics and to conflate opposition to Israeli politics with hatred of all Jewish people, serving as a tool for ideological policing",
+      source: "goodboy"
+    },
+    {
+      root: "Hawk Tuah",
+      variations: [
+        "Spit on that thang"
+      ],
+      category: "alt-right",
+      definition: "Originated in a viral street interview with Hailey Welch, during which she said \"give him that Hawk Tuah and spit on that thang\". Was co-opted by alt-right online communities to signal support for violent ideologies",
+      source: "goodboy"
+    },
+    {
+      root: "They're eating the dogs",
+      variations: [
+        "They're eating the cats",
+        "They're eating the pets",
+        "They're eating our dogs",
+        "They're eating our cats",
+        "They're eating our pets"
+      ],
+      category: "conspiracy",
+      definition: "A baseless and dehumanizing claim suggesting that immigrants or foreigners eat people's pets, used to incite fear and hostility toward specific groups. Especially used to target Haitian people",
+      source: "goodboy"
+    },
+    {
+      root: "Dirty Faced",
+      variations: [],
+      category: "racist",
+      definition: "While it can literally mean someone has an unwashed face, it has historically also been used as a racial slur targeting the skin colour of Black or other non-white people",
+      source: "goodboy"
+    },
+    {
+      root: "You don't look disabled",
+      variations: [
+        "Don't look disabled",
+        "Doesn't look disabled",
+        "You can't be disabled",
+        "Are you really disabled",
+        "You don't seem disabled",
+        "You don't act disabled",
+        "You don't look sick",
+        "You son't seem sick"
+      ],
+      category: "disability",
+      definition: "A phrase that dismissed or questions someone's lived experience of disability, implying that a disability must be visible to be legitimate",
+      source: "goodboy"
+    },
+    {
+      root: "Ancestral homeland",
+      variations: [
+        "Historical ties",
+        "Forefathers' land",
+        "Birthright territory"
+      ],
+      category: "nationalist",
+      definition: "Evoked ethnic or cultural claims to land or political legitimacy based on ancestry or histtorical presence, often used to justify exlusion of outsiders or reinforce nationalise ideology",
+      source: "goodboy"
+    },
+    {
+      root: "Third world men",
+      variations: [
+        "3rd world men",
+        "Thug world",
+        "Global south menace",
+        "Immigrant thugs",
+        "Dangerous foreigners"
+      ],
+      category: "antisemitic",
+      definition: "Frames men from non-Westerm or \"Global South\" countries as inherently criminal, violent, or dangerous",
+      source: "goodboy"
+    },
+    {
+      root: "Muslim takeover",
+      variations: [
+        "Islamification",
+        "Muslim invasion",
+        "Islamist plot"
+      ],
+      category: "islamophobic",
+      definition: "A dismissive term used to delegitimize people—often minorities, women, or marginalized groups—who report discrimination by framing them as manipulative or attention-seeking",
+      source: "goodboy"
+    },
+    {
+      root: "Professional victim",
+      variations: [
+        "Playing the victim card",
+        "Perpetual complainer",
+        "Career victim",
+        "Always offended",
+        "Offended by everything",
+        "Victimhood culture"
+      ],
+      category: "bad-faith",
+      definition: "A dismissive term used to delegitimize people - often minorities, women, or marginalized groups - who report discrimination by framing them as manipulative or attention seeking",
+      source: "goodboy"
+    },
+    {
+      root: "Controlled migration",
+      variations: [
+        "Selective immigration",
+        "Quality immigration",
+        "Skills based migration",
+        "Tightening the tap",
+        "Tightened borders",
+        "Tighten the border",
+        "Sensible immigration policy"
+      ],
+      category: "xenophobic",
+      definition: "A euphemism that presents restrictive or exclusionary immigration policies as neutral \"management\"",
+      source: "goodboy"
+    },
+    {
+      root: "Undesirables",
+      variations: [
+        "Problem' populations",
+        "Bad elements",
+        "Human garbage",
+        "Social contaminants"
+      ],
+      category: "dehumanization",
+      definition: "A label label historically used to classify certain groups—immigrants, minorities, the poor—as socially or biologically inferior and unfit to live in a community",
+      source: "goodboy"
+    },
+    {
+      root: "Two tier policing",
+      variations: [
+        "2 tier policing",
+        "Special treatment for minorities",
+        "Preferential policing",
+        "One rule for them, one rule for us",
+        "Protected class",
+        "Protected classes",
+        "Soft on minorities",
+        "Second class citizen in my own country",
+        "Second class citizen in our own country"
+      ],
+      category: "conspiracy",
+      definition: "Claims that police/politicians treat different groups differently on purpose, often implying that minorities, protesters, or political opponents are being shown “favoritism” — a narrative used to justify racist grievances or political persecution conspiracies",
+      source: "goodboy"
+    },
+    {
+      root: "Race baiter",
+      variations: [
+        "Playing the race card",
+        "Race hustler",
+        "Race grievance",
+        "Race grievance industry"
+      ],
+      category: "bad-faith",
+      definition: "Accusing someone (usually a Black person or anti-racism advocate) of “creating racial division” simply by pointing out racism — a tactic used to discredit or silence discussions about racial discrimination",
+      source: "goodboy"
+    },
     {
       root: "Women belong in the kitchen",
       variations: [
@@ -109,7 +620,7 @@ const GOODBOY_DATA = {
         "Heil Hitler",
         "88"
       ],
-      category: "fascist",
+      category: "white-supremacist",
       definition: "\"Heil Hitler\"",
       source: "goodboy"
     },
@@ -135,7 +646,7 @@ const GOODBOY_DATA = {
         "Nationalsozialistische Deutsche Arbeiterpartei",
         "Nationalsozialistische"
       ],
-      category: "fascist",
+      category: "white-supremacist",
       definition: "Nazi",
       source: "goodboy"
     },
@@ -165,7 +676,7 @@ const GOODBOY_DATA = {
         "Parasitic people",
         "Alien element"
       ],
-      category: "dehumanisation",
+      category: "dehumanization",
       definition: "This group is biologically or culturally incompatible with the nation",
       source: "goodboy"
     },
@@ -198,7 +709,8 @@ const GOODBOY_DATA = {
         "Scripted witness",
         "Scripted witnesses",
         "Fake victims",
-        "Professional mourners"
+        "Professional mourners",
+        "Crisis parent"
       ],
       category: "conspiracy",
       definition: "Victims, survivors, or their families are actors hired to manipulate public perception by faking an event or their reaction to it",
@@ -263,7 +775,7 @@ const GOODBOY_DATA = {
       variations: [
         "💀"
       ],
-      category: "fascist",
+      category: "alt-right",
       definition: "Signals nihilism, radicalism or far-right extremism",
       source: "goodboy"
     },
@@ -272,7 +784,7 @@ const GOODBOY_DATA = {
       variations: [
         "☠️"
       ],
-      category: "fascist",
+      category: "alt-right",
       definition: "Signals violent extremism",
       source: "goodboy"
     },
@@ -392,25 +904,8 @@ const GOODBOY_DATA = {
         "Turtle emoji",
         "🐢"
       ],
-      category: "fascist",
-      definition: "Fascist self identifier",
-      source: "goodboy"
-    },
-    {
-      root: "Attacks on or imagery of Muslim political leaders",
-      variations: [
-        "Zohran Mamdani",
-        "Ilhan Omar",
-        "Rashida Tlaib",
-        "Sadiq Khan",
-        "Ilham Aliyev",
-        "AOC Muslim",
-        "Muslim congresswoman",
-        "Radical Muslim politician",
-        "Islamist leader"
-      ],
-      category: "islamophobic",
-      definition: "Is",
+      category: "alt-right",
+      definition: "Alt-right self identifier",
       source: "goodboy"
     },
     {
@@ -438,10 +933,16 @@ const GOODBOY_DATA = {
         "Both sides need to do better",
         "Both sides should do better",
         "All politicians are the same",
+        "Exploring both sides",
+        "Just exploring both sides",
+        "Looking at both sides",
+        "We should hear both sides",
+        "Explore both sides",
+        "Let's consider both sides",
         "They're all corrupt anyway"
       ],
       category: "bad-faith",
-      definition: "I am above politics or wish to create a false equivalence between these unequal sides",
+      definition: "A rhetorical strategy used to create a false equivalence between two sides, often to downplay wrongdoing, avoid accountability, or signal neutrality while masking ideological bias",
       source: "goodboy"
     },
     {
@@ -467,25 +968,29 @@ const GOODBOY_DATA = {
     {
       root: "Calm down, you're being emotional",
       variations: [
-        "You need to Calm down",
+        "You need to calm down",
         "You should calm down",
         "You're overreacting",
+        "Stop overreacting",
         "You're being emotional",
         "Stop getting emotional",
+        "Don't get emotonal",
+        "Don't be so emotonal",
         "Stop being emotional",
         "You're too sensitive",
-        "You're over sensiitive",
+        "You're over sensitive",
         "You're hyper sensitive",
         "You're taking it too seriously",
         "You're taking this too seriously",
+        "Why are you taking this so seriously?",
         "Why are you so emotional?"
       ],
       category: "emotional-dismissal",
-      definition: "I am dismissing your viewpoint because you have had an emotional response to the issue",
+      definition: "A tactic used to dismiss, undermine, or invalidate someone's viewpoint by framing their legitimate emotional response as excessive, irrational, or unwarranted",
       source: "goodboy"
     },
     {
-      root: "Don't politicise this",
+      root: "Don't politicize this",
       variations: [
         "Let's not make this political",
         "Stop making it political",
@@ -496,23 +1001,8 @@ const GOODBOY_DATA = {
         "Can we not bring politics into it?",
         "We shouldn't use this tragedy for politics"
       ],
-      category: "deflection ",
+      category: "deflection",
       definition: "Let's shut down legitimate political discussion",
-      source: "goodboy"
-    },
-    {
-      root: "Both sides are the same",
-      variations: [
-        "Exploring both sides",
-        "Just exploring both sides",
-        "Exploring both sides",
-        "Looking at both sides",
-        "We should hear both sides",
-        "Explore both sides",
-        "Let's consider both sides"
-      ],
-      category: "bad-faith",
-      definition: "Feigniing neutrality to platform harmful views, launder extremist talking points, or derail criticism by pretending to be an objective, curious observer",
       source: "goodboy"
     },
     {
@@ -624,7 +1114,7 @@ const GOODBOY_DATA = {
       variations: [
         "Confined to a chair"
       ],
-      category: "disability-physical",
+      category: "disability",
       definition: "Someone who uses a wheelchair due to a physical disability",
       source: "goodboy"
     },
@@ -674,7 +1164,7 @@ const GOODBOY_DATA = {
       variations: [
         "Hail victory"
       ],
-      category: "fascist",
+      category: "white-supremacist",
       definition: "A slogan used by the Nazi Party in Germany",
       source: "adl"
     },
@@ -754,7 +1244,7 @@ const GOODBOY_DATA = {
         "My honor is called loyalty",
         "Unser ehre heisst treue"
       ],
-      category: "fascist",
+      category: "white-supremacist",
       definition: "A motto of the Waffen SS in Nazi Germany",
       source: "adl"
     },
@@ -1026,7 +1516,7 @@ const GOODBOY_DATA = {
     {
       root: "12",
       variations: [],
-      category: "fascist",
+      category: "white-supremacist",
       definition: "Numeric symbol for Aryan Brotherhood groups",
       source: "adl"
     },
@@ -1044,7 +1534,7 @@ const GOODBOY_DATA = {
       variations: [
         "111"
       ],
-      category: "fascist",
+      category: "white-supremacist",
       definition: "Numeric symbol used by the Aryan Knights, an Idaho-based prison gang",
       source: "adl"
     },
@@ -1054,7 +1544,7 @@ const GOODBOY_DATA = {
         "Pattern seeker",
         "Pattern spotter"
       ],
-      category: "fascist",
+      category: "alt-right",
       definition: "In-group signal implying the speaker recognizes hidden \"truths\" that the general public misses",
       source: "goodboy"
     },
@@ -1100,7 +1590,7 @@ const GOODBOY_DATA = {
         "🤍❤️🖤",
         "🤍🖤❤️"
       ],
-      category: "fascist",
+      category: "white-supremacist",
       definition: "Nazi flag",
       source: "goodboy"
     },
@@ -1136,7 +1626,7 @@ const GOODBOY_DATA = {
         "Totally joyful day",
         "Totally marvelous day"
       ],
-      category: "fascist",
+      category: "white-supremacist",
       definition: "Call to arms to genocide a minority",
       source: "goodboy"
     },
@@ -1146,7 +1636,7 @@ const GOODBOY_DATA = {
         "Non native element",
         "Undesirable element"
       ],
-      category: "dehumanisation",
+      category: "dehumanization",
       definition: "Outsiders, minorities or specifically targeted groups incompatible with the in-group",
       source: "goodboy"
     },
@@ -1179,7 +1669,7 @@ const GOODBOY_DATA = {
         "Shared enemy",
         "Mutual enemy"
       ],
-      category: "dehumanisation",
+      category: "dehumanization",
       definition: "Signals a scapegoated group without naming them explicity",
       source: "goodboy"
     },
@@ -1195,46 +1685,28 @@ const GOODBOY_DATA = {
     {
       root: "Westernkind",
       variations: [],
-      category: "fascist",
+      category: "white-supremacist",
       definition: "White people or western racial identity",
       source: "goodboy"
     },
     {
       root: "Vitalist",
       variations: [
+        "Vitalism",
         "Vital living",
         "RWBB"
       ],
-      category: "fascist",
+      category: "alt-right",
       definition: "Bodybuilding / lifestyle ideology in far-right fitness culture; signals physical elitism and pseudo-scientific racial / social hierarchy adherence",
-      source: "goodboy"
-    },
-    {
-      root: "Soyjack",
-      variations: [
-        "Soyjak",
-        "Sojjack",
-        "Soyjack meme"
-      ],
-      category: "anti-liberal",
-      definition: "Meme used to mock masculinity / diversity",
-      source: "goodboy"
-    },
-    {
-      root: "Transjack",
-      variations: [
-        "Transjak"
-      ],
-      category: "transphobic",
-      definition: "Soyjack meme variant used for transphobia",
       source: "goodboy"
     },
     {
       root: "Opposition activist",
       variations: [
+        "Opposition activism",
         "National Globalist Democratic Equity Party"
       ],
-      category: "fascist",
+      category: "alt-right",
       definition: "Coded role-playing meme in alt-right spaces; signals ironic or satirical membership in fake or extremist political organizations",
       source: "goodboy"
     },
@@ -1245,7 +1717,7 @@ const GOODBOY_DATA = {
         "Peat fan",
         "Ray Peat"
       ],
-      category: "fascist",
+      category: "alt-right",
       definition: "Bio/nutrition figure co-opted in far-right spaces for his metabolic / hormone ideas; often cited to signal \"right-wing biology\" interest",
       source: "goodboy"
     },
@@ -1255,7 +1727,7 @@ const GOODBOY_DATA = {
         "Raw egg",
         "Raw milk"
       ],
-      category: "fascist",
+      category: "alt-right",
       definition: "A symbolic marker of alt-right / far-right persona, signaling adherence to \"vitalist\" or pseudo-scientific physical ideals",
       source: "goodboy"
     },
@@ -1264,7 +1736,7 @@ const GOODBOY_DATA = {
       variations: [
         "Pro slavery x"
       ],
-      category: "fascist",
+      category: "alt-right",
       definition: "Meme hashtag used ironically or seriously to signal support for pro-slavery nostalgia",
       source: "goodboy"
     },
@@ -1287,7 +1759,7 @@ const GOODBOY_DATA = {
         "Wat means",
         "Wat does it mean"
       ],
-      category: "fascist",
+      category: "alt-right",
       definition: "Signal representing fans of far-right internet personality Bronze Age Pervert",
       source: "goodboy"
     },
@@ -1305,7 +1777,7 @@ const GOODBOY_DATA = {
     {
       root: "Norwood",
       variations: [],
-      category: "fascist",
+      category: "alt-right",
       definition: "Likely a reference to the Norwood hair loss scale. used in memes about masculinity in alt-right spaces",
       source: "goodboy"
     },
@@ -1325,7 +1797,7 @@ const GOODBOY_DATA = {
         "Millions must perish",
         "Millions must"
       ],
-      category: "fascist",
+      category: "alt-right",
       definition: "Meme used in far-right online spaces to signal mass violence or extreme in-group fatalism; often ironic",
       source: "goodboy"
     },
@@ -1356,7 +1828,7 @@ const GOODBOY_DATA = {
         "Trains that run on time"
       ],
       category: "fascist",
-      definition: "Mussolini reference used as a dog whistle to signal authoritarian admiration for order, efficiency, and fascist governance",
+      definition: "Mussolini reference used as a coded term to signal authoritarian admiration for order, efficiency, and fascist governance",
       source: "goodboy"
     },
     {
@@ -1365,7 +1837,7 @@ const GOODBOY_DATA = {
         "Hyperborean",
         "Hyperborean race"
       ],
-      category: "fascist",
+      category: "white-supremacist",
       definition: "Mythical land in Nazi mythology, purported origin of \"true Aryans\"",
       source: "goodboy"
     },
@@ -1391,9 +1863,9 @@ const GOODBOY_DATA = {
       source: "goodboy"
     },
     {
-      root: "Samiz dat",
+      root: "Samizdat",
       variations: [],
-      category: "fascist",
+      category: "alt-right",
       definition: "Underground Soviet publishing, signals sharing of \"hidden / forbidden\" radical content",
       source: "goodboy"
     },
@@ -1403,14 +1875,14 @@ const GOODBOY_DATA = {
         "Boi Leninist",
         "Bio Lenin"
       ],
-      category: "fascist",
+      category: "alt-right",
       definition: "A hyper-capitalist or survival-of-the-fittest fusion of biolog and Leninism that signals deep engagement in right wing accelerationist meme spaces",
       source: "goodboy"
     },
     {
       root: "Attaq",
       variations: [],
-      category: "fascist",
+      category: "alt-right",
       definition: "Intentional misspelling of \"attack\" used for meme-style in-group signaling",
       source: "goodboy"
     },
@@ -1427,7 +1899,9 @@ const GOODBOY_DATA = {
     },
     {
       root: "Actual idealist",
-      variations: [],
+      variations: [
+        "Actual idealism"
+      ],
       category: "fascist",
       definition: "Signal of Nietzschean alignment with reactionary or fascist ideals",
       source: "goodboy"
@@ -1469,7 +1943,7 @@ const GOODBOY_DATA = {
         "Work capability reform",
         "Fit for work reform"
       ],
-      category: "disability-physical",
+      category: "disability",
       definition: "Many disabled people are \"fit for work\", implying their disability is exaggerated, fraudulent or that a person's right to exist is dependent on their ability to work",
       source: "swu"
     },
@@ -1492,7 +1966,7 @@ const GOODBOY_DATA = {
         "You know what you're like",
         "You've always been like this"
       ],
-      category: "disability-cognitive",
+      category: "disability",
       definition: "Dismissive retort when neurodivergent individuals ask for accommodations",
       source: "swu"
     },
@@ -1509,7 +1983,7 @@ const GOODBOY_DATA = {
         "We're all a bit ADHD",
         "A bit ADHD"
       ],
-      category: "disability-cognitive",
+      category: "disability",
       definition: "Neurodivergence is a moral failing or laziness",
       source: "swu"
     },
@@ -1551,6 +2025,7 @@ const GOODBOY_DATA = {
         "Too many immigrants",
         "Too many refugees",
         "Invaders on our shores",
+        "Invading our borders",
         "Immigrant invaders",
         "Foreign invaders",
         "Plague of immigrants",
@@ -1591,7 +2066,6 @@ const GOODBOY_DATA = {
         "Being overrun",
         "Being replaced by migrants",
         "Outnumbered in our own country",
-        "They're taking over",
         "Unvetted hordes",
         "Third-world hordes",
         "Channel invaders",
@@ -1600,7 +2074,9 @@ const GOODBOY_DATA = {
         "Dangerous influx",
         "Refugee tidal wave",
         "Invasion by stealth",
+        "They're taking over",
         "Taking over the country",
+        "Taking over our country",
         "Overrunning the country",
         "Overrunning this country",
         "Overrunning our country",
@@ -1617,10 +2093,32 @@ const GOODBOY_DATA = {
         "They're sending their criminals",
         "They're sending us their criminals",
         "They're sending gang members",
-        "They're sending gangs"
+        "They're sending gangs",
+        "Unchecked migration",
+        "Uncheked immigration",
+        "Unvetted migrant",
+        "Unvetted immigrant",
+        "Bogus asylum seeker",
+        "Bogus refugee",
+        "Not real refugee",
+        "Not a real refugee",
+        "Fake refugee",
+        "Fake asylum",
+        "They don't belong here",
+        "Mass influx",
+        "Low-value migrants"
       ],
       category: "xenophobic",
-      definition: "Immigration (or asylum‑seeking) is a societal or national crisis — portraying migrants/refugees as a threat, burden, or destabilising force",
+      definition: "Framing immigration (or asylum-seeking) as a societal or national crisis — portraying migrants/refugees as a threat, burden, or destabilising force",
+      source: "goodboy"
+    },
+    {
+      root: "Genuine asylum seeker",
+      variations: [
+        "Real refugee vs"
+      ],
+      category: "xenophobic",
+      definition: "Frames some refugees as “genuine” while implying others (usually from non-white or Muslim-majority countries) are fraudulent, criminal, or undeserving",
       source: "goodboy"
     },
     {
@@ -1685,7 +2183,8 @@ const GOODBOY_DATA = {
         "Karadžić, lead your serb",
         "Boom, boom, boom",
         "Accordion guy",
-        "Accordion nationalist"
+        "Accordion nationalist",
+        "Accordion nationalism"
       ],
       category: "islamophobic",
       definition: "Title / lyrics from a 1990s Serbian nationalist song (\"Remove Kebab\") created during the Yugoslav Wars",
@@ -1708,7 +2207,7 @@ const GOODBOY_DATA = {
         "Groyper meme",
         "🍐🐸"
       ],
-      category: "fascist",
+      category: "alt-right",
       definition: "Signal representing fans of far-right internet personality Nick Fuentes",
       source: "goodboy"
     },
@@ -1790,7 +2289,8 @@ const GOODBOY_DATA = {
         "America not globalism",
         "Americanism vs globalism",
         "Anti globalist america",
-        "American not globalism"
+        "American not globalism",
+        "America is not globalist"
       ],
       category: "nationalist",
       definition: "Foreign influence, global institutions or international cooperation are threats",
@@ -1852,7 +2352,7 @@ const GOODBOY_DATA = {
     {
       root: "18",
       variations: [],
-      category: "fascist",
+      category: "white-supremacist",
       definition: "Adolf Hitler (1 = A, 2 = H)",
       source: "goodboy"
     },
@@ -1907,22 +2407,30 @@ const GOODBOY_DATA = {
       variations: [
         "Protect children",
         "Save the children",
-        "Protect our kid",
+        "Protect our kids",
         "Coming for our children",
-        "Coming for our kids"
+        "Coming for our kids",
+        "Concerned parent",
+        "Concerned mother",
+        "Concerned father",
+        "Concerned mom",
+        "Concerned dad",
+        "Concerned grandparent",
+        "Concerned citizen"
       ],
-      category: "anti-lgbtq",
-      definition: "Incitement to moral panic, accusing a particular demographic of being harmful to children",
+      category: "bad-faith",
+      definition: "Used to frame political activism as a neutral concern, masking organized ideological campaigns as innocent individual worries",
       source: "goodboy"
     },
     {
       root: "Great replacement",
       variations: [
+        "Great replacement theory",
+        "Replacement theory",
         "We are being replaced",
         "They're replacing us",
-        "Demographic replacement",
-        "Replacement theory",
-        "You will not replace us"
+        "You will not replace us",
+        "Demographic replacement"
       ],
       category: "racist",
       definition: "Claim that immigration or diversity is a threat to the majority population",
@@ -1968,6 +2476,8 @@ const GOODBOY_DATA = {
       variations: [
         "Wokeism",
         "Wokism",
+        "Wokeist",
+        "Wokist",
         "Woke agenda",
         "Go woke go broke",
         "Woketopia",
@@ -2062,7 +2572,7 @@ const GOODBOY_DATA = {
       variations: [
         "🥕"
       ],
-      category: "anti-vax",
+      category: "pseudoscience",
       definition: "Vaccine",
       source: "goodboy"
     },
@@ -2194,7 +2704,9 @@ const GOODBOY_DATA = {
         "Actual women",
         "Real woman",
         "Real women",
-        "Adult human female"
+        "Adult human female",
+        "Only real women",
+        "A real woman"
       ],
       category: "transphobic",
       definition: "A cis woman, with the implication that trans women aren't \"real women\"",
@@ -2227,20 +2739,13 @@ const GOODBOY_DATA = {
     {
       root: "Alarmism",
       variations: [
-        "Climate alarmism"
-      ],
-      category: "climate change denier",
-      definition: "People are overreacting about climate change being a problem",
-      source: "silent_signals"
-    },
-    {
-      root: "Alarmist",
-      variations: [
+        "Climate alarmism",
+        "Alarmist",
         "Climate alarmist"
       ],
       category: "climate change denier",
-      definition: "Person who is overreacting about climate change, which the speaker does not view as a major problem",
-      source: "silent_signals"
+      definition: "People are overreacting about climate change being a problem",
+      source: "goodboy"
     },
     {
       root: "All Lives Matter",
@@ -2259,9 +2764,9 @@ const GOODBOY_DATA = {
         "Alternative right",
         "Dissident right"
       ],
-      category: "fascist",
-      definition: "Fascist",
-      source: "silent_signals"
+      category: "alt-right",
+      definition: "A right-wing ideological movement characterized by a rejection of mainstream politics and by the use of online media to disseminate provocative content, often expressing opposition to racial, religious, or gender equality",
+      source: "goodboy"
     },
     {
       root: "America First",
@@ -2298,32 +2803,99 @@ const GOODBOY_DATA = {
       source: "goodboy"
     },
     {
-      root: "Attacks on or imagery of Jewish financial leaders",
-      variations: [
-        "Janet Yellen",
-        "Lloyd Blankfein"
-      ],
-      category: "antisemitic",
-      definition: "Jewish people control all the money",
-      source: "silent_signals"
-    },
-    {
-      root: "Attacks on or imagery of Jewish political leaders",
+      root: "Attacks on or imagery of Jewish political or financial leaders",
       variations: [
         "Bernie Sanders",
         "Volodymyr Zelensky",
         "Michael Bloomberg",
         "Adam Schiff",
-        "Benjamin Netanyahu",
-        "Jacob Rees-Mogg",
-        "Jewish politician",
-        "Zionist leader",
-        "Shabbos Goy",
-        "Globalist Jew"
+        "Benjamin Netanyahu"
       ],
       category: "antisemitic",
-      definition: "Jewish people control world politics",
+      definition: "This person's name is often used to invoke conspiracy tropes claiming Jewish individuals secretly control governments, global politics or global finance",
       source: "silent_signals"
+    },
+    {
+      root: "Jewish politician",
+      "cariations": [
+        "Zionist leader",
+        "Shabbos Goy",
+        "Globalist Jew",
+        "International Jew",
+        "Cabal leader",
+        "Jewish oligarch"
+      ],
+      category: "antisemitic",
+      definition: "Invokes antisemitic conspiracies portraying Jewish political figures as secretly controlling governments, finance, or global affairs",
+      source: "goodboy"
+    },
+    {
+      root: "Attacks on or imagery of Muslim political leaders",
+      variations: [
+        "Zohran Mamdani",
+        "Ilhan Omar",
+        "Rashida Tlaib",
+        "Sadiq Khan",
+        "Ilham Aliyev",
+        "AOC Muslim"
+      ],
+      category: "islamophobic",
+      definition: "This person's name is often used to frame Muslim political figures as extremists, disloyal, or part of a plot to impose Islamic rule or undermine Western society",
+      source: "goodboy"
+    },
+    {
+      root: "Islamist leader",
+      "cariations": [
+        "Muslim congresswoman",
+        "Muslim congressman",
+        "Radical Muslim politician",
+        "Sharia politician",
+        "Islamist infiltrator",
+        "Jihadi congresswoman",
+        "Jihadi congressman",
+        "Terror sympathiser",
+        "Terrorist sympathiser",
+        "Muslim radical in office",
+        "Caliphate politician",
+        "Islamic supremacist leader"
+      ],
+      category: "islamophobic",
+      definition: "Frames Muslim political figures as extremists, disloyal, or attempting to impose Islamic law or undermine Western society",
+      source: "goodboy"
+    },
+    {
+      root: "Attacks on or imagery of Black political figures of activists",
+      variations: [
+        "George Floyd",
+        "Colin Kaepernick",
+        "Floyd type"
+      ],
+      category: "racist",
+      definition: "This person's name is often used to frame Black public figures as coded stand-ins for crime, disorder, or anti-white sentiment, reinforcing racist political tropes",
+      source: "goodboy"
+    },
+    {
+      root: "Black activist",
+      "cariations": [
+        "BLM leader",
+        "Antifa-BLM",
+        "BLM terrorist",
+        "BLM agitator",
+        "BLM mob",
+        "Thug politician",
+        "Ghetto politician",
+        "Urban agitator",
+        "Woke Black radical",
+        "Black extremist",
+        "Black radical",
+        "Black supremacist",
+        "Urban militant",
+        "Criminal activist",
+        "Black rioter"
+      ],
+      category: "racist",
+      definition: "Uses Black political figures or activists as coded stand-ins for crime, disorder, or anti-white hostility, reinforcing racist political narratives",
+      source: "goodboy"
     },
     {
       root: "Autoandrophile",
@@ -2351,7 +2923,7 @@ const GOODBOY_DATA = {
         "Baby daddies"
       ],
       category: "racist",
-      definition: "Irresponsible black fathers",
+      definition: "Irresponsible Black fathers",
       source: "goodboy"
     },
     {
@@ -2360,7 +2932,7 @@ const GOODBOY_DATA = {
         "Baby momma"
       ],
       category: "racist",
-      definition: "Irresponsible black mothers",
+      definition: "Irresponsible Black mothers",
       source: "goodboy"
     },
     {
@@ -2410,7 +2982,7 @@ const GOODBOY_DATA = {
       variations: [
         "🐻"
       ],
-      category: "fascist",
+      category: "alt-right",
       definition: "Signal representing fans of far-right internet personality Owen Benjamin",
       source: "silent_signals"
     },
@@ -2425,9 +2997,7 @@ const GOODBOY_DATA = {
     },
     {
       root: "Big government",
-      variations: [
-        "Big gov"
-      ],
+      variations: [],
       category: "conservative",
       definition: "Federal assistance",
       source: "silent_signals"
@@ -2435,27 +3005,12 @@ const GOODBOY_DATA = {
     {
       root: "Big pharma",
       variations: [
-        "Big Farma"
+        "Big Farma",
+        "Medical industrial complex"
       ],
-      category: "anti-vax",
-      definition: "Evil pharmaceutical companies sell poison for profit",
-      source: "silent_signals"
-    },
-    {
-      root: "Biological realism",
-      variations: [
-        "Biological reality"
-      ],
-      category: "transphobic",
-      definition: "Trans people aren't real",
-      source: "silent_signals"
-    },
-    {
-      root: "Biological realist",
-      variations: [],
-      category: "transphobic",
-      definition: "Person who doesn't believe that trans people are real",
-      source: "silent_signals"
+      category: "conspiracy",
+      definition: "Signals the belief that evil pharmaceutical companies sell poison for profit",
+      source: "goodboy"
     },
     {
       root: "Biological woman",
@@ -2501,10 +3056,10 @@ const GOODBOY_DATA = {
       source: "goodboy"
     },
     {
-      root: "Black on black crime",
+      root: "Black on Black crime",
       variations: [
-        "Black on black homicide",
-        "Black on black violence"
+        "Black on Black homicide",
+        "Black on Black violence"
       ],
       category: "racist",
       definition: "Black people are criminals",
@@ -2514,7 +3069,7 @@ const GOODBOY_DATA = {
       root: "Blue Lives Matter",
       variations: [],
       category: "racist",
-      definition: "\"Black lives don't matter\" as well as a signal of support for heavy policing of black people",
+      definition: "\"Black lives don't matter\" as well as a signal of support for heavy policing of Black people",
       source: "silent_signals"
     },
     {
@@ -2635,7 +3190,7 @@ const GOODBOY_DATA = {
         "Nimble navigator",
         "Pede"
       ],
-      category: "fascist",
+      category: "alt-right",
       definition: "Trump supporter",
       source: "silent_signals"
     },
@@ -2700,9 +3255,9 @@ const GOODBOY_DATA = {
         "Honk",
         "🤡🌎"
       ],
-      category: "white-supremacist",
-      definition: "White supremacist signal originating in 4chan troll meme that clowns are racist",
-      source: "silent_signals"
+      category: "alt-right",
+      definition: "Alt-right signal originating in a 4chan troll meme that clowns are racist",
+      source: "goodboy"
     },
     {
       root: "Clownfish",
@@ -2712,11 +3267,24 @@ const GOODBOY_DATA = {
       source: "silent_signals"
     },
     {
-      root: "Coastal elite",
-      variations: [],
+      root: "Cosmopolitan elite",
+      variations: [
+        "New York elite",
+        "Manhattan elite",
+        "NY elite",
+        "New York intellectual",
+        "Manhattan intellectual",
+        "NY intellectual",
+        "East coast elite",
+        "Coastal elite",
+        "Ivy league elite",
+        "Coastal intellectual",
+        "Metropolitan elite",
+        "Rootless cosmopolitan"
+      ],
       category: "antisemitic",
-      definition: "Jewish people",
-      source: "silent_signals"
+      definition: "A coded term often used to imply Jewish influence or control in finance, media, or politics, framed as urban or intellectual elites",
+      source: "goodboy"
     },
     {
       root: "COIN",
@@ -2759,20 +3327,6 @@ const GOODBOY_DATA = {
       source: "silent_signals"
     },
     {
-      root: "Xosmopolitan",
-      variations: [],
-      category: "antisemitic",
-      definition: "Jewish",
-      source: "silent_signals"
-    },
-    {
-      root: "Cosmopolitan elite",
-      variations: [],
-      category: "antisemitic",
-      definition: "Jewish",
-      source: "silent_signals"
-    },
-    {
       root: "Critical race theory",
       variations: [
         "CRT"
@@ -2787,7 +3341,7 @@ const GOODBOY_DATA = {
         "Cuckold",
         "Cuckservative"
       ],
-      category: "conservative",
+      category: "alt-right",
       definition: "Liberal or establishment Republican men who are perceived to be weak",
       source: "silent_signals"
     },
@@ -2801,8 +3355,10 @@ const GOODBOY_DATA = {
     {
       root: "Cultural Marxism",
       variations: [
+        "Cultural Marxist",
         "Marxization",
         "Cultural Bolshevism",
+        "Cultural Bolshevist",
         "Bolshevization",
         "Marxist agenda",
         "Woke marxist",
@@ -2858,19 +3414,12 @@ const GOODBOY_DATA = {
     {
       root: "Dual citizen",
       variations: [
-        "Dual citizenship"
-      ],
-      category: "antisemitic",
-      definition: "A Jewish person",
-      source: "silent_signals"
-    },
-    {
-      root: "Dual loyalty",
-      variations: [
+        "Dual citizenship",
+        "Dual loyalty",
         "Dual loyalties"
       ],
       category: "antisemitic",
-      definition: "Jews are disloyal to their country",
+      definition: "Implies that Jews are isloyal, have divided allegiances or are secretly loyal to Israel rather than thei home country",
       source: "goodboy"
     },
     {
@@ -2974,7 +3523,7 @@ const GOODBOY_DATA = {
     {
       root: "Food stamp",
       variations: [],
-      category: "welfare-chauvinsm",
+      category: "welfare-chauvinism",
       definition: "Government assistance for minorities",
       source: "goodboy"
     },
@@ -3014,8 +3563,8 @@ const GOODBOY_DATA = {
         "Fren world",
         "Frog fren"
       ],
-      category: "white-supremacist",
-      definition: "Self-referential term for white supremacists on the internet",
+      category: "alt-right",
+      definition: "Self-referential term for alt-right white supremacists on the internet",
       source: "silent_signals"
     },
     {
@@ -3024,7 +3573,8 @@ const GOODBOY_DATA = {
         "🐸",
         "Pepe",
         "Frog emoji",
-        "Rare pepe",
+        "Rare Pepe",
+        "Smug Pepe",
         "Pepe meme",
         "Frog meme",
         "Feels good man",
@@ -3032,8 +3582,8 @@ const GOODBOY_DATA = {
         "Frogposting",
         "Frog twitter"
       ],
-      category: "white-supremacist",
-      definition: "White supremacist self identifier",
+      category: "alt-right",
+      definition: "Alt-right self identifier",
       source: "goodboy"
     },
     {
@@ -3066,25 +3616,15 @@ const GOODBOY_DATA = {
         "Gender crit"
       ],
       category: "transphobic",
-      definition: "Self-referential term for transphobic people",
-      source: "silent_signals"
+      definition: "Self-applied label used to normalize opposition to transgender identities and rights. Frames ideology as neutral \"critical thinking\"",
+      source: "goodboy"
     },
     {
       root: "Gender fandom",
       variations: [],
       category: "transphobic",
-      definition: "Trans people are ridiculous",
-      source: "silent_signals"
-    },
-    {
-      root: "Gender ideology",
-      variations: [
-        "Gender identity ideology",
-        "Radical gender ideology"
-      ],
-      category: "transphobic",
-      definition: "Trans people are threatening our way of life",
-      source: "silent_signals"
+      definition: "Dismissive term portraying trans identity as a hobby, trend or obsession rather than a real identity",
+      source: "goodboy"
     },
     {
       root: "Gender socialization",
@@ -3103,10 +3643,13 @@ const GOODBOY_DATA = {
     {
       root: "Genderfree",
       variations: [
-        "Genderless"
+        "Genderless",
+        "Gender ideology",
+        "Gender identity ideology",
+        "Radical gender ideology"
       ],
       category: "transphobic",
-      definition: "Self-referential term for transphobic people",
+      definition: "Signals opposition to trans and nonbinary identities under the guise of rejecting \"gender ideology\"",
       source: "silent_signals"
     },
     {
@@ -3158,24 +3701,18 @@ const GOODBOY_DATA = {
     {
       root: "Globalism",
       variations: [
+        "Globalist",
         "Globalist agenda",
+        "Globalism agenda",
         "Special interest",
-        "Global special interests"
-      ],
-      category: "antisemitic",
-      definition: "Jewish interests",
-      source: "silent_signals"
-    },
-    {
-      root: "Globalist",
-      variations: [
+        "Global special interests",
         "Globohomo",
         "Globalist cabal",
-        "Globalist elites"
+        "Globalist elite"
       ],
       category: "antisemitic",
-      definition: "Jewish people",
-      source: "silent_signals"
+      definition: "Implies that Jewish people control international politics, economics, or culture; often conflates legitimate global cooperation with conspiratorial Jewish influence",
+      source: "goodboy"
     },
     {
       root: "Goody",
@@ -3188,8 +3725,8 @@ const GOODBOY_DATA = {
       root: "Google",
       variations: [],
       category: "racist",
-      definition: "Black person",
-      source: "silent_signals"
+      definition: "Coded slur for a Black person",
+      source: "goodboy"
     },
     {
       root: "Government handout",
@@ -3236,15 +3773,38 @@ const GOODBOY_DATA = {
       variations: [
         "Medical freedom"
       ],
-      category: "anti-vax",
-      definition: "Anti-vax",
+      category: "pseudoscience",
+      definition: "Promotes rejection of mainstream medical science, particularly vaccines, under the guise of personal choice or bodily autonomy",
       source: "silent_signals"
     },
     {
-      root: "Healthy tissue",
-      variations: [],
-      category: "anti-vax",
-      definition: "Vaccines damage an otherwise healthy body",
+      root: "Food freedom",
+      variations: [
+        "Pure food",
+        "Chemical-free living"
+      ],
+      category: "pseudoscience",
+      definition: "Implies mainstream food safety science is deceptive; can include anti-GMO, raw milk or anti-additive messaging",
+      source: "goodboy"
+    },
+    {
+      root: "Vaccine toxins",
+      variations: [
+        "Toxic vaccine",
+        "Vaccine injury"
+      ],
+      category: "pseudoscience",
+      definition: "Euphemistic framing of vaccines as harmful chemicals, appeals to fear rather than science",
+      source: "goodboy"
+    },
+    {
+      root: "Natural immunity",
+      variations: [
+        "Innate immunity",
+        "Body knows best"
+      ],
+      category: "pseudoscience",
+      definition: "Invoked to downplay vaccines or medical interventions, or that caccines damage an otherwise healthy body",
       source: "goodboy"
     },
     {
@@ -3256,13 +3816,6 @@ const GOODBOY_DATA = {
       ],
       category: "antisemitic",
       definition: "Jewish people who control the media",
-      source: "silent_signals"
-    },
-    {
-      root: "Holocauster",
-      variations: [],
-      category: "antisemitic",
-      definition: "A Jewish person",
       source: "silent_signals"
     },
     {
@@ -3282,11 +3835,12 @@ const GOODBOY_DATA = {
     {
       root: "Identitarianism",
       variations: [
-        "Identitarian"
+        "Identitarian",
+        "Identitarianist"
       ],
-      category: "fascist",
-      definition: "Nazism",
-      source: "silent_signals"
+      category: "alt-right",
+      definition: "A far-right, ethno-nationalist ideology that centers on preserving it's version of white European identity from threats like multiculturalism, immigration, and globalization",
+      source: "goodboy"
     },
     {
       root: "Illegal alien",
@@ -3298,7 +3852,6 @@ const GOODBOY_DATA = {
         "Illegal migrant",
         "Illegal immigration",
         "Unauthorized immigration",
-        "Unauthorised immigration",
         "Illegal entry"
       ],
       category: "xenophobic",
@@ -3354,42 +3907,29 @@ const GOODBOY_DATA = {
     },
     {
       root: "Islamic extremism",
-      variations: [],
+      variations: [
+        "Islamic terrorism",
+        "Radical islamic terrorism",
+        "Radical islamic extremism",
+        "Islamism",
+        "Radical Islamism",
+        "Radical Islam"
+      ],
       category: "islamophobic",
-      definition: "Muslim people as a whole are a threat",
-      source: "silent_signals"
+      definition: "Used to imply that terrorism is inherent to Islam or that the Muslim community collectively supports extremisn",
+      source: "goodboy"
     },
     {
       root: "Islamic extremist",
-      variations: [],
-      category: "islamophobic",
-      definition: "Muslim people as a whole are a threat",
-      source: "silent_signals"
-    },
-    {
-      root: "Islamic terrorism",
-      variations: [],
-      category: "islamophobic",
-      definition: "Muslim people as a whole are a threat",
-      source: "silent_signals"
-    },
-    {
-      root: "Islamic terrorist",
       variations: [
-        "Radical islamic terrorists"
+        "Islamic terrorist",
+        "Radical islamic terrorist",
+        "Radical islamic extremist",
+        "Islamist",
+        "Radical Islamist"
       ],
       category: "islamophobic",
-      definition: "Muslim people as a whole are a threat",
-      source: "silent_signals"
-    },
-    {
-      root: "Islamist",
-      variations: [
-        "Muslamic",
-        "Radical islamist"
-      ],
-      category: "islamophobic",
-      definition: "Muslim people as a whole are a threat",
+      definition: "Used to blur the distinction between extremists and the Muslim population as a whole",
       source: "goodboy"
     },
     {
@@ -3401,29 +3941,31 @@ const GOODBOY_DATA = {
       source: "silent_signals"
     },
     {
-      root: "It's okay to be white",
+      root: "It's ok to be white",
       variations: [
-        "It's ok to be white"
+        "It's alright to be white"
       ],
       category: "white-supremacist",
-      definition: "White supremacist slogan",
-      source: "silent_signals"
+      definition: "A slogan created and spread by white supremacist groups to provoke backlash and frame white identity as under attack",
+      source: "goodboy"
     },
     {
       root: "Job creator",
       variations: [
-        "Job creation"
+        "Job creation",
+        "Job provider",
+        "Wealth generator"
       ],
       category: "conservative",
-      definition: "Wealthy people",
-      source: "silent_signals"
+      definition: "Euphemism for wealthy individuals or corporations, typically used to justify tax cuts or deregulation",
+      source: "goodboy"
     },
     {
       root: "Jogger",
       variations: [],
       category: "racist",
-      definition: "Black person",
-      source: "silent_signals"
+      definition: "Euphemism for a black person that implies criminality, derived from racist commentary around the murders of Black men",
+      source: "goodboy"
     },
     {
       root: "Judas",
@@ -3442,10 +3984,10 @@ const GOODBOY_DATA = {
       source: "goodboy"
     },
     {
-      root: "Judicial activism",
+      root: "Judicial activist",
       variations: [
-        "Activist judge",
-        "Judicial activist"
+        "Judicial activism",
+        "Activist judge"
       ],
       category: "conservative",
       definition: "Judges ruling in liberals' favor",
@@ -3470,16 +4012,9 @@ const GOODBOY_DATA = {
       variations: [
         "Kekistan"
       ],
-      category: "white-supremacist",
-      definition: "White supremacist signal meaning \"lol\" that became an alt-right 4chan meme",
-      source: "silent_signals"
-    },
-    {
-      root: "Khazar",
-      variations: [],
-      category: "antisemitic",
-      definition: "Jewish people",
-      source: "silent_signals"
+      category: "alt-right",
+      definition: "An alt-right meme originating on 4chan, derived from the Korean onomatopoeia 'kek' for laughter; it was popularized in gaming communities and later adopted as a symbol by white supremacist and alt-right groups",
+      source: "goodboy"
     },
     {
       root: "Law and order",
@@ -3497,14 +4032,14 @@ const GOODBOY_DATA = {
         "Erasing lesbian"
       ],
       category: "transphobic",
-      definition: "Trans people are threatening cis lesbians",
-      source: "silent_signals"
+      definition: "Signal claiming that trans women endanger or replace lesbians, used to pit groups against each other",
+      source: "goodboy"
     },
     {
       root: "Lesbophobia",
       variations: [],
       category: "transphobic",
-      definition: "Trans people are threatening cis lesbians",
+      definition: "Deliberately misused as a coded accusation that trans people, especially trans women, are hostile to lesbians",
       source: "silent_signals"
     },
     {
@@ -3550,8 +4085,15 @@ const GOODBOY_DATA = {
       root: "Loxism",
       variations: [],
       category: "antisemitic",
-      definition: "Jews hate non-Jews",
-      source: "silent_signals"
+      definition: "Hatred of (non-Jewish) white people by Jews",
+      source: "goodboy"
+    },
+    {
+      root: "Loxist",
+      variations: [],
+      category: "antisemitic",
+      definition: "A Jew who hates white people",
+      source: "goodboy"
     },
     {
       root: "MAGA",
@@ -3572,7 +4114,7 @@ const GOODBOY_DATA = {
     {
       root: "Magapede",
       variations: [],
-      category: "fascist",
+      category: "alt-right",
       definition: "Trump supporters who are not antisemitic or racist enough",
       source: "silent_signals"
     },
@@ -3631,12 +4173,12 @@ const GOODBOY_DATA = {
       source: "silent_signals"
     },
     {
-      root: "Multiculturalism",
+      root: "Multiculturalist",
       variations: [
         "Multi kulti",
         "Multiculti",
         "Multicultural",
-        "Multiculturalist"
+        "Multiculturalism"
       ],
       category: "islamophobic",
       definition: "Too many Muslims",
@@ -3646,40 +4188,25 @@ const GOODBOY_DATA = {
       root: "Neoliberal",
       variations: [
         "Neolib",
-        "Neoliberalism"
+        "Neoliberalism",
+        "Neoliberalist"
       ],
       category: "liberal",
-      definition: "Non-leftist liberals",
+      definition: "Non-leftist liberal",
       source: "silent_signals"
     },
     {
-      root: "New World Order",
+      root: "Jewish World Order",
       variations: [
-        "NWO"
+        "JWO",
+        "New World Order",
+        "NWO",
+        "Kosher mafia",
+        "Khazarian Mafia"
       ],
       category: "antisemitic",
-      definition: "Jewish people control the world",
-      source: "silent_signals"
-    },
-    {
-      root: "New York elite",
-      variations: [
-        "Manhattan elite",
-        "NY elite"
-      ],
-      category: "antisemitic",
-      definition: "Jewish people",
-      source: "silent_signals"
-    },
-    {
-      root: "New York intellectual",
-      variations: [
-        "Manhattan intellectual",
-        "Ny intellectual"
-      ],
-      category: "antisemitic",
-      definition: "Jewish people",
-      source: "silent_signals"
+      definition: "Conspiracy theory that a secret group of Jewish people control the world",
+      source: "goodboy"
     },
     {
       root: "New York value",
@@ -3693,12 +4220,51 @@ const GOODBOY_DATA = {
     },
     {
       root: "NPC",
+      variations: [],
+      category: "alt-right",
+      definition: "A meme used in alt-right and online spaces to mock people perceived as conformist, mindless, or lacking independent thought, often applied to liberals or mainstream culture",
+      source: "goodboy"
+    },
+    {
+      root: "Wojak",
       variations: [
-        "Wojak"
+        "Wojack",
+        "Feels Guy"
+      ],
+      category: "alt-right",
+      definition: "A generic meme character representing someone with emotions or reactions; in alt-right contexts, it is often used to symbolize liberals or outsiders for ridicule",
+      source: "goodboy"
+    },
+    {
+      root: "Soyjak",
+      variations: [
+        "Soy Wojak",
+        "Soyjack"
       ],
       category: "anti-liberal",
-      definition: "Liberal person",
-      source: "silent_signals"
+      definition: "A Wojak variant with exaggerated facial features used in alt-right meme spaces to mock people considered weak, effeminate, or liberal",
+      source: "goodboy"
+    },
+    {
+      root: "Transjak",
+      variations: [
+        "Transjack",
+        "Trans wojak"
+      ],
+      category: "transphobic",
+      definition: "\"Transjak\" is a Wojak meme variant used to mock or deride transgender people, often in alt-right or far-right online communities",
+      source: "goodboy"
+    },
+    {
+      root: "Coomer",
+      variations: [
+        "Coomer Wojak",
+        "Coomer Wojack",
+        "Coom"
+      ],
+      category: "alt-right",
+      definition: "\"Coomer\" is a Wojak meme depicting a man addicted to pornography or compulsive sexual behavior, often used in alt-right, incel, and manosphere spaces to mock perceived weakness, lack of discipline, or oversexualization",
+      source: "goodboy"
     },
     {
       root: "Octopus",
@@ -3716,8 +4282,6 @@ const GOODBOY_DATA = {
       root: "OK emoji",
       variations: [
         "Ok sign emoji",
-        "Okay emoji",
-        "Okay sign emoji",
         "👌"
       ],
       category: "white-supremacist",
@@ -3728,14 +4292,14 @@ const GOODBOY_DATA = {
       root: "Open borders for Israel",
       variations: [],
       category: "antisemitic",
-      definition: "Jews are pushing for immigration to ruin other countries except for Israel",
+      definition: "The belief that Jews are pushing for immigration to ruin other countries except for Israel",
       categoryMode: "original",
       source: "silent_signals"
     },
     {
       root: "Our guy",
       variations: [],
-      category: "fascist",
+      category: "alt-right",
       definition: "Someone who holds alt-right or \"red-pilled\" political beliefs, often referring to Trump",
       source: "silent_signals"
     },
@@ -3790,9 +4354,9 @@ const GOODBOY_DATA = {
       variations: [
         "🌲"
       ],
-      category: "white-supremacist",
-      definition: "White supremacist signal connected to ecofascism",
-      source: "silent_signals"
+      category: "alt-right",
+      definition: "Alt-right signal connected to ecofascism",
+      source: "goodboy"
     },
     {
       root: "Poisoning the well",
@@ -3818,8 +4382,8 @@ const GOODBOY_DATA = {
     {
       root: "Power level",
       variations: [],
-      category: "fascist",
-      definition: "How deeply someone has fallen into fascist ideology",
+      category: "alt-right",
+      definition: "A meme for how deeply someone has fallen into alt-right ideology",
       source: "silent_signals"
     },
     {
@@ -3892,25 +4456,24 @@ const GOODBOY_DATA = {
       source: "goodboy"
     },
     {
-      root: "Race realism",
+      root: "Biological Race Realism",
       variations: [
-        "Hbd",
+        "Race Realism",
+        "Race Realist",
+        "HBD",
         "Human biodiversity",
-        "Race realist",
         "Racial realism",
+        "Racial realist",
         "Scientific racism",
-        "Realist about race"
+        "Realist about race",
+        "Realistic about race",
+        "Biological realism",
+        "Biological realist",
+        "Biological reality"
       ],
       category: "racist",
-      definition: "White people are better than other races",
-      source: "silent_signals"
-    },
-    {
-      root: "Radical Islam",
-      variations: [],
-      category: "islamophobic",
-      definition: "Muslim people as a whole are a threat",
-      source: "silent_signals"
+      definition: "Signals scientific racism or biological essentialism, which are pseudoscientific beliefs that assert the existence of biologically distinct human races and link inherent characteristics or abilities to these groups",
+      source: "goodboy"
     },
     {
       root: "RaHoWa",
@@ -3941,10 +4504,13 @@ const GOODBOY_DATA = {
     },
     {
       root: "Right to know",
-      variations: [],
-      category: "anti-gmo",
-      definition: "Eliminating genetic engineering in the food industry",
-      source: "silent_signals"
+      variations: [
+        "Right-to-know agenda",
+        "Transparency movement"
+      ],
+      category: "pseudoscience",
+      definition: "Implies people should reject scientific consensus (e.g. on GMOs or vaccines) under the guise of \"choice\" or \"transparency\"",
+      source: "goodboy"
     },
     {
       root: "Right to work",
@@ -3958,20 +4524,16 @@ const GOODBOY_DATA = {
       source: "goodboy"
     },
     {
-      root: "Rootless cosmopolitan",
-      variations: [],
-      category: "antisemitic",
-      definition: "A Jewish person",
-      source: "silent_signals"
-    },
-    {
       root: "Rothschild",
       variations: [
-        "Rothschild family"
+        "Rothschild family",
+        "Rothschild bank",
+        "Janet Yellen",
+        "Lloyd Blankfein"
       ],
       category: "antisemitic",
-      definition: "Jewish people control all the money",
-      source: "silent_signals"
+      definition: "A conspiratorial coded term claiming that Jewish people secretly control global finance or the economy",
+      source: "goodboy"
     },
     {
       root: "RWDS",
@@ -4065,22 +4627,19 @@ const GOODBOY_DATA = {
       source: "silent_signals"
     },
     {
-      root: "Shlomo",
-      variations: [
-        "Schlomo"
-      ],
-      category: "antisemitic",
-      definition: "A Jewish person",
-      source: "silent_signals"
-    },
-    {
       root: "Shoah",
       variations: [
         "Shoahed",
-        "Anudda shoah"
+        "Get shoahed",
+        "Anudda shoah",
+        "Shoah them",
+        "Shoah attack",
+        "Shoah moment",
+        "Shoah bomb",
+        "Shoah spam"
       ],
       category: "antisemitic",
-      definition: "Shut down, especially alt-right social media accounts by referencing the Holocaust",
+      definition: "Used in alt-right spaces as a coded term for censoring, banning, or attacking opponents, referencing the Holocaust in a trivializing or threatening way",
       source: "goodboy"
     },
     {
@@ -4094,7 +4653,6 @@ const GOODBOY_DATA = {
       root: "Single parent",
       variations: [
         "Single mom",
-        "Single mum",
         "Single mother",
         "Single parent household"
       ],
@@ -4110,18 +4668,13 @@ const GOODBOY_DATA = {
       source: "silent_signals"
     },
     {
-      root: "Skype",
-      variations: [],
-      category: "antisemitic",
-      definition: "A Jewish person",
-      source: "silent_signals"
-    },
-    {
       root: "Snowflake",
-      variations: [],
+      variations: [
+        "Liberal snowflake"
+      ],
       category: "anti-liberal",
-      definition: "Liberals",
-      source: "silent_signals"
+      definition: "Used politically to dismiss liberal/left-leaning views. Suggests that the target is weak sees themselves as unique, both traits of a snowflake",
+      source: "goodboy"
     },
     {
       root: "Social justice warrior",
@@ -4209,8 +4762,6 @@ const GOODBOY_DATA = {
       root: "Take our country back",
       variations: [
         "Take back our country",
-        "Take back are country",
-        "Take are country back",
         "Take back the country",
         "Take the country back",
         "Take back control",
@@ -4219,10 +4770,12 @@ const GOODBOY_DATA = {
         "Reclaim our community",
         "Reclaim the community",
         "Reclaim our country",
-        "Reclaim the country"
+        "Reclaim the country",
+        "Want our country back",
+        "Want the country back"
       ],
       category: "nationalist",
-      definition: "Migrants, refugees, or minority communities have \"taken over\" and that \"true\" country should be reclaimed for (implicitly) the native or majority population.",
+      definition: "Migrants, refugees, or minority communities have \"taken over\" and that \"true\" country should be reclaimed for (implicitly) the native or majority population",
       source: "swu"
     },
     {
@@ -4250,7 +4803,7 @@ const GOODBOY_DATA = {
         "3%er",
         "Iii%er"
       ],
-      category: "fascist",
+      category: "alt-right",
       definition: "Far-right militia movement",
       source: "silent_signals"
     },
@@ -4303,7 +4856,9 @@ const GOODBOY_DATA = {
       root: "TRA",
       variations: [
         "Trans activist",
-        "Trans rights activist"
+        "Trans rights activist",
+        "Trans activism",
+        "Trans rights activism"
       ],
       category: "transphobic",
       definition: "Person who supports the transgender rights movement",
@@ -4361,7 +4916,7 @@ const GOODBOY_DATA = {
     {
       root: "Vaccine safety",
       variations: [],
-      category: "anti-vax",
+      category: "pseudoscience",
       definition: "Opposition to vaccines",
       source: "silent_signals"
     },
@@ -4434,7 +4989,7 @@ const GOODBOY_DATA = {
         "We wuz kings"
       ],
       category: "racist",
-      definition: "Mocks claims of black nationalism by using mock AAVE",
+      definition: "Mocks claims of Black nationalism by using mock AAVE",
       source: "silent_signals"
     },
     {
@@ -4464,7 +5019,7 @@ const GOODBOY_DATA = {
       root: "Willie Horton",
       variations: [],
       category: "racist",
-      definition: "Convicted murderer whose imagery is used to link blackness with criminality and threat",
+      definition: "Convicted murderer whose imagery is used to link Blackness with criminality and threat",
       source: "silent_signals"
     },
     {
@@ -4502,15 +5057,36 @@ const GOODBOY_DATA = {
         "Working families"
       ],
       category: "white-supremacist",
-      definition: "White working class",
+      definition: "Often code for \"white working class\"",
       source: "goodboy"
     },
     {
       root: "XX",
       variations: [],
       category: "transphobic",
-      definition: "I am a transphobic cis woman",
-      source: "silent_signals"
+      definition: "Used to signal female sex or cisgender identity in a way that may exclude or demean trans women",
+      source: "goodboy"
+    },
+    {
+      root: "XY",
+      variations: [],
+      category: "transphobic",
+      definition: "Used to signal male sex or cisgender identity in a way that may exclude or demean trans men",
+      source: "goodboy"
+    },
+    {
+      root: "XXY",
+      variations: [],
+      category: "transphobic",
+      definition: "Refers to Klinefelter syndrome but is sometimes used in online discourse to signal abnormal or non-standard male identity in a derogatory way",
+      source: "goodboy"
+    },
+    {
+      root: "X0",
+      variations: [],
+      category: "transphobic",
+      definition: "Refers to Turner syndrome but may be used in transphobic contexts to imply atypical or \"incomplete\" female identity",
+      source: "goodboy"
     },
     {
       root: "YKW",
@@ -4519,7 +5095,7 @@ const GOODBOY_DATA = {
         "We know who"
       ],
       category: "antisemitic",
-      definition: "A Jewish person",
+      definition: "Obfuscated reference to Jews used to evade moderation, or to openly signal antisemitism",
       source: "silent_signals"
     },
     {
@@ -4544,7 +5120,7 @@ const GOODBOY_DATA = {
       root: "Zio",
       variations: [],
       category: "antisemitic",
-      definition: "Short for Zionist, but often used as a dog whistle for 'Jewish person'",
+      definition: "Short for Zionist, but often used as a coded term for 'Jewish person'",
       source: "goodboy"
     },
     {

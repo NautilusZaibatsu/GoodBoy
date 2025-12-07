@@ -287,8 +287,8 @@
 
         /* Category-specific highlight colors will be injected dynamically */
 
-        /* Dog whistles: Background color, NO underline */
-        .highlight.dogwhistle {
+        /* coded terms: Background color, NO underline */
+        .highlight.codedTerm {
             text-decoration: none;
         }
 
@@ -637,7 +637,7 @@
             </div>
             <div class="expandable-div-content" id="aboutContent">
                 <p>
-                    GoodBoy is a free, open-source tool for identifying dog whistles and harmful language, designed to
+                    GoodBoy is a free, open-source tool for identifying coded terms and harmful language, designed to
                     promote understanding of coded rhetoric and help users recognise hateful or discriminatory content.
                 </p>
                 <p>
@@ -679,8 +679,8 @@
         </footer>
     </div>
 
-    <!-- Load the dog whistle database -->
-    <script src="data/dogwhistle_data.js"></script>
+    <!-- Load the coded term database -->
+    <script src="data/coded_term_data.js"></script>
 
     <!-- Load the harmful term database -->
     <script src="data/harmful_term_data.js"></script>
@@ -732,13 +732,13 @@
         legendDiv.innerHTML = legendHtml;
 
         // Initialize matchers when data is loaded
-        const dogWhistleData = typeof GOODBOY_DATA !== 'undefined' ? GOODBOY_DATA : null;
+        const codedTermData = typeof GOODBOY_DATA !== 'undefined' ? GOODBOY_DATA : null;
         const harmfulTermData = typeof GOODBOY_HARMFUL_TERM_DATA !== 'undefined' ? GOODBOY_HARMFUL_TERM_DATA : null;
 
-        if (dogWhistleData) {
-            matcher = new DogWhistleMatcher(dogWhistleData);
+        if (codedTermData) {
+            matcher = new CodedTermMatcher(codedTermData);
         } else {
-            console.error('Error: Failed to load dog whistle database.');
+            console.error('Error: Failed to load coded term database.');
         }
 
         if (harmfulTermData) {
@@ -748,14 +748,14 @@
         }
 
         // Initialize pattern matcher for populist detection
-        if (dogWhistleData && typeof PLACE_DEMONYM_LOOKUP !== 'undefined') {
-            PatternMatcher.initialize(dogWhistleData.terms);
+        if (codedTermData && typeof PLACE_DEMONYM_LOOKUP !== 'undefined') {
+            PatternMatcher.initialize(codedTermData.terms);
             console.log('✓ Pattern matcher initialized for populist detection');
         } else if (typeof PLACE_DEMONYM_LOOKUP === 'undefined') {
             console.warn('Place-demonym lookup not loaded, populist pattern matching disabled');
         }
 
-        if (!dogWhistleData && !harmfulTermData) {
+        if (!codedTermData && !harmfulTermData) {
             alert('Error: Failed to load databases. Please refresh the page.');
         }
 
@@ -765,7 +765,7 @@
          * POPULIST PATTERN MATCHING SYSTEM
          *
          * Detects nationalist, regionalist and localist language patterns by recognizing place/group names
-         * and checking if similar patterns exist in the dog whistle database with different places.
+         * and checking if similar patterns exist in the coded term database with different places.
          *
          * Example: If database contains "America First", it will also flag "Britain First",
          * "Make Liverpool Great Again" (from "MAGA"), "hard-working Indians" (from "hard-working Americans")
@@ -792,14 +792,9 @@
             container.innerHTML = ''; // Clear previous content if any
 
             SOURCE_DATA.sources.forEach(source => {
-                const p = document.createElement('p');
-                p.style.marginTop = '10px';
-
                 // Dataset title
-                const strong = document.createElement('strong');
-                strong.textContent = source.description || source.string || source.id;
-                p.appendChild(strong);
-
+                const text = document.createTextNode(source.description || source.string || source.id);
+                container.appendChild(text);
                 // Prepare links
                 const links = [];
                 if (source.url) {
@@ -807,7 +802,7 @@
                     a.href = source.url;
                     a.target = '_blank';
                     a.rel = 'noopener';
-                    a.textContent = 'Website ↗';
+                    a.textContent = ' ↗';
                     links.push(a);
                 }
                 if (source.paper) {
@@ -818,19 +813,22 @@
                     a.textContent = 'Read Paper ↗';
                     links.push(a);
                 }
-                // Only add links and page break if they exist
+
                 if (links.length > 0) {
-                    p.appendChild(document.createElement('br')); // line break after title
+                    container.appendChild(document.createTextNode(' ')); // space after title
                     links.forEach((link, idx) => {
-                        p.appendChild(link);
+                        container.appendChild(link);
                         if (idx < links.length - 1) {
-                            p.appendChild(document.createTextNode(' | '));
+                            container.appendChild(document.createTextNode(' | '));
                         }
                     });
                 }
-                container.appendChild(p);
+
+                // Line break after each source
+                container.appendChild(document.createElement('br'));
             });
         }
+
 
         // Helper to get main category for a subcategory
         function getMainCategory(subcategory) {
@@ -923,7 +921,6 @@
          */
         function filterRedundantVariations(terms) {
             let totalRemoved = 0;
-
             const filtered = terms.map(term => {
                 const root = term.root;
                 const variations = term.variations || [];
@@ -941,6 +938,7 @@
                 const kept = variations.filter(variation => {
                     // Skip exact duplicates of root (case-insensitive)
                     if (variation.toLowerCase() === root.toLowerCase()) {
+                        console.log("🧹 Filtered term: "+variation);
                         return false;
                     }
 
@@ -952,6 +950,7 @@
                         // Check if variation is shorter - if so, it might be a meaningful abbreviation
                         // Only filter if they're the same length (just different punctuation)
                         if (variation.length >= root.length) {
+                            console.log("🧹 Filtered term: "+variation);
                             return false;
                         }
                         // Variation is shorter - keep it as it's likely a meaningful form
@@ -966,6 +965,7 @@
                         // BUT: if this variation is shorter than the root, keep it (meaningful abbreviation)
                         // Example: "13" should be kept even though "13%" normalizes to the same thing
                         if (variation.length >= root.length) {
+                            console.log("🧹 Filtered term: "+variation);
                             return false;
                         }
                         // Variation is shorter - keep it
@@ -978,11 +978,13 @@
 
                         // Skip if plural of root
                         if (singularClean === rootClean) {
+                            console.log("🧹 Filtered term: "+variation);
                             return false;
                         }
 
                         // Skip if plural of a variation we're keeping
                         if (seenNormalized.has(singularClean)) {
+                            console.log("🧹 Filtered term: "+variation);
                             return false;
                         }
                     }
@@ -1017,20 +1019,20 @@
             document.getElementById('copyBtn').disabled = true;
             document.getElementById('clearBtn').disabled = true;
 
-            let dogWhistleData = null;
+            let codedTermData = null;
             let harmfulTermData = null;
 
-            // Check dog whistle database
+            // Check coded term database
             if (typeof GOODBOY_DATA !== 'undefined') {
                 // Filter redundant variations using our pattern matching logic
                 const filteredTerms = filterRedundantVariations(GOODBOY_DATA.terms);
-                dogWhistleData = {
+                codedTermData = {
                     ...GOODBOY_DATA,
                     terms: filteredTerms
                 };
-                console.log(`✓ Loaded ${GOODBOY_DATA.total} dog whistles`);
+                console.log(`✓ Loaded ${GOODBOY_DATA.total} coded terms`);
             } else {
-                console.error('Failed to load dog whistle database');
+                console.error('Failed to load coded term database');
             }
 
             // Check harmful term database
@@ -1049,14 +1051,14 @@
             // Update database term count in footer
             const dbTermCountEl = document.getElementById('dbTermCount');
             if (dbTermCountEl) {
-                const dogWhistleCount = dogWhistleData ? dogWhistleData.totalTerms : 0;
+                const codedTermCount = codedTermData ? codedTermData.totalTerms : 0;
                 const harmfulTermCount = harmfulTermData ? harmfulTermData.totalTerms : 0;
 
-                if (dogWhistleCount > 0 && harmfulTermCount > 0) {
+                if (codedTermCount > 0 && harmfulTermCount > 0) {
                     const harmfulTermText = harmfulTermCount === 1 ? 'harmful term' : 'harmful terms';
-                    dbTermCountEl.textContent = `${dogWhistleCount} dog whistles and ${harmfulTermCount} ${harmfulTermText}`;
-                } else if (dogWhistleCount > 0) {
-                    dbTermCountEl.textContent = `${dogWhistleCount} dog whistles`;
+                    dbTermCountEl.textContent = `${codedTermCount} coded terms and ${harmfulTermCount} ${harmfulTermText}`;
+                } else if (codedTermCount > 0) {
+                    dbTermCountEl.textContent = `${codedTermCount} coded terms`;
                 } else if (harmfulTermCount > 0) {
                     const harmfulTermText = harmfulTermCount === 1 ? 'harmful term' : 'harmful terms';
                     dbTermCountEl.textContent = `${harmfulTermCount} ${harmfulTermText}`;
@@ -1066,10 +1068,10 @@
             }
 
             // Initialize matchers with the databases
-            if (dogWhistleData) {
-                matcher = new DogWhistleMatcher(dogWhistleData);
+            if (codedTermData) {
+                matcher = new CodedTermMatcher(codedTermData);
             } else {
-                console.error('Error: Failed to load dog whistle database.');
+                console.error('Error: Failed to load coded term database.');
             }
 
             if (harmfulTermData) {
@@ -1079,14 +1081,14 @@
             }
 
             // Initialize pattern matcher for populist detection
-            if (dogWhistleData && typeof PLACE_DEMONYM_LOOKUP !== 'undefined') {
-                PatternMatcher.initialize(dogWhistleData.terms);
+            if (codedTermData && typeof PLACE_DEMONYM_LOOKUP !== 'undefined') {
+                PatternMatcher.initialize(codedTermData.terms);
                 console.log('✓ Pattern matcher initialized for populist detection');
             } else if (typeof PLACE_DEMONYM_LOOKUP === 'undefined') {
                 console.warn('Place-demonym lookup not loaded, populist pattern matching disabled');
             }
 
-            if (!dogWhistleData && !harmfulTermData) {
+            if (!codedTermData && !harmfulTermData) {
                 alert('Error: Failed to load databases. Please refresh the page.');
             }
         });
@@ -1164,15 +1166,15 @@
             // Use setTimeout to allow UI to update
             setTimeout(() => {
                 // Analyze with both matchers
-                const dogWhistleResults = matcher ? matcher.analyze(text) : { matches: [], categoryCount: 0, categories: [] };
+                const codedTermResults = matcher ? matcher.analyze(text) : { matches: [], categoryCount: 0, categories: [] };
                 const harmfulTermResults = harmfulTermMatcher ? harmfulTermMatcher.analyze(text) : { matches: [], categoryCount: 0, categories: [] };
 
                 // Analyze for populist patterns
                 const patternResults = PatternMatcher.place_demonym_lookup_loaded ? PatternMatcher.analyze(text) : { matches: [] };
 
-                // Combine results (pattern matches are also dog whistles)
+                // Combine results (pattern matches are also coded terms)
                 const allMatches = [
-                    ...dogWhistleResults.matches,
+                    ...codedTermResults.matches,
                     ...harmfulTermResults.matches,
                     ...patternResults.matches
                 ];
@@ -1202,14 +1204,14 @@
 
                 // Count all unique categories
                 const allCategories = new Set([
-                    ...dogWhistleResults.categories,
+                    ...codedTermResults.categories,
                     ...harmfulTermResults.categories,
                     ...patternResults.matches.map(m => m.category)
                 ]);
 
                 const combinedResults = {
                     matches: combinedMatches,
-                    dogWhistleCount: dogWhistleResults.matches.length + patternResults.matches.length,
+                    codedTermCount: codedTermResults.matches.length + patternResults.matches.length,
                     harmfulTermCount: harmfulTermResults.matches.length,
                     categoryCount: allCategories.size,
                     categories: Array.from(allCategories)
@@ -1235,13 +1237,13 @@
             const categoryCount = document.getElementById('categoryCount');
             const inputLabel = document.getElementById('inputLabel');
 
-            // Count for dog whistles and harmful terms
-            const dogWhistleMatches = results.matches.filter(m => m.type === 'dogwhistle');
+            // Count for coded and harmful terms
+            const codedTermMatches = results.matches.filter(m => m.type === 'codedTerm');
             const harmfulTermMatches = results.matches.filter(m => m.type === 'harmfulTerm');
 
             // Update total count
             const totalCount = results.matches.length;
-            const dogWhistleCount = dogWhistleMatches.length;
+            const codedTermCount = codedTermMatches.length;
             const harmfulTermCount = harmfulTermMatches.length;
 
             // Update Terms Flagged count
@@ -1252,9 +1254,9 @@
             if (termBreakdown) {
                 const lines = [];
 
-                if (dogWhistleCount > 0) {
-                    const dogWhistleText = dogWhistleCount === 1 ? 'dog whistle' : 'dog whistles';
-                    lines.push({ count: dogWhistleCount, text: `${dogWhistleCount} ${dogWhistleText}` });
+                if (codedTermCount > 0) {
+                    const codedTermText = codedTermCount === 1 ? 'coded term' : 'coded terms';
+                    lines.push({ count: codedTermCount, text: `${codedTermCount} ${codedTermText}` });
                 }
 
                 if (harmfulTermCount > 0) {
@@ -1337,7 +1339,7 @@
             // Build highlighted text
             let displayHtml = '';
             if (results.matches.length === 0) {
-                displayHtml = '<div class="no-results">✓ No dog whistles or harmful terms detected in this text.</div>' +
+                displayHtml = '<div class="no-results">✓ No coded terms or harmful terms detected in this text.</div>' +
                     '<div style="margin-top: 15px;">' + escapeHtml(originalText) + '</div>';
             } else {
                 let lastIndex = 0;
@@ -1376,7 +1378,7 @@
 
         /**
          * Generate matched term HTML if obfuscation is detected
-         * DRY helper for both dog whistle and harmful term tooltips
+         * DRY helper for both coded term and harmful term tooltips
          *
          * @param {string} matchedTerm - The canonical term that was matched
          * @param {string} displayedText - The actual text shown in the document
@@ -1418,7 +1420,7 @@
         }
 
         function createHighlightedSpan(match) {
-            const typeClass = match.type || 'dogwhistle';
+            const typeClass = match.type || 'codedTerm';
             const categoryClass = getCategoryClass(match.category);
             const categoryColor = getCategoryColor(match.category);
             const formattedCategoryLabel = getFormattedCategoryLabel(match.category);
@@ -1434,7 +1436,7 @@
 
                 return `<span class="highlight harmfulTerm" style="${underlineStyle}">${escapeHtml(match.text)}<span class="tooltip"><div class="tooltip-category" style="background-color: ${categoryColor}">${escapeHtml(formattedCategoryLabel)}</div>${matchedTermHtml}<div class="tooltip-item"><div class="tooltip-item-label">Definition:</div><div class="tooltip-item-value">${escapeHtml(capitalizedDefinition)}</div></div>${sourceHtml}</span></span>`;
             } else {
-                // Dog whistle
+                // coded term
                 const sourceHtml = getTooltipSourceHtml(match.source);
 
                 // Determine what to show for the term
@@ -1450,7 +1452,7 @@
                 // Limit variations to 6 random items if needed (DRY helper)
                 const variationsHtml = getVariationsHtml(match.variations);
 
-                return `<span class="highlight ${categoryClass} dogwhistle">${escapeHtml(match.text)}<span class="tooltip"><div class="tooltip-category" style="background-color: ${categoryColor}">${escapeHtml(formattedCategoryLabel)}</div>${termHtml}${variationsHtml}<div class="tooltip-item"><div class="tooltip-item-label">Dog Whistle:</div><div class="tooltip-item-value">${escapeHtml(capitalizedDefinition)}</div></div>${sourceHtml}</span></span>`;
+                return `<span class="highlight ${categoryClass} codedTerm">${escapeHtml(match.text)}<span class="tooltip"><div class="tooltip-category" style="background-color: ${categoryColor}">${escapeHtml(formattedCategoryLabel)}</div>${termHtml}${variationsHtml}<div class="tooltip-item"><div class="tooltip-item-label">Coded term:</div><div class="tooltip-item-value">${escapeHtml(capitalizedDefinition)}</div></div>${sourceHtml}</span></span>`;
             }
         }
 

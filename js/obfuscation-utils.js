@@ -40,14 +40,13 @@ const ObfuscationUtils = {
         'offence': 'offense',
         'practise': 'practice',
         'pretence': 'pretense',
-        'analyse': 'analyze',
-        'paralyse': 'paralyze',
         'catalogue': 'catalog',
         'dialogue': 'dialog',
         'aeroplane': 'airplane',
         'aluminium': 'aluminum',
         'cheque': 'check',
-        'tyre': 'tire'
+        'tyre': 'tire',
+        'mum': 'mom'
     },
 
     // UK/US suffix mappings (bidirectional - both forms valid)
@@ -67,11 +66,19 @@ const ObfuscationUtils = {
     // Simple word substitutions (bidirectional - both forms valid)
     BIDIRECTIONAL_SUBSTITUTIONS: {
         '&': 'and',
+        '=': 'is',
         'an': 'a',
         'u': 'you',
         'r': 'are',
         '4': 'for',
-        '2': 'to'
+        '2': 'to',
+        'ok': 'okay',
+        // coded language specific
+        'gov': 'government',
+        'govt': 'government',
+        'lib' : 'liberal',
+        'libs' : 'liberals',
+        'vs' : 'v'
     },
 
     // Contractions (bidirectional - both forms valid)
@@ -160,7 +167,8 @@ const ObfuscationUtils = {
         'ya': 'you',
         'tha': 'the',
         'bruv': 'brother',
-        'fam': 'friend'
+        'fam': 'friend',
+        'em': 'them'
     },
 
     // Meme speak normalizations (one-way: meme → standard)
@@ -185,7 +193,18 @@ const ObfuscationUtils = {
         'h8': 'hate',
         'hooman': 'human',
         'smol': 'small',
-        'boi': 'boy'
+        'boi': 'boy',
+        'b4': 'before',
+        'gr8': 'great'
+    },
+
+    // Ordinal numbers - (one-way: numeric → standard)
+    ORDINAL_NUMBERS: {
+        "1st": "first",
+        "2nd": "second",
+        "3rd": "third",
+        "4th": "fourth",
+        "5th": "fifth"
     },
 
     // ===== HELPER FUNCTIONS FOR NORMALIZATION =====
@@ -227,6 +246,17 @@ const ObfuscationUtils = {
     },
 
     /**
+    * Apply ordinal number normalizations using ORDINAL_NUMBERS constant
+    */
+    applyOrdinalNormalizations(text) {
+        for (const [from, to] of Object.entries(this.ORDINAL_NUMBERS)) {
+            const re = new RegExp(`\\b${from}\\b`, 'g');
+            text = text.replace(re, to);
+        }
+        return text;
+    },
+
+    /**
      * Apply contractions using CONTRACTIONS constant
      */
     applyContractions(text) {
@@ -238,13 +268,16 @@ const ObfuscationUtils = {
     },
 
     /**
-     * Apply UK to US suffix transformations using US_TO_UK_SUFFIXES constant
+     * Apply UK to US suffix transformations using US_TO_UK_SUFFIXES constant (DRY)
      */
-    applyUkToUsSuffixes(text) {
-        return text
-            .replace(/\b(\w+)ise\b/g, '$1ize')
-            .replace(/\b(\w+)isation\b/g, '$1ization')
-            .replace(/\b(\w+)yse\b/g, '$1yze');
+    applySuffixes(text) {
+        // Iterate through all suffix pairs in US_TO_UK_SUFFIXES (single source of truth)
+        for (const [usSuffix, ukSuffix] of Object.entries(this.US_TO_UK_SUFFIXES)) {
+            // Convert UK form to US form (e.g., "ise" → "ize")
+            const re = new RegExp(`\\b(\\w+)${ukSuffix}\\b`, 'g');
+            text = text.replace(re, `$1${usSuffix}`);
+        }
+        return text;
     },
 
     /**
@@ -311,14 +344,24 @@ const ObfuscationUtils = {
     },
 
     /**
-     * Get suffix variants for a word (e.g., "socialization" → ["socialization", "socialisation"])
+     * Get suffix variants for a word (bidirectional - single source of truth)
+     * Examples:
+     *   "socialization" → ["socialization", "socialisation"]
+     *   "socialisation" → ["socialization", "socialisation"]
      */
     getSuffixVariants(word) {
         for (const [usSuffix, ukSuffix] of Object.entries(this.US_TO_UK_SUFFIXES)) {
+            // Check if word has US suffix
             if (word.endsWith(usSuffix)) {
                 const stem = word.slice(0, -usSuffix.length);
                 const ukForm = stem + ukSuffix;
                 return [word, ukForm];
+            }
+            // Check if word has UK suffix (bidirectional!)
+            if (word.endsWith(ukSuffix)) {
+                const stem = word.slice(0, -ukSuffix.length);
+                const usForm = stem + usSuffix;
+                return [usForm, word];
             }
         }
         return [word];
@@ -349,8 +392,9 @@ const ObfuscationUtils = {
         text = this.applyBidirectionalSubs(text);
         text = this.applySlangNormalizations(text);
         text = this.applyMemeNormalizations(text);
+        text = this.applyOrdinalNormalizations(text);
         text = this.applyContractions(text);
-        text = this.applyUkToUsSuffixes(text);
+        text = this.applySuffixes(text);
         text = this.applyUkToUsWords(text);
         text = this.cleanupPunctuation(text);
 
@@ -602,7 +646,7 @@ const ObfuscationUtils = {
 
     /**
      * Build variation map for a term database
-     * DRY helper - used by all matchers (DogWhistleMatcher, HarmfulTermMatcher, etc.)
+     * DRY helper - used by all matchers (CodedTermMatcher, HarmfulTermMatcher, etc.)
      */
     buildVariationMap(terms) {
         const variationMap = new Map();

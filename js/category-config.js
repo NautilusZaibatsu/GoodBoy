@@ -1,7 +1,7 @@
 /**
  * GoodBoy Category Configuration
  *
- * Centralized category hierarchy for dog whistles and harmful terms.
+ * Centralized category hierarchy for coded and harmful terms.
  * Used by both the webapp and dev-tools.
  *
  * Single source of truth for all category-related logic.
@@ -54,8 +54,8 @@ const CATEGORY_HIERARCHY = {
                 "label": "Christophobia",
                 "darkColor": "#ae80b6"
             },
-            "Sikhophobia": {
-                "label": "Sikhophobia",
+            "sikhophobic": {
+                "label": "Sikhophobic",
                 "darkColor": "#b274bd"
             },
             "religious-minorities": {
@@ -69,7 +69,7 @@ const CATEGORY_HIERARCHY = {
         }
     },
     "gender": {
-        "label": "Gender & Sexuality",
+        "label": "Gender, Sex & Sexuality",
         "lightColor": "#ffe000",
         "hoverColor": "#ffcc00",
         "darkColor": "#ffb700",
@@ -97,6 +97,10 @@ const CATEGORY_HIERARCHY = {
             "prostitution": {
                 "label": "Prostitution Stigma",
                 "darkColor": "#e8ab11"
+            },
+            "sexual-objectification": {
+                "label": "Sexual Objectification",
+                "darkColor": "#c7920d"
             }
         }
     },
@@ -106,13 +110,9 @@ const CATEGORY_HIERARCHY = {
         "hoverColor": "#90a4ae",
         "darkColor": "#78909c",
         "sub": {
-            "disability-cognitive": {
+            "disability": {
                 "label": "Cognitive Disability",
                 "darkColor": "#607d8b"
-            },
-            "disability-physical": {
-                "label": "Physical Disability",
-                "darkColor": "#507689"
             },
             "mental-health": {
                 "label": "Mental Health Condition",
@@ -145,6 +145,10 @@ const CATEGORY_HIERARCHY = {
             "fascist": {
                 "label": "Fascist",
                 "darkColor": "#2b367f"
+            },
+            "alt-right": {
+                "label": "Alt-right",
+                "darkColor": "#333e87"
             }
         }
     },
@@ -174,7 +178,7 @@ const CATEGORY_HIERARCHY = {
                 "label": "Welfare Chauvinism",
                 "darkColor": "#749253"
             }
-            
+
         }
     },
     "antiIntellectualist": {
@@ -183,13 +187,9 @@ const CATEGORY_HIERARCHY = {
         "hoverColor": "#f3b577",
         "darkColor": "#f1963a",
         "sub": {
-            "anti-gmo": {
-                "label": "Anti-GMO",
+            "pseudoscience": {
+                "label": "Pseudoscience",
                 "darkColor": "#d27e29"
-            },
-            "anti-vax": {
-                "label": "Anti-Vax",
-                "darkColor": "#c47b33"
             },
             "climate change denier": {
                 "label": "Climate Change Denial",
@@ -211,7 +211,7 @@ const CATEGORY_HIERARCHY = {
                 "label": "Bad Faith",
                 "darkColor": "#755bc2"
             },
-            "deflection ": {
+            "deflection": {
                 "label": "Deflection/Performative",
                 "darkColor": "#5b4795"
             },
@@ -219,8 +219,8 @@ const CATEGORY_HIERARCHY = {
                 "label": "Personal Responsibility",
                 "darkColor": "#5d43ac"
             },
-            "dehumanisation": {
-                "label": "Dehumanisation",
+            "dehumanization": {
+                "label": "Dehumanization",
                 "darkColor": "#7660b8"
             },
             "emotional-dismissal": {
@@ -231,12 +231,12 @@ const CATEGORY_HIERARCHY = {
     }
 };
 
-    /**
-     * Get the full category hierarchy
-     * @returns {Object} The complete CATEGORY_HIERARCHY object
-     */
-    function getCategoryHierarchy() {
-        return CATEGORY_HIERARCHY;
+/**
+ * Get the full category hierarchy
+ * @returns {Object} The complete CATEGORY_HIERARCHY object
+ */
+function getCategoryHierarchy() {
+    return CATEGORY_HIERARCHY;
 }
 
 /**

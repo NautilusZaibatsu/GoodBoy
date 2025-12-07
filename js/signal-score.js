@@ -3,7 +3,7 @@
  *
  * Calculates signal strength score (0-100) based on three weighted components:
  * - Match Density (25%): Percentage of words that are problematic
- * - Match Type Weight (37.5%): Harmful terms weighted higher than dog whistles
+ * - Match Type Weight (37.5%): Harmful terms weighted higher than coded terms
  * - Category Diversity (37.5%): Clustering in fewer main categories = more problematic
  *
  * Dependencies:
@@ -80,7 +80,7 @@ const SignalScore = {
                     matchCount: 0,
                     wordCount: 0,
                     harmfulCount: 0,
-                    dogWhistleCount: 0,
+                    codedTermCount: 0,
                     uniqueCategories: 0,
                     mainCategories: []
                 }
@@ -97,7 +97,7 @@ const SignalScore = {
 
         // Get match type counts for breakdown
         const harmfulCount = matches.filter(m => m.type === 'harmfulTerm').length;
-        const dogWhistleCount = matches.filter(m => m.type === 'dogwhistle').length;
+        const codedTermCount = matches.filter(m => m.type === 'CodedTerm').length;
 
         return {
             total: Math.min(totalScore, 100), // Cap at 100
@@ -112,7 +112,7 @@ const SignalScore = {
                 flaggedWordCount: densityResult.flaggedWordCount,
                 wordCount: wordCount,
                 harmfulCount: harmfulCount,
-                dogWhistleCount: dogWhistleCount,
+                codedTermCount: codedTermCount,
                 uniqueCategories: categoryResult.count,
                 mainCategories: categoryResult.categories
             }
@@ -168,7 +168,7 @@ const SignalScore = {
                 <div class="tooltip-item-label">Match Type Weight (${breakdown.typePercent}%)</div>
                 <div class="tooltip-item-value">${breakdown.typeWeight} points</div>
                 <div class="tooltip-item-value" style="font-size: 0.9em; opacity: 0.8;">
-                    ${breakdown.harmfulCount} harmful, ${breakdown.dogWhistleCount} dog whistles
+                    ${breakdown.harmfulCount} harmful, ${breakdown.codedTermCount} coded terms
                 </div>
             </div>
             <div class="tooltip-item">
@@ -221,12 +221,12 @@ const SignalScore = {
     _calculateTypeWeight: function (matches) {
         // Count match types
         const harmfulCount = matches.filter(m => m.type === 'harmfulTerm').length;
-        const dogWhistleCount = matches.filter(m => m.type === 'dogwhistle').length;
+        const codedTermCount = matches.filter(m => m.type === 'CodedTerm').length;
 
         // Calculate weighted average
         const weightedMatches =
             (harmfulCount * this.config.typeMultipliers.HARMFUL_TERM) +
-            (dogWhistleCount * this.config.typeMultipliers.DOG_WHISTLE);
+            (codedTermCount * this.config.typeMultipliers.DOG_WHISTLE);
 
         const avgWeight = weightedMatches / matches.length;
         const normalizedWeight = avgWeight / 2;

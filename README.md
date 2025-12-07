@@ -13,40 +13,47 @@ Support this project: https://ko-fi.com/nautiluszaibatsu
 3. Click "Analyze"
 4. Hover over highlighted or underlined terms to see their meanings
 
-That's it! No installation, no server, no dependencies, no LLMs
+That's it! No installation, no cookies, no server, no dependencies, no LLMs
 
 ## Project Structure
 
 ```
 goodboy/
-├── index.html                   # Main application
-├── js/                          # JavaScript utilities (required)
-│   ├── obfuscation-utils.js     # Shared obfuscation detection logic
-│   ├── theme-config.js          # Theme configuration (design system)
-│   └── category-config.js       # Category hierarchy (single source of truth)
-├── data/                        # Databases
-│   ├── dogwhistle_data.js       # Dog whistle database
-│   ├── harmful_term_data.js   # Harmful term database
-│   ├── place_demonym_lookup.js  # Place/demonym lookup for pattern matching
-│   └── source_data.js           # Source database  
-└── README.md                    # This file
+├── index.html                        # Main application
+├── js/                               # JavaScript utilities
+│   ├── obfuscation-utils.js          # Text obfuscation detection logic
+│   ├── number-obfuscation-utils.js   # Number obfuscation detection logic
+│   ├── theme-config.js               # Webapp theme configuration 
+│   ├── matchers.js                   # Pattern/term matchers
+│   ├── signal-score.js               # Signal score calculations
+│   └── category-config.js            # Category hierarchy
+├── data/                             # Databases
+│   ├── coded_term_data.js            # Coded term database
+│   ├── harmful_term_data.js          # Harmful term database
+│   ├── place_demonym_lookup.js       # Place/demonym lookup for pattern matching
+│   ├── religionym_lookup.js          # Religionym lookup for pattern matching
+│   └── source_data.js                # Source database  
+└── README.md                         # This file
 ```
 
 ## Datasets
 
-**Dog Whistle Database**:
-- Curated list of coded language and dog whistles
+**Coded Term Database**:
+- Curated list of coded language
 
 **Harmful Term Database** 
 - Curated list of harmful and hateful language
 
-**Place-Demonym Lookup** (custom curated):
+**Place-Demonym Lookup**:
 - Curated list of places and demonyms
+
+**Religionym Lookup**:
+- Curated list of religionyms
 
 ## Features Implemented
 
 ✅ **Dual Detection System**
-- Dog whistles (coded language) - background color highlights
+- Coded language - background color highlights
 - Harmful terms (explicit language) - colored underlines
 - Clear visual distinction between the two types
 
@@ -57,7 +64,7 @@ goodboy/
 - Root term matching with variation support
 
 ✅ **Populist Language Detection**
-- Template-based pattern matching for place-based dog whistles
+- Template-based pattern matching for place-based coded language
 - Automatically generates demonyms (America → American, Americans)
 - Detects global variations of nationalist expressions
 - Examples detected:
@@ -98,41 +105,37 @@ goodboy/
 ## Technical Details
 
 ### Pattern Matching Architecture
-- **Triple Matcher System**: Separate classes for dog whistles, harmful terms, and pattern-based detection
-  - `DogWhistleMatcher`: Coded language from Silent Signals dataset
+- **Triple Matcher System**: Separate classes for coded terms, harmful terms, and pattern-based detection
+  - `codedTermMatcher`: Coded language from Silent Signals dataset
   - `HarmfulTermMatcher`: Explicit hateful language from curated database
   - `PatternMatcher`: Template-based detection for populist variations
 - **Shared Obfuscation Utils**: DRY principle with single source of truth
 - **Category Hierarchy System**: Centralized category configuration
-  - Single source of truth for all categories in `/js/category-config.js`
-  - 8 main categories with 24 subcategories (expandable)
+  - 8 main categories with numerous subcategories
   - Hierarchical structure: main categories (for highlight colors) and subcategories (for detailed classification)
-  - Shared between webapp and internal tooling
-  - Helper functions for category lookups and management
-- **MorphologyUtils**: Generates demonyms from place names for pattern matching
-- Case-insensitive flexible regex patterns
-- Lookahead/lookbehind for accurate boundary detection
-- Groups variations under root terms (e.g., "SJW", "SJWs" → "social justice warrior")
-- Template extraction and cross-reference matching for place-based patterns
 
 ### Obfuscation Detection
 Prevents evasion through multiple techniques:
 - **Character Substitution (Leet Speak)**: Detects "$oyboy", "f@g", "cukk", "s0yboy" with comprehensive character mappings
 - **Accented Characters**: Catches "søyboy", "sōyboy", "cūck", unicode variants
 - **Whitespace Variations**: Matches "soyboy", "soy-boy", "soy_boy", "soy boy", "#soyboy"
-- **Ampersand Handling**: "law and order" matches both "law and order" and "law & order"
 - **Punctuation Normalization**: Removes redundant variations while preserving meaning
 - **Plural Forms**: Automatically adds optional 's' to all patterns
 - **Unicode Normalization**: Uses NFC normalization to ensure consistent character encoding
 
+### Text Substitution
+Creates matches without requiring an enormous database
+- **Word Substitution**: Slang, eye dialect, meme speech, ordinal numbers, contractions and UK spellings
+- **Suffix Substitution**: Bidirectional UK and US suffix handling
+
 ### Signal Scoring Algorithm
 Calculates 0-100% score based on three factors:
-- **Match Density (70%)**: Percentage of words that are problematic
-- **Match Type Weight (20%)**: Harmful terms weighted 1.5x, dog whistles 1.0x
-- **Category Diversity (10%)**: Diversity of problematic categories
+- **Match Density**: Percentage of words that are problematic
+- **Match Type Weight**: Harmful an coded terms are weighted
+- **Category Diversity**: Diversity of problematic categories
 
 ### Performance
-- Databases: < 350KB (compresses well with gzip)
+- Databases: ~ 400KB (compresses well with gzip)
 - Load time: Instant on modern browsers
 - Analysis time: Near-instant for typical text lengths
 - Memory usage: Minimal (~2-3 MB)
