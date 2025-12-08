@@ -51,22 +51,24 @@ const ObfuscationUtils = {
 
     // UK/US suffix mappings (bidirectional - both forms valid)
     // Used to generate pattern alternatives for words with UK/US spelling variants
-    // Example: "socialization" will also match "socialisation"
-    US_TO_UK_SUFFIXES: {
-        'ize': 'ise',
-        'ization': 'isation',
-        'izing': 'ising',
-        'ized': 'ised',
-        'yze': 'yse',
-        'yzing': 'ysing',
-        'yzed': 'ysed',
-        'yzes': 'yses'
+    // Example: "socialisation" will also match "socialization"
+    UK_TO_US_SUFFIXES: {
+        'ise': 'ize',
+        'isation': 'ization',
+        'ising': 'izing',
+        'ised': 'ized',
+        'yse': 'yze',
+        'ysing': 'yzing',
+        'ysed': 'yzed',
+        'yses': 'yzes',
+        'iser' : 'izer'
     },
 
     // Simple word substitutions (bidirectional - both forms valid)
     BIDIRECTIONAL_SUBSTITUTIONS: {
         '&': 'and',
         '=': 'is',
+        '≠' : 'is not',
         'an': 'a',
         'u': 'you',
         'r': 'are',
@@ -269,14 +271,14 @@ const ObfuscationUtils = {
     },
 
     /**
-     * Apply UK to US suffix transformations using US_TO_UK_SUFFIXES constant (DRY)
+     * Apply UK to US suffix transformations using UK_TO_US_SUFFIXES constant (DRY)
      */
     applySuffixes(text) {
-        // Iterate through all suffix pairs in US_TO_UK_SUFFIXES (single source of truth)
-        for (const [usSuffix, ukSuffix] of Object.entries(this.US_TO_UK_SUFFIXES)) {
+        // Iterate through all suffix pairs in UK_TO_US_SUFFIXES (single source of truth)
+        for (const [ukSuffix, usSuffix] of Object.entries(this.UK_TO_US_SUFFIXES)) {
             // Convert UK form to US form (e.g., "ise" → "ize")
-            const re = new RegExp(`\\b(\\w+)${ukSuffix}\\b`, 'g');
-            text = text.replace(re, `$1${usSuffix}`);
+            const re = new RegExp(`\\b(\\w+)${usSuffix}\\b`, 'g');
+            text = text.replace(re, `$1${ukSuffix}`);
         }
         return text;
     },
@@ -351,7 +353,7 @@ const ObfuscationUtils = {
      *   "socialisation" → ["socialization", "socialisation"]
      */
     getSuffixVariants(word) {
-        for (const [usSuffix, ukSuffix] of Object.entries(this.US_TO_UK_SUFFIXES)) {
+        for (const [usSuffix, ukSuffix] of Object.entries(this.UK_TO_US_SUFFIXES)) {
             // Check if word has US suffix
             if (word.endsWith(usSuffix)) {
                 const stem = word.slice(0, -usSuffix.length);

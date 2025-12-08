@@ -13,9 +13,6 @@ function trimMatchedText(matchedText) {
     const chars = Array.from(matchedText);
     let trimmedCount = chars.length;
 
-    // Debug emoji trimming
-    const isEmoji = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/u.test(matchedText);
-
     // Trim trailing non-alphanumeric characters (spaces, punctuation, etc.)
     // BUT preserve valid plurals and handle newline cases
     while (trimmedCount > 0) {
@@ -160,12 +157,28 @@ function analyzeTextWithVariations(text, variationMap, matchType) {
 
             // Convert position to original text if we're using position map
             let actualStartIndex, actualEndIndex;
+            let matchStart = match.index;
+            let matchEnd = match.index + match[0].length;
+
             if (usePositionMap) {
+                // For single-word letter terms, skip leading/trailing emoji-spaces when mapping positions
+                if (!isMultiWord && isLetterTerm) {
+                    // Trim leading non-letter characters (both real spaces and emoji-spaces)
+                    while (matchStart < matchEnd && !/[a-z]/i.test(textWithEmojiAsSpace[matchStart])) {
+                        matchStart++;
+                    }
+
+                    // Trim trailing non-letter characters (both real spaces and emoji-spaces)
+                    while (matchEnd > matchStart && !/[a-z]/i.test(textWithEmojiAsSpace[matchEnd - 1])) {
+                        matchEnd--;
+                    }
+                }
+
                 // Map from textWithEmojiAsSpace position to originalText position
-                actualStartIndex = positionMap.get(match.index) || 0;
+                actualStartIndex = positionMap.get(matchStart) || 0;
 
                 // Find end position: get the original position of the last character + 1
-                const lastModifiedPos = match.index + match[0].length - 1;
+                const lastModifiedPos = matchEnd - 1;
                 const lastOriginalPos = positionMap.get(lastModifiedPos) || originalText.length - 1;
 
                 // End position is after the last character
@@ -196,8 +209,8 @@ function analyzeTextWithVariations(text, variationMap, matchType) {
                 matchedText = '';
                 let lastNonEmojiPos = actualStartIndex;
 
-                for (let i = 0; i < match[0].length; i++) {
-                    const modPos = match.index + i;
+                // Loop through TRIMMED range (matchStart to matchEnd), not full match[0].length
+                for (let modPos = matchStart; modPos < matchEnd; modPos++) {
                     const origPos = positionMap.get(modPos);
 
                     if (origPos !== undefined) {
@@ -206,7 +219,7 @@ function analyzeTextWithVariations(text, variationMap, matchType) {
                             (codePoint >= 0x2600 && codePoint <= 0x26FF) ||
                             (codePoint >= 0x2700 && codePoint <= 0x27BF);
 
-                        if (isEmojiPos && match[0][i] === ' ') {
+                        if (isEmojiPos && match[0][modPos - match.index] === ' ') {
                             // This is an emoji that's acting as whitespace
                             if (isMultiWord) {
                                 // Multi-word term: replace emoji with space
@@ -239,19 +252,13 @@ function analyzeTextWithVariations(text, variationMap, matchType) {
             }
 
             // Check if match contains emoji (skip if so, to prevent "Campbe🐑llite" matching "Campbellite")
-            // But allow matches adjacent to emojis (like "HH🐑")
             const emojiCheck = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/u;
-
-            // Check if emoji is IN the matched text
             if (emojiCheck.test(matchedText)) {
-                // Match contains emoji, skip it unless the variation itself is an emoji
                 if (!isEmoji) {
                     continue;
                 }
             }
 
-            // For multi-word terms, check if ANY space is actually an emoji
-            // If yes, we need to split the match OR reject it entirely
             if (isMultiWord && usePositionMap && match[0].includes(' ')) {
                 let hasEmojiSpace = false;
                 const spacePositions = [];
@@ -331,30 +338,46 @@ function analyzeTextWithVariations(text, variationMap, matchType) {
                 }
             }
 
-            // For single-word terms, check if the match contains a space that's actually an emoji
-            // If yes, skip it because the emoji breaks the word (e.g., "zo🐑g" should NOT match "zog")
+            // For single-word terms, check if the match contains a space that's actually an emoji IN THE MIDDLE
+            // Emojis at the start/end are OK, but emojis in the middle break the word
+            // (e.g., "zo🐑g" should NOT match "zog", but "zog🐑" or "🐑zog" should match "zog")
             if (!isMultiWord && usePositionMap && match[0].includes(' ')) {
-                // Check each space in the matched text
-                let hasEmojiSpace = false;
-                for (let i = 0; i < match[0].length; i++) {
-                    if (match[0][i] === ' ') {
-                        // Find the corresponding position in original text
-                        const origPos = positionMap.get(match.index + i);
-                        if (origPos !== undefined) {
-                            const codePoint = originalText.codePointAt(origPos);
-                            // Check if it's an emoji
-                            if (codePoint >= 0x1F300 && codePoint <= 0x1F9FF ||
-                                codePoint >= 0x2600 && codePoint <= 0x26FF ||
-                                codePoint >= 0x2700 && codePoint <= 0x27BF) {
-                                hasEmojiSpace = true;
-                                break;
+                // Trim leading and trailing non-letter characters to find the actual term boundaries
+                let trimStart = 0;
+                let trimEnd = 0;
+
+                while (trimStart < match[0].length && !/[a-z]/i.test(match[0][trimStart])) {
+                    trimStart++;
+                }
+                while (trimEnd < match[0].length && !/[a-z]/i.test(match[0][match[0].length - 1 - trimEnd])) {
+                    trimEnd++;
+                }
+
+                // After trimming, check if there are STILL spaces in the trimmed portion
+                // Those would be IN THE MIDDLE of the term
+                const trimmedPortion = match[0].substring(trimStart, match[0].length - trimEnd);
+
+                if (trimmedPortion.includes(' ')) {
+                    // Check if those middle spaces are emojis
+                    let hasMiddleEmojiSpace = false;
+                    for (let i = trimStart; i < match[0].length - trimEnd; i++) {
+                        if (match[0][i] === ' ') {
+                            const origPos = positionMap.get(match.index + i);
+                            if (origPos !== undefined) {
+                                const codePoint = originalText.codePointAt(origPos);
+                                if (codePoint >= 0x1F300 && codePoint <= 0x1F9FF ||
+                                    codePoint >= 0x2600 && codePoint <= 0x26FF ||
+                                    codePoint >= 0x2700 && codePoint <= 0x27BF) {
+                                    hasMiddleEmojiSpace = true;
+                                    break;
+                                }
                             }
                         }
                     }
-                }
 
-                if (hasEmojiSpace) {
-                    continue; // Skip this match
+                    if (hasMiddleEmojiSpace) {
+                        continue; // Skip this match
+                    }
                 }
             }
 
@@ -517,7 +540,19 @@ function analyzeTextWithVariations(text, variationMap, matchType) {
                     }
 
                     if (!hasKnownOverlap) {
-                        if (isEmoji) console.log('Emoji filtered: no known overlap', { extraChars, countBefore, countAfter, hasLetterBefore, hasLetterAfter });
+                        console.log('FILTERING OUT match:', {
+                            variation: variation,
+                            matchedText: matchedText,
+                            isEmoji: isEmoji,
+                            isLetterTerm: isLetterTerm,
+                            extraChars: extraChars,
+                            countBefore: countBefore,
+                            countAfter: countAfter,
+                            hasLetterBefore: hasLetterBefore,
+                            hasLetterAfter: hasLetterAfter,
+                            charBefore: charBefore,
+                            charAfter: charAfter
+                        });
                         continue;
                     }
                 }
@@ -555,31 +590,75 @@ function analyzeTextWithVariations(text, variationMap, matchType) {
 function filterLetterTerms(matches, text) {
     const filteredMatches = [];
 
+    // Build position map from original text to normalized text (emojis as single spaces)
+    const emojiRegex = /^(?:[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}](?:[\u{FE00}-\u{FE0F}\u{1F3FB}-\u{1F3FF}])?(?:\u{200D}[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{FE0F}](?:[\u{FE00}-\u{FE0F}\u{1F3FB}-\u{1F3FF}])?)*)/u;
+    let textForBoundaryCheck = '';
+    const originalToNormalized = new Map(); // Maps original position to normalized position
+
+    let normalizedPos = 0;
+    let originalPos = 0;
+    while (originalPos < text.length) {
+        const remainingText = text.substring(originalPos);
+        const emojiMatch = remainingText.match(emojiRegex);
+
+        if (emojiMatch) {
+            // Emoji found - replace with single space
+            const emojiLength = emojiMatch[0].length;
+            // Map all positions in the emoji to the same normalized position
+            for (let i = 0; i < emojiLength; i++) {
+                originalToNormalized.set(originalPos + i, normalizedPos);
+            }
+            textForBoundaryCheck += ' ';
+            normalizedPos++;
+            originalPos += emojiLength;
+        } else {
+            // Regular character
+            originalToNormalized.set(originalPos, normalizedPos);
+            textForBoundaryCheck += text[originalPos];
+            normalizedPos++;
+            originalPos++;
+        }
+    }
+
     for (const match of matches) {
         if (match.isLetterTerm) {
-            // Find word boundaries
-            let wordStart = match.start;
-            while (wordStart > 0 && /[a-z]/i.test(text[wordStart - 1])) {
+
+            // Map match positions from original text to normalized text
+            const normalizedStart = originalToNormalized.get(match.start);
+            const normalizedEnd = originalToNormalized.get(match.end - 1) + 1; // End is exclusive, so map (end-1) and add 1
+
+            // Find word boundaries in the emoji-normalized text
+            let wordStart = normalizedStart;
+            while (wordStart > 0 && /[a-z]/i.test(textForBoundaryCheck[wordStart - 1])) {
                 wordStart--;
             }
-            let wordEnd = match.end;
-            while (wordEnd < text.length && /[a-z]/i.test(text[wordEnd])) {
+            let wordEnd = normalizedEnd;
+            while (wordEnd < textForBoundaryCheck.length && /[a-z]/i.test(textForBoundaryCheck[wordEnd])) {
                 wordEnd++;
             }
+
+            const word = textForBoundaryCheck.substring(wordStart, wordEnd);
 
             // Check if entire word is covered by letter-term matches
             const wordLength = wordEnd - wordStart;
             const coverage = new Array(wordLength).fill(false);
 
             for (const m of matches) {
-                if (m.isLetterTerm && m.start >= wordStart && m.end <= wordEnd) {
-                    for (let i = m.start; i < m.end; i++) {
-                        coverage[i - wordStart] = true;
+                if (m.isLetterTerm) {
+                    const mNormStart = originalToNormalized.get(m.start);
+                    const mNormEnd = originalToNormalized.get(m.end - 1) + 1;
+
+                    if (mNormStart >= wordStart && mNormEnd <= wordEnd) {
+                        for (let i = mNormStart; i < mNormEnd; i++) {
+                            coverage[i - wordStart] = true;
+                        }
                     }
                 }
             }
 
-            if (coverage.every(c => c)) {
+            const fullyCovered = coverage.every(c => c);
+
+            if (fullyCovered) {
                 // Entire word is covered by database letter terms - allow it
                 filteredMatches.push(match);
             }
@@ -589,7 +668,6 @@ function filterLetterTerms(matches, text) {
             filteredMatches.push(match);
         }
     }
-
     return filteredMatches;
 }
 

@@ -1,4 +1,4 @@
-const VERSION = "0.4.7";
+const VERSION = "0.4.7.1";
 const RELEASE_DATE = "Dec 8th 26";
 const NEWEST_TERM = "Newest coded term: \"" + GOODBOY_DATA.terms[0].root + "\" : " + GOODBOY_DATA.terms[0].definition;
 
