@@ -1,10 +1,9 @@
 const GOODBOY_HARMFUL_TERM_DATA = {
-  version: "1.0.0",
-  generated: "2025-12-07T01:21:37.578Z",
-  uniqueTerms: 606,
-  totalTerms: 1163,
+  generated: "2025-12-08T03:31:25.924Z",
+  uniqueTerms: 610,
+  totalTerms: 1183,
   categoryBreakdown: [
-    { name: "racist", count: 724 },
+    { name: "racist", count: 738 },
     { name: "homophobic", count: 85 },
     { name: "disability", count: 66 },
     { name: "islamophobic", count: 46 },
@@ -13,11 +12,11 @@ const GOODBOY_HARMFUL_TERM_DATA = {
     { name: "sexual-objectification", count: 33 },
     { name: "non-believers", count: 17 },
     { name: "prostitution", count: 16 },
+    { name: "anti-lgbtq", count: 15 },
     { name: "christophobia", count: 15 },
     { name: "ageist", count: 12 },
     { name: "misogynistic", count: 12 },
     { name: "xenophobic", count: 10 },
-    { name: "anti-lgbtq", count: 9 },
     { name: "mental-health", count: 8 },
     { name: "hinduphobic", count: 6 },
     { name: "transphobic", count: 6 },
@@ -45,8 +44,8 @@ const GOODBOY_HARMFUL_TERM_DATA = {
     { name: "white-supremacist", count: 0 }
   ],
   sourceBreakdown: [
-    { name: "wiki", count: 821 },
-    { name: "goodboy", count: 222 },
+    { name: "wiki", count: 827 },
+    { name: "goodboy", count: 236 },
     { name: "citg", count: 65 },
     { name: "wsp", count: 48 },
     { name: "aos", count: 7 },
@@ -55,6 +54,35 @@ const GOODBOY_HARMFUL_TERM_DATA = {
     { name: "swu", count: 0 }
   ],
   terms: [
+    {
+      root: "Mulatto",
+      variations: [
+        "Mulatta",
+        "Mulata",
+        "Mulatto woman",
+        "Mulatto man",
+        "Mulatto people"
+      ],
+      category: "racist",
+      definition: "A person of of mixed Black and white ancestry. Colonial-era slur originating from a term meaning \"mule\". Carries dehumanizing, anti-Black, and racist connotations",
+      source: "goodboy"
+    },
+    {
+      root: "Rheinlandbastard",
+      variations: [
+        "Rhineland bastard"
+      ],
+      category: "racist",
+      definition: "A derogatory term used in Nazi Germany to describe Afro-Germans, born of mixed-race relationships between German women and black African men of the French Army who were stationed in the Rhineland during its occupation by France after World War I",
+      source: "wiki"
+    },
+    {
+      root: "Eskimo",
+      variations: [],
+      category: "racist",
+      definition: "Inuit or Yupik people. This term is outdated and considered offensive",
+      source: "goodboy"
+    },
     {
       root: "Libtard",
       variations: [],
@@ -1520,6 +1548,7 @@ const GOODBOY_HARMFUL_TERM_DATA = {
         "Darkie",
         "Darkey",
         "Monkey",
+        "Gorilla",
         "Moon Cricket",
         "Munt",
         "Dindu",
@@ -2307,9 +2336,13 @@ const GOODBOY_HARMFUL_TERM_DATA = {
     },
     {
       root: "Pickaninny",
-      variations: [],
+      variations: [
+        "Picaninny",
+        "Piccaninny",
+        "Pickininnie"
+      ],
       category: "racist",
-      definition: "An African American or West Indian child",
+      definition: "An African American or West Indian child. From the Portuguese word \"pequenino\" (boy, child, very small, tiny etc)",
       source: "wiki"
     },
     {
@@ -4312,10 +4345,11 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       root: "Bushy",
       variations: [
         "Bushies",
-        "Amadushie"
+        "Amadushie",
+        "Bushman"
       ],
       category: "racist",
-      definition: "A Khoisan person, a reference to their nomadic lifestyle and reliance on the bush for survival",
+      definition: "A Khoisan or San person, a reference to their nomadic lifestyle and reliance on the bush for survival",
       source: "wiki"
     },
     {
@@ -5064,8 +5098,22 @@ const GOODBOY_HARMFUL_TERM_DATA = {
       source: "goodboy"
     },
     {
+      root: "Faaq",
+      variations: [
+        "Faqq",
+        "Phag",
+        "Phagg",
+        "Fagz"
+      ],
+      category: "anti-lgbtq",
+      definition: "Obfuscated spelling of a homophobic slur, used to evade moderation filters while maintaining the same derogatory meaning",
+      source: "goodboy"
+    },
+    {
       root: "Adam and Steve",
-      variations: [],
+      variations: [
+        "Adam and Eve, not Adam and Steve"
+      ],
       category: "anti-lgbtq",
       definition: "A homosexual couple",
       source: "goodboy"

@@ -1,28 +1,27 @@
 const GOODBOY_DATA = {
-  version: "1.0.0",
-  generated: "2025-12-07T01:21:37.571Z",
+  generated: "2025-12-08T03:31:25.916Z",
   datasetSize: 16258,
-  uniqueTerms: 482,
-  totalTerms: 1725,
+  uniqueTerms: 494,
+  totalTerms: 1816,
   categoryBreakdown: [
-    { name: "racist", count: 190 },
+    { name: "racist", count: 200 },
     { name: "white-supremacist", count: 171 },
     { name: "xenophobic", count: 170 },
     { name: "antisemitic", count: 159 },
     { name: "transphobic", count: 147 },
     { name: "alt-right", count: 131 },
-    { name: "anti-liberal", count: 72 },
+    { name: "bad-faith", count: 95 },
+    { name: "anti-liberal", count: 81 },
+    { name: "conspiracy", count: 80 },
     { name: "nationalist", count: 71 },
     { name: "islamophobic", count: 70 },
     { name: "welfare-chauvinism", count: 69 },
-    { name: "bad-faith", count: 66 },
-    { name: "conspiracy", count: 63 },
     { name: "fascist", count: 54 },
+    { name: "emotional-dismissal", count: 53 },
     { name: "pseudoscience", count: 42 },
     { name: "conservative", count: 39 },
     { name: "misogynistic", count: 39 },
     { name: "disability", count: 35 },
-    { name: "emotional-dismissal", count: 27 },
     { name: "anti-lgbtq", count: 20 },
     { name: "misandristic", count: 19 },
     { name: "homophobic", count: 16 },
@@ -46,7 +45,7 @@ const GOODBOY_DATA = {
     { name: "sikhophobic", count: 0 }
   ],
   sourceBreakdown: [
-    { name: "goodboy", count: 1188 },
+    { name: "goodboy", count: 1279 },
     { name: "silent_signals", count: 370 },
     { name: "adl", count: 85 },
     { name: "swu", count: 81 },
@@ -58,6 +57,79 @@ const GOODBOY_DATA = {
 
   terms: [
     {
+      root: "Franklin the Turtle",
+      variations: [
+        "Franklin meme",
+        "Franklin",
+        "Turtle emoji",
+        "🐢"
+      ],
+      category: "alt-right",
+      definition: "An alt-right meme that reimagines the children's cartoon character Franklin the Turtle as a militarized figure to normalize violent state actions, mock humanitarian norms, and intimidate critics",
+      source: "goodboy"
+    },
+    {
+      root: "Pinched fingers emoji",
+      variations: [
+        "🤏",
+        "Pinching hand emoji",
+        "Finger pinching emoji",
+        "Pinched fingers gesture",
+        "Finger pinching gesture",
+        "Pinching hand gesture"
+      ],
+      category: "conspiracy",
+      definition: "An antifeminist conspiracy theory originating in South Korea that claims feminist groups deliberately spread the 🤏 gesture as a hidden symbol to belittle men or imply they have small penises. Used to frame women or feminists as participating in a coordinated misandrist plot",
+      source: "goodboy"
+    },
+    {
+      root: "Birther",
+      variations: [
+        "Birtherism",
+        "Birther movement",
+        "Show us the birth certificate",
+        "Where's the birth certificate?"
+      ],
+      category: "conspiracy",
+      definition: "A conspiracy theory claiming that Barack Obama (or other politicians) were not born in the United States and are therefore illegitimate. Used as a racialized political attack and a broader signal of conspiracist or xenophobic sentiment",
+      source: "goodboy"
+    },
+    {
+      root: "Truther",
+      variations: [
+        "9/11 truther",
+        "Truther movement",
+        "Truth movement"
+      ],
+      category: "conspiracy",
+      definition: "Refers to individuals who believe major events such as 9/11 were orchestrated or concealed by governments or hidden elites. Often signals alignment with broader anti-establishment or anti-government conspiracy thinking",
+      source: "goodboy"
+    },
+    {
+      root: "You people",
+      variations: [
+        "You people are",
+        "People like you",
+        "Your kind",
+        "You lot"
+      ],
+      category: "racist",
+      definition: "A dehumanising or othering phrase used to generalize about a group, usually racialised",
+      source: "goodboy"
+    },
+    {
+      root: "Gang violence",
+      variations: [
+        "Gang crime",
+        "Gang problem",
+        "Gang culture",
+        "Gang member"
+      ],
+      category: "racist",
+      definition: "Used as a racial dog whistle to imply criminality in specific racial or ethnic groups, especially Black or Latino communities",
+      source: "goodboy"
+    },
+    {
       root: "Not all men",
       variations: [
         "NAM",
@@ -65,7 +137,7 @@ const GOODBOY_DATA = {
         "Actually not all men"
       ],
       category: "deflection",
-      description: "A defensive phrase used to derail or minimise discussions of sexism by reframing systemic issues as attacks on men individually",
+      "description": "A defensive phrase used to derail or minimize discussions of sexism by reframing systemic issues as attacks on men individually",
       source: "goodboy"
     },
     {
@@ -93,7 +165,7 @@ const GOODBOY_DATA = {
     {
       root: "XY defect",
       variations: [
-        "The xy defect"
+        "The XY defect"
       ],
       category: "misandristic",
       "description": "A phrase implying that men are genetically inferior or defective due to possessing XY chromosomes",
@@ -117,12 +189,12 @@ const GOODBOY_DATA = {
     {
       root: "AWALT",
       variations: [
+        "All women are like that",
         "All women are gold diggers",
         "All women are liars",
         "All women are the same",
         "All women are crazy",
-        "All women are sluts",
-        "All women are like that"
+        "All women are sluts"
       ],
       category: "misogynistic",
       "description": "A generalization used to make negative essentialist claims about women as a group, often appearing in manosphere or alt-right rhetoric",
@@ -148,7 +220,7 @@ const GOODBOY_DATA = {
         "Antifa leader"
       ],
       category: "conspiracy",
-      definition: "Paints Antifa as a centrally organised political force, used to imply a hidden militant structure despite no evidence of the existence of such an organisation",
+      definition: "Paints Antifa as a centrally organized political force, used to imply a hidden militant structure despite no evidence of the existence of such an organization",
       source: "goodboy"
     },
     {
@@ -156,14 +228,30 @@ const GOODBOY_DATA = {
       variations: [
         "Owning the libs",
         "Owned the libs",
-        "Own the libtards",
-        "Own the liberal snowflakes",
-        "Liberal self own",
+        "Triggering the libs",
+        "Trigger the libs",
+        "Triggering libs",
+        "Triggered the libs",
+        "Libs triggered",
+        "Make the libs triggered",
+        "Libs owned",
+        "Lib tears",
+        "Collecting lib tears",
+        "Harvesting lib tears",
+        "Drinking liberal tears"
+      ],
+      category: "anti-liberal",
+      definition: "A phrase describing political actions or trolling performed solely to upset or humiliate liberals",
+      source: "goodboy"
+    },
+    {
+      root: "Liberal self own",
+      variations: [
         "Typical liberal self own",
         "Self owning liberal"
       ],
       category: "anti-liberal",
-      definition: "A phrase describing political actions or trolling performed solely to upset or humiliate liberals",
+      definition: "A dismissive political catchphrase used to mock liberals by framing them as accidentally embarrassing themselves. Functions as an in-group signaling term in right-wing online spaces, primarily used to deride rather than engage with arguments",
       source: "goodboy"
     },
     {
@@ -204,7 +292,9 @@ const GOODBOY_DATA = {
     },
     {
       root: "False flag",
-      variations: [],
+      variations: [
+        "Inside job"
+      ],
       category: "conspiracy",
       definition: "A claim that an attack, crisis, or disaster was secretly staged to manipulate public opinion",
       source: "goodboy"
@@ -471,7 +561,7 @@ const GOODBOY_DATA = {
         "Birthright territory"
       ],
       category: "nationalist",
-      definition: "Evoked ethnic or cultural claims to land or political legitimacy based on ancestry or histtorical presence, often used to justify exlusion of outsiders or reinforce nationalise ideology",
+      definition: "Evoked ethnic or cultural claims to land or political legitimacy based on ancestry or histtorical presence, often used to justify exlusion of outsiders or reinforce nationalist ideology",
       source: "goodboy"
     },
     {
@@ -897,18 +987,6 @@ const GOODBOY_DATA = {
       source: "goodboy"
     },
     {
-      root: "Franklin the Turtle",
-      variations: [
-        "Franklin meme",
-        "Franklin",
-        "Turtle emoji",
-        "🐢"
-      ],
-      category: "alt-right",
-      definition: "Alt-right self identifier",
-      source: "goodboy"
-    },
-    {
       root: "Thoughts and prayers",
       variations: [
         "Thoughts are with the victims",
@@ -983,10 +1061,70 @@ const GOODBOY_DATA = {
         "You're taking it too seriously",
         "You're taking this too seriously",
         "Why are you taking this so seriously?",
-        "Why are you so emotional?"
+        "Why are you so emotional?",
+        "Why are you so sensitive",
+        "Why are you being so senstive?"
       ],
       category: "emotional-dismissal",
       definition: "A tactic used to dismiss, undermine, or invalidate someone's viewpoint by framing their legitimate emotional response as excessive, irrational, or unwarranted",
+      source: "goodboy"
+    },
+    {
+      root: "Triggered",
+      variations: [
+        "So triggered",
+        "You're triggered",
+        "Triggered much?",
+        "Stay triggered",
+        "Keep coping and staying triggered",
+        "Keep coping, stay triggered",
+        "Triggered lol"
+      ],
+      category: "emotional-dismissal",
+      definition: "Used sarcastically to mock or dismiss someone by portraying their reaction as irrational, oversensitive, or emotionally unstable",
+      source: "goodboy"
+    },
+    {
+      root: "Facts don't care about your feelings",
+      variations: [
+        "Fact doesn't care about your feelings",
+        "Facts don't care about your emotions",
+        "Facts don't care about your opinion",
+        "Feelings aren't facts",
+        "Feelings don't change the facts",
+        "Feelings don't change facts",
+        "Facts not feelings"
+      ],
+      category: "bad-faith",
+      definition: "A rhetorical dismissal framing emotional context as irrelevant or illegitimate, often used to shut down discussion and imply the speaker holds an objective truth while the other party is irrational",
+      source: "goodboy"
+    },
+    {
+      root: "Huffing copium",
+      variations: [
+        "Copium",
+        "On copium",
+        "Huffing that copium",
+        "Copium overdose"
+      ],
+      category: "bad-faith",
+      definition: "A derisive meme-term implying that someone is using a fictional drug \"copium\" to cope with a loss, contradiction, or disconfirming evidence. Used to dismiss or mock rather than engage with their argument. Portmanteau of \"hope\" and \"opium\"",
+      source: "goodboy"
+    },
+    {
+      root: "Victim complex",
+      variations: [
+        "Stop playing the victim",
+        "Playing the victim",
+        "Playing the card",
+        "Victim mentality",
+        "Always the victim",
+        "Acting like a victim",
+        "Persecution complex",
+        "You're not the victim here"
+      ],
+      category: "emotional-dismissal",
+      definition: "Used to invalidate someone's grievance by framing them as imagining harm or exaggerating their struggles",
       source: "goodboy"
     },
     {
@@ -1018,6 +1156,29 @@ const GOODBOY_DATA = {
       ],
       category: "bad-faith",
       definition: "I'm not saying this, I'm just curious",
+      source: "goodboy"
+    },
+    {
+      root: "Not allowed to have an opinion anymore",
+      variations: [
+        "Not allowed to have an opinion",
+        "Not allowed an opinion",
+        "Can't have an opinion",
+        "Can't have opions",
+        "Cancelled for having opinions",
+        "Cancelled for having an opinon",
+        "Cancelled for his opinion",
+        "Cancelled for her opinon",
+        "Cancelled for their opinion",
+        "Killed for having an opinion",
+        "Killed for his opinions",
+        "Killed for her opinon",
+        "Kiledd for their opinion",
+        "Punished for having an opinion",
+        "Attacked for having an opinion"
+      ],
+      category: "bad-faith",
+      definition: "A rhetorical move that exaggerates criticism or disagreement as persecution, censorship, or oppression",
       source: "goodboy"
     },
     {
@@ -1107,6 +1268,20 @@ const GOODBOY_DATA = {
       ],
       category: "misogynistic",
       definition: "A pseudo-medical diagnosis applied to women to pathologize normal emotional responses, used to delegitimize a woman's thoughts, feelings or arguments",
+      source: "goodboy"
+    },
+    {
+      root: "Being hormonal",
+      variations: [
+        "Just hormonal",
+        "Acting hormonal",
+        "Are you hormonal?",
+        "Is she hormonal?",
+        "Is it your hormones?",
+        "Must be your hormones"
+      ],
+      category: "emotional-dismissal",
+      definition: "A gendered dismissal that undermines someone's viewpoint by attributing their emotions or reactions to hormones—most commonly used against women to invalidate legitimate anger, frustration, or disagreement.",
       source: "goodboy"
     },
     {

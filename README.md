@@ -26,7 +26,8 @@ goodboy/
 │   ├── theme-config.js               # Webapp theme configuration 
 │   ├── matchers.js                   # Pattern/term matchers
 │   ├── signal-score.js               # Signal score calculations
-│   └── category-config.js            # Category hierarchy
+│   ├── category-config.js            # Category hierarchy
+│   └── ticker.js                     # Ticker contents
 ├── data/                             # Databases
 │   ├── coded_term_data.js            # Coded term database
 │   ├── harmful_term_data.js          # Harmful term database
@@ -106,7 +107,7 @@ goodboy/
 
 ### Pattern Matching Architecture
 - **Triple Matcher System**: Separate classes for coded terms, harmful terms, and pattern-based detection
-  - `codedTermMatcher`: Coded language from Silent Signals dataset
+  - `CodedTermMatcher`: Coded language from Silent Signals dataset
   - `HarmfulTermMatcher`: Explicit hateful language from curated database
   - `PatternMatcher`: Template-based detection for populist variations
 - **Shared Obfuscation Utils**: DRY principle with single source of truth

@@ -25,6 +25,7 @@ const THEME_CONFIG = {
         input: '#f8f9fa',                // Input fields background
         tooltip: '#2c3e50',              // Tooltip background (dark gray-blue)
         footerOverlay: 'rgba(255, 255, 255, 0.95)', // Footer semi-transparent white overlay
+        ticker: '#282828',
     },
 
     // Text colors
@@ -33,6 +34,7 @@ const THEME_CONFIG = {
         secondary: '#555',               // Labels, lighter text (medium gray)
         muted: '#666',                   // De-emphasized text (light gray)
         white: '#ffffff',                // White text (on dark backgrounds)
+        ticker: '#dd7d34',
     },
 
     // Link colors
@@ -101,7 +103,7 @@ const THEME_CONFIG = {
 
         // Font sizes (em-based for scalability and accessibility)
         sizes: {
-            xxl: '3em',         // 48px (base 16px) - Main headings (h1)
+            xxl: '4em',         // 64px Title
             xl: '2em',          // 32px - Stat values, large numbers
             lg: '1.2em',        // ~19px - Taglines, subheadings
             md: '1em',          // 16px - Base/body text (reference size)
@@ -133,6 +135,7 @@ const THEME_CONFIG = {
         xl: '20px',         // Extra large (section spacing)
         xxl: '30px',        // Very large (major sections, cards)
         xxxl: '40px',       // Largest (top-level spacing)
+        tagline: '-10px',   // Negative margin for tagline
 
         // Border radius scale
         radius: {
@@ -172,12 +175,14 @@ function initializeTheme() {
     root.style.setProperty('--bg-input', THEME_CONFIG.backgrounds.input);
     root.style.setProperty('--bg-tooltip', THEME_CONFIG.backgrounds.tooltip);
     root.style.setProperty('--bg-footer-overlay', THEME_CONFIG.backgrounds.footerOverlay);
+    root.style.setProperty('--bg-ticker', THEME_CONFIG.backgrounds.ticker);
 
     // Text
     root.style.setProperty('--text-primary', THEME_CONFIG.text.primary);
     root.style.setProperty('--text-secondary', THEME_CONFIG.text.secondary);
     root.style.setProperty('--text-muted', THEME_CONFIG.text.muted);
     root.style.setProperty('--text-white', THEME_CONFIG.text.white);
+    root.style.setProperty('--text-ticker', THEME_CONFIG.text.ticker);
 
     // Links
     root.style.setProperty('--link-unvisited', THEME_CONFIG.link.unvisited);
@@ -253,6 +258,7 @@ function initializeTheme() {
     root.style.setProperty('--spacing-xl', THEME_CONFIG.spacing.xl);
     root.style.setProperty('--spacing-xxl', THEME_CONFIG.spacing.xxl);
     root.style.setProperty('--spacing-xxxl', THEME_CONFIG.spacing.xxxl);
+    root.style.setProperty('--spacing-tagline', THEME_CONFIG.spacing.tagline);
 
     // Border radius scale
     root.style.setProperty('--radius-sm', THEME_CONFIG.spacing.radius.sm);

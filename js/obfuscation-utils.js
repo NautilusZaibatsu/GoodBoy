@@ -78,7 +78,8 @@ const ObfuscationUtils = {
         'govt': 'government',
         'lib' : 'liberal',
         'libs' : 'liberals',
-        'vs' : 'v'
+        'vs' : 'v',
+        'ppl' : 'people',
     },
 
     // Contractions (bidirectional - both forms valid)
@@ -103,23 +104,23 @@ const ObfuscationUtils = {
     // Character substitution map for obfuscation detection
     // Only includes visually similar characters and common leet speak
     CHARACTER_SUBSTITUTIONS: {
-        'a': '[aáàâäãăå@4ΑаᴀΔ0^]', // 0 to catch "Khaz0r"
+        'a': '[aáàâäãăå@4ΑаᴀΔ0^]',
         'b': '[b8ß฿]',
         'c': '[cç¢(<{Ссk]',
         'd': '[dđð]',
-        'e': '[eéèêë3€£Ееє0]', // 0 to catch "groom0r"
+        'e': '[eéèêë3€£Ееє0]',
         'f': '[fƒ]',
         'g': '[g69]',
         'h': '[hɦħ#]',
         'i': '[iíìîï1!|¡ɨ]',
         'k': '[kκ]',
-        'l': '[l1|£w]', // w to catch uwu speak
-        'm': '[mᴍrn]',
+        'l': '[l1|£w]',
+        'm': '[mᴍ]',
         'n': '[nñη]',
         'o': '[oóòôöõø0°○●Оо]',
         'p': '[pрР]',
         's': '[s$5§śš]',
-        'r': '[r]', // need to add w to catch uwu speak
+        'r': '[r]', // add w to catch uwu speak
         't': '[t7+†]',
         'u': '[uúùûüū]',
         'v': '[v∨]',
@@ -523,7 +524,8 @@ const ObfuscationUtils = {
             }
 
             // Join parts with flexible whitespace pattern, escaping special regex chars
-            return parts.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join(this.FLEXIBLE_WHITESPACE_OPTIONAL);
+            const pattern = parts.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join(this.FLEXIBLE_WHITESPACE_OPTIONAL);
+            return pattern;
         }
 
         // Normalize the variation

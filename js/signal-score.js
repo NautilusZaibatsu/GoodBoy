@@ -97,7 +97,7 @@ const SignalScore = {
 
         // Get match type counts for breakdown
         const harmfulCount = matches.filter(m => m.type === 'harmfulTerm').length;
-        const codedTermCount = matches.filter(m => m.type === 'CodedTerm').length;
+        const codedTermCount = matches.filter(m => m.type === 'codedTerm').length;
 
         return {
             total: Math.min(totalScore, 100), // Cap at 100
@@ -221,7 +221,7 @@ const SignalScore = {
     _calculateTypeWeight: function (matches) {
         // Count match types
         const harmfulCount = matches.filter(m => m.type === 'harmfulTerm').length;
-        const codedTermCount = matches.filter(m => m.type === 'CodedTerm').length;
+        const codedTermCount = matches.filter(m => m.type === 'codedTerm').length;
 
         // Calculate weighted average
         const weightedMatches =

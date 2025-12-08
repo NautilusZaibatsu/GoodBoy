@@ -50,7 +50,7 @@
         header {
             text-align: center;
             color: var(--text-white);
-            margin-bottom: var(--spacing-xxl);
+            margin-bottom: var(--spacing-sm);
         }
 
         h1 {
@@ -71,6 +71,51 @@
         .tagline {
             font-size: var(--font-size-lg);
             opacity: 0.95;
+            margin-top: var(--spacing-tagline);
+        }
+
+        #ticker-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-ticker);
+            color: var(--text-ticker);
+            font-size: var(--font-size-sm);
+            white-space: nowrap;
+            overflow: hidden;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        #ticker-wrapper {
+            display: inline-flex;
+        }
+
+        #ticker-text,
+        #ticker-text-duplicate {
+            display: inline-block;
+            white-space: nowrap;
+            padding-right: 15px;
+            padding-left: var(--spacing-md);
+        }
+
+        #ticker-text:hover {
+            animation-play-state: paused;
+        }
+
+        /* Keyframes for ticker */
+        /* move by half, then loop */
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
         }
 
         .card {
@@ -529,6 +574,12 @@
 </head>
 
 <body>
+    <div id="ticker-container">
+        <div id="ticker-wrapper">
+            <div id="ticker-text"></div>
+            <div id="ticker-text-duplicate"></div>
+        </div>
+    </div>
     <div class="container">
         <header>
             <div style="display: inline-flex; align-items: flex-start; justify-content: center;">
@@ -695,9 +746,11 @@
     <script src="js/obfuscation-utils.js"></script>
     <script src="js/matchers.js"></script>
 
-
     <!-- Load theme configuration (design system) -->
     <script src="js/theme-config.js"></script>
+
+    <!-- Load the ticker -->
+    <script src="js/ticker.js"></script>
 
     <!-- Load category hierarchy (shared with dev-tools) -->
     <script src="js/category-config.js"></script>
@@ -713,6 +766,9 @@
 
     <!-- Main application logic -->
     <script>
+        // Initialize the ticker
+        initTicker();
+
         // Initialize and render the attributions
         renderAttributions();
         // Initialize the pattern matchers
@@ -938,7 +994,7 @@
                 const kept = variations.filter(variation => {
                     // Skip exact duplicates of root (case-insensitive)
                     if (variation.toLowerCase() === root.toLowerCase()) {
-                        console.log("🧹 Filtered term: "+variation);
+                        console.log("🧹 Filtered term: " + variation);
                         return false;
                     }
 
@@ -950,7 +1006,7 @@
                         // Check if variation is shorter - if so, it might be a meaningful abbreviation
                         // Only filter if they're the same length (just different punctuation)
                         if (variation.length >= root.length) {
-                            console.log("🧹 Filtered term: "+variation);
+                            console.log("🧹 Filtered term: " + variation);
                             return false;
                         }
                         // Variation is shorter - keep it as it's likely a meaningful form
@@ -965,7 +1021,7 @@
                         // BUT: if this variation is shorter than the root, keep it (meaningful abbreviation)
                         // Example: "13" should be kept even though "13%" normalizes to the same thing
                         if (variation.length >= root.length) {
-                            console.log("🧹 Filtered term: "+variation);
+                            console.log("🧹 Filtered term: " + variation);
                             return false;
                         }
                         // Variation is shorter - keep it
@@ -978,13 +1034,13 @@
 
                         // Skip if plural of root
                         if (singularClean === rootClean) {
-                            console.log("🧹 Filtered term: "+variation);
+                            console.log("🧹 Filtered term: " + variation);
                             return false;
                         }
 
                         // Skip if plural of a variation we're keeping
                         if (seenNormalized.has(singularClean)) {
-                            console.log("🧹 Filtered term: "+variation);
+                            console.log("🧹 Filtered term: " + variation);
                             return false;
                         }
                     }
@@ -1189,18 +1245,63 @@
                 const combinedMatches = [];
                 const usedRanges = [];
 
+                // Check if we have deliberated split a match into segments, such as from emoji-split terms so we can deduplicate
+                // e.g., "False" and "Flag" from "False🐑Flag"
                 for (const match of allMatches) {
-                    const hasOverlap = usedRanges.some(range =>
-                        match.start < range.end && match.end > range.start
-                    );
+                    let hasOverlap = false;
+
+                    for (const range of usedRanges) {
+                        if (match.start < range.end && match.end > range.start) {
+                            // Check if this match is in a gap of a displayRanges match
+                            let isInGap = false;
+                            if (range.displayRanges && range.displayRanges.length > 0) {
+                                for (let i = 0; i < range.displayRanges.length - 1; i++) {
+                                    const gapStart = range.displayRanges[i].end;
+                                    const gapEnd = range.displayRanges[i + 1].start;
+                                    if (match.start >= gapStart && match.end <= gapEnd) {
+                                        isInGap = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (!isInGap) {
+                                hasOverlap = true;
+                                break;
+                            }
+                        }
+                    }
+
                     if (!hasOverlap) {
                         combinedMatches.push(match);
-                        usedRanges.push({ start: match.start, end: match.end });
+                        usedRanges.push({
+                            start: match.start,
+                            end: match.end,
+                            displayRanges: match.displayRanges
+                        });
                     }
                 }
 
                 // Sort by position for display
                 combinedMatches.sort((a, b) => a.start - b.start);
+
+                // Deduplicate segments for counting purposes
+                const matchesForCounting = [];
+                const seenParentTerms = new Set();
+
+                for (const match of combinedMatches) {
+                    if (match.isSegment && match.parentTerm) {
+                        // This is a segment of a multi-word term split by emojis
+                        // Only count once per parentTerm
+                        if (!seenParentTerms.has(match.parentTerm)) {
+                            seenParentTerms.add(match.parentTerm);
+                            matchesForCounting.push(match);
+                        }
+                    } else {
+                        // Not a segment, count normally (includes emojis, regular matches)
+                        matchesForCounting.push(match);
+                    }
+                }
 
                 // Count all unique categories
                 const allCategories = new Set([
@@ -1209,10 +1310,15 @@
                     ...patternResults.matches.map(m => m.category)
                 ]);
 
+                // Separate deduplicated counts by type
+                const deduplicatedCodedTerms = matchesForCounting.filter(m => m.type === 'codedTerm');
+                const deduplicatedHarmfulTerms = matchesForCounting.filter(m => m.type === 'harmfulTerm');
+
                 const combinedResults = {
-                    matches: combinedMatches,
-                    codedTermCount: codedTermResults.matches.length + patternResults.matches.length,
-                    harmfulTermCount: harmfulTermResults.matches.length,
+                    matches: combinedMatches,  // All matches for display (includes duplicate segments)
+                    deduplicatedMatches: matchesForCounting,  // Deduplicated matches for counting/stats
+                    codedTermCount: deduplicatedCodedTerms.length,
+                    harmfulTermCount: deduplicatedHarmfulTerms.length,
                     categoryCount: allCategories.size,
                     categories: Array.from(allCategories)
                 };
@@ -1237,14 +1343,10 @@
             const categoryCount = document.getElementById('categoryCount');
             const inputLabel = document.getElementById('inputLabel');
 
-            // Count for coded and harmful terms
-            const codedTermMatches = results.matches.filter(m => m.type === 'codedTerm');
-            const harmfulTermMatches = results.matches.filter(m => m.type === 'harmfulTerm');
-
-            // Update total count
-            const totalCount = results.matches.length;
-            const codedTermCount = codedTermMatches.length;
-            const harmfulTermCount = harmfulTermMatches.length;
+            // Use deduplicated counts from results (already calculated during analysis)
+            const codedTermCount = results.codedTermCount;
+            const harmfulTermCount = results.harmfulTermCount;
+            const totalCount = codedTermCount + harmfulTermCount;
 
             // Update Terms Flagged count
             termCount.textContent = totalCount;
@@ -1275,7 +1377,9 @@
             const subCategoryCounts = {};
             const mainCategoryCounts = {};
 
-            results.matches.forEach(match => {
+            // Use deduplicated matches for counting (not the display matches with duplicate segments)
+            const matchesToCount = results.deduplicatedMatches || results.matches;
+            matchesToCount.forEach(match => {
                 const subcat = match.category.toLowerCase();
                 const mainKey = getMainCategory(subcat);
 
@@ -1320,8 +1424,8 @@
             });
             subCategoryList.innerHTML = subCategoryHtml;
 
-            // Calculate Signal Score
-            const scoreResult = SignalScore.calculate(originalText, results.matches);
+            // Calculate Signal Score using deduplicated matches
+            const scoreResult = SignalScore.calculate(originalText, matchesToCount);
             const signalScore = scoreResult.total;
             document.getElementById('signalScore').textContent = `${signalScore}%`;
 
@@ -1349,7 +1453,7 @@
                     displayHtml += escapeHtml(originalText.substring(lastIndex, match.start));
 
                     // Add highlighted match with tooltip
-                    displayHtml += createHighlightedSpan(match);
+                    displayHtml += createHighlightedSpan(match, originalText);
 
                     lastIndex = match.end;
                 });
@@ -1419,12 +1523,15 @@
             return `<div class="tooltip-item"><div class="tooltip-item-label">${label}:</div><div class="tooltip-item-value tooltip-variations">${escapeHtml(displayVariations.join(' / '))}</div></div>`;
         }
 
-        function createHighlightedSpan(match) {
+        function createHighlightedSpan(match, originalText) {
             const typeClass = match.type || 'codedTerm';
             const categoryClass = getCategoryClass(match.category);
             const categoryColor = getCategoryColor(match.category);
             const formattedCategoryLabel = getFormattedCategoryLabel(match.category);
             const capitalizedDefinition = capitalizeFirst(match.definition);
+
+            // Extract the actual text from original (preserves emojis)
+            const displayText = originalText.substring(match.start, match.end);
 
             if (match.type === 'harmfulTerm') {
                 // Harmful term
@@ -1434,9 +1541,12 @@
                 // Show matched term if obfuscation detected (DRY helper)
                 const matchedTermHtml = getMatchedTermHtml(match.matchedTerm, match.text, 'Term');
 
-                return `<span class="highlight harmfulTerm" style="${underlineStyle}">${escapeHtml(match.text)}<span class="tooltip"><div class="tooltip-category" style="background-color: ${categoryColor}">${escapeHtml(formattedCategoryLabel)}</div>${matchedTermHtml}<div class="tooltip-item"><div class="tooltip-item-label">Definition:</div><div class="tooltip-item-value">${escapeHtml(capitalizedDefinition)}</div></div>${sourceHtml}</span></span>`;
+                // Type indicator
+                const typeHtml = `<div class="tooltip-item"><div class="tooltip-item-label">☣️ Harmful Term</div></div>`;
+
+                return `<span class="highlight harmfulTerm" style="${underlineStyle}">${escapeHtml(displayText)}<span class="tooltip"><div class="tooltip-category" style="background-color: ${categoryColor}">${escapeHtml(formattedCategoryLabel)}</div>${typeHtml}${matchedTermHtml}<div class="tooltip-item"><div class="tooltip-item-label">Definition:</div><div class="tooltip-item-value">${escapeHtml(capitalizedDefinition)}</div></div>${sourceHtml}</span></span>`;
             } else {
-                // coded term
+                // Coded term
                 const sourceHtml = getTooltipSourceHtml(match.source);
 
                 // Determine what to show for the term
@@ -1452,7 +1562,10 @@
                 // Limit variations to 6 random items if needed (DRY helper)
                 const variationsHtml = getVariationsHtml(match.variations);
 
-                return `<span class="highlight ${categoryClass} codedTerm">${escapeHtml(match.text)}<span class="tooltip"><div class="tooltip-category" style="background-color: ${categoryColor}">${escapeHtml(formattedCategoryLabel)}</div>${termHtml}${variationsHtml}<div class="tooltip-item"><div class="tooltip-item-label">Coded term:</div><div class="tooltip-item-value">${escapeHtml(capitalizedDefinition)}</div></div>${sourceHtml}</span></span>`;
+                // Type indicator
+                const typeHtml = `<div class="tooltip-item"><div class="tooltip-item-label">🔣 Coded Term</div></div>`;
+
+                return `<span class="highlight ${categoryClass} codedTerm">${escapeHtml(displayText)}<span class="tooltip"><div class="tooltip-category" style="background-color: ${categoryColor}">${escapeHtml(formattedCategoryLabel)}</div>${typeHtml}${termHtml}${variationsHtml}<div class="tooltip-item"><div class="tooltip-item-label">Coded term:</div><div class="tooltip-item-value">${escapeHtml(capitalizedDefinition)}</div></div>${sourceHtml}</span></span>`;
             }
         }
 
@@ -1673,6 +1786,14 @@
             //     categories: results.categories
             // });
         }
+
+        // Prevent the user from highlighting text outside the text area
+        const selectable = document.getElementById('textInput');
+        document.addEventListener('selectstart', (e) => {
+            if (!selectable.contains(e.target)) {
+                e.preventDefault(); // Prevent selection
+            }
+        });
 
         // Allow Enter key to submit (with Ctrl/Cmd)
         document.getElementById('textInput').addEventListener('keydown', (e) => {

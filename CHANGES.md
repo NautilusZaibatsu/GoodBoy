@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.7] - 2025-12-08
+
+### Added
+- **Webapp** 
+  - New tooltip item for flagged terms that clearly displays whether the term is a "🔣 Coded Term" or "☣️ Harmful Term"
+  - News ticker at the bottom of the page
+- **Detection**
+  -  Smarter emoji detection. Emojis entered into the text box will be flagged when they appear in a whitespace position of a term, but will stop a match from happening if they appear in the middle of a word. Eg False🐑Flag → [False][🐑][Flag], ZO🐑G → ZO[🐑]G
+
+- **Databases** 
+  - ~90 new coded terms 
+  - ~20 new harmful terms
+- **Text Substitution**
+  - Additional coded language specific bidirectional substitutions, eg. ppl → people
+
+### Changed
+- **Detection**
+  - Stacked non-numeric terms are now flagged correctly instead of ignored. eg. ZIOHH matches Zio and HH
+
+### Fixes
+  - Emojis were not being detected properly due to a bug
+  - Pluralization rules were greedily grabbing 's' from following words
+  - Fixed a bug with how coded term weight contributed to signal score
+
+### Known Issues
+- **Database character issues** 
+  - Database entries with an extreme amount of 'unusual' characters such as Аляска are currently not supported as the obfuscation utils pattern match too greedily. All examples have been commented out of the data for now
+
 ## [0.4.6] - 2025-12-06
 
 ### Added
@@ -15,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Alt-right sub-category
 - **Normalization**
   - Ordinal normalization. eg 1st → first
+- **Text Substitution**
   - Coded language specific bidirectional substitutions, eg. govt → government, libs → liberals
 
 ### Changed
@@ -105,11 +134,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
       - "88" matches: "88", "eighty eight", "eighty-eight"
       - "14" matches: "14", "fourteen"
 
-
-### Known Issues
-- **Database character issues** 
-  - Database entries with an extreme amount of 'unusual' characters such as Аляска are currently not supported as the obfuscation utils pattern match too greedily. All examples have been commented out of the data for now
-
 ## [0.3.1] - 2025-12-03
 
 ### Changed
@@ -146,10 +170,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Removed variations and root term as this feature was too open to exploitation. This tool is not supposed to be a slur thesaurus
 - **Contextual button behavior** 
   - All buttons are now visually disabled when unavailable
-
-### Known Issues
-- **Database character issues** 
-  - Database entries with an extreme amount of 'unusual' characters such as Аляска are currently not supported as the obfuscation utils pattern match too greedily. All examples have been commented out of the data for now
 
 ## [0.2.0] - 2025-11-28
 
@@ -200,7 +220,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Category statistics now calculated dynamically from actual matches
   - Reduces file size and eliminates metadata/data inconsistency
 
-### Fixed
+### Fixes
 - Demonym patterns now correctly match all case/hyphen/plural variations
 - Multiple occurrences of same pattern in text now all detected (was only finding first)
 - Plural 's' now properly highlighted in matches (was being excluded)
