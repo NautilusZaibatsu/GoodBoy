@@ -103,7 +103,7 @@ const THEME_CONFIG = {
 
         // Font sizes (em-based for scalability and accessibility)
         sizes: {
-            xxl: '4em',         // 64px Title
+            xxl: '5em',         // 80px Title
             xl: '2em',          // 32px - Stat values, large numbers
             lg: '1.2em',        // ~19px - Taglines, subheadings
             md: '1em',          // 16px - Base/body text (reference size)

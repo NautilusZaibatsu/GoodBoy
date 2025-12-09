@@ -47,7 +47,8 @@ function trimMatchedText(matchedText) {
         }
 
         // Stop trimming when encountering alphanumeric or emoji
-        if (/[a-zA-Z0-9\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/u.test(lastChar)) {
+        // Check alphanumeric first (fast), then check emoji using DRY system
+        if (/[a-zA-Z0-9]/u.test(lastChar) || TextUtils.EMOJI_CONTAINS_REGEX.test(lastChar)) {
             break;
         }
 
@@ -72,9 +73,8 @@ function analyzeTextWithVariations(text, variationMap, matchType) {
 
     // For non-emoji matches, replace emojis with spaces to allow matching across emoji boundaries
     // This allows "False🐑Flag" to match "False Flag"
-    // Build position map to track where characters are in original vs modified text
-    // Updated regex to handle ZWJ sequences: base emoji + optional modifiers + (ZWJ + emoji + modifiers)*
-    const emojiRegex = /^(?:[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}](?:[\u{FE00}-\u{FE0F}\u{1F3FB}-\u{1F3FF}])?(?:\u{200D}[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{FE0F}](?:[\u{FE00}-\u{FE0F}\u{1F3FB}-\u{1F3FF}])?)*)/u;
+    // Use EMOJI_AT_START_REGEX to match complete emoji sequences at the start of substrings
+    const emojiRegex = TextUtils.EMOJI_AT_START_REGEX;
 
     let textWithEmojiAsSpace = '';
     const positionMap = new Map(); // Maps position in textWithEmojiAsSpace -> position in originalText
@@ -116,10 +116,12 @@ function analyzeTextWithVariations(text, variationMap, matchType) {
     const allMatches = [];
 
     variationMap.forEach((termData, variation) => {
-        const flexiblePattern = ObfuscationUtils.createFlexiblePattern(variation);
+        const flexiblePattern = TextUtils.createFlexiblePattern(variation);
         const pluralPattern = flexiblePattern;
 
-        const isEmoji = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/u.test(variation);
+        // Check if variation contains any emoji (simple boolean check)
+        const isEmoji = TextUtils.EMOJI_CONTAINS_REGEX.test(variation);
+
         const isNumericTerm = /^\d+$/.test(variation);
         const isLetterTerm = /^[a-z]+$/i.test(variation);
         const isMultiWord = /\s/.test(variation);
@@ -252,8 +254,8 @@ function analyzeTextWithVariations(text, variationMap, matchType) {
             }
 
             // Check if match contains emoji (skip if so, to prevent "Campbe🐑llite" matching "Campbellite")
-            const emojiCheck = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/u;
-            if (emojiCheck.test(matchedText)) {
+            // Use EMOJI_CONTAINS_REGEX for simple boolean check
+            if (TextUtils.EMOJI_CONTAINS_REGEX.test(matchedText)) {
                 if (!isEmoji) {
                     continue;
                 }
@@ -540,19 +542,6 @@ function analyzeTextWithVariations(text, variationMap, matchType) {
                     }
 
                     if (!hasKnownOverlap) {
-                        console.log('FILTERING OUT match:', {
-                            variation: variation,
-                            matchedText: matchedText,
-                            isEmoji: isEmoji,
-                            isLetterTerm: isLetterTerm,
-                            extraChars: extraChars,
-                            countBefore: countBefore,
-                            countAfter: countAfter,
-                            hasLetterBefore: hasLetterBefore,
-                            hasLetterAfter: hasLetterAfter,
-                            charBefore: charBefore,
-                            charAfter: charAfter
-                        });
                         continue;
                     }
                 }
@@ -589,9 +578,9 @@ function analyzeTextWithVariations(text, variationMap, matchType) {
  */
 function filterLetterTerms(matches, text) {
     const filteredMatches = [];
+    // Use EMOJI_AT_START_REGEX to match complete emoji sequences at the start of substrings
+    const emojiRegex = TextUtils.EMOJI_AT_START_REGEX;
 
-    // Build position map from original text to normalized text (emojis as single spaces)
-    const emojiRegex = /^(?:[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}](?:[\u{FE00}-\u{FE0F}\u{1F3FB}-\u{1F3FF}])?(?:\u{200D}[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{FE0F}](?:[\u{FE00}-\u{FE0F}\u{1F3FB}-\u{1F3FF}])?)*)/u;
     let textForBoundaryCheck = '';
     const originalToNormalized = new Map(); // Maps original position to normalized position
 
@@ -702,7 +691,7 @@ const PatternMatcher = {
                 // Use flexible pattern matching to detect obfuscated place names
                 // e.g., "7éx@$" should match "texas"
                 const variantLower = variant.toLowerCase();
-                const flexiblePattern = ObfuscationUtils.createFlexiblePattern(variantLower);
+                const flexiblePattern = TextUtils.createFlexiblePattern(variantLower);
                 const regex = new RegExp(flexiblePattern, 'gi');
 
                 if (regex.test(lowerText)) {
@@ -719,7 +708,7 @@ const PatternMatcher = {
                         const itemText = item.demonym || item.religionym || item.name; // Generic: works for demonyms, religionyms, etc.
                         if (itemText) {
                             const itemTextLower = itemText.toLowerCase();
-                            const itemFlexiblePattern = ObfuscationUtils.createFlexiblePattern(itemTextLower);
+                            const itemFlexiblePattern = TextUtils.createFlexiblePattern(itemTextLower);
                             const itemRegex = new RegExp(itemFlexiblePattern, 'gi');
 
                             if (itemRegex.test(lowerText)) {
@@ -1033,7 +1022,6 @@ const PatternMatcher = {
 
                 // Get ALL demonyms including hierarchical ones (e.g., Rome → Roman, Italian, European)
                 const allDemonymObjs = PLACE_DEMONYM_LOOKUP.getAllDemonymsWithHierarchy(placeVariant);
-                const allDemonyms = allDemonymObjs.map(d => d.demonym);
                 let expectedTexts = [];
 
                 if (pattern.placeholders.includes('place') && pattern.placeholders.includes('demonym')) {
@@ -1057,7 +1045,7 @@ const PatternMatcher = {
 
                 expectedTexts.forEach(({ text: expectedText, demonym, demonymObj, isGroup }) => {
                     // Case-insensitive flexible matching (includes plural handling)
-                    const patternString = ObfuscationUtils.createFlexiblePattern(expectedText);
+                    const patternString = TextUtils.createFlexiblePattern(expectedText);
                     // No end boundary - rely on improved trimming to remove trailing punctuation
                     const flexiblePattern = new RegExp(`(?:^|(?<![a-z0-9]))${patternString}`, 'gi');
 
@@ -1202,7 +1190,7 @@ const PatternMatcher = {
                 expectedTexts.forEach(({ expectedText, religionymVariant }) => {
 
                     // Create flexible regex pattern (includes plural handling)
-                    const flexPattern = ObfuscationUtils.createFlexiblePattern(expectedText);
+                    const flexPattern = TextUtils.createFlexiblePattern(expectedText);
                     const regex = new RegExp(flexPattern, 'gi');
 
                     let match;
@@ -1299,7 +1287,7 @@ class CodedTermMatcher {
         this.codedTermTerms = codedTermData.terms;
 
         // Build lookup map for coded terms using DRY helper
-        this.variationMap = ObfuscationUtils.buildVariationMap(this.codedTermTerms);
+        this.variationMap = TextUtils.buildVariationMap(this.codedTermTerms);
     }
 
     analyze(text) {
@@ -1324,7 +1312,7 @@ class CodedTermMatcher {
             // Check if this match overlaps with any already-selected match
             let hasBlockingOverlap = false;
             for (const range of usedRanges) {
-                if (ObfuscationUtils.overlaps(match, range)) {
+                if (TextUtils.overlaps(match, range)) {
                     // Allow overlap if BOTH terms are same type (numeric-numeric OR letter-letter)
                     const rangeIsNumeric = range.isNumeric;
                     const rangeIsLetterTerm = range.isLetterTerm || false;
@@ -1372,7 +1360,7 @@ class HarmfulTermMatcher {
         this.harmfulTermTerms = harmfulTermData.terms;
 
         // Build lookup map for harmful terms using DRY helper
-        this.variationMap = ObfuscationUtils.buildVariationMap(this.harmfulTermTerms);
+        this.variationMap = TextUtils.buildVariationMap(this.harmfulTermTerms);
     }
 
     analyze(text) {
@@ -1396,7 +1384,7 @@ class HarmfulTermMatcher {
             // Check if this match overlaps with any already-selected match
             let hasBlockingOverlap = false;
             for (const range of usedRanges) {
-                if (ObfuscationUtils.overlaps(match, range)) {
+                if (TextUtils.overlaps(match, range)) {
                     // Allow overlap if BOTH terms are same type (numeric-numeric OR letter-letter)
                     const rangeIsNumeric = range.isNumeric;
                     const rangeIsLetterTerm = range.isLetterTerm || false;

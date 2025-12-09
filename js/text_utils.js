@@ -1,10 +1,10 @@
 /**
- * GoodBoy ObfuscationUtils
+ * GoodBoy TextUtils
  * Shared obfuscation detection utilities
  * Single source of truth for pattern matching logic
  */
 
-const ObfuscationUtils = {
+const TextUtils = {
     // Flexible whitespace pattern - matches any non-alphanumeric characters INCLUDING underscores
     // Used consistently across all pattern matching (DRY principle)
     // * = zero or more (for character-level obfuscation: "blo/od", "bl.oo.d")
@@ -17,10 +17,135 @@ const ObfuscationUtils = {
 
     _reverseMapCache: null,  // Cached reverse mapping for bidirectional normalizations
 
-    // ===== BIDIRECTIONAL NORMALIZATIONS (pattern must match BOTH forms) =====
+    // ===== SYMBOL WHITELIST =====
+
+    SYMBOL_WHITELIST: ['-', "'", '"', '`', '=', '≠'],
+
+    // ===== EMOJI RANGE/REGEX =====
+
+    EMOJI_RANGES: [
+        '\\u{1F300}-\\u{1F5FF}',
+        '\\u{1F600}-\\u{1F64F}',
+        '\\u{1F680}-\\u{1F6FF}',
+        '\\u{1F700}-\\u{1F77F}',
+        '\\u{1F780}-\\u{1F7FF}',
+        '\\u{1F800}-\\u{1F8FF}',
+        '\\u{1F900}-\\u{1F9FF}',
+        '\\u{1FA00}-\\u{1FA6F}',
+        '\\u{1FA70}-\\u{1FAFF}',
+        '\\u{2600}-\\u{26FF}',
+        '\\u{2700}-\\u{27BF}'
+    ],
+
+    // Modifiers (variation selectors + skin tones)
+    EMOJI_MODIFIER_RANGES: [
+        '\\u{FE00}-\\u{FE0F}',
+        '\\u{1F3FB}-\\u{1F3FF}'
+    ],
+
+    // Zero-width joiner
+    EMOJI_ZWJ: '\\u{200D}',
+
+    // ===== EMOJI REGEX OBJECTS (Four purpose-specific regexes) =====
+
+    // 1. Simple contains-check: Does text contain ANY emoji?
+    EMOJI_CONTAINS_REGEX: null,     // Pattern: [ranges], flags: 'u'
+
+    // 2. Start-of-substring matching: Match complete emoji sequence at start
+    EMOJI_AT_START_REGEX: null,     // Pattern: ^(?:base(?:mod)?(?:zwj...)*), flags: 'u' (NOT global)
+
+    // 3. Iterate all emojis: Find ALL emoji sequences in text
+    EMOJI_MATCHALL_REGEX: null,     // Pattern: (?:base(?:mod)?(?:zwj...)*), flags: 'gu'
+
+    // 4. Single-char check: Is this single character an emoji base?
+    EMOJI_BASE_REGEX: null,         // Pattern: ^[ranges]$, flags: 'u'
+
+    /**
+     * Initialize all emoji regex objects (called once on load)
+     * Creates four purpose-specific regex patterns for different use cases
+     */
+    initEmojiRegex() {
+        // For character class (ranges must be inside [...])
+        const BASE_CLASS = `[${this.EMOJI_RANGES.join('')}]`;  // Join without separator for character class
+        const MOD = `(?:${this.EMOJI_MODIFIER_RANGES.join('|')})`;  // Modifiers can use alternation
+        const ZWJ = this.EMOJI_ZWJ;
+
+        // Full emoji sequence pattern (base + optional modifiers + optional ZWJ sequences)
+        const SEQUENCE = `${BASE_CLASS}(?:${MOD})?(?:${ZWJ}${BASE_CLASS}(?:${MOD})?)*`;
+
+        // 1. Simple contains-check (character class only, no anchors, no global)
+        this.EMOJI_CONTAINS_REGEX = new RegExp(BASE_CLASS, 'u');
+
+        // 2. Match emoji at start of substring (anchored, NOT global)
+        this.EMOJI_AT_START_REGEX = new RegExp(`^${SEQUENCE}`, 'u');
+
+        // 3. Iterate all emojis in text (NOT anchored, global for iteration)
+        this.EMOJI_MATCHALL_REGEX = new RegExp(SEQUENCE, 'gu');
+
+        // 4. Single-character emoji base check (anchored both ends, NOT global)
+        this.EMOJI_BASE_REGEX = new RegExp(`^${BASE_CLASS}$`, 'u');
+    },
+
+    // Single-character check (used in your "stop trimming" loop)
+    isEmojiChar(ch) {
+        if (!ch) return false;
+        return this.EMOJI_BASE_REGEX.test(ch);
+    },
+
+    // ===== BIDIRECTIONAL WORD NORMALIZATIONS (pattern must match BOTH forms) =====
+
+    // Simple word substitutions (bidirectional - both forms valid)
+    SHORTHAND: {
+        '&': 'and',
+        'is': '=', // in SYMBOL_WHITELIST
+        'means': '=',
+        'is not': '≠', // in SYMBOL_WHITELIST
+        'doesn\'t mean': '≠',
+        'an': 'a',
+        'u': 'you',
+        'r': 'are',
+        '4': 'for',
+        '2': 'to',
+        'ok': 'okay',
+        // coded language specific
+        'gov': 'government',
+        'govt': 'government',
+        'lib': 'liberal',
+        'libs': 'liberals',
+        'vs': 'v',
+        'ppl': 'people',
+    },
+
+    // Contractions (bidirectional - both forms valid)
+    CONTRACTIONS: {
+        "isn't": 'is not',
+        "aren't": 'are not',
+        "can't": 'cannot',
+        "won't": 'will not',
+        "i'm": 'i am',
+        "they're": 'they are',
+        "we're": 'we are',
+        "it's": 'it is',
+        "i've": 'i have',
+        "they've": 'they have',
+        "doesn't": 'does not',
+        "didn't": 'did not',
+        "shouldn't": 'should not',
+        "wouldn't": 'would not',
+        "couldn't": 'could not'
+    },
+
+    // Ordinal numbers (bidirectional - both forms valid)
+    ORDINAL_NUMBERS: {
+        '1st': 'first',
+        '2nd': 'second',
+        '3rd': 'third',
+        '4th': 'fourth',
+        '5th': 'fifth'
+    },
 
     // UK → US spelling mappings
-    UK_TO_US_WORDS: {
+    UK_TO_US: {
         'colour': 'color',
         'flavour': 'flavor',
         'honour': 'honor',
@@ -50,8 +175,6 @@ const ObfuscationUtils = {
     },
 
     // UK/US suffix mappings (bidirectional - both forms valid)
-    // Used to generate pattern alternatives for words with UK/US spelling variants
-    // Example: "socialisation" will also match "socialization"
     UK_TO_US_SUFFIXES: {
         'ise': 'ize',
         'isation': 'ization',
@@ -61,103 +184,13 @@ const ObfuscationUtils = {
         'ysing': 'yzing',
         'ysed': 'yzed',
         'yses': 'yzes',
-        'iser' : 'izer'
+        'iser': 'izer'
     },
 
-    // Simple word substitutions (bidirectional - both forms valid)
-    BIDIRECTIONAL_SUBSTITUTIONS: {
-        '&': 'and',
-        '=': 'is',
-        '≠' : 'is not',
-        'an': 'a',
-        'u': 'you',
-        'r': 'are',
-        '4': 'for',
-        '2': 'to',
-        'ok': 'okay',
-        // coded language specific
-        'gov': 'government',
-        'govt': 'government',
-        'lib' : 'liberal',
-        'libs' : 'liberals',
-        'vs' : 'v',
-        'ppl' : 'people',
-    },
-
-    // Contractions (bidirectional - both forms valid)
-    CONTRACTIONS: {
-        "isn't": 'is not',
-        "aren't": 'are not',
-        "can't": 'cannot',
-        "won't": 'will not',
-        "i'm": 'i am',
-        "they're": 'they are',
-        "we're": 'we are',
-        "it's": 'it is',
-        "i've": 'i have',
-        "they've": 'they have',
-        "doesn't": 'does not',
-        "didn't": 'did not',
-        "shouldn't": 'should not',
-        "wouldn't": 'would not',
-        "couldn't": 'could not'
-    },
-
-    // Character substitution map for obfuscation detection
-    // Only includes visually similar characters and common leet speak
-    CHARACTER_SUBSTITUTIONS: {
-        'a': '[aáàâäãăå@4ΑаᴀΔ0^]',
-        'b': '[b8ß฿]',
-        'c': '[cç¢(<{Ссk]',
-        'd': '[dđð]',
-        'e': '[eéèêë3€£Ееє0]',
-        'f': '[fƒ]',
-        'g': '[g69]',
-        'h': '[hɦħ#]',
-        'i': '[iíìîï1!|¡ɨ]',
-        'k': '[kκ]',
-        'l': '[l1|£w]',
-        'm': '[mᴍ]',
-        'n': '[nñη]',
-        'o': '[oóòôöõø0°○●Оо]',
-        'p': '[pрР]',
-        's': '[s$5§śš]',
-        'r': '[r]', // add w to catch uwu speak
-        't': '[t7+†]',
-        'u': '[uúùûüū]',
-        'v': '[v∨]',
-        'w': '[w]',
-        'x': '[x×х]',
-        'y': '[yýÿҮу]',
-        'z': '[z2žż]'
-    },
-
-    /**
-     * Get the character substitution class for a character
-     * Handles both direct lookups (e.g., 'a') and reverse lookups (e.g., 'å' → finds 'a' class)
-     */
-    getCharSubstitution(char) {
-        const lower = char.toLowerCase();
-
-        // Direct lookup
-        if (this.CHARACTER_SUBSTITUTIONS[lower]) {
-            return this.CHARACTER_SUBSTITUTIONS[lower];
-        }
-
-        // Reverse lookup: find which base character this variant belongs to
-        for (const [baseChar, charClass] of Object.entries(this.CHARACTER_SUBSTITUTIONS)) {
-            // Remove the brackets and check if our char is in the class
-            const charsInClass = charClass.slice(1, -1); // Remove [ and ]
-            if (charsInClass.includes(lower)) {
-                return charClass;
-            }
-        }
-
-        return null;
-    },
+    // ===== ONE WAY WORD NORMALIZATIONS substitute for textinput only =====
 
     // Slang normalizations (one-way: non-standard → standard)
-    SLANG_NORMALIZATIONS: {
+    SLANG: {
         'wus': 'was',
         'wuz': 'was',
         'woz': 'was',
@@ -175,7 +208,7 @@ const ObfuscationUtils = {
     },
 
     // Meme speak normalizations (one-way: meme → standard)
-    MEME_NORMALIZATIONS: {
+    MEMESPEAK: {
         'ze': 'the',
         'le': 'the',
         'teh': 'the',
@@ -201,22 +234,13 @@ const ObfuscationUtils = {
         'gr8': 'great'
     },
 
-    // Ordinal numbers - (one-way: numeric → standard)
-    ORDINAL_NUMBERS: {
-        "1st": "first",
-        "2nd": "second",
-        "3rd": "third",
-        "4th": "fourth",
-        "5th": "fifth"
-    },
-
     // ===== HELPER FUNCTIONS FOR NORMALIZATION =====
 
     /**
-     * Apply bidirectional substitutions using BIDIRECTIONAL_SUBSTITUTIONS constant
+     * Apply bidirectional substitutions using SHORTHAND constant
      */
-    applyBidirectionalSubs(text) {
-        for (const [from, to] of Object.entries(this.BIDIRECTIONAL_SUBSTITUTIONS)) {
+    applyBidirectionalSubs(text, substitutions) {
+        for (const [from, to] of Object.entries(substitutions)) {
             const escapedFrom = from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const re = /^\w+$/.test(from)
                 ? new RegExp(`\\b${escapedFrom}\\b`, 'g')
@@ -226,45 +250,10 @@ const ObfuscationUtils = {
         return text;
     },
 
-    /**
-     * Apply slang normalizations using SLANG_NORMALIZATIONS constant
-     */
-    applySlangNormalizations(text) {
-        for (const [from, to] of Object.entries(this.SLANG_NORMALIZATIONS)) {
+    // Apply one-way word substitutions
+    applyOneWaySubs(text, substitutions) {
+        for (const [from, to] of Object.entries(substitutions)) {
             const re = new RegExp(`\\b${from}\\b`, 'g');
-            text = text.replace(re, to);
-        }
-        return text;
-    },
-
-    /**
-     * Apply meme speak normalizations using MEME_NORMALIZATIONS constant
-     */
-    applyMemeNormalizations(text) {
-        for (const [from, to] of Object.entries(this.MEME_NORMALIZATIONS)) {
-            const re = new RegExp(`\\b${from}\\b`, 'g');
-            text = text.replace(re, to);
-        }
-        return text;
-    },
-
-    /**
-    * Apply ordinal number normalizations using ORDINAL_NUMBERS constant
-    */
-    applyOrdinalNormalizations(text) {
-        for (const [from, to] of Object.entries(this.ORDINAL_NUMBERS)) {
-            const re = new RegExp(`\\b${from}\\b`, 'g');
-            text = text.replace(re, to);
-        }
-        return text;
-    },
-
-    /**
-     * Apply contractions using CONTRACTIONS constant
-     */
-    applyContractions(text) {
-        for (const [from, to] of Object.entries(this.CONTRACTIONS)) {
-            const re = new RegExp(`\\b${from}\\b`, 'gi');
             text = text.replace(re, to);
         }
         return text;
@@ -281,69 +270,6 @@ const ObfuscationUtils = {
             text = text.replace(re, `$1${ukSuffix}`);
         }
         return text;
-    },
-
-    /**
-     * Apply UK to US word replacements using UK_TO_US_WORDS constant
-     */
-    applyUkToUsWords(text) {
-        for (const [uk, us] of Object.entries(this.UK_TO_US_WORDS)) {
-            const re = new RegExp(`\\b${uk.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'g');
-            text = text.replace(re, us);
-        }
-        return text;
-    },
-
-    /**
-     * Clean up punctuation and whitespace
-     */
-    cleanupPunctuation(text) {
-        return text
-            // Keep: word chars, accented letters, whitespace, hyphens, quotes, emojis
-            // Remove: other punctuation only
-            .replace(/[^\w\s\-"'`áàâäãăåçđðéèêëƒɦħíìîïκñηóòôöõøрРśšúùûüū∨×хýÿҮжżΑаᴀΔΕеєɨ\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/giu, '')
-            .replace(/\s+/g, ' ')
-            .trim();
-    },
-
-    /**
-     * Build reverse mapping for bidirectional normalizations (cached)
-     * Maps normalized form → all possible original forms
-     * Returns base reverse map (without suffix variants which are word-specific)
-     */
-    buildReverseMap() {
-        if (this._reverseMapCache) {
-            return this._reverseMapCache;
-        }
-
-        const reverseMap = new Map();
-
-        // Simple substitutions (& → and, an → a)
-        for (const [from, to] of Object.entries(this.BIDIRECTIONAL_SUBSTITUTIONS)) {
-            if (!reverseMap.has(to)) {
-                reverseMap.set(to, [to]);
-            }
-            reverseMap.get(to).push(from);
-        }
-
-        // UK → US words (honour → honor)
-        for (const [uk, us] of Object.entries(this.UK_TO_US_WORDS)) {
-            if (!reverseMap.has(us)) {
-                reverseMap.set(us, [us]);
-            }
-            reverseMap.get(us).push(uk);
-        }
-
-        // Contractions (isn't → is not)
-        for (const [from, to] of Object.entries(this.CONTRACTIONS)) {
-            if (!reverseMap.has(to)) {
-                reverseMap.set(to, [to]);
-            }
-            reverseMap.get(to).push(from);
-        }
-
-        this._reverseMapCache = reverseMap;
-        return reverseMap;
     },
 
     /**
@@ -371,37 +297,199 @@ const ObfuscationUtils = {
     },
 
     /**
-     * Normalize text for comparison by removing/standardizing punctuation and substituting common spelling variations
-     * This allows us to match variations without storing them all in the database
-     *
-     * Handles:
-     * - Unicode normalization to NFC (composed form)
-     * - Hashtags: "#innercity" → "innercity"
-     * - & to and: "black & white" → "black and white"
-     * - All other punctuation removal (except hyphens/spaces which we handle separately)
-     * - Multiple spaces → single space
-     * - Trim whitespace
-     * - Slang / Eye dialect 
-     * - Meme speak
-     */
+    * Normalize text for comparison by removing/standardizing punctuation and substituting common spelling variations
+    * This allows us to match variations without storing them all in the database
+    */
     normalizeText(text) {
         // Initial cleanup
         text = text
             .normalize('NFC')
             .toLowerCase()
             .replace(/^#/, '');
-
-        // Apply all normalizations using helper functions (DRY)
-        text = this.applyBidirectionalSubs(text);
-        text = this.applySlangNormalizations(text);
-        text = this.applyMemeNormalizations(text);
-        text = this.applyOrdinalNormalizations(text);
-        text = this.applyContractions(text);
+        // Apply all substitutions using helper functions
+        text = this.applyBidirectionalSubs(text, this.SHORTHAND); 
+        text = this.applyOneWaySubs(text, this.ORDINAL_NUMBERS);
+        text = this.applyOneWaySubs(text, this.SLANG);
+        text = this.applyOneWaySubs(text, this.MEMESPEAK);
+        text = this.applyOneWaySubs(text, this.CONTRACTIONS);
         text = this.applySuffixes(text);
-        text = this.applyUkToUsWords(text);
-        text = this.cleanupPunctuation(text);
+        text = this.cleanupText(text);
+        return text;
+    },
+
+    reverseMapSubstitutions(map, substitutions) {
+        for (const [from, to] of Object.entries(substitutions)) {
+            if (!map.has(to)) {
+                map.set(to, [to]);
+            }
+            map.get(to).push(from);
+        }
+    },
+
+    /**
+   * Build reverse mapping for substitutions (cached)
+   * Maps normalized form → all possible original forms
+   * Returns base reverse map (without suffix variants which are word-specific)
+   */
+    buildReverseMap() {
+        if (this._reverseMapCache) {
+            return this._reverseMapCache;
+        }
+        const reverseMap = new Map();
+        this.reverseMapSubstitutions(reverseMap, this.SHORTHAND);
+        this.reverseMapSubstitutions(reverseMap, this.ORDINAL_NUMBERS);
+        this.reverseMapSubstitutions(reverseMap, this.UK_TO_US);
+        this.reverseMapSubstitutions(reverseMap, this.CONTRACTIONS);
+        this._reverseMapCache = reverseMap;
+        return reverseMap;
+    },
+
+    /**
+     * Clean up punctuation and whitespace
+     * Keeps:
+     * - word characters (letters, digits, underscore)
+     * - whitespace
+     * - hyphens, quotes, backticks
+     * - symbols in SYMBOL_WHITELIST
+     * - accented letters from CHARACTER_VARIANTS
+     * - emojis in EMOJI_RANGES
+     */
+    cleanupText(text) {
+        // 1. Preserve accented chars and whitelist symbols
+        const accentsEscaped = this.escapeForRegex(Object.values(this.CHARACTER_VARIANTS).join(''));
+        const whitelistEscaped = this.escapeForRegex(this.SYMBOL_WHITELIST.join(''));
+
+        const regex = new RegExp(`[^\\w\\s${whitelistEscaped}${accentsEscaped}]`, 'gu');
+        text = text.replace(regex, '');
+
+        // 2. Preserve emojis (use EMOJI_MATCHALL_REGEX for finding all emoji sequences)
+        const preservedEmojis = [...text.matchAll(this.EMOJI_MATCHALL_REGEX)];
+        text = text.replace(this.EMOJI_MATCHALL_REGEX, '');
+
+        // 3. Reattach preserved emojis
+        text = (text + ' ' + preservedEmojis).trim();
+
+        // 4. Normalize whitespace
+        text = text.replace(/\s+/g, ' ').trim();
 
         return text;
+    },
+
+     // ===== CHARACTER NORMALIZATION =====
+
+    // Character substitution map for accented letter detection
+    CHARACTER_VARIANTS: {
+        'a': 'áàâäãăåΑаᴀ',
+        'c': 'çСс',
+        'd': 'đð',
+        'e': 'éèêëЕеє',
+        'f': 'ƒ',
+        'g': '',
+        'h': 'ɦħ',
+        'i': 'íìîïɨ¡',
+        'k': 'κ',
+        'm': 'ᴍ',
+        'n': 'ñη',
+        'o': 'óòôöõøОо',
+        'p': 'рР',
+        's': 'śš',
+        'u': 'úùûüū',
+        'v': '∨',
+        'x': '×х',
+        'y': 'ýÿҮу',
+        'z': 'žż'
+    },
+
+    // Character substitution map for obfuscation detection
+    CHARACTER_OBFUSCATION: {
+        'a': '@4^0Δ',
+        'b': '8฿ß',
+        'c': '¢(<{k',
+        'e': '3€£0',
+        'g': '69',
+        'h': '#',
+        'i': '1!|',
+        'l': '1|£w',
+        'o': '0°○●',
+        's': '$5§',
+        't': '7+†',
+        'z': '2'
+    },
+
+    SEMANTIC_VARIANTS: {},
+
+    /**
+     * Build a set of all “real” characters to preserve during cleanup
+     */
+    initSemanticVariants() {
+        const variants = this.CHARACTER_VARIANTS;
+        const semanticSet = new Set();
+
+        for (const chars of Object.values(variants)) {
+            for (const ch of [...chars]) {  // spread works with multi-code-unit characters (emoji)
+                semanticSet.add(ch);
+            }
+        }
+
+        // Convert to a string for regex
+        this.SEMANTIC_VARIANTS = Array.from(semanticSet).join('');
+    },
+
+    /** 
+     * Character subsitution map, will init this on load
+    * combines SEMANTIC_VARIANTS and CHARACTER_OBFUSCATION
+    */
+    CHARACTER_SUBSTITUTIONS: {},
+
+    initCharacterSubstitutions() {
+        const variants = this.CHARACTER_VARIANTS || {};
+        const obf = this.CHARACTER_OBFUSCATION || {};
+
+        // Combine with all variant/obfuscation keys
+        const allKeys = new Set([
+            ...Object.keys(variants),
+            ...Object.keys(obf)
+        ]);
+
+        this.CHARACTER_SUBSTITUTIONS = {}; // rebuild
+
+        for (const ch of allKeys) {
+            const v = variants[ch] || '';
+            const o = obf[ch] || '';
+
+            // Always include the base character itself
+            this.CHARACTER_SUBSTITUTIONS[ch] = `[${ch}${v}${o}]`;
+        }
+    },
+
+    /**
+     * Get the character substitution class for a character
+     * Handles both direct lookups (e.g., 'a') and reverse lookups (e.g., 'å' → finds 'a' class)
+     */
+    getCharSubstitution(char) {
+        const lower = char.toLowerCase();
+        // Direct lookup
+        if (this.CHARACTER_SUBSTITUTIONS[lower]) {
+            return this.CHARACTER_SUBSTITUTIONS[lower];
+        }
+
+        // Reverse lookup: find which base character this variant belongs to
+        for (const [baseChar, charClass] of Object.entries(this.CHARACTER_SUBSTITUTIONS)) {
+            // Remove the brackets and check if our char is in the class
+            const charsInClass = charClass.slice(1, -1); // Remove [ and ]
+            if (charsInClass.includes(lower)) {
+                return charClass;
+            }
+        }
+        return null;
+    },
+
+    // Helpers to escape Unicode characters and punctuation
+    escapeForCharacterClass(str) {
+        return [...str].map(c => '\\u{' + c.codePointAt(0).toString(16) + '}').join('');
+    },
+    escapeForRegex(str) {
+        return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     },
 
     /**
@@ -414,14 +502,14 @@ const ObfuscationUtils = {
      * - Hashtags: pattern will work with or without #
      * - & vs "and": "black & white" matches "black and white"
      * - All punctuation: stripped in normalization
-     * - NUMBER OBFUSCATION: "1488" matches "fourteen eighty eight", etc. (requires NumberObfuscationUtils)
+     * - NUMBER OBFUSCATION: "1488" matches "fourteen eighty eight", etc. (requires NumberUtils)
      *
      * This is the SINGLE source of truth for pattern matching.
      */
     createFlexiblePattern(variation) {
-        // Check if NumberObfuscationUtils is available and if term contains numbers
-        if (typeof NumberObfuscationUtils !== 'undefined' && /\d/.test(variation)) {
-            const numbers = NumberObfuscationUtils.extractNumbers(variation);
+        // Check if NumberUtils is available and if term contains numbers
+        if (typeof NumberUtils !== 'undefined' && /\d/.test(variation)) {
+            const numbers = NumberUtils.extractNumbers(variation);
 
             if (numbers.length > 0) {
                 // Build pattern with number alternations
@@ -442,7 +530,7 @@ const ObfuscationUtils = {
                     }
 
                     // Add number pattern (digit OR word forms)
-                    pattern += NumberObfuscationUtils.createNumberPattern(num.value);
+                    pattern += NumberUtils.createNumberPattern(num.value);
 
                     lastIndex = num.end;
                 });
@@ -471,24 +559,26 @@ const ObfuscationUtils = {
                         const concatenatedNum = parseInt(concatenated, 10);
 
                         // Add alternation for concatenated form
-                        const concatenatedPattern = NumberObfuscationUtils.createNumberPattern(concatenatedNum);
+                        const concatenatedPattern = NumberUtils.createNumberPattern(concatenatedNum);
                         pattern = `(?:${pattern}|${concatenatedPattern})`;
 
                     }
                 }
 
                 // Add optional 's' at the end to catch plurals (DRY principle)
-                // But don't match 's' across newlines: use non-newline flexible whitespace before 's'
-                const finalPattern = pattern + `(?:[^a-zA-Z0-9\\n\\r]*s)?`;
+                // But don't match 's' across newlines or when followed by another letter
+                // Negative lookahead (?![a-z]) prevents consuming 's' that's part of next word
+                const finalPattern = pattern + `(?:[^a-zA-Z0-9\\n\\r]*s(?![a-z]))?`;
 
                 return finalPattern;
             }
         }
 
-        // No numbers or NumberObfuscationUtils not available - use original logic
+        // No numbers or NumberUtils not available - use original logic
         // Add optional 's' at the end to catch plurals (DRY principle)
-        // But don't match 's' across newlines: use non-newline flexible whitespace before 's'
-        const finalPattern = this.createFlexiblePatternOriginal(variation) + `(?:[^a-zA-Z0-9\\n\\r]*s)?`;
+        // But don't match 's' across newlines or when followed by another letter
+        // Negative lookahead (?![a-z]) prevents consuming 's' that's part of next word
+        const finalPattern = this.createFlexiblePatternOriginal(variation) + `(?:[^a-zA-Z0-9\\n\\r]*s(?![a-z]))?`;
 
         return finalPattern;
     },
@@ -499,19 +589,15 @@ const ObfuscationUtils = {
      */
     createFlexiblePatternOriginal(variation) {
         // Special handling for emojis - match them literally but allow flexible spacing between them
-        // Emoji regex: matches common emoji ranges
-        const emojiRegex = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/ug;
 
-        if (emojiRegex.test(variation)) {
-            // Reset regex lastIndex after test
-            emojiRegex.lastIndex = 0;
-
-            // Split into emoji and non-emoji parts
+        if (this.EMOJI_CONTAINS_REGEX.test(variation)) {
+            // Split into emoji and non-emoji parts using matchAll
             const parts = [];
             let lastIndex = 0;
-            let match;
 
-            while ((match = emojiRegex.exec(variation)) !== null) {
+            // Use EMOJI_MATCHALL_REGEX to find all emoji sequences
+            // This regex has global flag and no anchors, perfect for iteration
+            for (const match of variation.matchAll(this.EMOJI_MATCHALL_REGEX)) {
                 // Add non-emoji text before this emoji (if any)
                 if (match.index > lastIndex) {
                     parts.push(variation.substring(lastIndex, match.index));
@@ -628,21 +714,6 @@ const ObfuscationUtils = {
         return result.join('');
     },
 
-    /**
-     * Check if a term is just a punctuation/case/hyphenation variant of another
-     * Used to filter redundant variations from the database
-     */
-    isPunctuationVariant(term1, term2) {
-        const norm1 = this.normalizeText(term1);
-        const norm2 = this.normalizeText(term2);
-
-        // Further normalize by removing all hyphens and spaces for comparison
-        const clean1 = norm1.replace(/[\s\-_]/g, '');
-        const clean2 = norm2.replace(/[\s\-_]/g, '');
-
-        return clean1 === clean2;
-    },
-
     // Helper function to check if ranges overlap
     overlaps(range1, range2) {
         return !(range1.end <= range2.start || range1.start >= range2.end);
@@ -670,7 +741,12 @@ const ObfuscationUtils = {
     }
 };
 
+// Build full character substitution, semantic maps and emoji regex
+TextUtils.initCharacterSubstitutions();
+TextUtils.initSemanticVariants();
+TextUtils.initEmojiRegex();
+
 // Export for use in modules
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = ObfuscationUtils;
+    module.exports = TextUtils;
 }

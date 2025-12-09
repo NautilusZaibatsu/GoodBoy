@@ -7,8 +7,8 @@
  * - Category Diversity (37.5%): Clustering in fewer main categories = more problematic
  *
  * Dependencies:
- * - CATEGORY_HIERARCHY (from category-config.js)
- * - getMainCategoryForSub() (from category-config.js)
+ * - CATEGORY_HIERARCHY (from category_config.js)
+ * - getMainCategoryForSub() (from category_config.js)
  *
  * @author GoodBoy Team
  * @version 1.0.0
@@ -22,7 +22,7 @@ const SIGNAL_SCORE_CONFIG = {
     // Weight Distribution (out of 100 total points)
     weights: {
         DENSITY_MAX: 60,        // Match density component
-        TYPE_WEIGHT_MAX: 20,    // Match type component
+        CATEGORY_WEIGHT_MAX: 20,    // Match type component
         CATEGORY_MAX: 20        // Category diversity component
     },
 
@@ -75,7 +75,7 @@ const SignalScore = {
                     typeWeight: 0,
                     categoryScore: 0,
                     densityPercent: this.config.weights.DENSITY_MAX,
-                    typePercent: this.config.weights.TYPE_WEIGHT_MAX,
+                    typePercent: this.config.weights.CATEGORY_WEIGHT_MAX,
                     categoryPercent: this.config.weights.CATEGORY_MAX,
                     matchCount: 0,
                     wordCount: 0,
@@ -106,7 +106,7 @@ const SignalScore = {
                 typeWeight: Math.round(typeWeight),
                 categoryScore: Math.round(categoryResult.score),
                 densityPercent: this.config.weights.DENSITY_MAX,
-                typePercent: this.config.weights.TYPE_WEIGHT_MAX,
+                typePercent: this.config.weights.CATEGORY_WEIGHT_MAX,
                 categoryPercent: this.config.weights.CATEGORY_MAX,
                 matchCount: matches.length,
                 flaggedWordCount: densityResult.flaggedWordCount,
@@ -216,7 +216,7 @@ const SignalScore = {
      * Calculate type weight component
      * @private
      * @param {Array} matches - Array of match objects
-     * @returns {number} Type weight score (0 to TYPE_WEIGHT_MAX)
+     * @returns {number} Type weight score (0 to CATEGORY_WEIGHT_MAX)
      */
     _calculateTypeWeight: function (matches) {
         // Count match types
@@ -230,7 +230,7 @@ const SignalScore = {
 
         const avgWeight = weightedMatches / matches.length;
         const normalizedWeight = avgWeight / 2;
-        return normalizedWeight * this.config.weights.TYPE_WEIGHT_MAX;
+        return normalizedWeight * this.config.weights.CATEGORY_WEIGHT_MAX;
     },
 
     /**
@@ -245,7 +245,9 @@ const SignalScore = {
         const count = mainCategories.size;
         const maxScore = this.config.weights.CATEGORY_MAX;
 
-        let score = (maxScore / this.config.numberOfCategories) * (this.config.numberOfCategories - count);
+        // let score = (maxScore / this.config.numberOfCategories) * (this.config.numberOfCategories - count + 1);
+
+        let score = maxScore * ((this.config.numberOfCategories - count + 1) / this.config.numberOfCategories)
 
         return {
             score: score,
@@ -267,7 +269,7 @@ const SignalScore = {
         matches.forEach(match => {
             const subcategory = match.category.toLowerCase();
 
-            // Use category-config.js function to get main category
+            // Use category_config.js function to get main category
             const mainCategory = getMainCategoryForSub(subcategory);
 
             if (mainCategory) {

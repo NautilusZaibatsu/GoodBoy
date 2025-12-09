@@ -1,8 +1,8 @@
-const GOODBOY_DATA = {
-  generated: "2025-12-08T03:31:25.916Z",
+const CODED_TERM_DATA = {
+  generated: "2025-12-09T00:40:14.635Z",
   datasetSize: 16258,
-  uniqueTerms: 494,
-  totalTerms: 1816,
+  uniqueTerms: 495,
+  totalTerms: 1820,
   categoryBreakdown: [
     { name: "racist", count: 200 },
     { name: "white-supremacist", count: 171 },
@@ -18,9 +18,9 @@ const GOODBOY_DATA = {
     { name: "welfare-chauvinism", count: 69 },
     { name: "fascist", count: 54 },
     { name: "emotional-dismissal", count: 53 },
+    { name: "misogynistic", count: 43 },
     { name: "pseudoscience", count: 42 },
     { name: "conservative", count: 39 },
-    { name: "misogynistic", count: 39 },
     { name: "disability", count: 35 },
     { name: "anti-lgbtq", count: 20 },
     { name: "misandristic", count: 19 },
@@ -45,7 +45,7 @@ const GOODBOY_DATA = {
     { name: "sikhophobic", count: 0 }
   ],
   sourceBreakdown: [
-    { name: "goodboy", count: 1279 },
+    { name: "goodboy", count: 1283 },
     { name: "silent_signals", count: 370 },
     { name: "adl", count: 85 },
     { name: "swu", count: 81 },
@@ -56,6 +56,17 @@ const GOODBOY_DATA = {
   ],
 
   terms: [
+    {
+      root: "Equal rights means equal lefts",
+      variations: [
+        "Equal rights, equal lefts",
+        "Equal lefts",
+        "Equal rights, equal fights"
+      ],
+      category: "misogynistic",
+      definition: "A slogan claiming that \"equal rights\" means women should expect to be hit like men, often used to justify or trivialize violence against women under the guise of gender equality",
+      source: "goodboy"
+    },
     {
       root: "Franklin the Turtle",
       variations: [
@@ -137,7 +148,7 @@ const GOODBOY_DATA = {
         "Actually not all men"
       ],
       category: "deflection",
-      "description": "A defensive phrase used to derail or minimize discussions of sexism by reframing systemic issues as attacks on men individually",
+      definition: "A defensive phrase used to derail or minimize discussions of sexism by reframing systemic issues as attacks on men individually",
       source: "goodboy"
     },
     {
@@ -152,14 +163,14 @@ const GOODBOY_DATA = {
         "Rather the bear"
       ],
       category: "misandristic",
-      "description": "A rhetorical meme suggesting that men are more dangerous than wild animals, implying men as a group are inherently predatory",
+      definition: "A rhetorical meme suggesting that men are more dangerous than wild animals, implying men as a group are inherently predatory",
       source: "goodboy"
     },
     {
       root: "KAM",
       variations: [],
       category: "misandristic",
-      "description": "An acronym for 'Kill All Men', typically used hyperbolically or ironically but still expressing collective hostility toward men",
+      definition: "An acronym for 'Kill All Men', typically used hyperbolically or ironically but still expressing collective hostility toward men",
       source: "goodboy"
     },
     {
@@ -168,7 +179,7 @@ const GOODBOY_DATA = {
         "The XY defect"
       ],
       category: "misandristic",
-      "description": "A phrase implying that men are genetically inferior or defective due to possessing XY chromosomes",
+      definition: "A phrase implying that men are genetically inferior or defective due to possessing XY chromosomes",
       source: "goodboy"
     },
     {
@@ -183,7 +194,7 @@ const GOODBOY_DATA = {
         "All men cheat"
       ],
       category: "misandristic",
-      "description": "A generalization used to make negative essentialist claims about men as a group (e.g., violent, trash, predators)",
+      definition: "A generalization used to make negative essentialist claims about men as a group (e.g., violent, trash, predators)",
       source: "goodboy"
     },
     {
@@ -197,7 +208,7 @@ const GOODBOY_DATA = {
         "All women are sluts"
       ],
       category: "misogynistic",
-      "description": "A generalization used to make negative essentialist claims about women as a group, often appearing in manosphere or alt-right rhetoric",
+      definition: "A generalization used to make negative essentialist claims about women as a group, often appearing in manosphere or alt-right rhetoric",
       source: "goodboy"
     },
     {

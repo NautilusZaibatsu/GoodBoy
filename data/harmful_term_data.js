@@ -1,5 +1,5 @@
-const GOODBOY_HARMFUL_TERM_DATA = {
-  generated: "2025-12-08T03:31:25.924Z",
+const HARMFUL_TERM_DATA= {
+  generated: "2025-12-09T00:40:14.642Z",
   uniqueTerms: 610,
   totalTerms: 1183,
   categoryBreakdown: [

@@ -1,5 +1,5 @@
 /**
- * NumberObfuscationUtils - Numeric obfuscation detection module
+ * NumberUtils - Numeric obfuscation detection module
  *
  * Handles conversion between numeric digits and word forms to detect obfuscation
  * of numeric hate symbols (e.g., "1488" vs "fourteen eighty eight").
@@ -8,7 +8,7 @@
  * Features: Bidirectional matching, mixed forms, multiple word variations
  */
 
-const NumberObfuscationUtils = {
+const NumberUtils = {
     /**
      * Extract all numeric sequences from text
      * Returns array of {value, start, end} objects
@@ -214,7 +214,7 @@ const NumberObfuscationUtils = {
 
         // DRY: Use shared flexible whitespace pattern
         // Use OPTIONAL to allow both "thirtythree" and "thirty three" to work
-        const ws = typeof ObfuscationUtils !== 'undefined' ? ObfuscationUtils.FLEXIBLE_WHITESPACE_OPTIONAL : '[\\s\\-_#/]*';
+        const ws = typeof TextUtils !== 'undefined' ? TextUtils.FLEXIBLE_WHITESPACE_OPTIONAL : '[\\s\\-_#/]*';
 
         // Always include the full digit form
         patterns.push(String(num));
@@ -229,9 +229,9 @@ const NumberObfuscationUtils = {
             const firstDigitPatterns = [String(tensDigit)];
             const firstWords = this.numberToWords(tensDigit);
             firstWords.forEach(w => {
-                // Apply character-level obfuscation if ObfuscationUtils is available
-                if (typeof ObfuscationUtils !== 'undefined') {
-                    firstDigitPatterns.push(ObfuscationUtils.createFlexiblePatternOriginal(w));
+                // Apply character-level obfuscation if TextUtils is available
+                if (typeof TextUtils !== 'undefined') {
+                    firstDigitPatterns.push(TextUtils.createFlexiblePatternOriginal(w));
                 } else {
                     firstDigitPatterns.push(w);
                 }
@@ -242,9 +242,9 @@ const NumberObfuscationUtils = {
             const secondDigitPatterns = [String(onesDigit)];
             const secondWords = this.numberToWords(onesDigit);
             secondWords.forEach(w => {
-                // Apply character-level obfuscation if ObfuscationUtils is available
-                if (typeof ObfuscationUtils !== 'undefined') {
-                    secondDigitPatterns.push(ObfuscationUtils.createFlexiblePatternOriginal(w));
+                // Apply character-level obfuscation if TextUtils is available
+                if (typeof TextUtils !== 'undefined') {
+                    secondDigitPatterns.push(TextUtils.createFlexiblePatternOriginal(w));
                 } else {
                     secondDigitPatterns.push(w);
                 }
@@ -253,7 +253,7 @@ const NumberObfuscationUtils = {
 
             // Combine with flexible whitespace between digits
             // Use OPTIONAL to allow "28", "2 8", "twentyeight", and "twenty eight"
-            const ws = typeof ObfuscationUtils !== 'undefined' ? ObfuscationUtils.FLEXIBLE_WHITESPACE_OPTIONAL : '[\\s\\-_#/]*';
+            const ws = typeof TextUtils !== 'undefined' ? TextUtils.FLEXIBLE_WHITESPACE_OPTIONAL : '[\\s\\-_#/]*';
             patterns.push(firstDigit + ws + secondDigit);
 
             // Also add pattern for complete word form variants (e.g., "twenty 8", "7w£n7y eight")
@@ -264,13 +264,13 @@ const NumberObfuscationUtils = {
                 const parts = completeWords[0].split(' ');
                 if (parts.length === 2) {
                     // First part with obfuscation: "twenty"
-                    const firstPartObfuscated = typeof ObfuscationUtils !== 'undefined'
-                        ? ObfuscationUtils.createFlexiblePatternOriginal(parts[0])
+                    const firstPartObfuscated = typeof TextUtils !== 'undefined'
+                        ? TextUtils.createFlexiblePatternOriginal(parts[0])
                         : parts[0];
                     // Second part can be digit or word: "8" or "eight"
                     const secondPartPatterns = [String(onesDigit)];
-                    if (typeof ObfuscationUtils !== 'undefined') {
-                        secondPartPatterns.push(ObfuscationUtils.createFlexiblePatternOriginal(parts[1]));
+                    if (typeof TextUtils !== 'undefined') {
+                        secondPartPatterns.push(TextUtils.createFlexiblePatternOriginal(parts[1]));
                     } else {
                         secondPartPatterns.push(parts[1]);
                     }
@@ -292,9 +292,9 @@ const NumberObfuscationUtils = {
                 const firstSegmentPatterns = [String(firstTwo)];
                 const firstWords = this.numberToWords(firstTwo);
                 firstWords.forEach(w => {
-                    if (typeof ObfuscationUtils !== 'undefined') {
+                    if (typeof TextUtils !== 'undefined') {
                         // Apply obfuscation, then handle internal spaces
-                        const obfuscated = ObfuscationUtils.createFlexiblePatternOriginal(w);
+                        const obfuscated = TextUtils.createFlexiblePatternOriginal(w);
                         firstSegmentPatterns.push(obfuscated.split(' ').join(ws));
                     } else {
                         firstSegmentPatterns.push(w.split(' ').join(ws));
@@ -306,9 +306,9 @@ const NumberObfuscationUtils = {
                 const lastSegmentPatterns = [String(lastTwo).padStart(2, '0')]; // Preserve leading zero
                 const lastWords = this.numberToWords(lastTwo);
                 lastWords.forEach(w => {
-                    if (typeof ObfuscationUtils !== 'undefined') {
+                    if (typeof TextUtils !== 'undefined') {
                         // Apply obfuscation, then handle internal spaces
-                        const obfuscated = ObfuscationUtils.createFlexiblePatternOriginal(w);
+                        const obfuscated = TextUtils.createFlexiblePatternOriginal(w);
                         lastSegmentPatterns.push(obfuscated.split(' ').join(ws));
                     } else {
                         lastSegmentPatterns.push(w.split(' ').join(ws));
@@ -320,8 +320,8 @@ const NumberObfuscationUtils = {
                 patterns.push(firstSegment + ws + lastSegment);
 
                 // Also add "fourteen hundred eighty eight" style with obfuscated "hundred"
-                const hundredPattern = typeof ObfuscationUtils !== 'undefined'
-                    ? ObfuscationUtils.createFlexiblePatternOriginal('hundred')
+                const hundredPattern = typeof TextUtils !== 'undefined'
+                    ? TextUtils.createFlexiblePatternOriginal('hundred')
                     : 'hundred';
                 patterns.push(firstSegment + ws + hundredPattern + ws + lastSegment);
             } else {
@@ -329,16 +329,16 @@ const NumberObfuscationUtils = {
                 const firstSegmentPatterns = [String(firstTwo)];
                 const firstWords = this.numberToWords(firstTwo);
                 firstWords.forEach(w => {
-                    if (typeof ObfuscationUtils !== 'undefined') {
-                        const obfuscated = ObfuscationUtils.createFlexiblePatternOriginal(w);
+                    if (typeof TextUtils !== 'undefined') {
+                        const obfuscated = TextUtils.createFlexiblePatternOriginal(w);
                         firstSegmentPatterns.push(obfuscated.split(' ').join(ws));
                     } else {
                         firstSegmentPatterns.push(w.split(' ').join(ws));
                     }
                 });
                 const firstSegment = '(?:' + firstSegmentPatterns.join('|') + ')';
-                const hundredPattern = typeof ObfuscationUtils !== 'undefined'
-                    ? ObfuscationUtils.createFlexiblePatternOriginal('hundred')
+                const hundredPattern = typeof TextUtils !== 'undefined'
+                    ? TextUtils.createFlexiblePatternOriginal('hundred')
                     : 'hundred';
                 patterns.push(firstSegment + ws + hundredPattern);
             }
@@ -352,14 +352,14 @@ const NumberObfuscationUtils = {
             if (remainder > 0) {
                 // "X hundred Y" where X and Y can be digit or word (with character obfuscation)
                 const hundredsWord = this.numberToWords(hundreds)[0]; // "one", "two", etc.
-                const hundredsObfuscated = typeof ObfuscationUtils !== 'undefined'
-                    ? ObfuscationUtils.createFlexiblePatternOriginal(hundredsWord)
+                const hundredsObfuscated = typeof TextUtils !== 'undefined'
+                    ? TextUtils.createFlexiblePatternOriginal(hundredsWord)
                     : hundredsWord;
                 const remainderPatterns = [String(remainder)];
                 const remainderWords = this.numberToWords(remainder);
                 remainderWords.forEach(w => {
-                    if (typeof ObfuscationUtils !== 'undefined') {
-                        const obfuscated = ObfuscationUtils.createFlexiblePatternOriginal(w);
+                    if (typeof TextUtils !== 'undefined') {
+                        const obfuscated = TextUtils.createFlexiblePatternOriginal(w);
                         remainderPatterns.push(obfuscated.split(' ').join(ws));
                     } else {
                         remainderPatterns.push(w.split(' ').join(ws));
@@ -367,8 +367,8 @@ const NumberObfuscationUtils = {
                 });
                 const remainderSegment = '(?:' + remainderPatterns.join('|') + ')';
 
-                const hundredPattern = typeof ObfuscationUtils !== 'undefined'
-                    ? ObfuscationUtils.createFlexiblePatternOriginal('hundred')
+                const hundredPattern = typeof TextUtils !== 'undefined'
+                    ? TextUtils.createFlexiblePatternOriginal('hundred')
                     : 'hundred';
                 patterns.push('(?:' + hundreds + '|' + hundredsObfuscated + ')[\\s\\-_#]+' + hundredPattern + ws + remainderSegment);
             }
@@ -377,8 +377,8 @@ const NumberObfuscationUtils = {
         // Also add complete word forms (without segmentation) with character obfuscation
         const completeWordForms = this.numberToWords(num);
         completeWordForms.forEach(wordForm => {
-            if (typeof ObfuscationUtils !== 'undefined') {
-                const obfuscated = ObfuscationUtils.createFlexiblePatternOriginal(wordForm);
+            if (typeof TextUtils !== 'undefined') {
+                const obfuscated = TextUtils.createFlexiblePatternOriginal(wordForm);
                 const flexibleForm = obfuscated.split(' ').join(ws);
                 patterns.push(flexibleForm);
             } else {
@@ -436,5 +436,5 @@ const NumberObfuscationUtils = {
 
 // Export for use in modules (Node.js compatibility)
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = NumberObfuscationUtils;
+    module.exports = NumberUtils;
 }

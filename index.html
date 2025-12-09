@@ -12,6 +12,11 @@
             box-sizing: border-box;
         }
 
+        html,
+        body {
+            overscroll-behavior: none;
+        }
+
         body {
             font-family: var(--font-family);
             background-color: var(--bg-page);
@@ -53,25 +58,45 @@
             margin-bottom: var(--spacing-sm);
         }
 
+        @font-face {
+            font-family: 'Magic Red';
+            src: url('fonts/Magic%20Red.ttf') format('truetype'),
+                url('fonts/Magic%20Red.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        .title-container {
+            position: relative;
+            display: inline-block;
+            /* important for absolute positioning of beta */
+            text-align: center;
+        }
+
         h1 {
+            font-family: 'Magic Red', sans-serif;
             font-size: var(--font-size-xxl);
             margin-bottom: var(--spacing-sm);
             text-shadow: 2px 2px 4px var(--shadow-light);
+            display: inline-block;
+            margin: 0;
         }
 
         .betaText {
-            font-size: var(--font-size-sm);
+            font-family: 'Magic Red', sans-serif;
+            font-size: var(--font-size-lg);
             margin-left: var(--spacing-sm);
-            margin-top: 0.5em;
+            margin-top: var(--spacing-sm);
             font-weight: var(--weight-normal);
-            display: inline-block;
             vertical-align: top;
+            position: absolute;
         }
 
         .tagline {
             font-size: var(--font-size-lg);
             opacity: 0.95;
             margin-top: var(--spacing-tagline);
+            text-shadow: 2px 2px 4px var(--shadow-light);
         }
 
         #ticker-container {
@@ -88,6 +113,7 @@
             display: flex;
             align-items: center;
             z-index: 9999;
+            cursor: default;
         }
 
         #ticker-wrapper {
@@ -100,10 +126,6 @@
             white-space: nowrap;
             padding-right: 15px;
             padding-left: var(--spacing-md);
-        }
-
-        #ticker-text:hover {
-            animation-play-state: paused;
         }
 
         /* Keyframes for ticker */
@@ -209,7 +231,7 @@
         .clear-btn:disabled {
             background: var(--btn-disabled-bg) !important;
             color: var(--btn-disabled-text) !important;
-            cursor: not-allowed;
+            cursor: wait;
             pointer-events: auto;
             opacity: 1;
             transform: none;
@@ -582,8 +604,9 @@
     </div>
     <div class="container">
         <header>
-            <div style="display: inline-flex; align-items: flex-start; justify-content: center;">
-                <h1>🐕 GoodBoy<span class="betaText"></h1>beta</span>
+            <div class="title-container">
+                <h1>GoodBoy</h1>
+                <span class="betaText">beta</span>
             </div>
             <p class="tagline">
                 Sniffing out coded language
@@ -730,38 +753,18 @@
         </footer>
     </div>
 
-    <!-- Load the coded term database -->
+    <!-- Load scripts / data -->
     <script src="data/coded_term_data.js"></script>
-
-    <!-- Load the harmful term database -->
     <script src="data/harmful_term_data.js"></script>
-
-    <!-- Load the source  database -->
     <script src="data/source_data.js"></script>
-
-    <!-- Load number obfuscation utilities (must load before obfuscation-utils.js) -->
-    <script src="js/number-obfuscation-utils.js"></script>
-
-    <!-- Load shared obfuscation utilities (DRY - single source of truth) -->
-    <script src="js/obfuscation-utils.js"></script>
+    <script src="js/text_utils.js"></script>
+    <script src="js/number_utils.js"></script>
     <script src="js/matchers.js"></script>
-
-    <!-- Load theme configuration (design system) -->
-    <script src="js/theme-config.js"></script>
-
-    <!-- Load the ticker -->
+    <script src="js/theme_config.js"></script>
     <script src="js/ticker.js"></script>
-
-    <!-- Load category hierarchy (shared with dev-tools) -->
-    <script src="js/category-config.js"></script>
-
-    <!-- Load signal score calculator module -->
-    <script src="js/signal-score.js"></script>
-
-    <!-- Load religionym lookup -->
+    <script src="js/category_config.js"></script>
+    <script src="js/signal_score.js"></script>
     <script src="data/religionym_lookup.js"></script>
-
-    <!-- Load unified place-demonym lookup -->
     <script src="data/place_demonym_lookup.js"></script>
 
     <!-- Main application logic -->
@@ -788,8 +791,8 @@
         legendDiv.innerHTML = legendHtml;
 
         // Initialize matchers when data is loaded
-        const codedTermData = typeof GOODBOY_DATA !== 'undefined' ? GOODBOY_DATA : null;
-        const harmfulTermData = typeof GOODBOY_HARMFUL_TERM_DATA !== 'undefined' ? GOODBOY_HARMFUL_TERM_DATA : null;
+        const codedTermData = typeof CODED_TERM_DATA !== 'undefined' ? CODED_TERM_DATA : null;
+        const harmfulTermData = typeof HARMFUL_TERM_DATA !== 'undefined' ? HARMFUL_TERM_DATA : null;
 
         if (codedTermData) {
             matcher = new CodedTermMatcher(codedTermData);
@@ -815,7 +818,7 @@
             alert('Error: Failed to load databases. Please refresh the page.');
         }
 
-        // Theme configuration loaded from js/theme-config.js
+        // Theme configuration loaded from js/theme_config.js
 
         /**
          * POPULIST PATTERN MATCHING SYSTEM
@@ -969,7 +972,7 @@
 
         /**
          * Filter redundant variations from database terms
-         * Uses ObfuscationUtils to detect and remove variations that our pattern matcher
+         * Uses TextUtils to detect and remove variations that our pattern matcher
          * will catch anyway (punctuation, case, hyphenation, plurals, etc.)
          *
          * This maintains DRY by using the SAME logic that our pattern matcher uses,
@@ -986,7 +989,7 @@
                 const seenNormalized = new Set();
 
                 // Normalize and track root
-                const rootNorm = ObfuscationUtils.normalizeText(root);
+                const rootNorm = TextUtils.normalizeText(root);
                 const rootClean = rootNorm.replace(/[\s\-_]/g, '');
                 seenNormalized.add(rootClean);
 
@@ -998,22 +1001,8 @@
                         return false;
                     }
 
-                    // Skip if it's a punctuation/case/hyphenation variant of root
-                    // BUT: only if the variation isn't a meaningful shorter form
-                    // Example: "inner-city" is redundant with "inner city" (filter out)
-                    // Example: "13" is NOT redundant with "13%" (keep it - it's a meaningful form)
-                    if (ObfuscationUtils.isPunctuationVariant(variation, root)) {
-                        // Check if variation is shorter - if so, it might be a meaningful abbreviation
-                        // Only filter if they're the same length (just different punctuation)
-                        if (variation.length >= root.length) {
-                            console.log("🧹 Filtered term: " + variation);
-                            return false;
-                        }
-                        // Variation is shorter - keep it as it's likely a meaningful form
-                    }
-
                     // Check for duplicate normalized forms
-                    const varNorm = ObfuscationUtils.normalizeText(variation);
+                    const varNorm = TextUtils.normalizeText(variation);
                     const varClean = varNorm.replace(/[\s\-_]/g, '');
 
                     if (seenNormalized.has(varClean)) {
@@ -1030,7 +1019,7 @@
                     // Check if this is a plural of root or another kept variation
                     if (variation.endsWith('s') && variation.length > 1) {
                         const singular = variation.slice(0, -1);
-                        const singularClean = ObfuscationUtils.normalizeText(singular).replace(/[\s\-_]/g, '');
+                        const singularClean = TextUtils.normalizeText(singular).replace(/[\s\-_]/g, '');
 
                         // Skip if plural of root
                         if (singularClean === rootClean) {
@@ -1079,27 +1068,27 @@
             let harmfulTermData = null;
 
             // Check coded term database
-            if (typeof GOODBOY_DATA !== 'undefined') {
+            if (typeof CODED_TERM_DATA !== 'undefined') {
                 // Filter redundant variations using our pattern matching logic
-                const filteredTerms = filterRedundantVariations(GOODBOY_DATA.terms);
+                const filteredTerms = filterRedundantVariations(CODED_TERM_DATA.terms);
                 codedTermData = {
-                    ...GOODBOY_DATA,
+                    ...CODED_TERM_DATA,
                     terms: filteredTerms
                 };
-                console.log(`✓ Loaded ${GOODBOY_DATA.total} coded terms`);
+                console.log(`✓ Loaded ${CODED_TERM_DATA.total} coded terms`);
             } else {
                 console.error('Failed to load coded term database');
             }
 
             // Check harmful term database
-            if (typeof GOODBOY_HARMFUL_TERM_DATA !== 'undefined') {
+            if (typeof HARMFUL_TERM_DATA !== 'undefined') {
                 // Filter redundant variations using our pattern matching logic
-                const filteredHarmfulTerms = filterRedundantVariations(GOODBOY_HARMFUL_TERM_DATA.terms);
+                const filteredHarmfulTerms = filterRedundantVariations(HARMFUL_TERM_DATA.terms);
                 harmfulTermData = {
-                    ...GOODBOY_HARMFUL_TERM_DATA,
+                    ...HARMFUL_TERM_DATA,
                     terms: filteredHarmfulTerms
                 };
-                console.log(`✓ Loaded ${GOODBOY_HARMFUL_TERM_DATA.uniqueTerms} harmful terms`);
+                console.log(`✓ Loaded ${HARMFUL_TERM_DATA.uniqueTerms} harmful terms`);
             } else {
                 console.error('Failed to load harmful term database');
             }

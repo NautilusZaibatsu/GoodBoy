@@ -21,12 +21,12 @@ That's it! No installation, no cookies, no server, no dependencies, no LLMs
 goodboy/
 ├── index.html                        # Main application
 ├── js/                               # JavaScript utilities
-│   ├── obfuscation-utils.js          # Text obfuscation detection logic
-│   ├── number-obfuscation-utils.js   # Number obfuscation detection logic
-│   ├── theme-config.js               # Webapp theme configuration 
+│   ├── text_utils.js                 # Text obfuscation detection logic
+│   ├── number_utils.js               # Number obfuscation detection logic
+│   ├── theme_config.js               # Webapp theme configuration 
 │   ├── matchers.js                   # Pattern/term matchers
-│   ├── signal-score.js               # Signal score calculations
-│   ├── category-config.js            # Category hierarchy
+│   ├── signal_score.js               # Signal score calculations
+│   ├── category_config.js            # Category hierarchy
 │   └── ticker.js                     # Ticker contents
 ├── data/                             # Databases
 │   ├── coded_term_data.js            # Coded term database

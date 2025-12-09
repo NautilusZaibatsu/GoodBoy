@@ -5,15 +5,46 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.4.71] - 2025-12-08
+## [0.4.7.5] - 2025-12-09
+### Changed
+- **Detection** 
+  - Emoji detection now properly covers all emojis, including skincolor variations and ZWJ sequences
+
+- **Technical**
+  - All emoji regexes are now built once at runtime to improve performance and reduce posibility of duplication errors
+  - Cleaner reverse map and text substitution system for detection
+  - Clearer filenames for scripts
+
+- **Webapp** 
+  - New title font - Magic Red by si.jalembe
+  - Ticker animation now properly pauses on hover
+  - Removed ability to overscroll
+  - Replaced stop cursor with wait cursor during analysis
+
+### Bug fixes
+  - Fixed an issue affecting matching for ordinal variations
+  - Fixed an issue where auto-plural detection was getting preferential treatment over another match. eg oneship would match [ones]hip instead of [one][ship]
+
+### Known Issues
+- **Non-ASCII characters** 
+  - Database entries with an extreme amount of 'unusual' characters such as Аляска are currently not supported as the obfuscation utils pattern match too greedily. All examples have been commented out of the data for now
+- **Detection**
+  - Multi-word terms don't match if they have are non-plural and have an alpha-numeric character immediately following them. Eg, False Flagj
+
+## [0.4.7.1] - 2025-12-08
 ### Hotfix
   - Single word terms immediately followed by an emoji were not matching
+
+### Known Issues
+- **Non-ASCII characters** 
+  - Database entries with an extreme amount of 'unusual' characters such as Аляска are currently not supported as the obfuscation utils pattern match too greedily. All examples have been commented out of the data for now
 
 ## [0.4.7] - 2025-12-08
 
 ### Added
 - **Webapp** 
   - New tooltip item for flagged terms that clearly displays whether the term is a "🔣 Coded Term" or "☣️ Harmful Term"
+  - User can now not select text outside of the text area
   - News ticker at the bottom of the page
 - **Detection**
   -  Smarter emoji detection. Emojis entered into the text box will be flagged when they appear in a whitespace position of a term, but will stop a match from happening if they appear in the middle of a word. Eg False🐑Flag → [False][🐑][Flag], ZO🐑G → ZO[🐑]G
@@ -34,7 +65,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Fixed a bug with how coded term weight contributed to signal score
 
 ### Known Issues
-- **Database character issues** 
+- **Non-ASCII characters** 
   - Database entries with an extreme amount of 'unusual' characters such as Аляска are currently not supported as the obfuscation utils pattern match too greedily. All examples have been commented out of the data for now
 
 ## [0.4.6] - 2025-12-06
@@ -124,7 +155,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Random punctuaton inserted mid word will now allow matching,for example "b/l/o/o/d & h/o/n/o/r"
   - Stacked numeric hate symbols are now properly flagged when appended to other coded terms and hateful terms, eg "hh13" and "2813" with both be flagged as two matches
   - Spaces and special chararacters between emojis are now ignored, so "🤡 🌎" and "🤡/🌎" now match 🤡🌎
-  - **Numeric-to-Word Obfuscation System** (`/js/number-obfuscation-utils.js`):
+  - **Numeric-to-Word Obfuscation System** (`/js/number_utils.js`):
     - Automatically detects and matches numeric hate symbols in both digit and word forms
     - Bidirectional matching: "1488" matches "fourteen eighty eight" and vice versa
     - Mixed-form support: "1488" matches "14 eighty eight", "fourteen 88", "14 hundred 88", etc.
@@ -195,22 +226,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - "hard-working Americans" → "hardworking Scots", "hard-working Mancunians" (all case/hyphen/plural variations)
   - Overlap detection with longest-match priority (prevents "scot" from blocking "scots")
   - Global regex matching (finds ALL occurrences in text, not just first)
-  - Full ObfuscationUtils integration (case-insensitive, hyphen variations, plural handling)
+  - Full TextUtils integration (case-insensitive, hyphen variations, plural handling)
 - Signal score breakdown tooltip: Info icon (ⓘ) next to signal score severity indicator
   - Displays match density (70%), match type weight (20%), and category diversity (10%) components
   - Shows underlying metrics: match count, word count, harmful vs coded term counts, unique categories
   - DRY implementation: pulls from existing `calculateSignalScore()` logic
-- Category configuration module (/js/category-config.js): Centralized category hierarchy
+- Category configuration module (/js/category_config.js): Centralized category hierarchy
   - CATEGORY_HIERARCHY now shared between webapp and internal tooling
   - Helper functions for category management
   - Supports dynamic category creation with placeholder colors
-- Theme configuration module (/js/theme-config.js) for webapp theming
+- Theme configuration module (/js/theme_config.js) for webapp theming
 - Database expansion: Additional coded terms, irregular demonyms, and curated terms
 
 ### Changed
 - **PatternMatcher complete rewrite**:
   - Removed form-based filtering (was incorrectly excluding plural matches)
-  - Now uses ALL generated demonyms with ObfuscationUtils for flexible matching
+  - Now uses ALL generated demonyms with TextUtils for flexible matching
   - Pattern extraction processes both root and variation terms with deduplication
   - Collect-then-filter architecture (gather all potential matches, sort by length, filter overlaps)
   - Added 's?' suffix to patterns for proper plural matching (consistent with CodedTermMatcher/HarmfulTermMatcher)
@@ -218,7 +249,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Maintains backward compatibility through structured return value
   - Enables transparent, dynamic tooltip updates
 - Refactored category system architecture
-  - Extracted CATEGORY_HIERARCHY from index.html to /js/category-config.js
+  - Extracted CATEGORY_HIERARCHY from index.html to /js/category_config.js
   - Webapp now imports category configuration instead of defining inline
 - Database cleanup: Removed unused `categories` metadata field from coded_term_data.js
   - Category statistics now calculated dynamically from actual matches
@@ -231,7 +262,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Overlapping matches now resolved by keeping longest match (e.g., "Scots" not "Scot")
 
 ### Technical
-- MorphologyUtils follows Node.js/browser dual-export pattern (same as obfuscation-utils.js)
+- MorphologyUtils follows Node.js/browser dual-export pattern (same as text_utils.js)
 - Category hierarchy follows dual-export pattern
 - Improved code organization: category logic and morphology logic separated from application
 - Foundation for future extensibility (easier to add new categories, demonyms, and maintain patterns)
