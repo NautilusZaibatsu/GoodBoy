@@ -202,6 +202,31 @@ const NumberUtils = {
     },
 
     /**
+     * Helper: Apply character-level obfuscation and join multi-word forms
+     * DRY helper to avoid repetition throughout createSegmentedPattern
+     */
+    obfuscateAndJoin(text, separator) {
+        if (typeof TextUtils !== 'undefined') {
+            const obfuscated = TextUtils.createCharacterPattern(text);
+            return obfuscated.split(' ').join(separator);
+        }
+        return text.split(' ').join(separator);
+    },
+
+    /**
+     * Helper: Create patterns for a digit value (digit OR word forms with obfuscation)
+     * DRY helper to avoid repetition in segment pattern generation
+     */
+    createDigitPatterns(digitValue, separator) {
+        const patterns = [String(digitValue)];
+        const words = this.numberToWords(digitValue);
+        words.forEach(w => {
+            patterns.push(this.obfuscateAndJoin(w, separator));
+        });
+        return '(?:' + patterns.join('|') + ')';
+    },
+
+    /**
      * Create segmented pattern for 2-4 digit numbers to support mixed forms
      * "28" → pattern matches "28", "2 8", "two 8", "2 eight", "two eight", "twenty eight"
      * "1488" → pattern matches "14 88", "fourteen 88", "14 eighty eight", "fourteen eighty eight", etc.
@@ -212,9 +237,9 @@ const NumberUtils = {
     createSegmentedPattern(num) {
         const patterns = [];
 
-        // DRY: Use shared flexible whitespace pattern
-        // Use OPTIONAL to allow both "thirtythree" and "thirty three" to work
-        const ws = typeof TextUtils !== 'undefined' ? TextUtils.FLEXIBLE_WHITESPACE_OPTIONAL : '[\\s\\-_#/]*';
+        // DRY: Use shared flexible word separator pattern (allows spaces between number segments)
+        // Use FLEXIBLE_WORD_SEPARATOR to allow "thirty three six" to match "33/6"
+        const ws = typeof TextUtils !== 'undefined' ? TextUtils.FLEXIBLE_WORD_SEPARATOR : '[\\s\\-_#/]*';
 
         // Always include the full digit form
         patterns.push(String(num));
@@ -224,36 +249,12 @@ const NumberUtils = {
             const tensDigit = Math.floor(num / 10);
             const onesDigit = num % 10;
 
-            // Create pattern where each digit can be digit OR word (with character obfuscation)
-            // First digit: "2" OR "two" (with obfuscation: "7w0")
-            const firstDigitPatterns = [String(tensDigit)];
-            const firstWords = this.numberToWords(tensDigit);
-            firstWords.forEach(w => {
-                // Apply character-level obfuscation if TextUtils is available
-                if (typeof TextUtils !== 'undefined') {
-                    firstDigitPatterns.push(TextUtils.createFlexiblePatternOriginal(w));
-                } else {
-                    firstDigitPatterns.push(w);
-                }
-            });
-            const firstDigit = '(?:' + firstDigitPatterns.join('|') + ')';
-
-            // Second digit: "8" OR "eight" (with obfuscation: "£igh7")
-            const secondDigitPatterns = [String(onesDigit)];
-            const secondWords = this.numberToWords(onesDigit);
-            secondWords.forEach(w => {
-                // Apply character-level obfuscation if TextUtils is available
-                if (typeof TextUtils !== 'undefined') {
-                    secondDigitPatterns.push(TextUtils.createFlexiblePatternOriginal(w));
-                } else {
-                    secondDigitPatterns.push(w);
-                }
-            });
-            const secondDigit = '(?:' + secondDigitPatterns.join('|') + ')';
+            // Use DRY helper to create patterns for each digit
+            const firstDigit = this.createDigitPatterns(tensDigit, ws);
+            const secondDigit = this.createDigitPatterns(onesDigit, ws);
 
             // Combine with flexible whitespace between digits
-            // Use OPTIONAL to allow "28", "2 8", "twentyeight", and "twenty eight"
-            const ws = typeof TextUtils !== 'undefined' ? TextUtils.FLEXIBLE_WHITESPACE_OPTIONAL : '[\\s\\-_#/]*';
+            // Allows "28", "2 8", "twentyeight", and "twenty eight"
             patterns.push(firstDigit + ws + secondDigit);
 
             // Also add pattern for complete word form variants (e.g., "twenty 8", "7w£n7y eight")
@@ -264,17 +265,9 @@ const NumberUtils = {
                 const parts = completeWords[0].split(' ');
                 if (parts.length === 2) {
                     // First part with obfuscation: "twenty"
-                    const firstPartObfuscated = typeof TextUtils !== 'undefined'
-                        ? TextUtils.createFlexiblePatternOriginal(parts[0])
-                        : parts[0];
+                    const firstPartObfuscated = this.obfuscateAndJoin(parts[0], ws);
                     // Second part can be digit or word: "8" or "eight"
-                    const secondPartPatterns = [String(onesDigit)];
-                    if (typeof TextUtils !== 'undefined') {
-                        secondPartPatterns.push(TextUtils.createFlexiblePatternOriginal(parts[1]));
-                    } else {
-                        secondPartPatterns.push(parts[1]);
-                    }
-                    const secondPart = '(?:' + secondPartPatterns.join('|') + ')';
+                    const secondPart = this.createDigitPatterns(onesDigit, ws);
                     // Create pattern: (twenty)[\s\-_#]+(8|eight)
                     patterns.push(firstPartObfuscated + ws + secondPart);
                 }
@@ -287,59 +280,20 @@ const NumberUtils = {
             const lastTwo = num % 100;
 
             if (lastTwo > 0) {
-                // Create pattern where each segment can be digit OR word (with character obfuscation)
-                // First segment: "14" OR "fourteen"
-                const firstSegmentPatterns = [String(firstTwo)];
-                const firstWords = this.numberToWords(firstTwo);
-                firstWords.forEach(w => {
-                    if (typeof TextUtils !== 'undefined') {
-                        // Apply obfuscation, then handle internal spaces
-                        const obfuscated = TextUtils.createFlexiblePatternOriginal(w);
-                        firstSegmentPatterns.push(obfuscated.split(' ').join(ws));
-                    } else {
-                        firstSegmentPatterns.push(w.split(' ').join(ws));
-                    }
-                });
-                const firstSegment = '(?:' + firstSegmentPatterns.join('|') + ')';
-
-                // Second segment: "88" OR "eighty eight"
-                const lastSegmentPatterns = [String(lastTwo).padStart(2, '0')]; // Preserve leading zero
-                const lastWords = this.numberToWords(lastTwo);
-                lastWords.forEach(w => {
-                    if (typeof TextUtils !== 'undefined') {
-                        // Apply obfuscation, then handle internal spaces
-                        const obfuscated = TextUtils.createFlexiblePatternOriginal(w);
-                        lastSegmentPatterns.push(obfuscated.split(' ').join(ws));
-                    } else {
-                        lastSegmentPatterns.push(w.split(' ').join(ws));
-                    }
-                });
-                const lastSegment = '(?:' + lastSegmentPatterns.join('|') + ')';
+                // Use DRY helpers to create segment patterns
+                const firstSegment = this.createDigitPatterns(firstTwo, ws);
+                const lastSegment = this.createDigitPatterns(lastTwo, ws);
 
                 // Combine with flexible whitespace between segments
                 patterns.push(firstSegment + ws + lastSegment);
 
                 // Also add "fourteen hundred eighty eight" style with obfuscated "hundred"
-                const hundredPattern = typeof TextUtils !== 'undefined'
-                    ? TextUtils.createFlexiblePatternOriginal('hundred')
-                    : 'hundred';
+                const hundredPattern = this.obfuscateAndJoin('hundred', ws);
                 patterns.push(firstSegment + ws + hundredPattern + ws + lastSegment);
             } else {
                 // Ends in 00: "1400" → "14 hundred" or "fourteen hundred"
-                const firstSegmentPatterns = [String(firstTwo)];
-                const firstWords = this.numberToWords(firstTwo);
-                firstWords.forEach(w => {
-                    if (typeof TextUtils !== 'undefined') {
-                        const obfuscated = TextUtils.createFlexiblePatternOriginal(w);
-                        firstSegmentPatterns.push(obfuscated.split(' ').join(ws));
-                    } else {
-                        firstSegmentPatterns.push(w.split(' ').join(ws));
-                    }
-                });
-                const firstSegment = '(?:' + firstSegmentPatterns.join('|') + ')';
-                const hundredPattern = typeof TextUtils !== 'undefined'
-                    ? TextUtils.createFlexiblePatternOriginal('hundred')
-                    : 'hundred';
+                const firstSegment = this.createDigitPatterns(firstTwo, ws);
+                const hundredPattern = this.obfuscateAndJoin('hundred', ws);
                 patterns.push(firstSegment + ws + hundredPattern);
             }
         }
@@ -352,39 +306,19 @@ const NumberUtils = {
             if (remainder > 0) {
                 // "X hundred Y" where X and Y can be digit or word (with character obfuscation)
                 const hundredsWord = this.numberToWords(hundreds)[0]; // "one", "two", etc.
-                const hundredsObfuscated = typeof TextUtils !== 'undefined'
-                    ? TextUtils.createFlexiblePatternOriginal(hundredsWord)
-                    : hundredsWord;
-                const remainderPatterns = [String(remainder)];
-                const remainderWords = this.numberToWords(remainder);
-                remainderWords.forEach(w => {
-                    if (typeof TextUtils !== 'undefined') {
-                        const obfuscated = TextUtils.createFlexiblePatternOriginal(w);
-                        remainderPatterns.push(obfuscated.split(' ').join(ws));
-                    } else {
-                        remainderPatterns.push(w.split(' ').join(ws));
-                    }
-                });
-                const remainderSegment = '(?:' + remainderPatterns.join('|') + ')';
+                const hundredsObfuscated = this.obfuscateAndJoin(hundredsWord, ws);
+                const remainderSegment = this.createDigitPatterns(remainder, ws);
+                const hundredPattern = this.obfuscateAndJoin('hundred', ws);
 
-                const hundredPattern = typeof TextUtils !== 'undefined'
-                    ? TextUtils.createFlexiblePatternOriginal('hundred')
-                    : 'hundred';
-                patterns.push('(?:' + hundreds + '|' + hundredsObfuscated + ')[\\s\\-_#]+' + hundredPattern + ws + remainderSegment);
+                // Pattern: (1|one)[\s\-_#]+(hundred)(remainder)
+                patterns.push('(?:' + hundreds + '|' + hundredsObfuscated + ')' + ws + hundredPattern + ws + remainderSegment);
             }
         }
 
         // Also add complete word forms (without segmentation) with character obfuscation
         const completeWordForms = this.numberToWords(num);
         completeWordForms.forEach(wordForm => {
-            if (typeof TextUtils !== 'undefined') {
-                const obfuscated = TextUtils.createFlexiblePatternOriginal(wordForm);
-                const flexibleForm = obfuscated.split(' ').join(ws);
-                patterns.push(flexibleForm);
-            } else {
-                const flexibleForm = wordForm.split(' ').join(ws);
-                patterns.push(flexibleForm);
-            }
+            patterns.push(this.obfuscateAndJoin(wordForm, ws));
         });
 
         return '(?:' + patterns.join('|') + ')';

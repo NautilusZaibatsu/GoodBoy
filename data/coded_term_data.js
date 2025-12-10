@@ -1,34 +1,40 @@
 const CODED_TERM_DATA = {
-  generated: "2025-12-10T00:01:02.011Z",
+  generated: "2025-12-10T22:58:20.904Z",
   datasetSize: 16258,
-  uniqueTerms: 506,
-  totalTerms: 1853,
+  uniqueTerms: 549,
+  totalTerms: 1957,
   categoryBreakdown: [
-    { name: "racist", count: 200 },
-    { name: "white-supremacist", count: 171 },
-    { name: "xenophobic", count: 170 },
-    { name: "antisemitic", count: 159 },
-    { name: "transphobic", count: 152 },
-    { name: "alt-right", count: 131 },
+    { name: "racist", count: 203 },
+    { name: "white-supremacist", count: 169 },
+    { name: "xenophobic", count: 169 },
+    { name: "antisemitic", count: 158 },
+    { name: "transphobic", count: 151 },
+    { name: "alt-right", count: 129 },
     { name: "bad-faith", count: 95 },
     { name: "conspiracy", count: 93 },
     { name: "anti-liberal", count: 80 },
     { name: "nationalist", count: 71 },
     { name: "islamophobic", count: 70 },
     { name: "welfare-chauvinism", count: 69 },
-    { name: "fascist", count: 54 },
     { name: "emotional-dismissal", count: 53 },
-    { name: "misogynistic", count: 46 },
+    { name: "fascist", count: 51 },
+    { name: "sexual-content", count: 43 },
+    { name: "misogynistic", count: 42 },
     { name: "conservative", count: 39 },
     { name: "disability", count: 35 },
     { name: "pseudoscience", count: 29 },
     { name: "misandristic", count: 24 },
     { name: "anti-lgbtq", count: 20 },
     { name: "anti-science", count: 20 },
+    { name: "drugs", count: 20 },
+    { name: "illegality", count: 18 },
     { name: "homophobic", count: 16 },
     { name: "dehumanization", count: 15 },
+    { name: "paedophilia", count: 14 },
+    { name: "self-harm", count: 14 },
     { name: "deflection", count: 13 },
     { name: "personal-responsibility", count: 13 },
+    { name: "death", count: 6 },
     { name: "liberal", count: 6 },
     { name: "ageist", count: 4 },
     { name: "climate-change-denial", count: 4 },
@@ -47,17 +53,454 @@ const CODED_TERM_DATA = {
     { name: "sikhophobic", count: 0 }
   ],
   sourceBreakdown: [
-    { name: "goodboy", count: 1327 },
-    { name: "silent_signals", count: 359 },
-    { name: "adl", count: 85 },
-    { name: "swu", count: 81 },
+    { name: "goodboy", count: 1433 },
+    { name: "silent_signals", count: 357 },
+    { name: "adl", count: 82 },
+    { name: "swu", count: 80 },
+    { name: "wsp", count: 4 },
     { name: "wiki", count: 1 },
     { name: "aos", count: 0 },
-    { name: "citg", count: 0 },
-    { name: "wsp", count: 0 }
+    { name: "citg", count: 0 }
   ],
 
   terms: [
+    {
+      root: "Seggs",
+      variations: [
+        "Secks",
+        "Seggz"
+      ],
+      category: "sexual-content",
+      definition: "A misspelled euphemism for sexual intercourse, used in place of the explicit term",
+      source: "goodboy"
+    },
+    {
+      root: "Chili pepper emoji",
+      variations: [
+        "🌶️",
+        "Spicy",
+        "Spicy time",
+        "Spicy content"
+      ],
+      category: "sexual-content",
+      definition: "Emoji used to imply sexually suggestive or erotic content",
+      source: "goodboy"
+    },
+    {
+      root: "Eggplant emoji",
+      variations: [
+        "🍆",
+        "🍆 pic",
+        "🍆💦"
+      ],
+      category: "sexual-content",
+      definition: "Emoji commonly used to represent a penis in sexual conversation",
+      source: "goodboy"
+    },
+    {
+      root: "Peach emoji",
+      variations: [
+        "🍑",
+        "🍑 pic"
+      ],
+      category: "sexual-content",
+      definition: "Emoji widely used to represent buttocks or sexual attractiveness",
+      source: "goodboy"
+    },
+    {
+      root: "Sweat droplets emoji",
+      variations: [
+        "💦"
+      ],
+      category: "sexual-content",
+      definition: "Emoji used in sexual content messaging to imply sexual fluids or activity, avoiding moderation detection",
+      source: "goodboy"
+    },
+    {
+      root: "Smiling face with horns emoji",
+      variations: [
+        "😈"
+      ],
+      category: "sexual-content",
+      definition: "Emoji used to imply sexual mischief or explicit content in moderation-avoidant contexts",
+      source: "goodboy"
+    },
+    {
+      root: "Kiss mark emoji",
+      variations: [
+        "💋"
+      ],
+      category: "sexual-content",
+      definition: "Emoji used to represent sexual activity, kissing, or erotic content while bypassing content filters",
+      source: "goodboy"
+    },
+    {
+      root: "Tongue + Sweat droplets emoji combination",
+      variations: [
+        "👅💦"
+      ],
+      category: "sexual-content",
+      definition: "Emoji combination used to explicitly imply sexual acts while bypassing moderation systems",
+      source: "goodboy"
+    },
+    {
+      root: "Corn",
+      variations: [
+        "Corn emoji",
+        "🌽",
+      ],
+      category: "sexual-content",
+      definition: "Used as a coded reference to pornography or adult content to bypass moderation filters",
+      source: "goodboy"
+    },
+    {
+      root: "Corn star",
+      variations: [
+        "🌽 star",
+        "Mattress actress",
+        "Midnight balerina"
+      ],
+      category: "sexual-content",
+      definition: "A coded term for pornography or adult performers, used to bypass moderation filters",
+      source: "wsp"
+    },
+    {
+      root: "Lips emoji",
+      variations: [
+        "👄"
+      ],
+      category: "sexual-content",
+      definition: "Used to indicate kissing, oral activity, or general adult interaction in moderation-avoidant contexts",
+      source: "goodboy"
+    },
+    {
+      root: "High-heel emoji",
+      variations: [
+        "👠"
+      ],
+      category: "sexual-content",
+      definition: "Used to reference sex work, adult modeling, or erotic performance while avoiding detection",
+      source: "goodboy"
+    },
+    {
+      root: "Nail polish emoji",
+      variations: [
+        "💅"
+      ],
+      category: "sexual-content",
+      definition: "Used to signify adult services, escorting, or sex work in contexts designed to evade moderation",
+      source: "goodboy"
+    },
+    {
+      root: "Tongue emoji",
+      variations: [
+        "👅"
+      ],
+      category: "sexual-content",
+      definition: "Used in moderation-avoidant messages to reference oral sexual activity or adult content",
+      source: "goodboy"
+    },
+    {
+      root: "Money bag + Princess emoji combination",
+      variations: [
+        "💰👸"
+      ],
+      category: "sexual-content",
+      definition: "Used in moderation-avoidant messages to reference sugar baby / sugar daddy relationships",
+      source: "goodboy"
+    },
+    {
+      root: "Woman dancing emoji",
+      variations: [
+        "💃"
+      ],
+      category: "sexual-content",
+      definition: "Used to indicate erotic dancing, adult entertainment, or sex work while avoiding automated detection",
+      source: "goodboy"
+    },
+    {
+      root: "Shower emoji",
+      variations: [
+        "🚿"
+      ],
+      category: "sexual-content",
+      definition: "Used in coded messages referring to adult content or sexual services",
+      source: "goodboy"
+    },
+    {
+      root: "Child emoji",
+      variations: [
+        "🧒",
+        "👦",
+        "👧"
+      ],
+      category: "paedophilia",
+      definition: "Sometimes used in predatory contexts to reference minors without triggering moderation",
+      source: "goodboy"
+    },
+    {
+      root: "Baby emoji",
+      variations: [
+        "👶"
+      ],
+      category: "paedophilia",
+      definition: "Occasionally misused to imply sexual interest in infants or very young minors in coded predatory communication while avoiding moderation",
+      source: "goodboy"
+    },
+    {
+      root: "Lollipop emoji",
+      variations: [
+        "🍭"
+      ],
+      category: "paedophilia",
+      definition: "Sometimes misused in grooming contexts to imply child-targeted appeal while avoiding moderation",
+      source: "goodboy"
+    },
+    {
+      root: "Teddy bear emoji",
+      variations: [
+        "🧸"
+      ],
+      category: "paedophilia",
+      definition: "Sometimes used alongside other symbols to signal child-related interest in predatory exchanges while avoiding moderation",
+      source: "goodboy"
+    },
+    {
+      root: "School emoji",
+      variations: [
+        "🏫"
+      ],
+      category: "paedophilia",
+      definition: "Used in some moderation-avoidant contexts to reference school-aged minors",
+      source: "goodboy"
+    },
+    {
+      root: "Milk bottle emoji",
+      variations: [
+        "🍼"
+      ],
+      category: "paedophilia",
+      definition: "Appears in some predatory-coded communications referencing infants or very young children",
+      source: "goodboy"
+    },
+    {
+      root: "Money with wings emoji",
+      variations: [
+        "💸"
+      ],
+      category: "illegality",
+      definition: "Used to imply illegal payments, fast cash, or unreported transactions in a moderation-avoidant manner",
+      source: "goodboy"
+    },
+    {
+      root: "Handshake emoji",
+      variations: [
+        "🤝"
+      ],
+      category: "illegality",
+      definition: "Used to imply a covert deal, illegal agreement, or black-market trade while avoiding filters",
+      source: "goodboy"
+    },
+    {
+      root: "Package emoji",
+      variations: [
+        "Parcel emoji",
+        "📦",
+        "📮"
+      ],
+      category: "illegality",
+      definition: "Used to reference shipping illegal goods or contraband without stating the nature of the item",
+      source: "goodboy"
+    },
+    {
+      root: "Key emoji",
+      variations: [
+        "🗝️"
+      ],
+      category: "illegality",
+      definition: "Used as a coded reference to access codes, stolen digital goods, or illicit account access",
+      source: "goodboy"
+    },
+    {
+      root: "Fire emoji",
+      variations: [
+        "🔥"
+      ],
+      category: "illegality",
+      definition: "Used to indicate illegal goods that are considered \"hot\" or stolen, avoiding explicit wording",
+      source: "goodboy"
+    },
+    {
+      root: "Lock emoji",
+      variations: [
+        "🔒"
+      ],
+      category: "illegality",
+      definition: "Used to refer to encrypted, locked-away, or hidden illicit content in a moderation-avoidant context",
+      source: "goodboy"
+    },
+    {
+      root: "Ghost emoji",
+      variations: [
+        "👻"
+      ],
+      category: "illegality",
+      definition: "Used to signal a desire to stay \"off the radar\" or conduct illegal activity anonymously",
+      source: "goodboy"
+    },
+    {
+      root: "Masked face emoji",
+      variations: [
+        "🥷"
+      ],
+      category: "illegality",
+      definition: "Used to represent covert or illegal activity such as theft, hacking, or stealth operations",
+      source: "goodboy"
+    },
+    {
+      root: "Snow emoji",
+      variations: [
+        "❄️"
+      ],
+      category: "drugs",
+      definition: "Used to represent cocaine in moderation-avoidant contexts",
+      source: "goodboy"
+    },
+    {
+      root: "White emoji",
+      variations: [
+        "⚪️"
+      ],
+      category: "drugs",
+      definition: "Used to represent powdered drugs like cocaine or heroin in moderation-avoidant contexts",
+      source: "goodboy"
+    },
+    {
+      root: "Brown emoji",
+      variations: [
+        "🟤"
+      ],
+      category: "drugs",
+      definition: "Used to represent brown drugs such as heroin in moderation-avoidant contexts",
+      source: "goodboy"
+    },
+    {
+      root: "Blotter emoji",
+      variations: [
+        "📝"
+      ],
+      category: "drugs",
+      definition: "Used to represent LSD or other psychedelic paper forms in moderation-avoidant contexts",
+      source: "goodboy"
+    },
+    {
+      root: "Mushroom emoji",
+      variations: [
+        "🍄"
+      ],
+      category: "drugs",
+      definition: "Used to represent psilocybin mushrooms in moderation-avoidant contexts",
+      source: "goodboy"
+    },
+    {
+      root: "Leaf emoji",
+      variations: [
+        "🍃"
+      ],
+      category: "drugs",
+      definition: "Used to represent cannabis in moderation-avoidant contexts",
+      source: "goodboy"
+    },
+    {
+      root: "Wax emoji",
+      variations: [
+        "🟨"
+      ],
+      category: "drugs",
+      definition: "Used to represent cannabis wax or concentrates in moderation-avoidant contexts",
+      source: "goodboy"
+    },
+    {
+      root: "Oil emoji",
+      variations: [
+        "💧"
+      ],
+      category: "drugs",
+      definition: "Used to represent cannabis oil or other concentrates in moderation-avoidant contexts",
+      source: "goodboy"
+    },
+    {
+      root: "Candy emoji",
+      variations: [
+        "🍬"
+      ],
+      category: "drugs",
+      definition: "Used to represent prescription pills or edibles in moderation-avoidant contexts",
+      source: "goodboy"
+    },
+    {
+      root: "Cup emoji",
+      variations: [
+        "🥤"
+      ],
+      category: "drugs",
+      definition: "Used to represent lean, purple drank, or codeine mixtures in moderation-avoidant contexts",
+      source: "goodboy"
+    },
+    {
+      root: "Unalive",
+      variations: [
+        "Unalived",
+        "Unalive-ing",
+        "Unaliving",
+        "💀",
+        "⚰️"
+      ],
+      category: "death",
+      definition: "A euphemism for being dead or killing someone or something, often used for characters, animals, or scenarios where explicit terms are restricted",
+      source: "goodboy"
+    },
+    {
+      root: "KYS",
+      variations: [
+        "🔫💀",
+        "💀🔫"
+      ],
+      category: "self-harm",
+      definition: "A coded way to reference telling someone to commit suicide or expressing suicidal desire",
+      source: "goodboy"
+    },
+    {
+      root: "Sewer slide",
+      variations: [],
+      category: "self-harm",
+      definition: "A euphemism for suicide used to avoid detection by moderation systems",
+      source: "goodboy"
+    },
+    {
+      root: "Rope emoji",
+      variations: [
+        "Rope myself",
+        "Grab the rope",
+        "🪢"
+      ],
+      category: "self-harm",
+      definition: "A coded reference to suicide by hanging or general suicidal intent",
+      source: "goodboy"
+    },
+    {
+      root: "KMS",
+      variations: [
+        "Unalive myself",
+        "Self unalive",
+        "Self unaliving",
+        "🚫💀",
+        "🙅‍♂️💀"
+      ],
+      category: "self-harm",
+      definition: "A common euphemism for dying or killing oneself, used when discussing suicidal thoughts or actions",
+      source: "goodboy"
+    },
     {
       root: "Biological name",
       variations: [],
@@ -328,7 +771,7 @@ const CODED_TERM_DATA = {
       root: "KAM",
       variations: [],
       category: "misandristic",
-      definition: "An acronym for 'Kill All Men', typically used hyperbolically or ironically but still expressing collective hostility toward men",
+      definition: "An acronym for \"Kill All Men\", typically used hyperbolically or ironically but still expressing collective hostility toward men",
       source: "goodboy"
     },
     {
@@ -726,7 +1169,6 @@ const CODED_TERM_DATA = {
     {
       root: "Third world men",
       variations: [
-        "3rd world men",
         "Thug world",
         "Global south menace",
         "Immigrant thugs",
@@ -1020,15 +1462,6 @@ const CODED_TERM_DATA = {
       source: "goodboy"
     },
     {
-      root: "Skull emoji",
-      variations: [
-        "💀"
-      ],
-      category: "alt-right",
-      definition: "Signals nihilism, radicalism or far-right extremism",
-      source: "goodboy"
-    },
-    {
       root: "Skull and Crossbones emoji",
       variations: [
         "☠️"
@@ -1038,39 +1471,12 @@ const CODED_TERM_DATA = {
       source: "goodboy"
     },
     {
-      root: "Fire emoji",
-      variations: [
-        "🔥"
-      ],
-      category: "fascist",
-      definition: "Signals violent fascism",
-      source: "goodboy"
-    },
-    {
       root: "Dagger emoji",
       variations: [
         "🗡️"
       ],
       category: "fascist",
       definition: "Signals violent fascism",
-      source: "goodboy"
-    },
-    {
-      root: "Peach emoji",
-      variations: [
-        "🍑"
-      ],
-      category: "misogynistic",
-      definition: "Signals slut-shaming or anti-LGBTQ sentiment",
-      source: "goodboy"
-    },
-    {
-      root: "Eggplant emoji",
-      variations: [
-        "🍆"
-      ],
-      category: "misogynistic",
-      definition: "Signals slut-shaming or anti-LGBTQ sentiment",
       source: "goodboy"
     },
     {
@@ -1693,9 +2099,7 @@ const CODED_TERM_DATA = {
     },
     {
       root: "Diversity is white genocide",
-      variations: [
-        "Diversity = white genocide"
-      ],
+      variations: [],
       category: "white-supremacist",
       definition: "Multiculturalism will mean the death of the white race",
       source: "adl"
@@ -1832,7 +2236,6 @@ const CODED_TERM_DATA = {
     {
       root: "21 2 12",
       variations: [
-        "21212",
         "UBL",
         "Unity Brotherhood Loyalty"
       ],
@@ -1865,9 +2268,7 @@ const CODED_TERM_DATA = {
     },
     {
       root: "1 11",
-      variations: [
-        "111"
-      ],
+      variations: [],
       category: "white-supremacist",
       definition: "Numeric symbol used by the Aryan Knights, an Idaho-based prison gang",
       source: "adl"
@@ -1930,9 +2331,7 @@ const CODED_TERM_DATA = {
     },
     {
       root: "Well, well, well",
-      variations: [
-        "Well well well"
-      ],
+      variations: [],
       category: "fascist",
       definition: "Used when a minority adheres to a negative stereotype",
       source: "goodboy"
@@ -2255,7 +2654,6 @@ const CODED_TERM_DATA = {
         "Border enforcement",
         "Immigration control",
         "Tighten borders",
-        "Tighten the borders",
         "Enforce immigration law",
         "Crackdown on migrants",
         "Crackdown on refugees"
@@ -2762,8 +3160,10 @@ const CODED_TERM_DATA = {
         "Great replacement theory",
         "Replacement theory",
         "We are being replaced",
+        "We will not be replaced",
         "They're replacing us",
         "You will not replace us",
+        "They will not replace us",
         "Demographic replacement"
       ],
       category: "racist",
@@ -2971,7 +3371,6 @@ const CODED_TERM_DATA = {
     {
       root: "13%",
       variations: [
-        "13",
         "13/50",
         "13/52"
       ],
@@ -2991,9 +3390,7 @@ const CODED_TERM_DATA = {
     },
     {
       root: "41%",
-      variations: [
-        "41"
-      ],
+      variations: [],
       category: "transphobic",
       definition: "Statistic that 41% of trans people have attempted suicide, often used to imply trans people should kill themselves",
       source: "silent_signals"
@@ -4784,14 +5181,23 @@ const CODED_TERM_DATA = {
       source: "goodboy"
     },
     {
+      root: "Eugenics",
+      variations: [],
+      category: "racist",
+      definition: "A term with a historical scientific meaning that has been co-opted by far-right and white-supremacist groups as a euphemistic dog-whistle advocating racial hierarchy, selective breeding, or ethnically-targeted policies. In extremist contexts, it signals support for discriminatory or violent ideology",
+      source: "goodboy",
+    },
+    {
       root: "Biological Race Realism",
       variations: [
         "Race Realism",
         "Race Realist",
         "HBD",
         "Human biodiversity",
+        "Evolutionary psychology",
         "Racial realism",
         "Racial realist",
+        "Race science",
         "Scientific racism",
         "Realist about race",
         "Realistic about race",

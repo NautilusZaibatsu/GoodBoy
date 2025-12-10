@@ -236,6 +236,33 @@ const CATEGORY_HIERARCHY = {
                 "darkColor": "#987cec"
             }
         }
+    },
+    "algospeak": {
+        "label": "Algospeak",
+        "lightColor": "#91c9b7",
+        "hoverColor": "#75b9a4",
+        "darkColor": "#3aa885",
+        "sub": {
+            "sexual-content": {
+                "label": "sexual-content",
+                "darkColor": "#2e9171"
+            }, "self-harm": {
+                "label": "Self-Harm",
+                "darkColor": "#28896a"
+            }, "death": {
+                "label": "Death",
+                "darkColor": "#309474"
+            }, "drugs": {
+                "label": "Drugs",
+                "darkColor": "#3e9479"
+            }, "illegality": {
+                "label": "Illegality",
+                "darkColor": "#4aaa8c"
+            }, "paedophilia": {
+                "label": "Paedophilia",
+                "darkColor": "#3cad89"
+            }
+        }
     }
 };
 

@@ -1,10 +1,10 @@
 const HARMFUL_TERM_DATA = {
-  generated: "2025-12-10T00:01:02.026Z",
+  generated: "2025-12-10T22:58:20.917Z",
   uniqueTerms: 611,
-  totalTerms: 1183,
+  totalTerms: 1180,
   categoryBreakdown: [
-    { name: "racist", count: 738 },
-    { name: "homophobic", count: 85 },
+    { name: "racist", count: 737 },
+    { name: "homophobic", count: 84 },
     { name: "disability", count: 66 },
     { name: "islamophobic", count: 46 },
     { name: "sectarian", count: 44 },
@@ -14,7 +14,7 @@ const HARMFUL_TERM_DATA = {
     { name: "prostitution", count: 16 },
     { name: "anti-lgbtq", count: 15 },
     { name: "christophobia", count: 15 },
-    { name: "ageist", count: 12 },
+    { name: "ageist", count: 11 },
     { name: "misogynistic", count: 10 },
     { name: "xenophobic", count: 10 },
     { name: "mental-health", count: 8 },
@@ -31,24 +31,30 @@ const HARMFUL_TERM_DATA = {
     { name: "climate-change-denial", count: 0 },
     { name: "conservative", count: 0 },
     { name: "conspiracy", count: 0 },
+    { name: "death", count: 0 },
     { name: "deflection", count: 0 },
     { name: "dehumanization", count: 0 },
+    { name: "drugs", count: 0 },
     { name: "emotional-dismissal", count: 0 },
     { name: "fascist", count: 0 },
+    { name: "illegality", count: 0 },
     { name: "liberal", count: 0 },
     { name: "localist", count: 0 },
     { name: "nationalist", count: 0 },
+    { name: "paedophilia", count: 0 },
     { name: "personal-responsibility", count: 0 },
     { name: "pseudoscience", count: 0 },
     { name: "regionalist", count: 0 },
     { name: "religious-populism", count: 0 },
+    { name: "self-harm", count: 0 },
+    { name: "sexual-content", count: 0 },
     { name: "welfare-chauvinism", count: 0 },
     { name: "white-supremacist", count: 0 }
   ],
   sourceBreakdown: [
-    { name: "wiki", count: 827 },
-    { name: "goodboy", count: 236 },
-    { name: "citg", count: 65 },
+    { name: "wiki", count: 824 },
+    { name: "goodboy", count: 217 },
+    { name: "citg", count: 84 },
     { name: "wsp", count: 48 },
     { name: "aos", count: 7 },
     { name: "adl", count: 0 },
@@ -56,6 +62,13 @@ const HARMFUL_TERM_DATA = {
     { name: "swu", count: 0 }
   ],
   terms: [
+    {
+      root: "Blacks",
+      variations: [],
+      category: "racist",
+      definition: "A term that reduces people to the color of their skin, treating them as a monolithic group rather than as full human beings, and is widely considered dehumanizing and offensive in most contexts",
+      source: "goodboy"
+    },
     {
       root: "Mulatto",
       variations: [
@@ -322,9 +335,7 @@ const HARMFUL_TERM_DATA = {
     },
     {
       root: "Okay, boomer",
-      variations: [
-        "OK, boomer"
-      ],
+      variations: [],
       category: "ageist",
       definition: "A retort to opinions that are associated with the Baby boomer generation",
       source: "wiki"
@@ -922,7 +933,6 @@ const HARMFUL_TERM_DATA = {
         "Effie",
         "Flit",
         "Flitty",
-        "Fudge packer",
         "Girlyboy",
         "Light in the loafers",
         "Limp wristed",
@@ -937,31 +947,8 @@ const HARMFUL_TERM_DATA = {
         "Sissy",
         "Sissified",
         "Three letter man",
-        "Turd burglar"
-      ],
-      category: "homophobic",
-      definition: "A gay or feminine man",
-      source: "citg"
-    },
-    {
-      root: "Stoke-On-Trent",
-      variations: [
-        "Stoke"
-      ],
-      category: "homophobic",
-      definition: "A gay man. Cockney rhyming slang for \"bent\"",
-      source: "citg"
-    },
-    {
-      root: "Bent",
-      variations: [],
-      category: "homophobic",
-      definition: "Homosexual",
-      source: "goodboy"
-    },
-    {
-      root: "Nancy boy",
-      variations: [
+        "Turd burglar",
+        "Nancy boy",
         "Nancy",
         "Gaylord",
         "Gay lord",
@@ -983,7 +970,23 @@ const HARMFUL_TERM_DATA = {
         "Queen"
       ],
       category: "homophobic",
-      definition: "A gay man",
+      definition: "A gay or feminine man",
+      source: "goodboy"
+    },
+    {
+      root: "Stoke-On-Trent",
+      variations: [
+        "Stoke"
+      ],
+      category: "homophobic",
+      definition: "A gay man. Cockney rhyming slang for \"bent\"",
+      source: "citg"
+    },
+    {
+      root: "Bent",
+      variations: [],
+      category: "homophobic",
+      definition: "Homosexual",
       source: "goodboy"
     },
     {
@@ -1325,9 +1328,7 @@ const HARMFUL_TERM_DATA = {
     },
     {
       root: "Wasi'chu",
-      variations: [
-        "Wasichu"
-      ],
+      variations: [],
       category: "racist",
       definition: "A non-Native white person. Used by Lakota and Dakota people. Means \"the one who takes the best meat for himself",
       source: "wiki"
@@ -1433,7 +1434,6 @@ const HARMFUL_TERM_DATA = {
     {
       root: "Ukro Nazi",
       variations: [
-        "Ukronazi",
         "Ukrofascist"
       ],
       category: "racist",

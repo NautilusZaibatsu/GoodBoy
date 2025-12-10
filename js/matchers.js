@@ -1280,19 +1280,24 @@ const PatternMatcher = {
     }
 };
 
-class CodedTermMatcher {
-    constructor(codedTermData) {
-        // Store coded term data
-        this.codedTermData = codedTermData;
-        this.codedTermTerms = codedTermData.terms;
+/**
+ * Base class for term matchers (DRY - eliminates duplication between CodedTermMatcher and HarmfulTermMatcher)
+ * Provides shared matching logic with configurable match type for styling
+ */
+class BaseTermMatcher {
+    constructor(termData, matchType) {
+        // Store term data
+        this.termData = termData;
+        this.terms = termData.terms;
+        this.matchType = matchType;  // 'codedTerm' or 'harmfulTerm'
 
-        // Build lookup map for coded terms using DRY helper
-        this.variationMap = TextUtils.buildVariationMap(this.codedTermTerms);
+        // Build lookup map using DRY helper
+        this.variationMap = TextUtils.buildVariationMap(this.terms);
     }
 
     analyze(text) {
         // Use shared DRY helper
-        const allMatches = analyzeTextWithVariations(text, this.variationMap, 'codedTerm');
+        const allMatches = analyzeTextWithVariations(text, this.variationMap, this.matchType);
 
         // Remove overlapping matches, keeping the longest/most specific ones
         // Sort by: 1) length (descending), 2) position (ascending)
@@ -1353,74 +1358,28 @@ class CodedTermMatcher {
     }
 }
 
-class HarmfulTermMatcher {
+/**
+ * Coded term matcher - detects dog whistle/coded language
+ * Uses background highlighting for matches
+ */
+class CodedTermMatcher extends BaseTermMatcher {
+    constructor(codedTermData) {
+        super(codedTermData, 'codedTerm');
+        // Preserve original property names for backwards compatibility
+        this.codedTermData = codedTermData;
+        this.codedTermTerms = codedTermData.terms;
+    }
+}
+
+/**
+ * Harmful term matcher - detects explicit offensive language
+ * Uses underline styling for matches
+ */
+class HarmfulTermMatcher extends BaseTermMatcher {
     constructor(harmfulTermData) {
-        // Store harmful term data
+        super(harmfulTermData, 'harmfulTerm');
+        // Preserve original property names for backwards compatibility
         this.harmfulTermData = harmfulTermData;
         this.harmfulTermTerms = harmfulTermData.terms;
-
-        // Build lookup map for harmful terms using DRY helper
-        this.variationMap = TextUtils.buildVariationMap(this.harmfulTermTerms);
-    }
-
-    analyze(text) {
-        // Use shared DRY helper
-        const allMatches = analyzeTextWithVariations(text, this.variationMap, 'harmfulTerm');
-
-        // Remove overlapping matches, keeping the longest/most specific ones
-        allMatches.sort((a, b) => {
-            if (b.length !== a.length) return b.length - a.length;
-            return a.start - b.start;
-        });
-
-        const matches = [];
-        const usedRanges = [];
-
-        // Keep matches that don't overlap with already-selected matches
-        // EXCEPT: allow numeric terms to overlap with each other (e.g., "1813" can match both "18" and "13")
-        for (const match of allMatches) {
-            const isNumericMatch = match.isNumeric || false;
-
-            // Check if this match overlaps with any already-selected match
-            let hasBlockingOverlap = false;
-            for (const range of usedRanges) {
-                if (TextUtils.overlaps(match, range)) {
-                    // Allow overlap if BOTH terms are same type (numeric-numeric OR letter-letter)
-                    const rangeIsNumeric = range.isNumeric;
-                    const rangeIsLetterTerm = range.isLetterTerm || false;
-                    const isLetterTermMatch = match.isLetterTerm || false;
-
-                    if (!((isNumericMatch && rangeIsNumeric) || (isLetterTermMatch && rangeIsLetterTerm))) {
-                        hasBlockingOverlap = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!hasBlockingOverlap) {
-                matches.push(match);
-                usedRanges.push({
-                    start: match.start,
-                    end: match.end,
-                    isNumeric: isNumericMatch,
-                    isLetterTerm: match.isLetterTerm || false
-                });
-            }
-        }
-
-        // Filter letter terms using shared DRY helper
-        const filteredMatches = filterLetterTerms(matches, text);
-
-        // Sort final matches by position for display
-        filteredMatches.sort((a, b) => a.start - b.start);
-
-        // Count unique categories
-        const foundCategories = new Set(filteredMatches.map(m => m.category));
-
-        return {
-            matches: filteredMatches,
-            categoryCount: foundCategories.size,
-            categories: Array.from(foundCategories)
-        };
     }
 }

@@ -5,14 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.4.8] - 2025-12-10
+## [0.4.8.1] - 2025-12-10
 ### Changed
+- **Technical**
+  - Refactor of text_utils, number_utils and matchers
+
+- **Databases** 
+  - Algospeak category added
+  - Over 100 new terms
+
+### Known Issues
+- **Non-ASCII characters** 
+  - Database entries with an extreme amount of 'unusual' characters such as Аляска are currently not supported as the obfuscation utils pattern match too greedily. All examples have been commented out of the data for now
+- **Detection**
+  - Multi-word terms don't match if they have are non-plural and have an alpha-numeric character immediately following them. Eg, False Flagj
+
+## [0.4.8] - 2025-12-10
+### Added
 - **Unflag Terms**
   - You can now click the flag icon in the top right of a term tooltip to manually unflag it. This is useful if you think the term was not used in the flagged context and wish tto exclude it from the result
   - Unflagged terms have a gray highlight or underline. You can still see the term tooltip by clicking/hovering on unflagged terms
   - You can reflag a term by clicking the flag icon in the tooltip again
   - On unflag / reflag the signal score and breakdown will be recalculated
 
+### Changed
 - **Signal Score** 
   - Signal score calculation has been tweaked slightly
 

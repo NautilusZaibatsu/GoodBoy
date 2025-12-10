@@ -5,12 +5,11 @@
  */
 
 const TextUtils = {
-    // Flexible whitespace pattern - matches any non-alphanumeric characters INCLUDING underscores
-    // Used consistently across all pattern matching (DRY principle)
-    // * = zero or more (for character-level obfuscation: "blo/od", "bl.oo.d")
-    // + = one or more (for word separation: "inner city", "inner_city")
-    // [^a-zA-Z0-9] matches anything except letters and digits (includes _, -, /, etc.)
-    FLEXIBLE_WHITESPACE_OPTIONAL: '[^a-zA-Z0-9]*',  // Zero or more (character-level obfuscation)
+    // Flexible whitespace patterns - used consistently across all pattern matching (DRY principle)
+    // [^a-zA-Z0-9\s] matches anything except letters, digits, and whitespace (includes _, -, /, etc.)
+    // [^a-zA-Z0-9] matches anything except letters and digits (includes _, -, /, spaces, etc.)
+    FLEXIBLE_WHITESPACE_OPTIONAL: '[^a-zA-Z0-9\\s]*',  // Zero or more, NO spaces (character-level obfuscation: "bl-o-od")
+    FLEXIBLE_WORD_SEPARATOR: '[^a-zA-Z0-9]*',  // Zero or more, WITH spaces (multi-word terms: "false flag")
     FLEXIBLE_WHITESPACE_REQUIRED: '[^a-zA-Z0-9]+',  // One or more (word separation)
 
     // ===== CACHE =====
@@ -107,7 +106,7 @@ const TextUtils = {
         '4': 'for',
         '2': 'to',
         'ok': 'okay',
-        // coded language specific
+        // Coded language specific
         'gov': 'government',
         'govt': 'government',
         'lib': 'liberal',
@@ -439,7 +438,7 @@ const TextUtils = {
         'g': '69',
         'h': '#',
         'i': '1!|',
-        'l': '1|£w',
+        'l': '1|£',
         'o': '0°○●',
         's': '$5§',
         't': '7+†',
@@ -525,6 +524,8 @@ const TextUtils = {
     /**
      * Create flexible regex pattern that handles ALL variations INCLUDING numbers
      *
+     * Main entry point for pattern creation. Orchestrates number and character-level obfuscation.
+     *
      * Handles:
      * - Character substitution (leet speak): "soy" → "s[s$5][oóòôöõø0]y"
      * - Obfuscation: accented chars, numbers as letters
@@ -550,12 +551,13 @@ const TextUtils = {
                     // Add text before number (with character obfuscation)
                     if (num.start > lastIndex) {
                         const textPart = variation.substring(lastIndex, num.start);
-                        // If text between numbers is just whitespace/punctuation, treat as flexible whitespace
+                        // If text between numbers is just whitespace/punctuation, treat as flexible word separator
                         // This allows "33/6" to match "thirty three six", "33 6", AND "336" (optional separator)
+                        // Use FLEXIBLE_WORD_SEPARATOR (allows spaces) for number separators
                         if (/^[\s\-_\/]+$/.test(textPart)) {
-                            pattern += this.FLEXIBLE_WHITESPACE_OPTIONAL;
+                            pattern += this.FLEXIBLE_WORD_SEPARATOR;
                         } else {
-                            pattern += this.createFlexiblePatternOriginal(textPart);
+                            pattern += this.createCharacterPattern(textPart);
                         }
                     }
 
@@ -567,7 +569,7 @@ const TextUtils = {
 
                 // Add remaining text after last number
                 if (lastIndex < variation.length) {
-                    pattern += this.createFlexiblePatternOriginal(variation.substring(lastIndex));
+                    pattern += this.createCharacterPattern(variation.substring(lastIndex));
                 }
 
                 // If we have multiple numbers separated ONLY by punctuation (like "33/6"),
@@ -604,20 +606,22 @@ const TextUtils = {
             }
         }
 
-        // No numbers or NumberUtils not available - use original logic
+        // No numbers or NumberUtils not available - use character-level pattern only
         // Add optional 's' at the end to catch plurals (DRY principle)
         // But don't match 's' across newlines or when followed by another letter
         // Negative lookahead (?![a-z]) prevents consuming 's' that's part of next word
-        const finalPattern = this.createFlexiblePatternOriginal(variation) + `(?:[^a-zA-Z0-9\\n\\r]*s(?![a-z]))?`;
+        const finalPattern = this.createCharacterPattern(variation) + `(?:[^a-zA-Z0-9\\n\\r]*s(?![a-z]))?`;
 
         return finalPattern;
     },
 
     /**
-     * Original createFlexiblePattern implementation (character-level only)
-     * Used internally when no number obfuscation needed
+     * Create character-level flexible pattern (no number obfuscation)
+     *
+     * Handles emojis, text normalization, character substitutions, and bidirectional word replacements.
+     * Used internally by createFlexiblePattern() for text portions of patterns.
      */
-    createFlexiblePatternOriginal(variation) {
+    createCharacterPattern(variation) {
         // Special handling for emojis - match them literally but allow flexible spacing between them
 
         if (this.EMOJI_CONTAINS_REGEX.test(variation)) {
@@ -717,9 +721,10 @@ const TextUtils = {
                 continue;
             }
 
-            // Spaces and hyphens become OPTIONAL flexible whitespace pattern
+            // Spaces and hyphens become OPTIONAL flexible word separator
+            // Use FLEXIBLE_WORD_SEPARATOR (allows spaces) for intentional spaces in multi-word terms
             if (char === ' ' || char === '-' || char === "'" || char === "'") {
-                result.push(this.FLEXIBLE_WHITESPACE_OPTIONAL);
+                result.push(this.FLEXIBLE_WORD_SEPARATOR);
             }
             // If we have a substitution class for this character, use it
             else {
