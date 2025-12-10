@@ -1,6 +1,6 @@
-const HARMFUL_TERM_DATA= {
-  generated: "2025-12-09T00:40:14.642Z",
-  uniqueTerms: 610,
+const HARMFUL_TERM_DATA = {
+  generated: "2025-12-10T00:01:02.026Z",
+  uniqueTerms: 611,
   totalTerms: 1183,
   categoryBreakdown: [
     { name: "racist", count: 738 },
@@ -15,25 +15,27 @@ const HARMFUL_TERM_DATA= {
     { name: "anti-lgbtq", count: 15 },
     { name: "christophobia", count: 15 },
     { name: "ageist", count: 12 },
-    { name: "misogynistic", count: 12 },
+    { name: "misogynistic", count: 10 },
     { name: "xenophobic", count: 10 },
     { name: "mental-health", count: 8 },
+    { name: "transphobic", count: 8 },
     { name: "hinduphobic", count: 6 },
-    { name: "transphobic", count: 6 },
     { name: "religious-minorities", count: 5 },
     { name: "misandristic", count: 3 },
     { name: "sikhophobic", count: 2 },
-    { name: "liberal", count: 1 },
-    { name: "alt-right", count: 0 },
+    { name: "alt-right", count: 1 },
+    { name: "anti-conservative", count: 0 },
     { name: "anti-liberal", count: 0 },
+    { name: "anti-science", count: 0 },
     { name: "bad-faith", count: 0 },
-    { name: "climate change denier", count: 0 },
+    { name: "climate-change-denial", count: 0 },
     { name: "conservative", count: 0 },
     { name: "conspiracy", count: 0 },
     { name: "deflection", count: 0 },
     { name: "dehumanization", count: 0 },
     { name: "emotional-dismissal", count: 0 },
     { name: "fascist", count: 0 },
+    { name: "liberal", count: 0 },
     { name: "localist", count: 0 },
     { name: "nationalist", count: 0 },
     { name: "personal-responsibility", count: 0 },
@@ -86,17 +88,8 @@ const HARMFUL_TERM_DATA= {
     {
       root: "Libtard",
       variations: [],
-      category: "liberal",
+      category: "alt-right",
       definition: "A liberal person. Portmanteau of \"liberal\" and \"retard\"",
-      source: "goodboy"
-    },
-    {
-      root: "Womxn",
-      variations: [
-        "Wymmin"
-      ],
-      category: "misogynistic",
-      definition: "A woman",
       source: "goodboy"
     },
     {
@@ -241,6 +234,20 @@ const HARMFUL_TERM_DATA= {
       variations: [],
       category: "transphobic",
       definition: "An outdated term for people who cross-dress; commonly used as a slur against trans people",
+      source: "goodboy"
+    },
+    {
+      root: "Trutranny",
+      variations: [],
+      category: "transphobic",
+      definition: "A transgender person. Used to suggest deceit or illegitimacy",
+      source: "goodboy"
+    },
+    {
+      root: "Trap queen",
+      variations: [],
+      category: "transphobic",
+      definition: "A transgender woman. Used to imply deception or trickery",
       source: "goodboy"
     },
     {

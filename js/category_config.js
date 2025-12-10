@@ -134,6 +134,10 @@ const CATEGORY_HIERARCHY = {
                 "label": "Conservative",
                 "darkColor": "#5c6bc0"
             },
+            "anti-conservative": {
+                "label": "Anti-Conservative",
+                "darkColor": "#4a58a4",
+            },
             "liberal": {
                 "label": "Liberal",
                 "darkColor": "#3f51b5"
@@ -191,7 +195,11 @@ const CATEGORY_HIERARCHY = {
                 "label": "Pseudoscience",
                 "darkColor": "#d27e29"
             },
-            "climate change denier": {
+            "anti-science": {
+                "label": "Anti-Science",
+                "darkColor": "#be6c1a"
+            },
+            "climate-change-denial": {
                 "label": "Climate Change Denial",
                 "darkColor": "#e9821b"
             },

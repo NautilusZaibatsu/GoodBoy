@@ -122,17 +122,47 @@ const TextUtils = {
         "aren't": 'are not',
         "can't": 'cannot',
         "won't": 'will not',
-        "i'm": 'i am',
-        "they're": 'they are',
-        "we're": 'we are',
         "it's": 'it is',
-        "i've": 'i have',
-        "they've": 'they have',
+        "it'll": 'it will',
         "doesn't": 'does not',
         "didn't": 'did not',
         "shouldn't": 'should not',
+        "should've": 'should have',
+        "shouldn't've": 'should not have',
         "wouldn't": 'would not',
-        "couldn't": 'could not'
+        "would've": 'would have',
+        "wouldn't've": 'would not have',
+        "couldn't": 'could not',
+        "could've": 'could have',
+        "couldn't've": 'could not have',
+        "i'm": 'i am',
+        "i'll": 'i will',
+        "i'd": 'i would',
+        "i've": 'i have',
+        "i'd've": 'i would have',
+        "we're": 'we are',
+        "we'll": 'we will',
+        "we'd": 'we would',
+        "we've": 'we have',
+        "we'd've": 'we would have',
+        "you're": 'you are',
+        "you'll": 'you will',
+        "you'd": 'you would',
+        "you've": 'you have',
+        "you'd've": 'you would have',
+        "he's": 'he is',
+        "he'll": 'he will',
+        "he'd": 'he would',
+        "he'd've": 'he would have',
+        "she's": 'she is',
+        "she'll": 'she will',
+        "she'd": 'she would',
+        "she'd've": 'she would have',
+        "they're": 'they are',
+        "they'll": 'they will',
+        "they'd": 'they would',
+        "they've": 'they have',
+        "they'd've": 'they would have',
     },
 
     // Ordinal numbers (bidirectional - both forms valid)
@@ -307,7 +337,7 @@ const TextUtils = {
             .toLowerCase()
             .replace(/^#/, '');
         // Apply all substitutions using helper functions
-        text = this.applyBidirectionalSubs(text, this.SHORTHAND); 
+        text = this.applyBidirectionalSubs(text, this.SHORTHAND);
         text = this.applyOneWaySubs(text, this.ORDINAL_NUMBERS);
         text = this.applyOneWaySubs(text, this.SLANG);
         text = this.applyOneWaySubs(text, this.MEMESPEAK);
@@ -375,7 +405,7 @@ const TextUtils = {
         return text;
     },
 
-     // ===== CHARACTER NORMALIZATION =====
+    // ===== CHARACTER NORMALIZATION =====
 
     // Character substitution map for accented letter detection
     CHARACTER_VARIANTS: {

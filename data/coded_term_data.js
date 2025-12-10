@@ -1,36 +1,38 @@
 const CODED_TERM_DATA = {
-  generated: "2025-12-09T00:40:14.635Z",
+  generated: "2025-12-10T00:01:02.011Z",
   datasetSize: 16258,
-  uniqueTerms: 495,
-  totalTerms: 1820,
+  uniqueTerms: 506,
+  totalTerms: 1853,
   categoryBreakdown: [
     { name: "racist", count: 200 },
     { name: "white-supremacist", count: 171 },
     { name: "xenophobic", count: 170 },
     { name: "antisemitic", count: 159 },
-    { name: "transphobic", count: 147 },
+    { name: "transphobic", count: 152 },
     { name: "alt-right", count: 131 },
     { name: "bad-faith", count: 95 },
-    { name: "anti-liberal", count: 81 },
-    { name: "conspiracy", count: 80 },
+    { name: "conspiracy", count: 93 },
+    { name: "anti-liberal", count: 80 },
     { name: "nationalist", count: 71 },
     { name: "islamophobic", count: 70 },
     { name: "welfare-chauvinism", count: 69 },
     { name: "fascist", count: 54 },
     { name: "emotional-dismissal", count: 53 },
-    { name: "misogynistic", count: 43 },
-    { name: "pseudoscience", count: 42 },
+    { name: "misogynistic", count: 46 },
     { name: "conservative", count: 39 },
     { name: "disability", count: 35 },
+    { name: "pseudoscience", count: 29 },
+    { name: "misandristic", count: 24 },
     { name: "anti-lgbtq", count: 20 },
-    { name: "misandristic", count: 19 },
+    { name: "anti-science", count: 20 },
     { name: "homophobic", count: 16 },
     { name: "dehumanization", count: 15 },
     { name: "deflection", count: 13 },
     { name: "personal-responsibility", count: 13 },
     { name: "liberal", count: 6 },
     { name: "ageist", count: 4 },
-    { name: "climate change denier", count: 4 },
+    { name: "climate-change-denial", count: 4 },
+    { name: "anti-conservative", count: 1 },
     { name: "christophobia", count: 0 },
     { name: "hinduphobic", count: 0 },
     { name: "localist", count: 0 },
@@ -45,8 +47,8 @@ const CODED_TERM_DATA = {
     { name: "sikhophobic", count: 0 }
   ],
   sourceBreakdown: [
-    { name: "goodboy", count: 1283 },
-    { name: "silent_signals", count: 370 },
+    { name: "goodboy", count: 1327 },
+    { name: "silent_signals", count: 359 },
     { name: "adl", count: 85 },
     { name: "swu", count: 81 },
     { name: "wiki", count: 1 },
@@ -56,6 +58,150 @@ const CODED_TERM_DATA = {
   ],
 
   terms: [
+    {
+      root: "Biological name",
+      variations: [],
+      category: "transphobic",
+      definition: "A phrase used to assert that a person's \"real\" or \"authentic\" identity is determined by biological sex or their birth name, often used to reject or undermine a self-identified name or gender",
+      source: "goodboy"
+    },
+    {
+      root: "Pronoun police",
+      variations: [
+        "Pronoun enforcement"
+      ],
+      category: "transphobic",
+      definition: "A term used to mock or delegitimize policies or individuals enforcing the use of correct pronouns, framing them as authoritarian or overbearing",
+      source: "goodboy"
+    },
+    {
+      root: "Forced pronouns",
+      variations: [
+        "Imposed pronouns"
+      ],
+      category: "transphobic",
+      definition: "A phrase used to depict the use of correct pronouns as coercive, often to ridicule or invalidate transgender and nonbinary identities",
+      source: "goodboy"
+    },
+    {
+      root: "Unicorn emoji",
+      variations: [
+        "🦄"
+      ],
+      category: "transphobic",
+      definition: "An emoji sometimes used in online transphobic discourse to mock or signal derogatory commentary about transgender or nonbinary individuals",
+      source: "goodboy"
+    },
+    {
+      root: "Real man",
+      variations: [
+        "Only real men",
+        "A real man"
+      ],
+      category: "transphobic",
+      definition: "A phrase used to enforce traditional ideas of masculinity and delegitimize people who do not cconfrom, including trans men or men perceived to be not \"masculine enough\". Functions as a coded way to assert gender norms",
+      source: "goodboy"
+    },
+    {
+      root: "YWNBAW",
+      variations: [
+        "You will never be a woman"
+      ],
+      category: "transphobic",
+      definition: "A slogan used to deny a transgender woman's gender identity and assert that she can never be recognized as a woman",
+      source: "goodboy"
+    },
+    {
+      root: "YWNBAM",
+      variations: [
+        "You will never be a man"
+      ],
+      category: "transphobic",
+      definition: "A slogan used to deny a transgender man's gender identity and assert that he can never be recognized as a man",
+      source: "goodboy"
+    },
+    {
+      root: "Gammon",
+      variations: [],
+      category: "anti-conservative",
+      definition: "A derogatory political term, mainly in UK discourse, used to mock middle-aged or older conservative men perceived as angry, nationalistic, or socially conservative",
+      source: "goodboy"
+    },
+    {
+      root: "So-called expert",
+      variations: [
+        "So-called scientist",
+        "These so-called experts",
+        "These so-called scientists"
+      ],
+      category: "anti-science",
+      definition: "A dismissive phrase used to undermine or delegitimize scientific consensus or professional expertise by framing experts as untrustworthy, biased, or part of an opposing agenda",
+      source: "goodboy"
+    },
+    {
+      root: "Evolution is just a theory",
+      variations: [
+        "Evolution's just a theory",
+        "Evolution is only a theory"
+      ],
+      category: "anti-science",
+      definition: "A phrase used to dismiss evolutionary biology by framing it as speculative or uncertain, undermining scientific consensus",
+      source: "goodboy"
+    },
+    {
+      root: "Western medicine",
+      variations: [
+        "Allopathic medicine",
+        "Conventional medicine"
+      ],
+      category: "anti-science",
+      definition: "A term used to delegitimize modern medical science and treatments, often in favor of alternative or traditional remedies",
+      source: "goodboy"
+    },
+    {
+      root: "Science cult",
+      variations: [
+        "Scientific cult",
+        "Cult of science"
+      ],
+      category: "anti-science",
+      definition: "A term used to mock or delegitimize scientific communities, portraying adherence to science as dogmatic or blind faith",
+      source: "goodboy"
+    },
+    {
+      root: "Scientism",
+      variations: [],
+      category: "anti-science",
+      definition: "A term used to criticize the application of scientific methods or reasoning in areas perceived as inappropriate, implying that science is treated as dogma",
+      source: "goodboy"
+    },
+    {
+      root: "Alternative source",
+      variations: [
+        "Non-mainstream source"
+      ],
+      category: "anti-science",
+      definition: "A term used to suggest that non-expert or fringe sources are as trustworthy than established scientific authorities",
+      source: "goodboy"
+    },
+    {
+      root: "Vaccine safety",
+      variations: [],
+      category: "pseudoscience",
+      definition: "A term used in anti-vaccine discourse to suggest that vaccines are unsafe, often misrepresenting scientific evidence to promote doubt or fear",
+      source: "goodboy"
+    },
+    {
+      root: "Vaccine propaganda",
+      variations: [
+        "Vaccine indoctrination",
+        "Vaccine narrative",
+        "Forced vaccination"
+      ],
+      category: "anti-science",
+      definition: "A phrase used to claim that information promoting vaccines is manipulative, controlled by authorities or pharmaceutical companies, and untrustworthy",
+      source: "goodboy"
+    },
     {
       root: "Equal rights means equal lefts",
       variations: [
@@ -164,6 +310,18 @@ const CODED_TERM_DATA = {
       ],
       category: "misandristic",
       definition: "A rhetorical meme suggesting that men are more dangerous than wild animals, implying men as a group are inherently predatory",
+      source: "goodboy"
+    },
+    {
+      root: "Men used to go to war",
+      variations: [
+        "Men used to fight wars",
+        "Men used to fight in wars",
+        "Men used to fight and die in war",
+        "Back when men went to war"
+      ],
+      category: "misandristic",
+      definition: "A phrase used to belittle or dismiss men by contrasting them with an idealised past in which men were portrayed as tougher, braver, or more traditionally masculine",
       source: "goodboy"
     },
     {
@@ -445,7 +603,7 @@ const CODED_TERM_DATA = {
         "Done your own research",
         "Did your own research",
         "Doing your own research",
-        "Do my own resaerch",
+        "Do my own research",
         "Done my own research",
         "Did my own research",
         "Doing my own research",
@@ -454,7 +612,7 @@ const CODED_TERM_DATA = {
         "Did our own research",
         "Doing our own research"
       ],
-      category: "pseudoscience",
+      category: "conspiracy",
       definition: "Used to signal independent validation of claims while rejecting scientific consensus; commonly used to promote pseudoscience, misinformation, or conspiracy theories",
       source: "goodboy"
     },
@@ -489,16 +647,6 @@ const CODED_TERM_DATA = {
       ],
       category: "pseudoscience",
       definition: "Misuses scientific terminology to justify unproven health claims",
-      source: "goodboy"
-    },
-    {
-      root: "Real man",
-      variations: [
-        "Only real men",
-        "A real man"
-      ],
-      category: "transphobic",
-      definition: "A phrase used to enforce traditional ideas of masculinity and delegitimize people who do not cconfrom, including trans men or men perceived to be not \"masculine enough\". Functions as a coded way to assert gender norms",
       source: "goodboy"
     },
     {
@@ -1292,7 +1440,7 @@ const CODED_TERM_DATA = {
         "Must be your hormones"
       ],
       category: "emotional-dismissal",
-      definition: "A gendered dismissal that undermines someone's viewpoint by attributing their emotions or reactions to hormones—most commonly used against women to invalidate legitimate anger, frustration, or disagreement.",
+      definition: "A gendered dismissal that undermines someone's viewpoint by attributing their emotions or reactions to hormones—most commonly used against women to invalidate legitimate anger, frustration, or disagreement",
       source: "goodboy"
     },
     {
@@ -2929,8 +3077,8 @@ const CODED_TERM_DATA = {
         "Alarmist",
         "Climate alarmist"
       ],
-      category: "climate change denier",
-      definition: "People are overreacting about climate change being a problem",
+      category: "climate-change-denial",
+      definition: "Used to imply that people are overreacting about climate change being a problem",
       source: "goodboy"
     },
     {
@@ -3054,6 +3202,7 @@ const CODED_TERM_DATA = {
       variations: [
         "George Floyd",
         "Colin Kaepernick",
+        "Willie Horton",
         "Floyd type"
       ],
       category: "racist",
@@ -3154,13 +3303,6 @@ const CODED_TERM_DATA = {
       ],
       category: "islamophobic",
       definition: "Obama has a connection to Islam and is therefore threatening and untrustworthy",
-      source: "silent_signals"
-    },
-    {
-      root: "Based",
-      variations: [],
-      category: "anti-liberal",
-      definition: "Endorsement of someone promoting racism or other bigotry",
       source: "silent_signals"
     },
     {
@@ -4057,8 +4199,8 @@ const CODED_TERM_DATA = {
         "Implicit biases"
       ],
       category: "liberal",
-      definition: "Racism",
-      source: "silent_signals"
+      definition: "A concept describing unconscious attitudes or stereotypes that influence behavior without deliberate awareness; commonly used in progressive discussions of inequality",
+      source: "goodboy"
     },
     {
       root: "Inner city",
@@ -4378,8 +4520,8 @@ const CODED_TERM_DATA = {
         "Neoliberalist"
       ],
       category: "liberal",
-      definition: "Non-leftist liberal",
-      source: "silent_signals"
+      definition: "A political and economic ideology favouring free markets, privatisation, and reduced government intervention; often used as a critical label by the political left",
+      source: "goodboy"
     },
     {
       root: "Jewish World Order",
@@ -5100,13 +5242,6 @@ const CODED_TERM_DATA = {
       source: "silent_signals"
     },
     {
-      root: "Vaccine safety",
-      variations: [],
-      category: "pseudoscience",
-      definition: "Opposition to vaccines",
-      source: "silent_signals"
-    },
-    {
       root: "Vegan cat",
       variations: [],
       category: "transphobic",
@@ -5202,13 +5337,6 @@ const CODED_TERM_DATA = {
       source: "silent_signals"
     },
     {
-      root: "Willie Horton",
-      variations: [],
-      category: "racist",
-      definition: "Convicted murderer whose imagery is used to link Blackness with criminality and threat",
-      source: "silent_signals"
-    },
-    {
       root: "Windmill",
       variations: [
         "Windmill of friendship"
@@ -5225,13 +5353,14 @@ const CODED_TERM_DATA = {
       source: "silent_signals"
     },
     {
-      root: "Womyn",
+      root: "Womxn",
       variations: [
-        "WWmxn"
+        "Womyn",
+        "Wymmin"
       ],
-      category: "transphobic",
-      definition: "Cis women",
-      source: "silent_signals"
+      category: "misogynistic",
+      definition: "Alternative spelling of \"woman\" often used in anti-feminist or gender-critical discourse",
+      source: "goodboy"
     },
     {
       root: "Working class",
@@ -5283,24 +5412,6 @@ const CODED_TERM_DATA = {
       category: "antisemitic",
       definition: "Obfuscated reference to Jews used to evade moderation, or to openly signal antisemitism",
       source: "silent_signals"
-    },
-    {
-      root: "YWNBAW",
-      variations: [
-        "You will never be a woman"
-      ],
-      category: "transphobic",
-      definition: "You will never be a woman",
-      source: "goodboy"
-    },
-    {
-      root: "YWNBAM",
-      variations: [
-        "You will never be a man"
-      ],
-      category: "transphobic",
-      definition: "You will never be a man",
-      source: "goodboy"
     },
     {
       root: "Zio",

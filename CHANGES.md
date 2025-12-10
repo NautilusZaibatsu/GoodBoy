@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.7.6] - 2025-12-10
+### Added
+- **Databases** 
+  - Anti-science and Anti-Conservative categories added
+  - 33 new terms
+
+ - **Text Utilities**
+  - ~30 new contractions added to text matching system, including pronouns (Eg. you'll → you will, he'd → he would, she's → she is)
+
+### Known Issues
+- **Non-ASCII characters** 
+  - Database entries with an extreme amount of 'unusual' characters such as Аляска are currently not supported as the obfuscation utils pattern match too greedily. All examples have been commented out of the data for now
+- **Detection**"
+  - Multi-word terms don't match if they have are non-plural and have an alpha-numeric character immediately following them. Eg, "False Flagj"
+
 ## [0.4.7.5] - 2025-12-09
 ### Changed
 - **Detection** 
@@ -28,8 +43,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Known Issues
 - **Non-ASCII characters** 
   - Database entries with an extreme amount of 'unusual' characters such as Аляска are currently not supported as the obfuscation utils pattern match too greedily. All examples have been commented out of the data for now
-- **Detection**
-  - Multi-word terms don't match if they have are non-plural and have an alpha-numeric character immediately following them. Eg, False Flagj
+- **Detection**"
+  - Multi-word terms don't match if they have are non-plural and have an alpha-numeric character immediately following them. Eg, "False Flagj"
 
 ## [0.4.7.1] - 2025-12-08
 ### Hotfix
@@ -102,7 +117,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Harmful religious terms (all sub-categories)
   - Harmful Ageist terms
   - Additional curated coded and harmful terms
-- **Obfuscation**
+- **Text Utilities**
   - UK / US spellings and contractions
   - Slang / Eye dialect 
   - Meme speak
@@ -149,7 +164,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added transcontinental cities and islands and correctly tagged transcontinental countries
   - Combined anti-asian and anti-latino into a broader racism category
   - Changed all references to "offensive language" to "harmful language"
-- **Obfuscation**
+- **Text Utilities**
   - If an obfuscated word or phrase matches with a term in the harmful language database, then the tooltip will clearly display the unobfuscated term
   - Obfuscation algorithm now handles replacement of C with K to catch more meme speak
   - Random punctuaton inserted mid word will now allow matching,for example "b/l/o/o/d & h/o/n/o/r"
@@ -199,7 +214,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Reworked tooltip source attribution to use database
   - Reworked attribution section to read from database
   - Updated all databases to use source ids
-- **Obfuscation**
+- **Text Utilities**
   - Obfuscation algorithm now handles replacement of A and E with 0 to catch more meme speak
 - **Harmful term tooltip** 
   - Removed variations and root term as this feature was too open to exploitation. This tool is not supposed to be a slur thesaurus
