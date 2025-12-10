@@ -71,6 +71,15 @@ const THEME_CONFIG = {
         },
     },
 
+    // Unflagged term colors
+    unflagged: {
+        color: '#dddddd',               // Un-flagged highlight/underline color
+        hover: '#bbbbbb'                // Un-flagged highlight/underline hover color
+    },
+
+    // Demo colors
+    demo: '#f9a986',
+
     // Button colors
     buttons: {
         primary: {
@@ -209,6 +218,14 @@ function initializeTheme() {
     root.style.setProperty('--state-danger-bg', THEME_CONFIG.states.danger.bg);
     root.style.setProperty('--state-danger-text', THEME_CONFIG.states.danger.text);
     root.style.setProperty('--state-danger-border', THEME_CONFIG.states.danger.border);
+
+    // Unflagged
+    root.style.setProperty('--unflagged-color', THEME_CONFIG.unflagged.color);
+    root.style.setProperty('--unflagged-hover', THEME_CONFIG.unflagged.hover);
+
+    // Demo
+        root.style.setProperty('--color-demo', THEME_CONFIG.demo);
+
 
     // Buttons
     root.style.setProperty('--btn-primary-bg', THEME_CONFIG.buttons.primary.background);

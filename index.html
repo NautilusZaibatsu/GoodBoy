@@ -47,6 +47,20 @@
             margin-bottom: 1rem;
         }
 
+        mark {
+            color: var(--text-muted);
+            background-color: var(--color-demo);
+            border-radius: var(--radius-sm);
+        }
+
+        u {
+            color: var(--text-muted);
+            text-decoration-color: var(--color-demo);
+            text-decoration-thickness: 3px;
+            text-decoration-line: underline;
+            text-decoration-skip-ink: none;
+        }
+
         .container {
             max-width: 1000px;
             margin: 0 auto;
@@ -231,11 +245,18 @@
         .clear-btn:disabled {
             background: var(--btn-disabled-bg) !important;
             color: var(--btn-disabled-text) !important;
-            cursor: wait;
+            cursor: not-allowed;
             pointer-events: auto;
             opacity: 1;
             transform: none;
             box-shadow: none;
+        }
+
+        /* Special cursor for analyzing state */
+        body.analyzing button:disabled,
+        body.analyzing .copy-btn:disabled,
+        body.analyzing .clear-btn:disabled {
+            cursor: wait;
         }
 
         .clear-btn {
@@ -322,7 +343,8 @@
             font-size: var(--font-size-sm);
         }
 
-        .info-icon:hover {
+        .info-icon:hover,
+        .info-icon:has(.tooltip.tooltip-pinned) {
             opacity: 1;
         }
 
@@ -344,7 +366,7 @@
             margin-top: var(--spacing-sm);
         }
 
-        .highlight {
+        .flagged {
             padding: var(--spacing-xs) 0;
             border-radius: var(--radius-sm);
             cursor: help;
@@ -352,15 +374,13 @@
             transition: background-color 0.2s;
         }
 
-        /* Category-specific highlight colors will be injected dynamically */
-
         /* coded terms: Background color, NO underline */
-        .highlight.codedTerm {
+        .flagged.codedTerm {
             text-decoration: none;
         }
 
         /* Harmful terms: ONLY underline, NO background color */
-        .highlight.harmfulTerm {
+        .flagged.harmfulTerm {
             background-color: transparent !important;
             text-decoration: none;
         }
@@ -380,13 +400,15 @@
             transition: opacity 0.3s;
         }
 
-        .highlight:hover .tooltip {
+        /* Only enable hover when no tooltip is pinned */
+        body:not(.tooltip-is-pinned) .flagged:hover .tooltip,
+        body:not(.tooltip-is-pinned) .info-icon:hover .tooltip {
             opacity: 1;
             pointer-events: auto;
         }
 
-        /* Mobile touch visibility control */
-        .tooltip.tooltip-touch-active {
+        /* Mobile touch and click/touch pin visibility control */
+        .tooltip.tooltip-pinned {
             opacity: 1 !important;
             pointer-events: auto !important;
         }
@@ -431,11 +453,59 @@
             padding: var(--spacing-sm) var(--spacing-md);
             margin: calc(-1 * var(--spacing-md)) calc(-1 * var(--spacing-md)) var(--spacing-sm) calc(-1 * var(--spacing-md));
             border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-            font-size: var(--font-size-xxs);
+            font-size: var(--font-size-xs);
             font-weight: var(--font-weight-semibold);
             text-transform: uppercase;
             text-align: center;
             color: var(--text-white);
+            position: relative;
+        }
+
+        .tooltip-flag-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+            font-size: var(--font-size-xl);
+            line-height: 1;
+            position: absolute;
+            right: var(--spacing-md);
+            top: 50%;
+            transform: translateY(-50%);
+            display: inline-block;
+        }
+
+        .tooltip-flag-btn:hover {
+            transform: translateY(-50%) scale(1.1);
+            filter: brightness(1.2);
+        }
+
+        /* Tooltip that appears when hovering over the flag button */
+        .flag-button-tooltip {
+            position: fixed;
+            /* Positioned by JS, width set dynamically */
+            display: none;
+            transform: translateX(-100%);
+            padding: var(--spacing-sm) var(--spacing-md) var(--spacing-sm) calc(var(--radius-lg) + var(--spacing-md));
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            box-shadow: 0 5px 20px var(--shadow-light);
+            white-space: nowrap;
+            background: var(--bg-tooltip);
+            color: var(--text-white);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-semibold);
+            text-transform: none;
+            z-index: 999;
+            /* Below main tooltip (1000) */
+            pointer-events: none;
+            transition: transform 0.5s ease-out;
+        }
+
+        /* Show flag button tooltip on hover - slide out from left to right */
+        .flag-button-tooltip.visible {
+            display: block;
+            transform: translateX(0%);
         }
 
         .category-badge {
@@ -668,29 +738,32 @@
                             <h3>Instructions</h3>
                             <p>
                                 <br>
-                                <b>1.</b> Type or paste your text into the input area.<br>
-                                <b>2.</b> Click 'Analyze'.<br>
-                                <b>3.</b> Hover over or touch highlighted / underlined terms to see their meanings.
+                                <b>1.</b> Type or paste your text into the input area, then click 'Analyze'.<br>
+                                <b>2.</b> Hover over highlighted / underlined terms to see their meanings.
                                 <br>
-                                On touch enabled devices, touch anywhere other than the term to close the tooltip.
+                                Clicking pins a tooltip open. Click outside the tooltip / term to unpin it.
                                 <br>
-                                Highlighting indicates potentially coded language, underlining indicates a potentially
-                                harmful term.
+                                <mark>Highlighting</mark> indicates coded language and <u>underlining</u>
+                                indicates harmful terms. The color signifies the category.
                                 <br>
-                                The highlight / underling color denotes the category (see legend).<br>
+                                <b>3.</b> Click the flag icon on the term tooltip to unflag or reflag a term.
+                                <br> Terms which have been unflagged will be highlighted / underlined in gray.
+                                <br>
                                 <b>4.</b> Check the signal score to see how much coded or harmful language appears.
                                 <br>
-                                <b>5.</b> Hover over or touch the ⓘ icon for signal score calculation details.
+                                <b>5.</b> Hover over or click the ⓘ icon for signal score calculation details.
                             </p>
                             <p>
                                 <b>Notes:</b>
                             <p>
-                                A high signal score doesn't automatically indicate harmful intent.
+                                A high signal score doesn't automatically indicate harmful intent. We recommend you 
+                                appraise each term individually and use the unflagging tool to remove any false positives. 
+                                Use context clues in the text to help you decipher the intent.
                             </p>
                             <p>
                                 There is often considerable crossover between categories, we have done our best to
                                 categorise broadly however due to the nature of coded language it is difficult to be
-                                absolute. Use context clues in the text to help you decipher intent.
+                                absolute.
                             </p>
                             </p>
                         </td>
@@ -893,14 +966,8 @@
         function getMainCategory(subcategory) {
             return SUBCATEGORY_TO_MAIN[subcategory?.toLowerCase()] || null;
         }
-        // Default colors for unknown categories
-        const DEFAULT_COLORS = {
-            lightColor: "var(--color-primary)",
-            hoverColor: "var(--color-primary)",
-            darkColor: "var(--color-primary)"
-        };
 
-        // Inject dynamic CSS for MAIN category colors (used for highlighting)
+        // Inject dynamic CSS for MAIN category colors (used for flagging terms)
         function injectCategoryStyles() {
             const styleEl = document.createElement('style');
             let css = '';
@@ -911,22 +978,35 @@
                 const className = mainKey.toLowerCase().replace(/\s+/g, '-');
 
                 css += `
-                    .highlight.${className} {
+                    .flagged.codedTerm.${className} {
                         background-color: ${mainCat.lightColor};
                     }
-                    .highlight.${className}:hover {
+                    .flagged.codedTerm.${className}:hover {
                         background-color: ${mainCat.hoverColor};
+                    }
+                    .flagged.harmfulTerm.${className} {
+                        border-bottom: 3px solid ${mainCat.lightColor};
+                        text-decoration: none;
+                    }
+                    .flagged.harmfulTerm.${className}:hover {
+                        border-bottom-color: ${mainCat.hoverColor};
                     }
                 `;
             });
 
-            // Add default "other" category
+            // Add unflagged term styles (overrides category colors when data-unflagged="true")
             css += `
-                .highlight.other {
-                    background-color: ${DEFAULT_COLORS.lightColor};
+                .flagged.codedTerm[data-unflagged="true"] {
+                    background-color: var(--unflagged-color) !important;
                 }
-                .highlight.other:hover {
-                    background-color: ${DEFAULT_COLORS.hoverColor};
+                .flagged.codedTerm[data-unflagged="true"]:hover {
+                    background-color: var(--unflagged-hover) !important;
+                }
+                .flagged.harmfulTerm[data-unflagged="true"] {
+                    border-bottom-color: var(--unflagged-color) !important;
+                }
+                .flagged.harmfulTerm[data-unflagged="true"]:hover {
+                    border-bottom-color: var(--unflagged-hover) !important;
                 }
             `;
 
@@ -953,102 +1033,27 @@
         // Get the color for a category (returns subcategory color for tooltips)
         function getCategoryColor(subcategory) {
             const info = getSubcategoryInfo(subcategory);
-            return info ? info.darkColor : DEFAULT_COLORS.darkColor;
+            return info.darkColor;
         }
 
-        // Get the CSS class for highlighting (uses MAIN category)
+        // Get the CSS class for flagging (uses MAIN category)
         function getCategoryClass(subcategory) {
             const mainKey = getMainCategory(subcategory);
-            if (!mainKey) return 'other';
             return mainKey.toLowerCase().replace(/\s+/g, '-');
         }
 
-        // Get formatted label for tooltip: "Main : Sub"
-        function getFormattedCategoryLabel(subcategory) {
+        // Get the main category label
+        function getCategoryLabel(subcategory) {
             const info = getSubcategoryInfo(subcategory);
             if (!info) return subcategory;
-            return `${info.mainLabel} : ${info.label}`;
+            return `${info.mainLabel}`;
         }
 
-        /**
-         * Filter redundant variations from database terms
-         * Uses TextUtils to detect and remove variations that our pattern matcher
-         * will catch anyway (punctuation, case, hyphenation, plurals, etc.)
-         *
-         * This maintains DRY by using the SAME logic that our pattern matcher uses,
-         * rather than duplicating it in Python.
-         */
-        function filterRedundantVariations(terms) {
-            let totalRemoved = 0;
-            const filtered = terms.map(term => {
-                const root = term.root;
-                const variations = term.variations || [];
-                const originalCount = variations.length;
-
-                // Track unique normalized forms to detect duplicates
-                const seenNormalized = new Set();
-
-                // Normalize and track root
-                const rootNorm = TextUtils.normalizeText(root);
-                const rootClean = rootNorm.replace(/[\s\-_]/g, '');
-                seenNormalized.add(rootClean);
-
-                // Filter variations
-                const kept = variations.filter(variation => {
-                    // Skip exact duplicates of root (case-insensitive)
-                    if (variation.toLowerCase() === root.toLowerCase()) {
-                        console.log("🧹 Filtered term: " + variation);
-                        return false;
-                    }
-
-                    // Check for duplicate normalized forms
-                    const varNorm = TextUtils.normalizeText(variation);
-                    const varClean = varNorm.replace(/[\s\-_]/g, '');
-
-                    if (seenNormalized.has(varClean)) {
-                        // Already seen this normalized form
-                        // BUT: if this variation is shorter than the root, keep it (meaningful abbreviation)
-                        // Example: "13" should be kept even though "13%" normalizes to the same thing
-                        if (variation.length >= root.length) {
-                            console.log("🧹 Filtered term: " + variation);
-                            return false;
-                        }
-                        // Variation is shorter - keep it
-                    }
-
-                    // Check if this is a plural of root or another kept variation
-                    if (variation.endsWith('s') && variation.length > 1) {
-                        const singular = variation.slice(0, -1);
-                        const singularClean = TextUtils.normalizeText(singular).replace(/[\s\-_]/g, '');
-
-                        // Skip if plural of root
-                        if (singularClean === rootClean) {
-                            console.log("🧹 Filtered term: " + variation);
-                            return false;
-                        }
-
-                        // Skip if plural of a variation we're keeping
-                        if (seenNormalized.has(singularClean)) {
-                            console.log("🧹 Filtered term: " + variation);
-                            return false;
-                        }
-                    }
-
-                    // Keep this variation and track its normalized form
-                    seenNormalized.add(varClean);
-                    return true;
-                });
-
-                totalRemoved += originalCount - kept.length;
-
-                return { ...term, variations: kept };
-            });
-
-            if (totalRemoved > 0) {
-                console.log(`✓ Filtered out ${totalRemoved} redundant variations (punctuation, case, plurals, etc.)`);
-            }
-
-            return filtered;
+        // Get formatted label for tooltip: "Main : Sub"
+        function getSubcategoryLabel(subcategory) {
+            const info = getSubcategoryInfo(subcategory);
+            if (!info) return subcategory;
+            return `${info.label}`;
         }
 
         // Load and prepare data on page load
@@ -1069,12 +1074,7 @@
 
             // Check coded term database
             if (typeof CODED_TERM_DATA !== 'undefined') {
-                // Filter redundant variations using our pattern matching logic
-                const filteredTerms = filterRedundantVariations(CODED_TERM_DATA.terms);
-                codedTermData = {
-                    ...CODED_TERM_DATA,
-                    terms: filteredTerms
-                };
+                codedTermData = CODED_TERM_DATA;
                 console.log(`✓ Loaded ${CODED_TERM_DATA.total} coded terms`);
             } else {
                 console.error('Failed to load coded term database');
@@ -1083,11 +1083,7 @@
             // Check harmful term database
             if (typeof HARMFUL_TERM_DATA !== 'undefined') {
                 // Filter redundant variations using our pattern matching logic
-                const filteredHarmfulTerms = filterRedundantVariations(HARMFUL_TERM_DATA.terms);
-                harmfulTermData = {
-                    ...HARMFUL_TERM_DATA,
-                    terms: filteredHarmfulTerms
-                };
+                harmfulTermData = HARMFUL_TERM_DATA;
                 console.log(`✓ Loaded ${HARMFUL_TERM_DATA.uniqueTerms} harmful terms`);
             } else {
                 console.error('Failed to load harmful term database');
@@ -1140,7 +1136,7 @@
 
         function editText() {
             // User clicked "Edit Text" button - restore editable state
-            clearAnalysisHighlights();
+            clearAnalysis();
         }
 
         // Helper function to toggle a section of the page
@@ -1151,7 +1147,7 @@
             toggle.classList.toggle('expanded');
         }
 
-        function clearAnalysisHighlights() {
+        function clearAnalysis() {
             const textInput = document.getElementById('textInput');
             const textDisplay = document.getElementById('textDisplay');
             const analyzeBtn = document.getElementById('analyzeBtn');
@@ -1207,6 +1203,7 @@
             // Show loading state
             document.getElementById('loading').classList.add('visible');
             document.getElementById('analyzeBtn').disabled = true;
+            document.body.classList.add('analyzing'); // Add analyzing state for cursor
 
             // Use setTimeout to allow UI to update
             setTimeout(() => {
@@ -1316,6 +1313,7 @@
 
                 // Hide loading state
                 document.getElementById('loading').classList.remove('visible');
+                document.body.classList.remove('analyzing'); // Remove analyzing state
 
                 // Track analytics (TODO: implement)
                 trackAnalysis(text, combinedResults);
@@ -1328,108 +1326,13 @@
             const analyzeBtn = document.getElementById('analyzeBtn');
             const clearBtn = document.getElementById('clearBtn');
             const resultsDiv = document.getElementById('results');
-            const termCount = document.getElementById('termCount');
-            const categoryCount = document.getElementById('categoryCount');
             const inputLabel = document.getElementById('inputLabel');
 
-            // Use deduplicated counts from results (already calculated during analysis)
-            const codedTermCount = results.codedTermCount;
-            const harmfulTermCount = results.harmfulTermCount;
-            const totalCount = codedTermCount + harmfulTermCount;
-
-            // Update Terms Flagged count
-            termCount.textContent = totalCount;
-
-            // Update breakdown - display on separate lines, ordered by count
-            const termBreakdown = document.getElementById('termBreakdown');
-            if (termBreakdown) {
-                const lines = [];
-
-                if (codedTermCount > 0) {
-                    const codedTermText = codedTermCount === 1 ? 'coded term' : 'coded terms';
-                    lines.push({ count: codedTermCount, text: `${codedTermCount} ${codedTermText}` });
-                }
-
-                if (harmfulTermCount > 0) {
-                    const harmfulTermText = harmfulTermCount === 1 ? 'harmful term' : 'harmful terms';
-                    lines.push({ count: harmfulTermCount, text: `${harmfulTermCount} ${harmfulTermText}` });
-                }
-
-                // Sort by count (descending)
-                lines.sort((a, b) => b.count - a.count);
-
-                // Join with line breaks
-                termBreakdown.innerHTML = lines.map(line => line.text).join('<br>');
-            }
-
-            // Count subcategories and group by main category
-            const subCategoryCounts = {};
-            const mainCategoryCounts = {};
-
-            // Use deduplicated matches for counting (not the display matches with duplicate segments)
+            // Update stats using shared DRY functions
             const matchesToCount = results.deduplicatedMatches || results.matches;
-            matchesToCount.forEach(match => {
-                const subcat = match.category.toLowerCase();
-                const mainKey = getMainCategory(subcat);
+            updateAllStats(matchesToCount, originalText);
 
-                // Count subcategories
-                subCategoryCounts[subcat] = (subCategoryCounts[subcat] || 0) + 1;
-
-                // Count main categories
-                if (mainKey) {
-                    mainCategoryCounts[mainKey] = (mainCategoryCounts[mainKey] || 0) + 1;
-                }
-            });
-
-            // Sort main categories by count (descending)
-            const sortedMainCategories = Object.entries(mainCategoryCounts)
-                .sort((a, b) => b[1] - a[1]);
-
-            // Sort subcategories by count (descending)
-            const sortedSubCategories = Object.entries(subCategoryCounts)
-                .sort((a, b) => b[1] - a[1]);
-
-            // Update main category count and display
-            document.getElementById('mainCategoryCount').textContent = sortedMainCategories.length;
-            const mainCategoryList = document.getElementById('mainCategoryList');
-            let mainCategoryHtml = '';
-            sortedMainCategories.forEach(([mainKey, count]) => {
-                const mainCat = CATEGORY_HIERARCHY[mainKey];
-                if (mainCat) {
-                    mainCategoryHtml += `<span class="category-badge" style="background-color: ${mainCat.darkColor}">${mainCat.label} (${count})</span>`;
-                }
-            });
-            mainCategoryList.innerHTML = mainCategoryHtml;
-
-            // Update subcategory count and display
-            document.getElementById('subCategoryCount').textContent = sortedSubCategories.length;
-            const subCategoryList = document.getElementById('subCategoryList');
-            let subCategoryHtml = '';
-            sortedSubCategories.forEach(([subcat, count]) => {
-                const color = getCategoryColor(subcat);
-                const info = getSubcategoryInfo(subcat);
-                const label = info ? info.label : subcat;
-                subCategoryHtml += `<span class="category-badge" style="background-color: ${color}">${label} (${count})</span>`;
-            });
-            subCategoryList.innerHTML = subCategoryHtml;
-
-            // Calculate Signal Score using deduplicated matches
-            const scoreResult = SignalScore.calculate(originalText, matchesToCount);
-            const signalScore = scoreResult.total;
-            document.getElementById('signalScore').textContent = `${signalScore}%`;
-
-            // Update signal indicator
-            const signalIndicator = document.getElementById('signalIndicator');
-            const signalLevel = SignalScore.getSignalLevel(signalScore);
-            const indicatorClass = signalLevel.className;
-            const indicatorText = signalLevel.level;
-
-            signalIndicator.innerHTML = `<span class="signal-indicator ${indicatorClass}">${indicatorText}</span><span class="highlight info-icon">ⓘ<span class="tooltip"></span></span>`;
-
-            // Update score breakdown tooltip
-            SignalScore.updateTooltip(scoreResult.breakdown);
-
-            // Build highlighted text
+            // Build flagged text display
             let displayHtml = '';
             if (results.matches.length === 0) {
                 displayHtml = '<div class="no-results">✓ No coded terms or harmful terms detected in this text.</div>' +
@@ -1441,8 +1344,8 @@
                     // Add text before match
                     displayHtml += escapeHtml(originalText.substring(lastIndex, match.start));
 
-                    // Add highlighted match with tooltip
-                    displayHtml += createHighlightedSpan(match, originalText);
+                    // Add flagged match with tooltip
+                    displayHtml += createFlaggedTermSpan(match, originalText);
 
                     lastIndex = match.end;
                 });
@@ -1471,7 +1374,6 @@
 
         /**
          * Generate matched term HTML if obfuscation is detected
-         * DRY helper for both coded term and harmful term tooltips
          *
          * @param {string} matchedTerm - The canonical term that was matched
          * @param {string} displayedText - The actual text shown in the document
@@ -1512,75 +1414,100 @@
             return `<div class="tooltip-item"><div class="tooltip-item-label">${label}:</div><div class="tooltip-item-value tooltip-variations">${escapeHtml(displayVariations.join(' / '))}</div></div>`;
         }
 
-        function createHighlightedSpan(match, originalText) {
-            const typeClass = match.type || 'codedTerm';
+        function createFlaggedTermSpan(match, originalText) {
+            const typeClass = match.type || "codedTerm";
+
             const categoryClass = getCategoryClass(match.category);
             const categoryColor = getCategoryColor(match.category);
-            const formattedCategoryLabel = getFormattedCategoryLabel(match.category);
-            const capitalizedDefinition = capitalizeFirst(match.definition);
+            const categoryLabel = getCategoryLabel(match.category);
+            const subcategoryLabel = getSubcategoryLabel(match.category);
+            const capitalizedDefinition = match.definition;
 
-            // Extract the actual text from original (preserves emojis)
+            const sourceHtml = getTooltipSourceHtml(match.source);
             const displayText = originalText.substring(match.start, match.end);
 
-            if (match.type === 'harmfulTerm') {
-                // Harmful term
-                const underlineStyle = `border-bottom: 3px solid ${categoryColor}; text-decoration: none;`;
-                const sourceHtml = getTooltipSourceHtml(match.source);
+            const flagBtnHtml = `<button class="tooltip-flag-btn" data-flagged="true">${FLAG_SYMBOLS.FLAGGED}</button>`;
 
-                // Show matched term if obfuscation detected (DRY helper)
-                const matchedTermHtml = getMatchedTermHtml(match.matchedTerm, match.text, 'Term');
+            const categoryItemHtml =
+                `<div class="tooltip-item"><div class="tooltip-item-label">Category:</div>` +
+                `${escapeHtml(categoryLabel)}</div></div>`;
 
-                // Type indicator
-                const typeHtml = `<div class="tooltip-item"><div class="tooltip-item-label">☣️ Harmful Term</div></div>`;
+            const dataAttrs =
+                `data-category="${escapeHtml(match.category)}" data-unflagged="false"` +
+                (match.parentTerm ? ` data-parent-term="${escapeHtml(match.parentTerm)}"` : "");
 
-                return `<span class="highlight harmfulTerm" style="${underlineStyle}">${escapeHtml(displayText)}<span class="tooltip"><div class="tooltip-category" style="background-color: ${categoryColor}">${escapeHtml(formattedCategoryLabel)}</div>${typeHtml}${matchedTermHtml}<div class="tooltip-item"><div class="tooltip-item-label">Definition:</div><div class="tooltip-item-value">${escapeHtml(capitalizedDefinition)}</div></div>${sourceHtml}</span></span>`;
-            } else {
-                // Coded term
-                const sourceHtml = getTooltipSourceHtml(match.source);
+            const headerHtml =
+                `<div class="tooltip-category" style="background-color: ${categoryColor}">` +
+                `${escapeHtml(subcategoryLabel)}${flagBtnHtml}</div>`;
 
-                // Determine what to show for the term
-                let termHtml = '';
-                if (match.isDerived && match.category !== "religious-populism") {
-                    // Derived regionalist/localist/regionalist terms always show "Derivation: [root term]"
-                    termHtml = `<div class="tooltip-item"><div class="tooltip-item-label">Derivation:</div><div class="tooltip-item-value">${escapeHtml(match.term)}</div></div>`;
-                } else {
-                    // Non-derived terms: show matched term only if obfuscated (DRY helper)
-                    termHtml = getMatchedTermHtml(match.matchedTerm, match.text, 'Term');
-                }
-
-                // Limit variations to 6 random items if needed (DRY helper)
-                const variationsHtml = getVariationsHtml(match.variations);
-
-                // Type indicator
-                const typeHtml = `<div class="tooltip-item"><div class="tooltip-item-label">🔣 Coded Term</div></div>`;
-
-                return `<span class="highlight ${categoryClass} codedTerm">${escapeHtml(displayText)}<span class="tooltip"><div class="tooltip-category" style="background-color: ${categoryColor}">${escapeHtml(formattedCategoryLabel)}</div>${typeHtml}${termHtml}${variationsHtml}<div class="tooltip-item"><div class="tooltip-item-label">Coded term:</div><div class="tooltip-item-value">${escapeHtml(capitalizedDefinition)}</div></div>${sourceHtml}</span></span>`;
+            function typeHtml(isHarmful) {
+                return isHarmful
+                    ? `<div class="tooltip-item"><div class="tooltip-item-label">Type:</div>☣️ Harmful Term</div></div>`
+                    : `<div class="tooltip-item"><div class="tooltip-item-label">Type:</div>🔣 Coded Term</div>`;
             }
+
+            function simpleItem(label, value) {
+                return `<div class="tooltip-item"><div class="tooltip-item-label">${label}:</div>` +
+                    `<div class="tooltip-item-value">${escapeHtml(value)}</div></div>`;
+            }
+
+            function wrapTooltip(inner) {
+                return `<span class="tooltip">${inner}</span>`;
+            }
+
+            function wrapFlagged(innerTooltip, isHarmful) {
+                // Keep exactly the same outer span shape and class names as your original returns
+                const termClass = isHarmful ? "harmfulTerm" : "codedTerm";
+                return `<span class="flagged ${categoryClass} ${termClass}" ${dataAttrs}>` +
+                    `${escapeHtml(displayText)}${wrapTooltip(innerTooltip)}</span>`;
+            }
+
+            // Build the tooltip body
+            if (typeClass === "harmfulTerm") {
+                const matchedTermHtml = getMatchedTermHtml(match.matchedTerm, match.text, "Term");
+
+                const inner =
+                    headerHtml +
+                    typeHtml(true) +
+                    matchedTermHtml +
+                    simpleItem("Definition", capitalizedDefinition) +
+                    categoryItemHtml +
+                    sourceHtml;
+
+                return wrapFlagged(inner, true);
+            }
+
+            // Coded term path
+            let termHtmlBlock;
+            // Display derviatin if sub-category is localist/nationalist/regionalist
+            if (match.isDerived && match.category !== "religious-populism") {
+                termHtmlBlock = simpleItem("Derivation", match.term);
+            } else {
+                termHtmlBlock = getMatchedTermHtml(match.matchedTerm, match.text, "Term");
+            }
+
+            const variationsHtml = getVariationsHtml(match.variations);
+
+            const inner =
+                headerHtml +
+                typeHtml(false) +
+                termHtmlBlock +
+                variationsHtml +
+                simpleItem("Coded term", capitalizedDefinition) +
+                categoryItemHtml +
+                sourceHtml;
+
+            return wrapFlagged(inner, false);
         }
+
 
         /**
         * Returns a tooltip-source string for a given source ID.
-        *  Preserves the exact HTML structure you already have.
         */
-        function getTooltipSourceHtml(sourceId) {
-            if (!sourceId) {
-                console.warn("Source id not present in data: " + sourceId);
-                return `<div class="tooltip-source">Source: ERROR</div>`;
-            }
-
+        function getTooltipSourceHtml(sourceId, pinned) {
             const sourceEntry = SOURCE_DATA.sources.find(s => s.id === sourceId);
-            if (!sourceEntry) {
-                console.warn(`Source id "${sourceId}" not found in SOURCE_DATA: ` + sourceId);
-                return `<div class="tooltip-source">Source: ERROR</div>`;
-            }
-
             const displayString = escapeHtml(sourceEntry.string || sourceId);
-
-            if (sourceEntry.url) {
-                return `<div class="tooltip-source">Source: ${displayString}</div>`;
-            } else {
-                return `<div class="tooltip-source">Source: ${displayString}</div>`;
-            }
+            return `<div class="tooltip-source">Source: <a href= "${sourceEntry.url}" target = "_blank" >${displayString} ↗</a></div>`;
         }
 
 
@@ -1590,82 +1517,430 @@
             return div.innerHTML;
         }
 
-        function capitalizeFirst(text) {
-            if (!text || text.length === 0) return text;
-            return text.charAt(0).toUpperCase() + text.slice(1);
-        }
+        // Flag button constants
+        const FLAG_SYMBOLS = {
+            FLAGGED: '⚑',
+            UNFLAGGED: '⚐'
+        };
 
-        // Track currently visible tooltip on mobile
-        let activeTooltip = null;
+        const FLAG_TOOLTIP_TEXT = {
+            UNFLAG: 'Unflag this term',
+            REFLAG: 'Reflag this term'
+        };
+
+        // Track currently pinned tooltip (click/touch)
+        let pinnedTooltip = null;
 
         // Detect if device supports touch (mobile/tablet) - used by multiple functions
         const isTouchDevice = window.matchMedia('(hover: none)').matches
             || ('ontouchstart' in window);
 
         function setupTooltips() {
-            const highlights = document.querySelectorAll('.highlight');
+            const flaggedTerms = document.querySelectorAll('.flagged');
+            const infoIcons = document.querySelectorAll('.info-icon');
 
-            if (isTouchDevice) {
-                setupTouchBehavior(highlights);
-            } else {
-                setupHoverBehavior(highlights);
-            }
-        }
-
-        function setupHoverBehavior(highlights) {
-            highlights.forEach(highlight => {
-                const tooltip = highlight.querySelector('.tooltip');
+            // Setup click/touch behavior for pinning flagged term tooltips
+            flaggedTerms.forEach(flaggedTerm => {
+                const tooltip = flaggedTerm.querySelector('.tooltip');
                 if (!tooltip) return;
 
-                // Position tooltip on mouseenter
-                highlight.addEventListener('mouseenter', function (e) {
-                    positionTooltip(highlight, tooltip);
-                });
-            });
-        }
-
-        function setupTouchBehavior(highlights) {
-            // Touch on highlight: show tooltip
-            highlights.forEach(highlight => {
-                const tooltip = highlight.querySelector('.tooltip');
-                if (!tooltip) return;
-
-                highlight.addEventListener('touchstart', (e) => {
-                    e.preventDefault(); // Prevent default touch behavior
-                    e.stopPropagation(); // Don't trigger document listener
+                // Click/touch handler to pin tooltip
+                const pinHandler = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
 
                     // Hide previous tooltip if different
-                    if (activeTooltip && activeTooltip !== tooltip) {
-                        hideTooltip(activeTooltip);
+                    if (pinnedTooltip && pinnedTooltip !== tooltip) {
+                        hideTooltip(pinnedTooltip);
                     }
 
                     // Show this tooltip
-                    showTooltip(highlight, tooltip);
-                    activeTooltip = tooltip;
-                });
-            });
+                    showTooltip(flaggedTerm, tooltip);
+                    pinnedTooltip = tooltip;
+                };
 
-            // Touch anywhere else: hide tooltip
-            document.addEventListener('touchstart', () => {
-                if (activeTooltip) {
-                    hideTooltip(activeTooltip);
-                    activeTooltip = null;
+                // Add click handler (desktop)
+                flaggedTerm.addEventListener('click', pinHandler);
+
+                // Add touch handler (mobile)
+                if (isTouchDevice) {
+                    flaggedTerm.addEventListener('touchstart', pinHandler);
+                }
+
+                // Flag button click handler (using DRY toggleFlagState function)
+                const flagBtn = tooltip.querySelector('.tooltip-flag-btn');
+                if (flagBtn) {
+                    // Create flag button tooltip as a sibling of .tooltip
+                    const flagTooltip = document.createElement('span');
+                    flagTooltip.className = 'flag-button-tooltip';
+                    flagTooltip.textContent = flagBtn.dataset.flagTooltipText || FLAG_TOOLTIP_TEXT.UNFLAG;
+                    flaggedTerm.appendChild(flagTooltip);
+
+                    // Measure width with both possible texts to prevent resizing
+                    const originalText = flagTooltip.textContent;
+                    flagTooltip.style.display = 'block';
+                    flagTooltip.style.visibility = 'hidden';
+                    const width1 = flagTooltip.offsetWidth;
+                    flagTooltip.textContent = FLAG_TOOLTIP_TEXT.REFLAG;
+                    const width2 = flagTooltip.offsetWidth;
+                    flagTooltip.textContent = originalText;
+                    flagTooltip.style.width = `${Math.max(width1, width2)}px`;
+                    flagTooltip.style.display = 'none';
+                    flagTooltip.style.visibility = 'visible';
+
+                    // Store reference for later updates
+                    flagBtn.flagTooltipElement = flagTooltip;
+
+                    // Store timeout IDs for clearing
+                    let showTimeout = null;
+                    let hideTimeout = null;
+
+                    const flagHandler = (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        const isFlagged = flagBtn.dataset.flagged === 'true';
+                        toggleFlagState(flaggedTerm, tooltip, isFlagged); // DRY!
+                    };
+
+                    flagBtn.addEventListener('click', flagHandler);
+                    if (isTouchDevice) {
+                        flagBtn.addEventListener('touchstart', flagHandler);
+                    }
+
+                    // Position flag tooltip on flag button hover
+                    flagBtn.addEventListener('mouseenter', function () {
+                        // Clear any pending hide
+                        if (hideTimeout) {
+                            clearTimeout(hideTimeout);
+                            hideTimeout = null;
+                        }
+
+                        // Only show if main tooltip is visible
+                        if (tooltip.classList.contains('tooltip-pinned') || tooltip.style.opacity === '1') {
+                            positionFlagTooltip(flagBtn, tooltip, flagTooltip);
+                            flagTooltip.style.display = 'block';
+                            // Trigger animation after display change
+                            showTimeout = setTimeout(() => {
+                                flagTooltip.classList.add('visible');
+                                showTimeout = null;
+                            }, 10);
+                        }
+                    });
+
+                    flagBtn.addEventListener('mouseleave', function () {
+                        // Clear any pending show
+                        if (showTimeout) {
+                            clearTimeout(showTimeout);
+                            showTimeout = null;
+                        }
+
+                        flagTooltip.classList.remove('visible');
+                        // Hide after animation completes
+                        hideTimeout = setTimeout(() => {
+                            flagTooltip.style.display = 'none';
+                            hideTimeout = null;
+                        }, 500);
+                    });
+                }
+
+                // Hover behavior only when no tooltip is pinned (desktop only)
+                if (!isTouchDevice) {
+                    flaggedTerm.addEventListener('mouseenter', function (e) {
+                        if (!pinnedTooltip) {
+                            positionTooltip(flaggedTerm, tooltip);
+                        }
+                    });
                 }
             });
+
+            // Setup info icon tooltips (signal score breakdown)
+            infoIcons.forEach(infoIcon => {
+                const tooltip = infoIcon.querySelector('.tooltip');
+                if (!tooltip) return;
+
+                // Click/touch handler to pin tooltip
+                const pinHandler = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // Hide previous tooltip if different
+                    if (pinnedTooltip && pinnedTooltip !== tooltip) {
+                        hideTooltip(pinnedTooltip);
+                    }
+
+                    // Show this tooltip
+                    showTooltip(infoIcon, tooltip);
+                    pinnedTooltip = tooltip;
+                };
+
+                // Add click handler (desktop)
+                infoIcon.addEventListener('click', pinHandler);
+
+                // Add touch handler (mobile)
+                if (isTouchDevice) {
+                    infoIcon.addEventListener('touchstart', pinHandler);
+                }
+
+                // Hover behavior only when no tooltip is pinned (desktop only)
+                if (!isTouchDevice) {
+                    infoIcon.addEventListener('mouseenter', function (e) {
+                        if (!pinnedTooltip) {
+                            positionTooltip(infoIcon, tooltip);
+                        }
+                    });
+                }
+            });
+
+            // Prevent tooltip clicks from closing the tooltip
+            document.querySelectorAll('.tooltip').forEach(tooltip => {
+                const preventClose = (e) => {
+                    e.stopPropagation();
+                };
+                tooltip.addEventListener('click', preventClose);
+                if (isTouchDevice) {
+                    tooltip.addEventListener('touchstart', preventClose);
+                }
+            });
+
+            // Click/touch anywhere else: hide pinned tooltip
+            const closeHandler = (e) => {
+                if (pinnedTooltip) {
+                    hideTooltip(pinnedTooltip);
+                    pinnedTooltip = null;
+                }
+            };
+
+            document.addEventListener('click', closeHandler);
+            if (isTouchDevice) {
+                document.addEventListener('touchstart', closeHandler);
+            }
         }
 
-        function showTooltip(highlight, tooltip) {
-            tooltip.classList.add('tooltip-touch-active');
-            positionTooltip(highlight, tooltip);
+        function showTooltip(flaggedTerm, tooltip) {
+            tooltip.classList.add('tooltip-pinned');
+            document.body.classList.add('tooltip-is-pinned'); // Disable hover on other terms
+            positionTooltip(flaggedTerm, tooltip);
         }
 
         function hideTooltip(tooltip) {
-            tooltip.classList.remove('tooltip-touch-active');
+            tooltip.classList.remove('tooltip-pinned');
+            document.body.classList.remove('tooltip-is-pinned'); // Re-enable hover
         }
 
-        function positionTooltip(highlight, tooltip) {
-            // Get highlight position
-            const highlightRect = highlight.getBoundingClientRect();
+        /**
+         * Toggle flag state for a term (DRY helper for unflag/reflag)
+         * @param {HTMLElement} flaggedSpan - The .flagged span element
+         * @param {HTMLElement} tooltip - The tooltip element
+         * @param {boolean} shouldUnflag - true to unflag, false to reflag
+         */
+        function toggleFlagState(flaggedSpan, tooltip, shouldUnflag) {
+            // Update data attribute
+            flaggedSpan.dataset.unflagged = shouldUnflag ? 'true' : 'false';
+
+            // Update button in tooltip
+            const flagBtn = tooltip.querySelector('.tooltip-flag-btn');
+            if (flagBtn) {
+                // Update icon
+                flagBtn.textContent = shouldUnflag ? FLAG_SYMBOLS.UNFLAGGED : FLAG_SYMBOLS.FLAGGED;
+
+                // Update flagged state
+                flagBtn.dataset.flagged = shouldUnflag ? 'false' : 'true';
+
+                // Update data attribute for tooltip text
+                flagBtn.dataset.flagTooltipText = !shouldUnflag
+                    ? FLAG_TOOLTIP_TEXT.UNFLAG
+                    : FLAG_TOOLTIP_TEXT.REFLAG;
+
+                // Update the flag tooltip element if it exists
+                if (flagBtn.flagTooltipElement) {
+                    flagBtn.flagTooltipElement.textContent = flagBtn.dataset.flagTooltipText;
+                }
+            }
+
+
+            // Recalculate signal score and stats
+            recalculateAllStats();
+        }
+
+        /**
+         * Update all stats displays from a matches array (DRY)
+         * @param {Array} matches - Array of match objects (already filtered for unflagged)
+         * @param {string} originalText - Original analyzed text for signal score calculation
+         */
+        function updateAllStats(matches, originalText) {
+            // Calculate signal score
+            const scoreResult = SignalScore.calculate(originalText, matches);
+
+            // Update all displays
+            updateSignalScoreDisplay(scoreResult);
+            updateTermCountsDisplay(matches);
+            updateCategoryCountsDisplay(matches);
+        }
+
+        /**
+         * Recalculate all stats after unflag/reflag action
+         */
+        function recalculateAllStats() {
+            // Rebuild matches array from current DOM state (excluding unflagged)
+            const currentMatches = getCurrentFlaggedMatches();
+
+            // Update all stats using shared function
+            updateAllStats(currentMatches, originalAnalyzedText);
+        }
+
+        /**
+         * Get current flagged matches from DOM (excluding unflagged)
+         * @returns {Array} Array of match objects for signal score calculation
+         */
+        function getCurrentFlaggedMatches() {
+            const allFlaggedSpans = document.querySelectorAll('.flagged');
+            const matches = [];
+            const seenParentTerms = new Set();
+
+            Array.from(allFlaggedSpans).forEach(span => {
+                // Skip unflagged terms
+                if (span.dataset.unflagged === 'true') return;
+
+                // Get text content WITHOUT the tooltip
+                let textContent = '';
+                span.childNodes.forEach(node => {
+                    if (node.nodeType === Node.TEXT_NODE) {
+                        textContent += node.textContent;
+                    }
+                });
+
+                const match = {
+                    type: span.classList.contains('harmfulTerm') ? 'harmfulTerm' : 'codedTerm',
+                    category: span.dataset.category,
+                    text: textContent.trim()
+                };
+
+                // Handle segment deduplication (emoji-split terms)
+                const parentTerm = span.dataset.parentTerm;
+                if (parentTerm) {
+                    // Only count once per parent term
+                    if (!seenParentTerms.has(parentTerm)) {
+                        seenParentTerms.add(parentTerm);
+                        matches.push(match);
+                    }
+                } else {
+                    // Not a segment, count normally
+                    matches.push(match);
+                }
+            });
+
+            return matches;
+        }
+
+        /**
+         * Update signal score display (DRY shared function)
+         * @param {Object} scoreResult - Result from SignalScore.calculate()
+         */
+        function updateSignalScoreDisplay(scoreResult) {
+            document.getElementById('signalScore').textContent = `${scoreResult.total}%`;
+            const signalLevel = SignalScore.getSignalLevel(scoreResult.total);
+            const signalIndicator = document.getElementById('signalIndicator');
+
+            // Find existing signal-indicator span or create structure
+            let indicatorSpan = signalIndicator.querySelector('.signal-indicator');
+            if (!indicatorSpan) {
+                // First time - create full structure
+                signalIndicator.innerHTML = `<span class="signal-indicator ${signalLevel.className}">${signalLevel.level}</span><span class="info-icon">ⓘ<span class="tooltip"></span></span>`;
+                setupTooltips();
+            } else {
+                // Update existing - just change class and text
+                indicatorSpan.className = `signal-indicator ${signalLevel.className}`;
+                indicatorSpan.textContent = signalLevel.level;
+            }
+
+            SignalScore.updateTooltip(scoreResult.breakdown);
+        }
+
+        /**
+         * Update term counts display (DRY shared function)
+         * @param {Array} matches - Match objects
+         */
+        function updateTermCountsDisplay(matches) {
+            const codedTermCount = matches.filter(m => m.type === 'codedTerm').length;
+            const harmfulTermCount = matches.filter(m => m.type === 'harmfulTerm').length;
+            const totalCount = codedTermCount + harmfulTermCount;
+
+            document.getElementById('termCount').textContent = totalCount;
+
+            const termBreakdown = document.getElementById('termBreakdown');
+            if (termBreakdown) {
+                const lines = [];
+                if (codedTermCount > 0) {
+                    const codedTermText = codedTermCount === 1 ? 'coded term' : 'coded terms';
+                    lines.push({ count: codedTermCount, text: `${codedTermCount} ${codedTermText}` });
+                }
+                if (harmfulTermCount > 0) {
+                    const harmfulTermText = harmfulTermCount === 1 ? 'harmful term' : 'harmful terms';
+                    lines.push({ count: harmfulTermCount, text: `${harmfulTermCount} ${harmfulTermText}` });
+                }
+                lines.sort((a, b) => b.count - a.count);
+                termBreakdown.innerHTML = lines.map(line => line.text).join('<br>');
+            }
+        }
+
+        /**
+         * Update category counts display (DRY shared function)
+         * @param {Array} matches - Match objects
+         */
+        function updateCategoryCountsDisplay(matches) {
+            const subCategoryCounts = {};
+            const mainCategoryCounts = {};
+
+            matches.forEach(match => {
+                const subcat = match.category.toLowerCase();
+                const mainKey = getMainCategory(subcat);
+
+                subCategoryCounts[subcat] = (subCategoryCounts[subcat] || 0) + 1;
+                if (mainKey) {
+                    mainCategoryCounts[mainKey] = (mainCategoryCounts[mainKey] || 0) + 1;
+                }
+            });
+
+            // Update main categories
+            const sortedMainCategories = Object.entries(mainCategoryCounts).sort((a, b) => b[1] - a[1]);
+            document.getElementById('mainCategoryCount').textContent = sortedMainCategories.length;
+            const mainCategoryList = document.getElementById('mainCategoryList');
+            let mainCategoryHtml = '';
+            sortedMainCategories.forEach(([mainKey, count]) => {
+                const mainCat = CATEGORY_HIERARCHY[mainKey];
+                if (mainCat) {
+                    mainCategoryHtml += `<span class="category-badge" style="background-color: ${mainCat.darkColor}">${mainCat.label} (${count})</span>`;
+                }
+            });
+            mainCategoryList.innerHTML = mainCategoryHtml;
+
+            // Update subcategories
+            const sortedSubCategories = Object.entries(subCategoryCounts).sort((a, b) => b[1] - a[1]);
+            document.getElementById('subCategoryCount').textContent = sortedSubCategories.length;
+            const subCategoryList = document.getElementById('subCategoryList');
+            let subCategoryHtml = '';
+            sortedSubCategories.forEach(([subcat, count]) => {
+                const color = getCategoryColor(subcat);
+                const info = getSubcategoryInfo(subcat);
+                const label = info ? info.label : subcat;
+                subCategoryHtml += `<span class="category-badge" style="background-color: ${color}">${label} (${count})</span>`;
+            });
+            subCategoryList.innerHTML = subCategoryHtml;
+        }
+
+        function positionFlagTooltip(flagBtn, tooltip, flagTooltip) {
+            const tooltipRect = tooltip.getBoundingClientRect();
+
+            // Position: left edge at tooltip's right edge, top edge at tooltip's top edge
+            flagTooltip.style.position = 'fixed';
+            flagTooltip.style.left = `${tooltipRect.right - parseFloat(THEME_CONFIG.spacing.radius.lg)}px`;
+            flagTooltip.style.top = `${tooltipRect.top}px`;
+        }
+
+        function positionTooltip(flaggedTerm, tooltip) {
+            // Get flaggedTerm position
+            const flaggedTermRect = flaggedTerm.getBoundingClientRect();
             const tooltipWidth = 320; // Match CSS width
             const tooltipHeight = tooltip.offsetHeight || 150; // Estimate if not rendered
             const margin = 10;
@@ -1676,8 +1951,8 @@
             const viewportHeight = window.innerHeight;
 
             // Calculate initial centered position
-            let left = highlightRect.left + (highlightRect.width / 2) - (tooltipWidth / 2);
-            let top = highlightRect.top - tooltipHeight - arrowHeight - margin;
+            let left = flaggedTermRect.left + (flaggedTermRect.width / 2) - (tooltipWidth / 2);
+            let top = flaggedTermRect.top - tooltipHeight - arrowHeight - margin;
 
             // Reset classes
             tooltip.classList.remove('top', 'bottom', 'align-left', 'align-right');
@@ -1685,7 +1960,7 @@
             // Check if tooltip fits above
             if (top < margin) {
                 // Place below instead
-                top = highlightRect.bottom + arrowHeight + margin;
+                top = flaggedTermRect.bottom + arrowHeight + margin;
                 tooltip.classList.add('bottom');
             } else {
                 tooltip.classList.add('top');
@@ -1776,7 +2051,7 @@
             // });
         }
 
-        // Prevent the user from highlighting text outside the text area
+        // Prevent the user from flagging text outside the text area
         const selectable = document.getElementById('textInput');
         document.addEventListener('selectstart', (e) => {
             if (!selectable.contains(e.target)) {
@@ -1815,14 +2090,14 @@
             clearTimeout(tooltipRepositionTimeout);
             tooltipRepositionTimeout = setTimeout(() => {
                 // Reposition any visible tooltips
-                // Desktop: use hover selector, Mobile: use .tooltip-touch-active selector
-                const selector = isTouchDevice ? '.tooltip.tooltip-touch-active' : '.highlight:hover .tooltip';
+                // Desktop: use hover selector, Mobile/pinned: use .tooltip-pinned selector
+                const selector = isTouchDevice ? '.tooltip.tooltip-pinned' : '.flagged:hover .tooltip';
                 const visibleTooltips = document.querySelectorAll(selector);
 
                 visibleTooltips.forEach(tooltip => {
-                    const highlight = tooltip.closest('.highlight');
-                    if (highlight) {
-                        positionTooltip(highlight, tooltip);
+                    const flaggedTerm = tooltip.closest('.flagged');
+                    if (flaggedTerm) {
+                        positionTooltip(flaggedTerm, tooltip);
                     }
                 });
             }, 100);
@@ -1830,14 +2105,14 @@
 
         window.addEventListener('scroll', () => {
             // Reposition tooltips on scroll (since they use fixed positioning)
-            // Desktop: use hover selector, Mobile: use .tooltip-touch-active selector
-            const selector = isTouchDevice ? '.tooltip.tooltip-touch-active' : '.highlight:hover .tooltip';
+            // Desktop: use hover selector, Mobile/pinned: use .tooltip-pinned selector
+            const selector = isTouchDevice ? '.tooltip.tooltip-pinned' : '.flagged:hover .tooltip';
             const visibleTooltips = document.querySelectorAll(selector);
 
             visibleTooltips.forEach(tooltip => {
-                const highlight = tooltip.closest('.highlight');
-                if (highlight) {
-                    positionTooltip(highlight, tooltip);
+                const flaggedTerm = tooltip.closest('.flagged');
+                if (flaggedTerm) {
+                    positionTooltip(flaggedTerm, tooltip);
                 }
             });
         }, { passive: true });

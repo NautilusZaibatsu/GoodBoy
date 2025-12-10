@@ -21,12 +21,12 @@
 const SIGNAL_SCORE_CONFIG = {
     // Weight Distribution (out of 100 total points)
     weights: {
-        DENSITY_MAX: 60,        // Match density component
-        CATEGORY_WEIGHT_MAX: 20,    // Match type component
+        DENSITY_MAX: 50,        // Match density component
+        CATEGORY_WEIGHT_MAX: 30,    // Match type component
         CATEGORY_MAX: 20        // Category diversity component
     },
 
-    // How many flagged words per x words it takes to get the maximum math density
+    // How many flagged words per x words it takes to get the maximum match density
     flaggedWordsPerTotalMultiplier: 15,
 
     // Match type multipliers for type weight calculation
