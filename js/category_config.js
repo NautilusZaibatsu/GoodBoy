@@ -50,8 +50,8 @@ const CATEGORY_HIERARCHY = {
                 "label": "Hinduphobic",
                 "darkColor": "#d385e0"
             },
-            "christophobia": {
-                "label": "Christophobia",
+            "christophobic": {
+                "label": "Christophobic",
                 "darkColor": "#ae80b6"
             },
             "sikhophobic": {
@@ -101,6 +101,10 @@ const CATEGORY_HIERARCHY = {
             "sexual-objectification": {
                 "label": "Sexual Objectification",
                 "darkColor": "#c7920d"
+            },
+            "incel": {
+                "label": "Incel",
+                "darkColor": "#a87b0a"
             }
         }
     },
@@ -249,8 +253,8 @@ const CATEGORY_HIERARCHY = {
             }, "self-harm": {
                 "label": "Self-Harm",
                 "darkColor": "#28896a"
-            }, "death": {
-                "label": "Death",
+            }, "violence": {
+                "label": "Violence",
                 "darkColor": "#309474"
             }, "drugs": {
                 "label": "Drugs",
@@ -265,6 +269,25 @@ const CATEGORY_HIERARCHY = {
         }
     }
 };
+
+// Used for deciding what to do with terms that have place/demonyms/religionyms
+const CATEGORY_MODES = {
+    UNIQUE: "unique",                   // NO substitutions - only matches exact place/demonym/religionym
+    FIXED: "fixed",                     // YES substitutions - category NEVER changes (always use original)
+    RELIGIONYM_ONLY: "religionym-only", // YES substitutions - use religionym's category property when substituted
+    DYNAMIC: "dynamic"                  // YES substitutions - place type determines category, religionyms get "religious-populism"
+};
+
+/**
+ * Check if a category mode allows pattern substitution
+ * @param {string} categoryMode - The category mode
+ * @returns {boolean} True if mode allows substitutions
+ */
+function allowsPatternSubstitution(categoryMode) {
+    return categoryMode === CATEGORY_MODES.FIXED ||
+           categoryMode === CATEGORY_MODES.RELIGIONYM_ONLY ||
+           categoryMode === CATEGORY_MODES.DYNAMIC;
+}
 
 /**
  * Get the full category hierarchy
@@ -368,15 +391,126 @@ function addNewMainCategory(key, label, lightColor = '#888888', hoverColor = '#8
     };
 }
 
+/**
+ * Get subcategory info (label, colors, main category)
+ * @param {string} subcategory - The subcategory key
+ * @returns {Object|null} Object with label, darkColor, mainLabel, mainKey or null if not found
+ */
+function getSubcategoryInfo(subcategory) {
+    const mainKey = getMainCategoryForSub(subcategory);
+    if (!mainKey) return null;
+
+    const mainCat = CATEGORY_HIERARCHY[mainKey];
+    const subInfo = mainCat.sub[subcategory.toLowerCase()];
+
+    return subInfo ? {
+        label: subInfo.label,
+        darkColor: subInfo.darkColor,
+        mainLabel: mainCat.label,
+        mainKey: mainKey
+    } : null;
+}
+
+/**
+ * Get the dark color for a subcategory (used in tooltips)
+ * @param {string} subcategory - The subcategory key
+ * @returns {string} Hex color code
+ */
+function getCategoryColor(subcategory) {
+    const info = getSubcategoryInfo(subcategory);
+    return info ? info.darkColor : '#888888';
+}
+
+/**
+ * Get the CSS class for a subcategory (based on main category)
+ * @param {string} subcategory - The subcategory key
+ * @returns {string} CSS class name
+ */
+function getCategoryClass(subcategory) {
+    const mainKey = getMainCategoryForSub(subcategory);
+    return mainKey ? mainKey.toLowerCase().replace(/\s+/g, '-') : 'unknown';
+}
+
+/**
+ * Get the main category label for a subcategory
+ * @param {string} subcategory - The subcategory key
+ * @returns {string} Main category label
+ */
+function getCategoryLabel(subcategory) {
+    const info = getSubcategoryInfo(subcategory);
+    return info ? info.mainLabel : subcategory;
+}
+
+/**
+ * Get the subcategory label (just the subcategory, not "Main : Sub")
+ * @param {string} subcategory - The subcategory key
+ * @returns {string} Subcategory label
+ */
+function getSubcategoryLabel(subcategory) {
+    const info = getSubcategoryInfo(subcategory);
+    return info ? info.label : subcategory;
+}
+
+/**
+ * Inject dynamic CSS for category colors
+ * Generates CSS rules for flagging terms with category-specific colors
+ */
+function injectCategoryStyles() {
+    const styleEl = document.createElement('style');
+    let css = '';
+
+    // Generate CSS for each MAIN category
+    Object.keys(CATEGORY_HIERARCHY).forEach(mainKey => {
+        const mainCat = CATEGORY_HIERARCHY[mainKey];
+        const className = mainKey.toLowerCase().replace(/\s+/g, '-');
+
+        css += `
+            .flagged.codedTerm.${className} {
+                background-color: ${mainCat.lightColor};
+            }
+            .flagged.codedTerm.${className}:hover {
+                background-color: ${mainCat.hoverColor};
+            }
+        `;
+    });
+
+    // Unflagged state styles (applies to both coded and harmful terms)
+    css += `
+        .flagged.codedTerm[data-unflagged="true"] {
+            background-color: var(--unflagged-color) !important;
+        }
+        .flagged.codedTerm[data-unflagged="true"]:hover {
+            background-color: var(--unflagged-hover) !important;
+        }
+        .flagged.harmfulTerm[data-unflagged="true"] {
+            border-bottom-color: var(--unflagged-color) !important;
+        }
+        .flagged.harmfulTerm[data-unflagged="true"]:hover {
+            border-bottom-color: var(--unflagged-hover) !important;
+        }
+    `;
+
+    styleEl.textContent = css;
+    document.head.appendChild(styleEl);
+}
+
 // Export for Node.js (dev-tools)
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         CATEGORY_HIERARCHY,
+        CATEGORY_MODES,
         getCategoryHierarchy,
         getAllSubcategories,
         getMainCategoryForSub,
         getCategoryColors,
         addNewSubcategory,
-        addNewMainCategory
+        addNewMainCategory,
+        getSubcategoryInfo,
+        getCategoryColor,
+        getCategoryClass,
+        getCategoryLabel,
+        getSubcategoryLabel,
+        injectCategoryStyles,
+        allowsPatternSubstitution
     };
 }

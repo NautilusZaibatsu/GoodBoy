@@ -278,5 +278,119 @@ const SignalScore = {
         });
 
         return mainCategories;
+    },
+
+    /**
+     * Update signal score display in the UI
+     * Updates the score percentage, level indicator, and breakdown tooltip
+     * @param {Object} scoreResult - Result object from calculate()
+     */
+    updateSignalScoreDisplay: function (scoreResult) {
+        document.getElementById('signalScore').textContent = `${scoreResult.total}%`;
+        const signalLevel = this.getSignalLevel(scoreResult.total);
+        const signalIndicator = document.getElementById('signalIndicator');
+
+        // Find existing signal-indicator span or create structure
+        let indicatorSpan = signalIndicator.querySelector('.signal-indicator');
+        if (!indicatorSpan) {
+            // First time - create full structure
+            signalIndicator.innerHTML = `<span class="signal-indicator ${signalLevel.className}">${signalLevel.level}</span><span class="info-icon">ⓘ<span class="tooltip"></span></span>`;
+        } else {
+            // Update existing - just change class and text
+            indicatorSpan.className = `signal-indicator ${signalLevel.className}`;
+            indicatorSpan.textContent = signalLevel.level;
+        }
+
+        this.updateTooltip(scoreResult.breakdown);
+    },
+
+    /**
+     * Update term counts display in the UI
+     * Shows total count and breakdown by type (coded vs harmful)
+     * @param {Array} matches - Array of match objects
+     */
+    updateTermCountsDisplay: function (matches) {
+        const codedTermCount = matches.filter(m => m.type === 'codedTerm').length;
+        const harmfulTermCount = matches.filter(m => m.type === 'harmfulTerm').length;
+        const totalCount = codedTermCount + harmfulTermCount;
+
+        document.getElementById('termCount').textContent = totalCount;
+
+        const termBreakdown = document.getElementById('termBreakdown');
+        if (termBreakdown) {
+            const lines = [];
+            if (codedTermCount > 0) {
+                const codedTermText = codedTermCount === 1 ? 'coded term' : 'coded terms';
+                lines.push({ count: codedTermCount, text: `${codedTermCount} ${codedTermText}` });
+            }
+            if (harmfulTermCount > 0) {
+                const harmfulTermText = harmfulTermCount === 1 ? 'harmful term' : 'harmful terms';
+                lines.push({ count: harmfulTermCount, text: `${harmfulTermCount} ${harmfulTermText}` });
+            }
+            lines.sort((a, b) => b.count - a.count);
+            termBreakdown.innerHTML = lines.map(line => line.text).join('<br>');
+        }
+    },
+
+    /**
+     * Update category counts display in the UI
+     * Shows main categories and subcategories with counts
+     * @param {Array} matches - Array of match objects
+     */
+    updateCategoryCountsDisplay: function (matches) {
+        const subCategoryCounts = {};
+        const mainCategoryCounts = {};
+
+        matches.forEach(match => {
+            const subcat = match.category.toLowerCase();
+            const mainKey = getMainCategoryForSub(subcat);
+
+            subCategoryCounts[subcat] = (subCategoryCounts[subcat] || 0) + 1;
+            if (mainKey) {
+                mainCategoryCounts[mainKey] = (mainCategoryCounts[mainKey] || 0) + 1;
+            }
+        });
+
+        // Update main categories
+        const sortedMainCategories = Object.entries(mainCategoryCounts).sort((a, b) => b[1] - a[1]);
+        document.getElementById('mainCategoryCount').textContent = sortedMainCategories.length;
+        const mainCategoryList = document.getElementById('mainCategoryList');
+        let mainCategoryHtml = '';
+        sortedMainCategories.forEach(([mainKey, count]) => {
+            const mainCat = CATEGORY_HIERARCHY[mainKey];
+            if (mainCat) {
+                mainCategoryHtml += `<span class="category-badge" style="background-color: ${mainCat.darkColor}">${mainCat.label} (${count})</span>`;
+            }
+        });
+        mainCategoryList.innerHTML = mainCategoryHtml;
+
+        // Update subcategories
+        const sortedSubCategories = Object.entries(subCategoryCounts).sort((a, b) => b[1] - a[1]);
+        document.getElementById('subCategoryCount').textContent = sortedSubCategories.length;
+        const subCategoryList = document.getElementById('subCategoryList');
+        let subCategoryHtml = '';
+        sortedSubCategories.forEach(([subcat, count]) => {
+            const color = getCategoryColor(subcat);
+            const info = getSubcategoryInfo(subcat);
+            const label = info ? info.label : subcat;
+            subCategoryHtml += `<span class="category-badge" style="background-color: ${color}">${label} (${count})</span>`;
+        });
+        subCategoryList.innerHTML = subCategoryHtml;
+    },
+
+    /**
+     * Update all stats displays (orchestrator function)
+     * Convenience method that updates signal score, term counts, and category counts
+     * @param {Array} matches - Array of match objects (already filtered for unflagged)
+     * @param {string} originalText - Original analyzed text for signal score calculation
+     */
+    updateAllStats: function (matches, originalText) {
+        // Calculate signal score
+        const scoreResult = this.calculate(originalText, matches);
+
+        // Update all displays
+        this.updateSignalScoreDisplay(scoreResult);
+        this.updateTermCountsDisplay(matches);
+        this.updateCategoryCountsDisplay(matches);
     }
 };

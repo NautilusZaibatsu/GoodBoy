@@ -445,28 +445,9 @@ const TextUtils = {
         'z': '2'
     },
 
-    SEMANTIC_VARIANTS: {},
-
-    /**
-     * Build a set of all “real” characters to preserve during cleanup
-     */
-    initSemanticVariants() {
-        const variants = this.CHARACTER_VARIANTS;
-        const semanticSet = new Set();
-
-        for (const chars of Object.values(variants)) {
-            for (const ch of [...chars]) {  // spread works with multi-code-unit characters (emoji)
-                semanticSet.add(ch);
-            }
-        }
-
-        // Convert to a string for regex
-        this.SEMANTIC_VARIANTS = Array.from(semanticSet).join('');
-    },
-
     /** 
      * Character subsitution map, will init this on load
-    * combines SEMANTIC_VARIANTS and CHARACTER_OBFUSCATION
+    * combines CHARACTER_VARIANTS and CHARACTER_OBFUSCATION
     */
     CHARACTER_SUBSTITUTIONS: {},
 
@@ -661,7 +642,6 @@ const TextUtils = {
         }
 
         // Get cached reverse mapping (DRY - built once, reused)
-        // Note: We clone it because we'll add word-specific suffix variants
         const reverseMap = new Map(this.buildReverseMap());
 
         // Add suffix-based variants for words in this specific normalized text
@@ -755,20 +735,238 @@ const TextUtils = {
     },
 
     /**
+     * Check if two characters are semantic variants of each other
+     * (i.e., only differ by accents/diacritics)
+     *
+     * @param {string} char1 - First character
+     * @param {string} char2 - Second character
+     * @returns {boolean} True if characters are semantic variants
+     */
+    isSemanticVariant(char1, char2) {
+        const c1 = char1.toLowerCase();
+        const c2 = char2.toLowerCase();
+
+        if (c1 === c2) return true;
+
+        // Check if both characters are in the same CHARACTER_VARIANTS group
+        for (const [base, variants] of Object.entries(this.CHARACTER_VARIANTS)) {
+            const allChars = base + variants;
+            if (allChars.includes(c1) && allChars.includes(c2)) {
+                return true;
+            }
+        }
+        return false;
+    },
+
+    /**
+     * Check if two characters are obfuscation variants of each other
+     * (i.e., leet speak substitutions like 'a' and '@')
+     *
+     * @param {string} char1 - First character
+     * @param {string} char2 - Second character
+     * @returns {boolean} True if characters are obfuscation variants
+     */
+    isObfuscationVariant(char1, char2) {
+        const c1 = char1.toLowerCase();
+        const c2 = char2.toLowerCase();
+
+        if (c1 === c2) return true;
+
+        // Check if both characters are in the same CHARACTER_OBFUSCATION group
+        for (const [base, variants] of Object.entries(this.CHARACTER_OBFUSCATION)) {
+            const allChars = base + variants;
+            if (allChars.includes(c1) && allChars.includes(c2)) {
+                return true;
+            }
+        }
+        return false;
+    },
+
+    /**
+     * Check if two strings differ only by semantic variants (accented characters)
+     *
+     * @param {string} text1 - First text
+     * @param {string} text2 - Second text
+     * @returns {boolean} True if differences are only semantic variants
+     */
+    isOnlySemanticDifference(text1, text2) {
+        if (text1.length !== text2.length) return false;
+
+        for (let i = 0; i < text1.length; i++) {
+            if (!this.isSemanticVariant(text1[i], text2[i])) {
+                return false;
+            }
+        }
+        return true;
+    },
+
+    /**
+     * Check if two strings differ only by obfuscation variants
+     * (excluding semantic variants)
+     *
+     * @param {string} text1 - First text
+     * @param {string} text2 - Second text
+     * @returns {boolean} True if differences are only obfuscation variants
+     */
+    isOnlyObfuscationDifference(text1, text2) {
+        if (text1.length !== text2.length) return false;
+
+        for (let i = 0; i < text1.length; i++) {
+            const c1 = text1[i];
+            const c2 = text2[i];
+
+            // If characters are the same, continue
+            if (c1.toLowerCase() === c2.toLowerCase()) continue;
+
+            // If semantic variant, that's not obfuscation-only
+            if (this.isSemanticVariant(c1, c2)) {
+                return false;
+            }
+
+            // Check if obfuscation variant
+            if (!this.isObfuscationVariant(c1, c2)) {
+                return false;
+            }
+        }
+        return true;
+    },
+
+    /**
+     * Count how many characters match exactly between two strings
+     *
+     * @param {string} text1 - First text
+     * @param {string} text2 - Second text
+     * @returns {number} Count of exactly matching characters
+     */
+    countExactCharMatches(text1, text2) {
+        const minLen = Math.min(text1.length, text2.length);
+        let count = 0;
+
+        for (let i = 0; i < minLen; i++) {
+            if (text1[i] === text2[i]) {
+                count++;
+            }
+        }
+        return count;
+    },
+
+    /**
+     * Select the best match when multiple database terms match the same input text
+     * with identical length and position. Prioritizes matches closer to original text.
+     *
+     * Priority hierarchy (exits as soon as winner found):
+     * 1. Exact match (case-sensitive)
+     * 2. Exact match (case-insensitive)
+     * 3. Semantic variants only (accented characters)
+     * 4. Obfuscation variants only (leet speak)
+     * 5. Exact character count (highest score wins)
+     *
+     * @param {string} originalText - The actual text from input (not normalized)
+     * @param {Array} matches - Array of match objects with same length and position
+     * @returns {Object} The best match object
+     */
+    selectBestMatch(originalText, matches) {
+        if (matches.length === 1) return matches[0];
+
+        // 1. Exact match (case-sensitive)
+        // Compare against the actual database variation that was matched, not the root
+        for (const match of matches) {
+            if (match.matchedVariation && match.matchedVariation === originalText) {
+                return match;
+            }
+        }
+
+        // 2. Exact match (case-insensitive)
+        const lowerOriginal = originalText.toLowerCase();
+        for (const match of matches) {
+            if (match.matchedVariation && match.matchedVariation.toLowerCase() === lowerOriginal) {
+                return match;
+            }
+        }
+
+        // 3. Semantic variants only (accented characters)
+        const semanticMatches = [];
+        for (const match of matches) {
+            if (this.isOnlySemanticDifference(originalText, match.term)) {
+                semanticMatches.push(match);
+            }
+        }
+        if (semanticMatches.length === 1) return semanticMatches[0];
+        if (semanticMatches.length > 1) {
+            matches = semanticMatches; // Narrow down for next level
+        }
+
+        // 4. Obfuscation variants only
+        const obfuscationMatches = [];
+        for (const match of matches) {
+            if (this.isOnlyObfuscationDifference(originalText, match.term)) {
+                obfuscationMatches.push(match);
+            }
+        }
+        if (obfuscationMatches.length === 1) return obfuscationMatches[0];
+        if (obfuscationMatches.length > 1) {
+            matches = obfuscationMatches;
+        }
+
+        // 5. Count exact character matches
+        let bestMatch = matches[0];
+        let bestScore = this.countExactCharMatches(originalText, matches[0].term);
+
+        for (let i = 1; i < matches.length; i++) {
+            const score = this.countExactCharMatches(originalText, matches[i].term);
+            if (score > bestScore) {
+                bestScore = score;
+                bestMatch = matches[i];
+            }
+        }
+
+        return bestMatch;
+    },
+
+    /**
      * Build variation map for a term database
      * DRY helper - used by all matchers (CodedTermMatcher, HarmfulTermMatcher, etc.)
      */
     buildVariationMap(terms) {
         const variationMap = new Map();
+
+        // Helper to add a variation and optionally its numeric-only form
+        const addVariation = (varText, term) => {
+            const lowerText = varText.toLowerCase();
+            variationMap.set(lowerText, term);
+
+            // If variation has numbers followed by trailing punctuation,
+            // also add the numeric-only form
+            // E.g., "13%" → also add "13"
+            if (typeof NumberUtils !== 'undefined' && /\d/.test(varText)) {
+                const numbers = NumberUtils.extractNumbers(varText);
+                if (numbers.length > 0) {
+                    const lastNum = numbers[numbers.length - 1];
+                    // Check if there's trailing non-alphanumeric text after the last number
+                    if (lastNum.end < varText.length) {
+                        const trailingText = varText.substring(lastNum.end);
+                        // If trailing text is just punctuation/symbols (no letters/digits),
+                        // also add the form without the trailing text
+                        if (/^[^\w]+$/.test(trailingText)) {
+                            const withoutTrailing = varText.substring(0, lastNum.end);
+                            if (withoutTrailing && withoutTrailing !== varText) {
+                                variationMap.set(withoutTrailing.toLowerCase(), term);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
         terms.forEach(term => {
             // Always add the root term (lowercase only - normalization happens in createFlexiblePattern)
             // We just lowercase, not normalize, to preserve numbers and important punctuation
-            variationMap.set(term.root.toLowerCase(), term);
+            addVariation(term.root, term);
 
             // Add all variations to the map (lowercase only - normalization happens in createFlexiblePattern)
             if (term.variations && term.variations.length > 0) {
                 term.variations.forEach(variation => {
-                    variationMap.set(variation.toLowerCase(), term);
+                    addVariation(variation, term);
                 });
             }
         });
@@ -778,7 +976,6 @@ const TextUtils = {
 
 // Build full character substitution, semantic maps and emoji regex
 TextUtils.initCharacterSubstitutions();
-TextUtils.initSemanticVariants();
 TextUtils.initEmojiRegex();
 
 // Export for use in modules

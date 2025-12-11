@@ -27,6 +27,7 @@ goodboy/
 │   ├── matchers.js                   # Pattern/term matchers
 │   ├── signal_score.js               # Signal score calculations
 │   ├── category_config.js            # Category hierarchy
+│   ├── tooltips.js                   # Tooltip creation
 │   └── ticker.js                     # Ticker contents
 ├── data/                             # Databases
 │   ├── coded_term_data.js            # Coded term database
@@ -136,7 +137,7 @@ Calculates 0-100% score based on three factors:
 - **Category Diversity**: Diversity of problematic categories
 
 ### Performance
-- Databases: ~ 400KB (compresses well with gzip)
+- Databases: <450 KB (compresses well with gzip)
 - Load time: Instant on modern browsers
 - Analysis time: Near-instant for typical text lengths
 - Memory usage: Minimal (~2-3 MB)

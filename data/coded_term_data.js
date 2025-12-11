@@ -1,45 +1,46 @@
 const CODED_TERM_DATA = {
-  generated: "2025-12-10T22:58:20.904Z",
+  generated: "2025-12-11T20:06:18.639Z",
   datasetSize: 16258,
-  uniqueTerms: 549,
-  totalTerms: 1957,
+  uniqueTerms: 557,
+  totalTerms: 1984,
   categoryBreakdown: [
-    { name: "racist", count: 203 },
+    { name: "racist", count: 209 },
+    { name: "xenophobic", count: 171 },
     { name: "white-supremacist", count: 169 },
-    { name: "xenophobic", count: 169 },
     { name: "antisemitic", count: 158 },
     { name: "transphobic", count: 151 },
-    { name: "alt-right", count: 129 },
+    { name: "alt-right", count: 104 },
     { name: "bad-faith", count: 95 },
     { name: "conspiracy", count: 93 },
     { name: "anti-liberal", count: 80 },
-    { name: "nationalist", count: 71 },
+    { name: "nationalist", count: 73 },
     { name: "islamophobic", count: 70 },
     { name: "welfare-chauvinism", count: 69 },
     { name: "emotional-dismissal", count: 53 },
     { name: "fascist", count: 51 },
-    { name: "sexual-content", count: 43 },
-    { name: "misogynistic", count: 42 },
+    { name: "sexual-content", count: 44 },
+    { name: "incel", count: 41 },
     { name: "conservative", count: 39 },
     { name: "disability", count: 35 },
+    { name: "misogynistic", count: 35 },
     { name: "pseudoscience", count: 29 },
     { name: "misandristic", count: 24 },
     { name: "anti-lgbtq", count: 20 },
     { name: "anti-science", count: 20 },
     { name: "drugs", count: 20 },
     { name: "illegality", count: 18 },
+    { name: "dehumanization", count: 16 },
     { name: "homophobic", count: 16 },
-    { name: "dehumanization", count: 15 },
     { name: "paedophilia", count: 14 },
     { name: "self-harm", count: 14 },
     { name: "deflection", count: 13 },
     { name: "personal-responsibility", count: 13 },
-    { name: "death", count: 6 },
+    { name: "violence", count: 12 },
     { name: "liberal", count: 6 },
     { name: "ageist", count: 4 },
     { name: "climate-change-denial", count: 4 },
     { name: "anti-conservative", count: 1 },
-    { name: "christophobia", count: 0 },
+    { name: "christophobic", count: 0 },
     { name: "hinduphobic", count: 0 },
     { name: "localist", count: 0 },
     { name: "mental-health", count: 0 },
@@ -53,7 +54,7 @@ const CODED_TERM_DATA = {
     { name: "sikhophobic", count: 0 }
   ],
   sourceBreakdown: [
-    { name: "goodboy", count: 1433 },
+    { name: "goodboy", count: 1460 },
     { name: "silent_signals", count: 357 },
     { name: "adl", count: 82 },
     { name: "swu", count: 80 },
@@ -64,6 +65,85 @@ const CODED_TERM_DATA = {
   ],
 
   terms: [
+    {
+      root: "Your body, my choice",
+      variations: [],
+      category: "misogynistic",
+      definition: "A taunting inversion of the pro-choice slogan \"my body, my choice\", painting equality for women as laughable",
+      source: "goodboy"
+    },
+    {
+      root: "Low inhib",
+      variations: [],
+      category: "incel",
+      definition: "Incel slang for someone — often a woman — perceived as having low social or sexual inhibition, used to imply promiscuity or moral laxity",
+      source: "goodboy"
+    },
+    {
+      root: "LDAR",
+      variations: [
+        "Ldaring",
+        "LDARing"
+      ],
+      category: "incel",
+      definition: "Acronym for \"Lay Down And Rot\", expressing nihilism and giving up on self-improvement or social participation",
+      source: "goodboy"
+    },
+    {
+      root: "Maxxing",
+      variations: [
+        "Looksmaxxing"
+      ],
+      category: "incel",
+      definition: "Incel slang meaning to maximize traits such as appearance, fitness, or status in an attempt to overcome perceived disadvantages",
+      source: "goodboy"
+    },
+    {
+      root: "Mogger",
+      variations: [
+        "Mog",
+        "Mogging",
+        "Mogged"
+      ],
+      category: "incel",
+      definition: "A term for someone who outshines or humiliates another person in looks, status, or attractiveness, usually within incel ranking hierarchies",
+      source: "goodboy"
+    },
+    {
+      root: "Truecel",
+      variations: [],
+      category: "incel",
+      definition: "An incel term for someone who believes they are involuntarily celibate due to immutable traits and thus have no possible path to sexual or romantic success",
+      source: "goodboy"
+    },
+    {
+      root: "Self deportation",
+      variations: [
+        "Self deport"
+      ],
+      category: "xenophobic",
+      definition: "A xenophobic term encouraging immigrants or ethnic minorities to voluntarily leave a country, often used as a political dogwhistle",
+      source: "goodboy"
+    },
+    {
+      root: "Somalis are garbage",
+      variations: [
+        "Somali garbage",
+        "Somalis are trash",
+        "Somali trash"
+      ],
+      category: "racist",
+      definition: "Dehumanizing statement designed to lump all people within a category into one group in order to discriminate against them",
+      source: "goodboy",
+      categoryMode: "religionym-only",
+      placesFound: [],
+      demonymsFound: [
+        {
+          demonym: "Somali",
+          place: "Somalia"
+        }
+      ]
+    },
     {
       root: "Seggs",
       variations: [
@@ -147,7 +227,7 @@ const CODED_TERM_DATA = {
       root: "Corn",
       variations: [
         "Corn emoji",
-        "🌽",
+        "🌽"
       ],
       category: "sexual-content",
       definition: "Used as a coded reference to pornography or adult content to bypass moderation filters",
@@ -456,8 +536,21 @@ const CODED_TERM_DATA = {
         "💀",
         "⚰️"
       ],
-      category: "death",
+      category: "violence",
       definition: "A euphemism for being dead or killing someone or something, often used for characters, animals, or scenarios where explicit terms are restricted",
+      source: "goodboy"
+    },
+    {
+      root: "Grape emoji",
+      variations: [
+        "🍇",
+        "Grape",
+        "Graped",
+        "Grapist",
+        "Grape victim"
+      ],
+      category: "violence",
+      definition: "Algospeak used to refer to rape in order to evade content moderation filters",
       source: "goodboy"
     },
     {
@@ -968,7 +1061,7 @@ const CODED_TERM_DATA = {
         "Take the black pill",
         "Took the black pill"
       ],
-      category: "alt-right",
+      category: "incel",
       definition: "\"Taking the black pill\" is a self-identifying metaphor for fatalist views about society, relationships or demographics. Often used in incel communities to justify extremist worldviews. Derived from another alt-right meme; \"red pill\"",
       source: "goodboy"
     },
@@ -992,7 +1085,7 @@ const CODED_TERM_DATA = {
         "Take the pink pill",
         "Took the pink pill"
       ],
-      category: "misogynistic",
+      category: "incel",
       definition: "\"Taking the pink pill\" refers to the belief that men must understand harsh truths about female behavior and sexual strategy, often used in misogynist or incel communities",
       source: "goodboy"
     },
@@ -1004,7 +1097,7 @@ const CODED_TERM_DATA = {
         "Take the white pill",
         "Took the white pill"
       ],
-      category: "alt-right",
+      category: "incel",
       definition: "\"Taking the white pill\" signals optimism, empowerment, or hope, often in contrast to fatalistic blackpill thinking, within alt-right or incel communities",
       source: "goodboy"
     },
@@ -1016,7 +1109,7 @@ const CODED_TERM_DATA = {
         "Take the Gray pill",
         "Took the Gray pill"
       ],
-      category: "alt-right",
+      category: "incel",
       definition: "\"Taking the gray pill\" signals a cynical or neutral perspective on society, rejecting both extreme optimism (whitepill) and extreme pessimism (blackpill), often used in manosphere and alt-right circles",
       source: "goodboy"
     },
@@ -1028,7 +1121,7 @@ const CODED_TERM_DATA = {
         "Take the orange pill",
         "Took the orange pill"
       ],
-      category: "alt-right",
+      category: "incel",
       definition: "\"Taking the orange pill\" signals conversion to a new ideology or belief system, derived from the red/blue/black pill meme framework",
       source: "goodboy"
     },
@@ -1106,7 +1199,7 @@ const CODED_TERM_DATA = {
         "It's antisemitic to criticize Zionism"
       ],
       category: "bad-faith",
-      categoryMode: "original",
+      categoryMode: "unique",
       definition: "While criticism of the policies of the State of Israel is legitimate, this phrase is often used as a coded term to silence Jewish or non-Jewish critics and to conflate opposition to Israeli politics with hatred of all Jewish people, serving as a tool for ideological policing",
       source: "goodboy"
     },
@@ -1224,6 +1317,7 @@ const CODED_TERM_DATA = {
         "Problem' populations",
         "Bad elements",
         "Human garbage",
+        "Garbage people",
         "Social contaminants"
       ],
       category: "dehumanization",
@@ -1349,7 +1443,7 @@ const CODED_TERM_DATA = {
         "Exclusively German"
       ],
       category: "nationalist",
-      definition: "Belonging or pertaining to one identity only",
+      definition: "Belonging or pertaining to one identity only. Sometimes racist rather than populist depending on the context",
       source: "goodboy",
       categoryMode: "dynamic",
       placesFound: [],
@@ -2390,7 +2484,8 @@ const CODED_TERM_DATA = {
       root: "Sending their worst",
       variations: [
         "Sending us their worst",
-        "We get their worst"
+        "We get their worst",
+        "Taking in garbage"
       ],
       category: "xenophobic",
       definition: "Frames migrants, refugees and asylum seekers as dangerous, undesirable or criminal",
@@ -2510,7 +2605,7 @@ const CODED_TERM_DATA = {
     {
       root: "Norwood",
       variations: [],
-      category: "alt-right",
+      category: "incel",
       definition: "Likely a reference to the Norwood hair loss scale. used in memes about masculinity in alt-right spaces",
       source: "goodboy"
     },
@@ -2836,7 +2931,6 @@ const CODED_TERM_DATA = {
         "Not a real refugee",
         "Fake refugee",
         "Fake asylum",
-        "They don't belong here",
         "Mass influx",
         "Low-value migrants"
       ],
@@ -2920,13 +3014,7 @@ const CODED_TERM_DATA = {
       ],
       category: "islamophobic",
       definition: "Title / lyrics from a 1990s Serbian nationalist song (\"Remove Kebab\") created during the Yugoslav Wars",
-      categoryMode: "original",
-      placesFound: [
-        {
-          match_type: "direct",
-          place: "Serbia"
-        }
-      ],
+      categoryMode: "unique",
       source: "goodboy"
     },
     {
@@ -2968,7 +3056,7 @@ const CODED_TERM_DATA = {
         "Purge the swamp"
       ],
       category: "conservative",
-      categoryMode: "original",
+      categoryMode: "unique",
       definition: "Purge institutions of political opponents, bureaucrats or out-groups and dismantle a perceived \"deep state\" influence",
       source: "goodboy"
     },
@@ -2986,7 +3074,6 @@ const CODED_TERM_DATA = {
       categoryMode: "dynamic",
       placesFound: [
         {
-          match_type: "direct",
           place: "America"
         }
       ]
@@ -3030,7 +3117,6 @@ const CODED_TERM_DATA = {
       categoryMode: "dynamic",
       placesFound: [
         {
-          match_type: "direct",
           place: "America"
         }
       ],
@@ -3199,7 +3285,9 @@ const CODED_TERM_DATA = {
         "Go back home",
         "Go home",
         "Back to where you came from",
-        "Back to where you belong"
+        "Back to where they came from",
+        "Back to where you belong",
+        "Back to where they belong"
       ],
       category: "racist",
       definition: "Nativist or xenophobic command that implies that immigrants are not legitimate citizens or members of society",
@@ -3262,7 +3350,9 @@ const CODED_TERM_DATA = {
         "England for English",
         "England for the English",
         "England is an English",
+        "England is an English country",
         "England's an English",
+        "England's an English country",
         "England is not an English",
         "England's not an English",
         "England's not English",
@@ -3276,7 +3366,6 @@ const CODED_TERM_DATA = {
       categoryMode: "dynamic",
       placesFound: [
         {
-          match_type: "direct",
           place: "England"
         }
       ],
@@ -3508,11 +3597,9 @@ const CODED_TERM_DATA = {
       categoryMode: "dynamic",
       placesFound: [
         {
-          match_type: "direct",
           place: "America"
         }
-      ],
-      demonymsFound: []
+      ]
     },
     {
       root: "Amerimutt",
@@ -4580,7 +4667,7 @@ const CODED_TERM_DATA = {
         "Illegal entry"
       ],
       category: "xenophobic",
-      definition: "Signals anti-immigrant, anti-refugee, or anti-minority sentiment without explicitly referencing race, ethnicity, or nationality",
+      definition: "Paints immigrants, refugees or asylum seekers as \"illegals\" regardless of their legal status without explicitly referencing theirrace, ethnicity, or nationality",
       source: "goodboy"
     },
     {
@@ -4662,7 +4749,7 @@ const CODED_TERM_DATA = {
       variations: [],
       category: "antisemitic",
       definition: "Jews control US politics",
-      categoryMode: "original",
+      categoryMode: "unique",
       source: "silent_signals"
     },
     {
@@ -4831,7 +4918,6 @@ const CODED_TERM_DATA = {
       categoryMode: "dynamic",
       placesFound: [
         {
-          match_type: "direct",
           place: "America"
         }
       ]
@@ -4987,7 +5073,7 @@ const CODED_TERM_DATA = {
         "Coomer Wojack",
         "Coom"
       ],
-      category: "alt-right",
+      category: "incel",
       definition: "\"Coomer\" is a Wojak meme depicting a man addicted to pornography or compulsive sexual behavior, often used in alt-right, incel, and manosphere spaces to mock perceived weakness, lack of discipline, or oversexualization",
       source: "goodboy"
     },
@@ -5018,7 +5104,7 @@ const CODED_TERM_DATA = {
       variations: [],
       category: "antisemitic",
       definition: "The belief that Jews are pushing for immigration to ruin other countries except for Israel",
-      categoryMode: "original",
+      categoryMode: "unique",
       source: "silent_signals"
     },
     {
@@ -5185,7 +5271,7 @@ const CODED_TERM_DATA = {
       variations: [],
       category: "racist",
       definition: "A term with a historical scientific meaning that has been co-opted by far-right and white-supremacist groups as a euphemistic dog-whistle advocating racial hierarchy, selective breeding, or ethnically-targeted policies. In extremist contexts, it signals support for discriminatory or violent ideology",
-      source: "goodboy",
+      source: "goodboy"
     },
     {
       root: "Biological Race Realism",
@@ -5757,16 +5843,6 @@ const CODED_TERM_DATA = {
       category: "transphobic",
       definition: "Trans people treat womanhood as a costume",
       source: "silent_signals"
-    },
-    {
-      root: "Womxn",
-      variations: [
-        "Womyn",
-        "Wymmin"
-      ],
-      category: "misogynistic",
-      definition: "Alternative spelling of \"woman\" often used in anti-feminist or gender-critical discourse",
-      source: "goodboy"
     },
     {
       root: "Working class",

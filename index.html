@@ -837,6 +837,7 @@
     <script src="js/ticker.js"></script>
     <script src="js/category_config.js"></script>
     <script src="js/signal_score.js"></script>
+    <script src="js/tooltips.js"></script>
     <script src="data/religionym_lookup.js"></script>
     <script src="data/place_demonym_lookup.js"></script>
 
@@ -910,14 +911,7 @@
          * - Dynamic patterns with other categories (racist, antisemitic, etc.) → preserve original category
          */
 
-        // Build reverse mapping: subcategory -> main category
-        const SUBCATEGORY_TO_MAIN = {};
-        Object.keys(CATEGORY_HIERARCHY).forEach(mainKey => {
-            const mainCat = CATEGORY_HIERARCHY[mainKey];
-            Object.keys(mainCat.sub).forEach(subKey => {
-                SUBCATEGORY_TO_MAIN[subKey] = mainKey;
-            });
-        });
+        // Use getMainCategoryForSub(), getCategoryColor(), etc. from that module
 
         function renderAttributions() {
             const container = document.getElementById('dataset-attributions');
@@ -961,100 +955,6 @@
             });
         }
 
-
-        // Helper to get main category for a subcategory
-        function getMainCategory(subcategory) {
-            return SUBCATEGORY_TO_MAIN[subcategory?.toLowerCase()] || null;
-        }
-
-        // Inject dynamic CSS for MAIN category colors (used for flagging terms)
-        function injectCategoryStyles() {
-            const styleEl = document.createElement('style');
-            let css = '';
-
-            // Generate CSS for each MAIN category
-            Object.keys(CATEGORY_HIERARCHY).forEach(mainKey => {
-                const mainCat = CATEGORY_HIERARCHY[mainKey];
-                const className = mainKey.toLowerCase().replace(/\s+/g, '-');
-
-                css += `
-                    .flagged.codedTerm.${className} {
-                        background-color: ${mainCat.lightColor};
-                    }
-                    .flagged.codedTerm.${className}:hover {
-                        background-color: ${mainCat.hoverColor};
-                    }
-                    .flagged.harmfulTerm.${className} {
-                        border-bottom: 3px solid ${mainCat.lightColor};
-                        text-decoration: none;
-                    }
-                    .flagged.harmfulTerm.${className}:hover {
-                        border-bottom-color: ${mainCat.hoverColor};
-                    }
-                `;
-            });
-
-            // Add unflagged term styles (overrides category colors when data-unflagged="true")
-            css += `
-                .flagged.codedTerm[data-unflagged="true"] {
-                    background-color: var(--unflagged-color) !important;
-                }
-                .flagged.codedTerm[data-unflagged="true"]:hover {
-                    background-color: var(--unflagged-hover) !important;
-                }
-                .flagged.harmfulTerm[data-unflagged="true"] {
-                    border-bottom-color: var(--unflagged-color) !important;
-                }
-                .flagged.harmfulTerm[data-unflagged="true"]:hover {
-                    border-bottom-color: var(--unflagged-hover) !important;
-                }
-            `;
-
-            styleEl.textContent = css;
-            document.head.appendChild(styleEl);
-        }
-
-        // Get the subcategory label and color
-        function getSubcategoryInfo(subcategory) {
-            const mainKey = getMainCategory(subcategory);
-            if (!mainKey) return null;
-
-            const mainCat = CATEGORY_HIERARCHY[mainKey];
-            const subInfo = mainCat.sub[subcategory.toLowerCase()];
-
-            return subInfo ? {
-                label: subInfo.label,
-                darkColor: subInfo.darkColor,
-                mainLabel: mainCat.label,
-                mainKey: mainKey
-            } : null;
-        }
-
-        // Get the color for a category (returns subcategory color for tooltips)
-        function getCategoryColor(subcategory) {
-            const info = getSubcategoryInfo(subcategory);
-            return info.darkColor;
-        }
-
-        // Get the CSS class for flagging (uses MAIN category)
-        function getCategoryClass(subcategory) {
-            const mainKey = getMainCategory(subcategory);
-            return mainKey.toLowerCase().replace(/\s+/g, '-');
-        }
-
-        // Get the main category label
-        function getCategoryLabel(subcategory) {
-            const info = getSubcategoryInfo(subcategory);
-            if (!info) return subcategory;
-            return `${info.mainLabel}`;
-        }
-
-        // Get formatted label for tooltip: "Main : Sub"
-        function getSubcategoryLabel(subcategory) {
-            const info = getSubcategoryInfo(subcategory);
-            if (!info) return subcategory;
-            return `${info.label}`;
-        }
 
         // Load and prepare data on page load
         window.addEventListener('DOMContentLoaded', () => {
@@ -1221,7 +1121,32 @@
                     ...patternResults.matches
                 ];
 
-                allMatches.sort((a, b) => {
+                // Group matches by (start, end) position to apply smart tiebreaker
+                // When matches from different sources match the same text, select the best one
+                // Examples: "Tim" vs "TIM", "Canaca" vs "Kanaca", "Turco" vs "Turko"
+                const positionGroups = new Map();
+                for (const match of allMatches) {
+                    const key = `${match.start}-${match.end}`;
+                    if (!positionGroups.has(key)) {
+                        positionGroups.set(key, []);
+                    }
+                    positionGroups.get(key).push(match);
+                }
+
+                // For each position group, select the best match using smart tiebreaker
+                const deduplicatedByPosition = [];
+                for (const [key, groupMatches] of positionGroups) {
+                    if (groupMatches.length === 1) {
+                        deduplicatedByPosition.push(groupMatches[0]);
+                    } else {
+                        // Multiple matches at same position - use smart tiebreaker
+                        const originalText = groupMatches[0].text;
+                        const bestMatch = TextUtils.selectBestMatch(originalText, groupMatches);
+                        deduplicatedByPosition.push(bestMatch);
+                    }
+                }
+
+                deduplicatedByPosition.sort((a, b) => {
                     if (b.end - b.start !== a.end - a.start) {
                         return (b.end - b.start) - (a.end - a.start); // Sort by length (longest first)
                     }
@@ -1233,7 +1158,7 @@
 
                 // Check if we have deliberated split a match into segments, such as from emoji-split terms so we can deduplicate
                 // e.g., "False" and "Flag" from "False🐑Flag"
-                for (const match of allMatches) {
+                for (const match of deduplicatedByPosition) {
                     let hasOverlap = false;
 
                     for (const range of usedRanges) {
@@ -1330,7 +1255,7 @@
 
             // Update stats using shared DRY functions
             const matchesToCount = results.deduplicatedMatches || results.matches;
-            updateAllStats(matchesToCount, originalText);
+            SignalScore.updateAllStats(matchesToCount, originalText);
 
             // Build flagged text display
             let displayHtml = '';
@@ -1479,7 +1404,7 @@
 
             // Coded term path
             let termHtmlBlock;
-            // Display derviatin if sub-category is localist/nationalist/regionalist
+            // Display derviation if sub-category is localist/nationalist/regionalist
             if (match.isDerived && match.category !== "religious-populism") {
                 termHtmlBlock = simpleItem("Derivation", match.term);
             } else {
@@ -1535,248 +1460,7 @@
         const isTouchDevice = window.matchMedia('(hover: none)').matches
             || ('ontouchstart' in window);
 
-        function setupTooltips() {
-            const flaggedTerms = document.querySelectorAll('.flagged');
-            const infoIcons = document.querySelectorAll('.info-icon');
-
-            // Setup click/touch behavior for pinning flagged term tooltips
-            flaggedTerms.forEach(flaggedTerm => {
-                const tooltip = flaggedTerm.querySelector('.tooltip');
-                if (!tooltip) return;
-
-                // Click/touch handler to pin tooltip
-                const pinHandler = (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    // Hide previous tooltip if different
-                    if (pinnedTooltip && pinnedTooltip !== tooltip) {
-                        hideTooltip(pinnedTooltip);
-                    }
-
-                    // Show this tooltip
-                    showTooltip(flaggedTerm, tooltip);
-                    pinnedTooltip = tooltip;
-                };
-
-                // Add click handler (desktop)
-                flaggedTerm.addEventListener('click', pinHandler);
-
-                // Add touch handler (mobile)
-                if (isTouchDevice) {
-                    flaggedTerm.addEventListener('touchstart', pinHandler);
-                }
-
-                // Flag button click handler (using DRY toggleFlagState function)
-                const flagBtn = tooltip.querySelector('.tooltip-flag-btn');
-                if (flagBtn) {
-                    // Create flag button tooltip as a sibling of .tooltip
-                    const flagTooltip = document.createElement('span');
-                    flagTooltip.className = 'flag-button-tooltip';
-                    flagTooltip.textContent = flagBtn.dataset.flagTooltipText || FLAG_TOOLTIP_TEXT.UNFLAG;
-                    flaggedTerm.appendChild(flagTooltip);
-
-                    // Measure width with both possible texts to prevent resizing
-                    const originalText = flagTooltip.textContent;
-                    flagTooltip.style.display = 'block';
-                    flagTooltip.style.visibility = 'hidden';
-                    const width1 = flagTooltip.offsetWidth;
-                    flagTooltip.textContent = FLAG_TOOLTIP_TEXT.REFLAG;
-                    const width2 = flagTooltip.offsetWidth;
-                    flagTooltip.textContent = originalText;
-                    flagTooltip.style.width = `${Math.max(width1, width2)}px`;
-                    flagTooltip.style.display = 'none';
-                    flagTooltip.style.visibility = 'visible';
-
-                    // Store reference for later updates
-                    flagBtn.flagTooltipElement = flagTooltip;
-
-                    // Store timeout IDs for clearing
-                    let showTimeout = null;
-                    let hideTimeout = null;
-
-                    const flagHandler = (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-
-                        const isFlagged = flagBtn.dataset.flagged === 'true';
-                        toggleFlagState(flaggedTerm, tooltip, isFlagged); // DRY!
-                    };
-
-                    flagBtn.addEventListener('click', flagHandler);
-                    if (isTouchDevice) {
-                        flagBtn.addEventListener('touchstart', flagHandler);
-                    }
-
-                    // Position flag tooltip on flag button hover
-                    flagBtn.addEventListener('mouseenter', function () {
-                        // Clear any pending hide
-                        if (hideTimeout) {
-                            clearTimeout(hideTimeout);
-                            hideTimeout = null;
-                        }
-
-                        // Only show if main tooltip is visible
-                        if (tooltip.classList.contains('tooltip-pinned') || tooltip.style.opacity === '1') {
-                            positionFlagTooltip(flagBtn, tooltip, flagTooltip);
-                            flagTooltip.style.display = 'block';
-                            // Trigger animation after display change
-                            showTimeout = setTimeout(() => {
-                                flagTooltip.classList.add('visible');
-                                showTimeout = null;
-                            }, 10);
-                        }
-                    });
-
-                    flagBtn.addEventListener('mouseleave', function () {
-                        // Clear any pending show
-                        if (showTimeout) {
-                            clearTimeout(showTimeout);
-                            showTimeout = null;
-                        }
-
-                        flagTooltip.classList.remove('visible');
-                        // Hide after animation completes
-                        hideTimeout = setTimeout(() => {
-                            flagTooltip.style.display = 'none';
-                            hideTimeout = null;
-                        }, 500);
-                    });
-                }
-
-                // Hover behavior only when no tooltip is pinned (desktop only)
-                if (!isTouchDevice) {
-                    flaggedTerm.addEventListener('mouseenter', function (e) {
-                        if (!pinnedTooltip) {
-                            positionTooltip(flaggedTerm, tooltip);
-                        }
-                    });
-                }
-            });
-
-            // Setup info icon tooltips (signal score breakdown)
-            infoIcons.forEach(infoIcon => {
-                const tooltip = infoIcon.querySelector('.tooltip');
-                if (!tooltip) return;
-
-                // Click/touch handler to pin tooltip
-                const pinHandler = (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    // Hide previous tooltip if different
-                    if (pinnedTooltip && pinnedTooltip !== tooltip) {
-                        hideTooltip(pinnedTooltip);
-                    }
-
-                    // Show this tooltip
-                    showTooltip(infoIcon, tooltip);
-                    pinnedTooltip = tooltip;
-                };
-
-                // Add click handler (desktop)
-                infoIcon.addEventListener('click', pinHandler);
-
-                // Add touch handler (mobile)
-                if (isTouchDevice) {
-                    infoIcon.addEventListener('touchstart', pinHandler);
-                }
-
-                // Hover behavior only when no tooltip is pinned (desktop only)
-                if (!isTouchDevice) {
-                    infoIcon.addEventListener('mouseenter', function (e) {
-                        if (!pinnedTooltip) {
-                            positionTooltip(infoIcon, tooltip);
-                        }
-                    });
-                }
-            });
-
-            // Prevent tooltip clicks from closing the tooltip
-            document.querySelectorAll('.tooltip').forEach(tooltip => {
-                const preventClose = (e) => {
-                    e.stopPropagation();
-                };
-                tooltip.addEventListener('click', preventClose);
-                if (isTouchDevice) {
-                    tooltip.addEventListener('touchstart', preventClose);
-                }
-            });
-
-            // Click/touch anywhere else: hide pinned tooltip
-            const closeHandler = (e) => {
-                if (pinnedTooltip) {
-                    hideTooltip(pinnedTooltip);
-                    pinnedTooltip = null;
-                }
-            };
-
-            document.addEventListener('click', closeHandler);
-            if (isTouchDevice) {
-                document.addEventListener('touchstart', closeHandler);
-            }
-        }
-
-        function showTooltip(flaggedTerm, tooltip) {
-            tooltip.classList.add('tooltip-pinned');
-            document.body.classList.add('tooltip-is-pinned'); // Disable hover on other terms
-            positionTooltip(flaggedTerm, tooltip);
-        }
-
-        function hideTooltip(tooltip) {
-            tooltip.classList.remove('tooltip-pinned');
-            document.body.classList.remove('tooltip-is-pinned'); // Re-enable hover
-        }
-
-        /**
-         * Toggle flag state for a term (DRY helper for unflag/reflag)
-         * @param {HTMLElement} flaggedSpan - The .flagged span element
-         * @param {HTMLElement} tooltip - The tooltip element
-         * @param {boolean} shouldUnflag - true to unflag, false to reflag
-         */
-        function toggleFlagState(flaggedSpan, tooltip, shouldUnflag) {
-            // Update data attribute
-            flaggedSpan.dataset.unflagged = shouldUnflag ? 'true' : 'false';
-
-            // Update button in tooltip
-            const flagBtn = tooltip.querySelector('.tooltip-flag-btn');
-            if (flagBtn) {
-                // Update icon
-                flagBtn.textContent = shouldUnflag ? FLAG_SYMBOLS.UNFLAGGED : FLAG_SYMBOLS.FLAGGED;
-
-                // Update flagged state
-                flagBtn.dataset.flagged = shouldUnflag ? 'false' : 'true';
-
-                // Update data attribute for tooltip text
-                flagBtn.dataset.flagTooltipText = !shouldUnflag
-                    ? FLAG_TOOLTIP_TEXT.UNFLAG
-                    : FLAG_TOOLTIP_TEXT.REFLAG;
-
-                // Update the flag tooltip element if it exists
-                if (flagBtn.flagTooltipElement) {
-                    flagBtn.flagTooltipElement.textContent = flagBtn.dataset.flagTooltipText;
-                }
-            }
-
-
-            // Recalculate signal score and stats
-            recalculateAllStats();
-        }
-
-        /**
-         * Update all stats displays from a matches array (DRY)
-         * @param {Array} matches - Array of match objects (already filtered for unflagged)
-         * @param {string} originalText - Original analyzed text for signal score calculation
-         */
-        function updateAllStats(matches, originalText) {
-            // Calculate signal score
-            const scoreResult = SignalScore.calculate(originalText, matches);
-
-            // Update all displays
-            updateSignalScoreDisplay(scoreResult);
-            updateTermCountsDisplay(matches);
-            updateCategoryCountsDisplay(matches);
-        }
+        // Tooltip functions moved to js/tooltips.js
 
         /**
          * Recalculate all stats after unflag/reflag action
@@ -1831,102 +1515,6 @@
             });
 
             return matches;
-        }
-
-        /**
-         * Update signal score display (DRY shared function)
-         * @param {Object} scoreResult - Result from SignalScore.calculate()
-         */
-        function updateSignalScoreDisplay(scoreResult) {
-            document.getElementById('signalScore').textContent = `${scoreResult.total}%`;
-            const signalLevel = SignalScore.getSignalLevel(scoreResult.total);
-            const signalIndicator = document.getElementById('signalIndicator');
-
-            // Find existing signal-indicator span or create structure
-            let indicatorSpan = signalIndicator.querySelector('.signal-indicator');
-            if (!indicatorSpan) {
-                // First time - create full structure
-                signalIndicator.innerHTML = `<span class="signal-indicator ${signalLevel.className}">${signalLevel.level}</span><span class="info-icon">ⓘ<span class="tooltip"></span></span>`;
-                setupTooltips();
-            } else {
-                // Update existing - just change class and text
-                indicatorSpan.className = `signal-indicator ${signalLevel.className}`;
-                indicatorSpan.textContent = signalLevel.level;
-            }
-
-            SignalScore.updateTooltip(scoreResult.breakdown);
-        }
-
-        /**
-         * Update term counts display (DRY shared function)
-         * @param {Array} matches - Match objects
-         */
-        function updateTermCountsDisplay(matches) {
-            const codedTermCount = matches.filter(m => m.type === 'codedTerm').length;
-            const harmfulTermCount = matches.filter(m => m.type === 'harmfulTerm').length;
-            const totalCount = codedTermCount + harmfulTermCount;
-
-            document.getElementById('termCount').textContent = totalCount;
-
-            const termBreakdown = document.getElementById('termBreakdown');
-            if (termBreakdown) {
-                const lines = [];
-                if (codedTermCount > 0) {
-                    const codedTermText = codedTermCount === 1 ? 'coded term' : 'coded terms';
-                    lines.push({ count: codedTermCount, text: `${codedTermCount} ${codedTermText}` });
-                }
-                if (harmfulTermCount > 0) {
-                    const harmfulTermText = harmfulTermCount === 1 ? 'harmful term' : 'harmful terms';
-                    lines.push({ count: harmfulTermCount, text: `${harmfulTermCount} ${harmfulTermText}` });
-                }
-                lines.sort((a, b) => b.count - a.count);
-                termBreakdown.innerHTML = lines.map(line => line.text).join('<br>');
-            }
-        }
-
-        /**
-         * Update category counts display (DRY shared function)
-         * @param {Array} matches - Match objects
-         */
-        function updateCategoryCountsDisplay(matches) {
-            const subCategoryCounts = {};
-            const mainCategoryCounts = {};
-
-            matches.forEach(match => {
-                const subcat = match.category.toLowerCase();
-                const mainKey = getMainCategory(subcat);
-
-                subCategoryCounts[subcat] = (subCategoryCounts[subcat] || 0) + 1;
-                if (mainKey) {
-                    mainCategoryCounts[mainKey] = (mainCategoryCounts[mainKey] || 0) + 1;
-                }
-            });
-
-            // Update main categories
-            const sortedMainCategories = Object.entries(mainCategoryCounts).sort((a, b) => b[1] - a[1]);
-            document.getElementById('mainCategoryCount').textContent = sortedMainCategories.length;
-            const mainCategoryList = document.getElementById('mainCategoryList');
-            let mainCategoryHtml = '';
-            sortedMainCategories.forEach(([mainKey, count]) => {
-                const mainCat = CATEGORY_HIERARCHY[mainKey];
-                if (mainCat) {
-                    mainCategoryHtml += `<span class="category-badge" style="background-color: ${mainCat.darkColor}">${mainCat.label} (${count})</span>`;
-                }
-            });
-            mainCategoryList.innerHTML = mainCategoryHtml;
-
-            // Update subcategories
-            const sortedSubCategories = Object.entries(subCategoryCounts).sort((a, b) => b[1] - a[1]);
-            document.getElementById('subCategoryCount').textContent = sortedSubCategories.length;
-            const subCategoryList = document.getElementById('subCategoryList');
-            let subCategoryHtml = '';
-            sortedSubCategories.forEach(([subcat, count]) => {
-                const color = getCategoryColor(subcat);
-                const info = getSubcategoryInfo(subcat);
-                const label = info ? info.label : subcat;
-                subCategoryHtml += `<span class="category-badge" style="background-color: ${color}">${label} (${count})</span>`;
-            });
-            subCategoryList.innerHTML = subCategoryHtml;
         }
 
         function positionFlagTooltip(flagBtn, tooltip, flagTooltip) {

@@ -1,7 +1,7 @@
 const HARMFUL_TERM_DATA = {
-  generated: "2025-12-10T22:58:20.917Z",
-  uniqueTerms: 611,
-  totalTerms: 1180,
+  generated: "2025-12-11T20:06:18.646Z",
+  uniqueTerms: 612,
+  totalTerms: 1186,
   categoryBreakdown: [
     { name: "racist", count: 737 },
     { name: "homophobic", count: 84 },
@@ -9,13 +9,13 @@ const HARMFUL_TERM_DATA = {
     { name: "islamophobic", count: 46 },
     { name: "sectarian", count: 44 },
     { name: "antisemitic", count: 43 },
-    { name: "sexual-objectification", count: 33 },
+    { name: "sexual-objectification", count: 34 },
     { name: "non-believers", count: 17 },
     { name: "prostitution", count: 16 },
     { name: "anti-lgbtq", count: 15 },
-    { name: "christophobia", count: 15 },
+    { name: "christophobic", count: 15 },
+    { name: "misogynistic", count: 15 },
     { name: "ageist", count: 11 },
-    { name: "misogynistic", count: 10 },
     { name: "xenophobic", count: 10 },
     { name: "mental-health", count: 8 },
     { name: "transphobic", count: 8 },
@@ -31,13 +31,13 @@ const HARMFUL_TERM_DATA = {
     { name: "climate-change-denial", count: 0 },
     { name: "conservative", count: 0 },
     { name: "conspiracy", count: 0 },
-    { name: "death", count: 0 },
     { name: "deflection", count: 0 },
     { name: "dehumanization", count: 0 },
     { name: "drugs", count: 0 },
     { name: "emotional-dismissal", count: 0 },
     { name: "fascist", count: 0 },
     { name: "illegality", count: 0 },
+    { name: "incel", count: 0 },
     { name: "liberal", count: 0 },
     { name: "localist", count: 0 },
     { name: "nationalist", count: 0 },
@@ -48,20 +48,32 @@ const HARMFUL_TERM_DATA = {
     { name: "religious-populism", count: 0 },
     { name: "self-harm", count: 0 },
     { name: "sexual-content", count: 0 },
+    { name: "violence", count: 0 },
     { name: "welfare-chauvinism", count: 0 },
     { name: "white-supremacist", count: 0 }
   ],
   sourceBreakdown: [
     { name: "wiki", count: 824 },
-    { name: "goodboy", count: 217 },
-    { name: "citg", count: 84 },
-    { name: "wsp", count: 48 },
+    { name: "goodboy", count: 270 },
+    { name: "wsp", count: 49 },
+    { name: "citg", count: 36 },
     { name: "aos", count: 7 },
     { name: "adl", count: 0 },
     { name: "silent_signals", count: 0 },
     { name: "swu", count: 0 }
   ],
+
   terms: [
+    {
+      root: "Womxn",
+      variations: [
+        "Womyn",
+        "Wymmin"
+      ],
+      category: "misogynistic",
+      definition: "Alternative spelling of \"woman\" often used in anti-feminist or gender-critical discourse",
+      source: "goodboy"
+    },
     {
       root: "Blacks",
       variations: [],
@@ -229,11 +241,21 @@ const HARMFUL_TERM_DATA = {
         "Cum recepticle",
         "Cock sleeve",
         "Pornified",
-        "Sex object"
+        "Sex object",
+        "Hole"
       ],
       category: "sexual-objectification",
       definition: "Reduction of a woman to purely sexual terms",
       source: "wsp"
+    },
+    {
+      root: "Roastie",
+      variations: [
+        "Roasty"
+      ],
+      category: "misogynistic",
+      definition: "A misogynistic incel slur claiming women's genitals become \"roast beef-like\" with sexual activity, used to shame and degrade",
+      source: "goodboy"
     },
     {
       root: "Bitch",
@@ -706,7 +728,7 @@ const HARMFUL_TERM_DATA = {
         "Jesus Freak",
         "Churchie"
       ],
-      category: "christophobia",
+      category: "christophobic",
       definition: "A Christian",
       source: "goodboy"
     },
@@ -829,14 +851,14 @@ const HARMFUL_TERM_DATA = {
     {
       root: "Holly Roller",
       variations: [],
-      category: "christophobia",
+      category: "christophobic",
       definition: "Methodists of the Holiness Movement, Holiness Pentecostals. Named after church services involving spontaneous acts of worship, such as sobbing, wailing, groaning, and kneeling",
       source: "wiki"
     },
     {
       root: "Campbellite",
       variations: [],
-      category: "christophobia",
+      category: "christophobic",
       definition: "Followers of the Church of Christ, from American Restoration Movement leaders Thomas Campbell and Alexander Campbell, the latter being one of two key people considered the founders of the movement",
       source: "wiki"
     },
@@ -845,35 +867,35 @@ const HARMFUL_TERM_DATA = {
       variations: [
         "Rice bag"
       ],
-      category: "christophobia",
+      category: "christophobic",
       definition: "A person who has formally declared themself a Christian for material benefits rather than for religious reasons. In India, the term has been extended to refer to any Christian convert",
       source: "wiki"
     },
     {
       root: "Isai",
       variations: [],
-      category: "christophobia",
+      category: "christophobic",
       definition: "A Christian. Used in Pakistan. From \"Isa Masih\", a name of Jesus Christ in the Hindi-language Bible",
       source: "wiki"
     },
     {
       root: "God botherer",
       variations: [],
-      category: "christophobia",
+      category: "christophobic",
       definition: "A Chtistian person",
       source: "wiki"
     },
     {
       root: "Fundie",
       variations: [],
-      category: "christophobia",
+      category: "christophobic",
       definition: "Christian fundamentalist",
       source: "wiki"
     },
     {
       root: "Chuhra",
       variations: [],
-      category: "christophobia",
+      category: "christophobic",
       definition: "A Christian. Used in Punjab. Derived from the Chuhra caste, a Dalit community whose traditional occupation was sweeping and cleaning. Most Christians in Punjab, along with many in Uttar Pradesh, are from the Chuhra and Chamar communities",
       source: "wiki"
     },
@@ -887,7 +909,7 @@ const HARMFUL_TERM_DATA = {
     {
       root: "Bible thumper",
       variations: [],
-      category: "christophobia",
+      category: "christophobic",
       definition: "A Christian, expecially fundamentalists",
       source: "wiki"
     },
@@ -896,7 +918,7 @@ const HARMFUL_TERM_DATA = {
       variations: [
         "Bible beater"
       ],
-      category: "christophobia",
+      category: "christophobic",
       definition: "A Baptist, Methodist or Pentecostal evangelical, or any evangelising christian",
       source: "wiki"
     },
@@ -2885,8 +2907,10 @@ const HARMFUL_TERM_DATA = {
       source: "wiki"
     },
     {
-      root: "Kurepi",
-      variations: [],
+      root: "Curepí",
+      variations: [
+        "Kurepi"
+      ],
       category: "racist",
       definition: "An Argentine person. A Guarani term derived from kure pire, which means \"pigskin\"",
       source: "wiki"
@@ -4010,13 +4034,6 @@ const HARMFUL_TERM_DATA = {
       variations: [],
       category: "racist",
       definition: "A South Asian person",
-      source: "wiki"
-    },
-    {
-      root: "Curepí",
-      variations: [],
-      category: "racist",
-      definition: "An Argentinian person, translates to \"pig's skin\"",
       source: "wiki"
     },
     {

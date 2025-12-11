@@ -69,7 +69,7 @@ const PLACE_DEMONYM_LOOKUP = {
       "variants": ["Germany",
         "Deutschland"],
       "demonyms": ["German",
-        "Teutonic"],
+        "Teutonic", "Teuton"],
       "type": "country",
     "partOf": ["europe"]
     },
@@ -1402,7 +1402,8 @@ const PLACE_DEMONYM_LOOKUP = {
     "somalia": {
       "canonical": "Somalia",
       "variants": ["Somalia"],
-      "demonyms": ["Somali"],
+      "demonyms": ["Somali", 
+        "Somalian"],
       "type": "country",
     "partOf": ["africa"]
     },
@@ -3740,9 +3741,16 @@ const PLACE_DEMONYM_LOOKUP = {
         this._indices.variantToCanonical[variant.toLowerCase()] = canonicalKey;
       });
 
-      // Index all demonyms
+      // Index all demonyms (singular and plural forms)
       place.demonyms.forEach(demonym => {
-        this._indices.demonymToCanonical[demonym.toLowerCase()] = canonicalKey;
+        const lowerDemonym = demonym.toLowerCase();
+        this._indices.demonymToCanonical[lowerDemonym] = canonicalKey;
+
+        // Also index plural form (add 's' if not already ending in 's')
+        // This makes the system agnostic about +s pluralization
+        if (!lowerDemonym.endsWith('s')) {
+          this._indices.demonymToCanonical[lowerDemonym + 's'] = canonicalKey;
+        }
       });
 
       // Index by type

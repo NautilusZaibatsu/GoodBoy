@@ -5,20 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.4.8.1] - 2025-12-10
+## [0.4.8.2] - 2025-12-10
 ### Changed
-- **Technical**
-  - Refactor of text_utils, number_utils and matchers
+- **Detection**
+  - Added match ranking, so that if a term matches more than one item from the databases we are able to discern which term is closest, and present that match to the user. Eg Turko v Turco, Kurepi v Curepí, Kanaka v Canaca, TIM v Tim etc. Due to normalization and de-obfuscation the system was unable to tell these pairs apart until now
+  - Demonym/religionym plurals are now detected properly
+  - Religionist terms are now categorized properly
 
+### Added
 - **Databases** 
-  - Algospeak category added
-  - Over 100 new terms
+  - Incel sub-category added
+  - 33 new terms
+
+- **Technical**
+  - Refactored tooltips creation to their own script
+  - Refactored signal score and category functions into signal_score.js and category_config.js respectively
 
 ### Known Issues
 - **Non-ASCII characters** 
   - Database entries with an extreme amount of 'unusual' characters such as Аляска are currently not supported as the obfuscation utils pattern match too greedily. All examples have been commented out of the data for now
 - **Detection**
   - Multi-word terms don't match if they have are non-plural and have an alpha-numeric character immediately following them. Eg, False Flagj
+
+## [0.4.8.1] - 2025-12-10
+### Changed
+- **Technical**
+  - Refactor of text_utils, number_utils and matchers
+
+- **Databases** 
+  - Algospeak main category added
+  - Over 100 new terms
 
 ## [0.4.8] - 2025-12-10
 ### Added
@@ -38,27 +54,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Cursor now changes to the not allowed symbol when hovering on a button you cannot currently click
   - Removed database filtering on load. This is not necessary due to new in-house tools
   - Harmful term underlining color is now set by the main category color, rather than sub category color. This now matches the behavior of coded term 
-  
-  ### Known Issues
-- **Non-ASCII characters** 
-  - Database entries with an extreme amount of 'unusual' characters such as Аляска are currently not supported as the obfuscation utils pattern match too greedily. All examples have been commented out of the data for now
-- **Detection**"
-  - Multi-word terms don't match if they have are non-plural and have an alpha-numeric character immediately following them. Eg, "False Flagj"
 
 ## [0.4.7.6] - 2025-12-10
 ### Added
 - **Databases** 
-  - Anti-science and Anti-Conservative categories added
+  - Anti-science and Anti-Conservative sub-categories added
   - 33 new terms
 
  - **Text Utilities**
   - ~30 new contractions added to text matching system, including pronouns (Eg. you'll → you will, he'd → he would, she's → she is)
-
-### Known Issues
-- **Non-ASCII characters** 
-  - Database entries with an extreme amount of 'unusual' characters such as Аляска are currently not supported as the obfuscation utils pattern match too greedily. All examples have been commented out of the data for now
-- **Detection**"
-  - Multi-word terms don't match if they have are non-plural and have an alpha-numeric character immediately following them. Eg, "False Flagj"
 
 ## [0.4.7.5] - 2025-12-09
 ### Changed
@@ -80,19 +84,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Fixed an issue affecting matching for ordinal variations
   - Fixed an issue where auto-plural detection was getting preferential treatment over another match. eg oneship would match [ones]hip instead of [one][ship]
 
-### Known Issues
-- **Non-ASCII characters** 
-  - Database entries with an extreme amount of 'unusual' characters such as Аляска are currently not supported as the obfuscation utils pattern match too greedily. All examples have been commented out of the data for now
-- **Detection**"
-  - Multi-word terms don't match if they have are non-plural and have an alpha-numeric character immediately following them. Eg, "False Flagj"
-
 ## [0.4.7.1] - 2025-12-08
 ### Hotfix
   - Single word terms immediately followed by an emoji were not matching
-
-### Known Issues
-- **Non-ASCII characters** 
-  - Database entries with an extreme amount of 'unusual' characters such as Аляска are currently not supported as the obfuscation utils pattern match too greedily. All examples have been commented out of the data for now
 
 ## [0.4.7] - 2025-12-08
 
@@ -118,10 +112,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Emojis were not being detected properly due to a bug
   - Pluralization rules were greedily grabbing 's' from following words
   - Fixed a bug with how coded term weight contributed to signal score
-
-### Known Issues
-- **Non-ASCII characters** 
-  - Database entries with an extreme amount of 'unusual' characters such as Аляска are currently not supported as the obfuscation utils pattern match too greedily. All examples have been commented out of the data for now
 
 ## [0.4.6] - 2025-12-06
 

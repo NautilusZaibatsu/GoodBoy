@@ -547,6 +547,17 @@ function analyzeTextWithVariations(text, variationMap, matchType) {
                 }
             }
 
+            // Determine the actual database variation that was matched (with original capitalization)
+            // variation is lowercased, so we need to find the original from termData
+            let matchedVariation = termData.root; // Default to root
+            if (variation === termData.root.toLowerCase()) {
+                matchedVariation = termData.root;
+            } else if (termData.variations && termData.variations.length > 0) {
+                // Search variations for case-insensitive match
+                const found = termData.variations.find(v => v.toLowerCase() === variation);
+                if (found) matchedVariation = found;
+            }
+
             const matchObj = {
                 start: actualStartIndex,
                 end: usePositionMap ? actualEndIndexAdjusted : actualEndIndex,
@@ -559,7 +570,8 @@ function analyzeTextWithVariations(text, variationMap, matchType) {
                 variations: termData.variations,
                 source: termData.source,
                 isNumeric: isNumericTerm,
-                isLetterTerm: isLetterTerm  // For overlap detection (like isNumeric)
+                isLetterTerm: isLetterTerm,  // For overlap detection (like isNumeric)
+                matchedVariation: matchedVariation  // Store the actual database variation that matched
             };
 
             allMatches.push(matchObj);
@@ -730,6 +742,51 @@ const PatternMatcher = {
             });
         });
 
+        // INDEPENDENT DEMONYM SCANNING
+        // After scanning places, independently scan for ALL demonyms (not just as children of places)
+        // This allows patterns like "exclusively [demonym]" to match even when place name isn't in text
+        if (this.lookupRegistry.place_demonym) {
+            const allPlaces = PLACE_DEMONYM_LOOKUP.getAllVariants();
+
+            allPlaces.forEach(placeVariant => {
+                const allDemonyms = PLACE_DEMONYM_LOOKUP.getAllDemonymsWithHierarchy(placeVariant);
+
+                allDemonyms.forEach(demonymObj => {
+                    const demonym = demonymObj.demonym;
+                    const demonymLower = demonym.toLowerCase();
+
+                    // Use flexible pattern matching for obfuscation
+                    const flexiblePattern = TextUtils.createFlexiblePattern(demonymLower);
+                    // Include plural support (s?)
+                    const regex = new RegExp(`\\b${flexiblePattern}s?\\b`, 'gi');
+
+                    if (regex.test(lowerText)) {
+                        // Store found demonym
+                        if (!found['place_demonym_hierarchical']) {
+                            found['place_demonym_hierarchical'] = new Map();
+                        }
+                        if (!found['place_demonym_hierarchical'].has(demonymLower)) {
+                            found['place_demonym_hierarchical'].set(demonymLower, []);
+                        }
+
+                        // Only add if not already present (avoid duplicates from earlier place-based scan)
+                        const existing = found['place_demonym_hierarchical'].get(demonymLower);
+                        const isDuplicate = existing.some(entry =>
+                            entry.item.demonym === demonymObj.demonym &&
+                            entry.variant === placeVariant
+                        );
+
+                        if (!isDuplicate) {
+                            found['place_demonym_hierarchical'].get(demonymLower).push({
+                                variant: placeVariant,
+                                item: demonymObj
+                            });
+                        }
+                    }
+                });
+            });
+        }
+
         return found;
     },
 
@@ -779,8 +836,9 @@ const PatternMatcher = {
         const seenPatterns = new Set(); // Deduplicate by pattern text
 
         codedTerms.forEach(dw => {
-            // SKIP if not dynamic mode - location-specific patterns shouldn't generate variations
-            if (!dw.categoryMode || dw.categoryMode !== 'dynamic') {
+            // SKIP if mode doesn't allow substitutions (unique mode or undefined)
+            // Allow: fixed, religionym-only, dynamic
+            if (!dw.categoryMode || !allowsPatternSubstitution(dw.categoryMode)) {
                 return; // Don't extract pattern - location-specific (e.g., "Israel Lobby", "China Virus")
             }
 
@@ -943,7 +1001,8 @@ const PatternMatcher = {
             const allDemonyms = PLACE_DEMONYM_LOOKUP.getAllDemonymsWithHierarchy(placeVariant);
 
             for (const demonymObj of allDemonyms) {
-                const regex = new RegExp(`\\b${demonymObj.demonym}\\b`, 'i');
+                // Match singular and plural forms (agnostic about +s pluralization)
+                const regex = new RegExp(`\\b${demonymObj.demonym}s?\\b`, 'i');
                 if (regex.test(text)) {
                     return {
                         demonym: demonymObj.demonym,
@@ -972,7 +1031,8 @@ const PatternMatcher = {
             const religionymLower = religionym.toLowerCase();
             // Escape special regex characters
             const escapedReligionym = religionymLower.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            const regex = new RegExp(`\\b${escapedReligionym}\\b`, 'i');
+            // Match singular and plural forms (agnostic about +s pluralization)
+            const regex = new RegExp(`\\b${escapedReligionym}s?\\b`, 'i');
 
             if (regex.test(lowerText)) {
                 const religionData = RELIGION_RELIGIONYM_LOOKUP.findReligionByReligionym(religionym);
@@ -986,6 +1046,112 @@ const PatternMatcher = {
         }
 
         return null;
+    },
+
+    // Helper: Process religionym matches for a pattern (DRY)
+    // Handles religionym substitution for both [place][demonym] and [demonym] patterns
+    _processReligionymMatches(pattern, text, foundReligionyms, potentialMatches, placeVariant = null, placeData = null) {
+        if (foundReligionyms.size === 0) return;
+
+        Array.from(foundReligionyms.keys()).forEach(religionymLower => {
+            const religionymDataArray = foundReligionyms.get(religionymLower);
+
+            religionymDataArray.forEach(({ item: religionymObj }) => {
+                // Get religion data for category using the religionym
+                const religionData = RELIGION_RELIGIONYM_LOOKUP.findReligionByReligionym(religionymObj.religionym);
+
+                // Build expected text based on pattern type
+                let expectedText;
+                if (placeVariant) {
+                    // Pattern has [place] and [demonym]
+                    expectedText = pattern.pattern
+                        .replace('[place]', placeVariant)
+                        .replace('[demonym]', religionymObj.religionym);
+                } else {
+                    // Pattern only has [demonym]
+                    expectedText = pattern.pattern.replace('[demonym]', religionymObj.religionym);
+                }
+
+                // Case-insensitive flexible matching (includes plural handling)
+                const patternString = TextUtils.createFlexiblePattern(expectedText);
+                const flexiblePattern = new RegExp(`(?:^|(?<![a-z0-9]))${patternString}`, 'gi');
+
+                let match;
+                while ((match = flexiblePattern.exec(text)) !== null) {
+                    const start = match.index;
+                    let end = start + match[0].length;
+                    let actualMatchedText = text.substring(start, end);
+
+                    // Use shared trimming logic (DRY)
+                    let trimmedLength = trimMatchedText(actualMatchedText);
+
+                    if (trimmedLength < actualMatchedText.length) {
+                        actualMatchedText = actualMatchedText.substring(0, trimmedLength);
+                        end = start + trimmedLength;
+                        if (actualMatchedText.length === 0) continue;
+                    }
+
+                    // Determine category based on pattern mode
+                    const religionymInfo = religionData || {};
+                    const placeInfo = placeData ? {
+                        place: placeData.canonical,
+                        type: placeData.type,
+                        isGroup: true
+                    } : null;
+
+                    const category = this.determineCategoryForMatch(pattern, placeInfo, religionymInfo);
+
+                    // Create display term with detected religionym
+                    let displayTerm = pattern.original;
+
+                    // Replace original place if present
+                    if (placeVariant && pattern.originalPlace) {
+                        const originalPlaceRegex = new RegExp(
+                            pattern.originalPlace.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+                            'gi'
+                        );
+                        displayTerm = displayTerm.replace(originalPlaceRegex, (matched) => {
+                            if (matched[0] === matched[0].toUpperCase()) {
+                                return placeVariant.charAt(0).toUpperCase() + placeVariant.slice(1).toLowerCase();
+                            }
+                            return placeVariant.toLowerCase();
+                        });
+                    }
+
+                    // Replace original demonym with detected religionym
+                    if (pattern.originalDemonym) {
+                        const originalDemonymRegex = new RegExp(
+                            pattern.originalDemonym.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+                            'gi'
+                        );
+                        displayTerm = displayTerm.replace(originalDemonymRegex, (matched) => {
+                            if (matched[0] === matched[0].toUpperCase()) {
+                                return religionymObj.religionym.charAt(0).toUpperCase() + religionymObj.religionym.slice(1).toLowerCase();
+                            }
+                            return religionymObj.religionym.toLowerCase();
+                        });
+                    }
+
+                    potentialMatches.push({
+                        type: 'codedTerm',
+                        text: actualMatchedText,
+                        term: displayTerm,
+                        category: category,
+                        definition: pattern.codedTerm.definition,
+                        variations: [],
+                        isPatternMatch: true,
+                        originalPattern: pattern.original,
+                        detectedPlace: placeData ? placeVariant : null,
+                        detectedReligionym: religionymObj.religionym,
+                        isDerived: true,
+                        derivedFrom: pattern.codedTerm.root,
+                        start: start,
+                        end: end,
+                        source: pattern.codedTerm.source
+                    });
+                }
+            });
+        });
     },
 
     // Analyze text for pattern matches
@@ -1006,9 +1172,10 @@ const PatternMatcher = {
         const foundInText = this.scanTextForLookups(text);
         const foundPlaces = foundInText.place_demonym || new Map();
         const foundDemonyms = foundInText.place_demonym_hierarchical || new Map();
+        const foundReligionyms = foundInText.religion_religionym_hierarchical || new Map();
 
-        // Early exit if no places or demonyms found
-        if (foundPlaces.size === 0 && foundDemonyms.size === 0) {
+        // Early exit if no places, demonyms, or religionyms found
+        if (foundPlaces.size === 0 && foundDemonyms.size === 0 && foundReligionyms.size === 0) {
             return { matches: [] };
         }
 
@@ -1025,25 +1192,49 @@ const PatternMatcher = {
                 let expectedTexts = [];
 
                 if (pattern.placeholders.includes('place') && pattern.placeholders.includes('demonym')) {
+                    // Fill [demonym] with actual demonyms
                     allDemonymObjs.forEach(demonymObj => {
                         const expected = pattern.pattern
                             .replace('[place]', placeVariant)    // preserve dataset variant capitalization
                             .replace('[demonym]', demonymObj.demonym);     // preserve demonym capitalization
-                        expectedTexts.push({ text: expected, demonym: demonymObj.demonym, demonymObj: demonymObj, isGroup: true });
+                        expectedTexts.push({ text: expected, demonym: demonymObj.demonym, demonymObj: demonymObj, isGroup: true, religionymInfo: null });
                     });
+
+                    // ALSO fill [demonym] with religionyms (since [demonym] accepts both)
+                    if (foundReligionyms.size > 0) {
+                        Array.from(foundReligionyms.keys()).forEach(religionymLower => {
+                            const religionymDataArray = foundReligionyms.get(religionymLower);
+                            religionymDataArray.forEach(({ item: religionymObj }) => {
+                                // Get religion data for category using the religionym
+                                const religionData = RELIGION_RELIGIONYM_LOOKUP.findReligionByReligionym(religionymObj.religionym);
+
+                                const expected = pattern.pattern
+                                    .replace('[place]', placeVariant)
+                                    .replace('[demonym]', religionymObj.religionym);
+                                expectedTexts.push({
+                                    text: expected,
+                                    demonym: religionymObj.religionym,
+                                    demonymObj: null, // No demonym object
+                                    isGroup: true,
+                                    religionymInfo: religionData || {},
+                                    religionymObj: religionymObj
+                                });
+                            });
+                        });
+                    }
 
                 } else if (pattern.placeholders.includes('place')) {
                     const expected = pattern.pattern.replace('[place]', placeVariant);
-                    expectedTexts.push({ text: expected, demonym: null, demonymObj: null, isGroup: false });
+                    expectedTexts.push({ text: expected, demonym: null, demonymObj: null, isGroup: false, religionymInfo: null });
 
                 } else if (pattern.placeholders.includes('demonym')) {
                     allDemonymObjs.forEach(demonymObj => {
                         const expected = pattern.pattern.replace('[demonym]', demonymObj.demonym);
-                        expectedTexts.push({ text: expected, demonym: demonymObj.demonym, demonymObj: demonymObj, isGroup: true });
+                        expectedTexts.push({ text: expected, demonym: demonymObj.demonym, demonymObj: demonymObj, isGroup: true, religionymInfo: null });
                     });
                 }
 
-                expectedTexts.forEach(({ text: expectedText, demonym, demonymObj, isGroup }) => {
+                expectedTexts.forEach(({ text: expectedText, demonym, demonymObj, isGroup, religionymInfo, religionymObj }) => {
                     // Case-insensitive flexible matching (includes plural handling)
                     const patternString = TextUtils.createFlexiblePattern(expectedText);
                     // No end boundary - rely on improved trimming to remove trailing punctuation
@@ -1085,7 +1276,7 @@ const PatternMatcher = {
                             isGroup: isGroup
                         };
 
-                        const category = this.determineCategoryForMatch(pattern, placeInfo);
+                        const category = this.determineCategoryForMatch(pattern, placeInfo, religionymInfo);
 
                         // Create display term with detected place, preserving original capitalization
                         // e.g., "Make America Great Again" → "Make Texas Great Again"
@@ -1123,7 +1314,7 @@ const PatternMatcher = {
                             });
                         }
 
-                        potentialMatches.push({
+                        const matchObj = {
                             type: 'codedTerm',
                             text: actualMatchedText,                       // use matched text for UI highlighting
                             term: displayTerm,                             // clean text with detected place/demonym
@@ -1138,16 +1329,115 @@ const PatternMatcher = {
                             start: start,
                             end: end,
                             source: pattern.codedTerm.source
-                        });
+                        };
+
+                        // Add religionym info if present
+                        if (religionymObj) {
+                            matchObj.detectedReligionym = religionymObj.religionym;
+                        }
+
+                        potentialMatches.push(matchObj);
                     }
                 });
             });
         });
 
+        // DEMONYM-ONLY PATTERN PROCESSING
+        // Handle patterns that ONLY have [demonym] placeholder (no [place])
+        // These patterns accept BOTH actual demonyms AND religionyms
+        if (foundDemonyms.size > 0 || foundReligionyms.size > 0) {
+            // Filter patterns that have ONLY [demonym] placeholder (no [place])
+            const demonymOnlyPatterns = this.patterns.filter(p =>
+                p.placeholders && p.placeholders.includes('demonym') && !p.placeholders.includes('place')
+            );
+
+            demonymOnlyPatterns.forEach(pattern => {
+                // PART 1: Check against actual demonyms
+                if (foundDemonyms.size > 0) {
+                    Array.from(foundDemonyms.keys()).forEach(demonymLower => {
+                        const demonymDataArray = foundDemonyms.get(demonymLower);
+
+                        // Each demonym might map to multiple places (hierarchical)
+                        demonymDataArray.forEach(({ variant: placeVariant, item: demonymObj }) => {
+                            const expectedText = pattern.pattern.replace('[demonym]', demonymObj.demonym);
+
+                            // Case-insensitive flexible matching (includes plural handling)
+                            const patternString = TextUtils.createFlexiblePattern(expectedText);
+                            const flexiblePattern = new RegExp(`(?:^|(?<![a-z0-9]))${patternString}`, 'gi');
+
+                            let match;
+                            while ((match = flexiblePattern.exec(text)) !== null) {
+                                const start = match.index;
+                                let end = start + match[0].length;
+                                let actualMatchedText = text.substring(start, end);
+
+                                // Use shared trimming logic (DRY)
+                                let trimmedLength = trimMatchedText(actualMatchedText);
+
+                                if (trimmedLength < actualMatchedText.length) {
+                                    actualMatchedText = actualMatchedText.substring(0, trimmedLength);
+                                    end = start + trimmedLength;
+                                    if (actualMatchedText.length === 0) continue;
+                                }
+
+                                // Get the place data for the demonym
+                                const demonymPlace = demonymObj.place; // Canonical name
+                                const demonymPlaceData = PLACE_DEMONYM_LOOKUP.findPlaceByVariant(demonymPlace);
+                                const typeToUse = demonymPlaceData ? demonymPlaceData.type : 'country';
+
+                                const placeInfo = {
+                                    place: demonymPlace,
+                                    type: typeToUse,
+                                    isGroup: true
+                                };
+
+                                const category = this.determineCategoryForMatch(pattern, placeInfo);
+
+                                // Create display term with detected demonym
+                                let displayTerm = pattern.original;
+
+                                // Replace original demonym with detected demonym
+                                if (pattern.originalDemonym) {
+                                    const originalDemonymRegex = new RegExp(
+                                        pattern.originalDemonym.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+                                        'gi'
+                                    );
+                                    displayTerm = displayTerm.replace(originalDemonymRegex, (matched) => {
+                                        if (matched[0] === matched[0].toUpperCase()) {
+                                            return demonymObj.demonym.charAt(0).toUpperCase() + demonymObj.demonym.slice(1).toLowerCase();
+                                        }
+                                        return demonymObj.demonym.toLowerCase();
+                                    });
+                                }
+
+                                potentialMatches.push({
+                                    type: 'codedTerm',
+                                    text: actualMatchedText,
+                                    term: displayTerm,
+                                    category: category,
+                                    definition: pattern.codedTerm.definition,
+                                    variations: [],
+                                    isPatternMatch: true,
+                                    originalPattern: pattern.original,
+                                    detectedPlace: demonymPlace,
+                                    isDerived: true,
+                                    derivedFrom: pattern.codedTerm.root,
+                                    start: start,
+                                    end: end,
+                                    source: pattern.codedTerm.source
+                                });
+                            }
+                        });
+                    });
+                }
+
+                // PART 2: Check against religionyms filling [demonym] slots (DRY - use helper)
+                this._processReligionymMatches(pattern, text, foundReligionyms, potentialMatches);
+            });
+        }
+
         // RELIGIONYM PATTERN PROCESSING
         // Process patterns with [religionym] placeholder
-        const foundReligionyms = foundInText.religion_religionym_hierarchical || new Map();
-
         if (foundReligionyms.size > 0) {
             // Filter patterns that have [religionym] placeholder
             const religionymPatterns = this.patterns.filter(p =>
@@ -1262,20 +1552,42 @@ const PatternMatcher = {
         return 'nationalist'; // Default
     },
 
-    // Determine category for a match using hybrid logic
-    determineCategoryForMatch(pattern, placeInfo) {
+    // Determine category for a match based on category mode
+    // Handles: fixed, religionym-only, dynamic modes
+    determineCategoryForMatch(pattern, placeInfo, religionymInfo = null) {
         const originalCategory = pattern.codedTerm.category;
+        const categoryMode = pattern.codedTerm.categoryMode;
 
-        // For dynamic patterns, use hybrid approach:
-        // - If original is nationalist/localist → auto-categorize by place type
-        // - Otherwise (racist, antisemitic, etc.) → preserve original category
-        if (originalCategory === 'nationalist' || originalCategory === 'localist') {
-            // Auto-categorize based on place type
-            return this.determineCategory(placeInfo);
+        // MODE: "fixed" - category NEVER changes
+        if (categoryMode === 'fixed') {
+            return originalCategory;
         }
 
-        // For all other categories, preserve the original
-        // This ensures racist patterns stay racist, antisemitic stay antisemitic, etc.
+        // MODE: "religionym-only" - use religionym's category when substituted
+        if (categoryMode === 'religionym-only') {
+            if (religionymInfo && religionymInfo.category) {
+                return religionymInfo.category;
+            }
+            return originalCategory;
+        }
+
+        // MODE: "dynamic" - place type determines category
+        if (categoryMode === 'dynamic') {
+            // If religionym fills [demonym], always use "religious-populism"
+            if (religionymInfo) {
+                return 'religious-populism';
+            }
+
+            // For place/demonym, auto-categorize if original is nationalist/localist
+            if (originalCategory === 'nationalist' || originalCategory === 'localist') {
+                return this.determineCategory(placeInfo);
+            }
+
+            // Otherwise preserve original (racist stays racist, etc.)
+            return originalCategory;
+        }
+
+        // Fallback: preserve original category
         return originalCategory;
     }
 };
