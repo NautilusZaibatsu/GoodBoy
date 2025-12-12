@@ -1,8 +1,8 @@
 const CODED_TERM_DATA = {
-  generated: "2025-12-11T20:06:18.639Z",
+  generated: "2025-12-12T15:33:27.229Z",
   datasetSize: 16258,
-  uniqueTerms: 557,
-  totalTerms: 1984,
+  uniqueTerms: 558,
+  totalTerms: 1985,
   categoryBreakdown: [
     { name: "racist", count: 209 },
     { name: "xenophobic", count: 171 },
@@ -10,7 +10,7 @@ const CODED_TERM_DATA = {
     { name: "antisemitic", count: 158 },
     { name: "transphobic", count: 151 },
     { name: "alt-right", count: 104 },
-    { name: "bad-faith", count: 95 },
+    { name: "bad-faith", count: 96 },
     { name: "conspiracy", count: 93 },
     { name: "anti-liberal", count: 80 },
     { name: "nationalist", count: 73 },
@@ -54,7 +54,7 @@ const CODED_TERM_DATA = {
     { name: "sikhophobic", count: 0 }
   ],
   sourceBreakdown: [
-    { name: "goodboy", count: 1460 },
+    { name: "goodboy", count: 1461 },
     { name: "silent_signals", count: 357 },
     { name: "adl", count: 82 },
     { name: "swu", count: 80 },
@@ -65,6 +65,13 @@ const CODED_TERM_DATA = {
   ],
 
   terms: [
+    {
+      root: "Many such cases",
+      variations: [],
+      category: "bad-faith",
+      definition: "A rhetorical phrase implying widespread evidence without providing any, commonly used to justify unverified or fabricated claims",
+      source: "goodboy"
+    },
     {
       root: "Your body, my choice",
       variations: [],

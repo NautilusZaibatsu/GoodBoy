@@ -28,6 +28,7 @@ goodboy/
 │   ├── signal_score.js               # Signal score calculations
 │   ├── category_config.js            # Category hierarchy
 │   ├── tooltips.js                   # Tooltip creation
+│   ├── progress_tracker.js           # Analysis progress tracker
 │   └── ticker.js                     # Ticker contents
 ├── data/                             # Databases
 │   ├── coded_term_data.js            # Coded term database

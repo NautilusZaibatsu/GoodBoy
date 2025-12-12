@@ -756,8 +756,9 @@
                             <p>
                                 <b>Notes:</b>
                             <p>
-                                A high signal score doesn't automatically indicate harmful intent. We recommend you 
-                                appraise each term individually and use the unflagging tool to remove any false positives. 
+                                A high signal score doesn't automatically indicate harmful intent. We recommend you
+                                appraise each term individually and use the unflagging tool to remove any false
+                                positives.
                                 Use context clues in the text to help you decipher the intent.
                             </p>
                             <p>
@@ -836,6 +837,7 @@
     <script src="js/theme_config.js"></script>
     <script src="js/ticker.js"></script>
     <script src="js/category_config.js"></script>
+    <script src="js/progress_tracker.js"></script>
     <script src="js/signal_score.js"></script>
     <script src="js/tooltips.js"></script>
     <script src="data/religionym_lookup.js"></script>
@@ -843,6 +845,9 @@
 
     <!-- Main application logic -->
     <script>
+        // Developer toggle: Set to false to disable all progress tracking for performance testing
+        const ENABLE_PROGRESS_TRACKING = true;
+
         // Initialize the ticker
         initTicker();
 
@@ -854,6 +859,9 @@
 
         // Store original text for re-analysis
         let originalAnalyzedText = '';
+
+        // Analysis abort flag
+        let analysisAborted = false;
 
         // Initialize the legend for the how to section
         const legendDiv = document.getElementById('legend');
@@ -1021,12 +1029,17 @@
                 console.error('Error: Failed to load harmful term database.');
             }
 
-            // Initialize pattern matcher for populist detection
-            if (codedTermData && typeof PLACE_DEMONYM_LOOKUP !== 'undefined') {
-                PatternMatcher.initialize(codedTermData.terms);
-                console.log('✓ Pattern matcher initialized for populist detection');
-            } else if (typeof PLACE_DEMONYM_LOOKUP === 'undefined') {
-                console.warn('Place-demonym lookup not loaded, populist pattern matching disabled');
+            // Calculate progress weights based on actual database sizes
+            if (matcher && harmfulTermMatcher) {
+                const codedVariationCount = matcher.variationMap.size;
+                const harmfulVariationCount = harmfulTermMatcher.variationMap.size;
+                const patternCount = PatternMatcher.patterns.length;
+
+                ProgressTracker.calculateWeights(
+                    codedVariationCount,
+                    harmfulVariationCount,
+                    patternCount
+                );
             }
 
             if (!codedTermData && !harmfulTermData) {
@@ -1080,7 +1093,15 @@
 
         let analyzedYet = false;
 
-        function analyzeText() {
+        // Helper function to update loading text with progress percentage
+        function updateLoadingText(percent) {
+            const loadingElement = document.getElementById('loading');
+            if (loadingElement) {
+                loadingElement.textContent = `Analyzing: ${Math.round(percent)}%`;
+            }
+        }
+
+        async function analyzeText() {
 
             const textInput = document.getElementById('textInput');
 
@@ -1100,19 +1121,77 @@
             // Store original text for potential editing
             originalAnalyzedText = text;
 
+            // Reset abort flag
+            analysisAborted = false;
+
+            // Start progress tracking (only if enabled)
+            if (ENABLE_PROGRESS_TRACKING) {
+                ProgressTracker.start();
+            }
+
             // Show loading state
-            document.getElementById('loading').classList.add('visible');
+            const loadingElement = document.getElementById('loading');
+            loadingElement.classList.add('visible');
             document.getElementById('analyzeBtn').disabled = true;
             document.body.classList.add('analyzing'); // Add analyzing state for cursor
 
-            // Use setTimeout to allow UI to update
-            setTimeout(() => {
-                // Analyze with both matchers
-                const codedTermResults = matcher ? matcher.analyze(text) : { matches: [], categoryCount: 0, categories: [] };
-                const harmfulTermResults = harmfulTermMatcher ? harmfulTermMatcher.analyze(text) : { matches: [], categoryCount: 0, categories: [] };
+            // Update loading text to show 0%
+            updateLoadingText(0);
 
-                // Analyze for populist patterns
-                const patternResults = PatternMatcher.place_demonym_lookup_loaded ? PatternMatcher.analyze(text) : { matches: [] };
+            // Create progress callback that respects toggle
+            // When disabled, pass null to skip all progress overhead
+            const progressCallback = ENABLE_PROGRESS_TRACKING ? (percent) => {
+                // Check if analysis was aborted
+                if (analysisAborted) {
+                    throw new Error('Analysis aborted by user');
+                }
+                ProgressTracker.updateProgress(percent);
+                updateLoadingText(percent);
+            } : null;
+
+            // Small delay to allow UI to paint loading state
+            await new Promise(resolve => setTimeout(resolve, 50));
+
+            try {
+                // Get dynamic weight configs from ProgressTracker
+                const codedConfig = ProgressTracker.getWeightConfig('coded');
+                const harmfulConfig = ProgressTracker.getWeightConfig('harmful');
+                const patternConfig = ProgressTracker.getWeightConfig('pattern');
+                const deduplicationRange = ProgressTracker.weights.deduplication;
+                const renderingRange = ProgressTracker.weights.rendering;
+               
+                console.log('[LOG] Coded term matcher started at ' + performance.now() + "ms " + ProgressTracker.getProgress().percent + "%");
+
+                // Analyze with coded term matcher (dynamic %)
+                const codedTermResults = matcher ? await matcher.analyze(text, progressCallback, {
+                    ...codedConfig,
+                    updateInterval: PROGRESS_UPDATE_INTERVAL
+                }) : { matches: [], categoryCount: 0, categories: [] };
+
+                console.log('[LOG] Harmful term matcher started at ' + performance.now() + "ms " + ProgressTracker.getProgress().percent + "%");
+
+                // Analyze with harmful term matcher (dynamic %)
+                const harmfulTermResults = harmfulTermMatcher ? await harmfulTermMatcher.analyze(text, progressCallback, {
+                    ...harmfulConfig,
+                    updateInterval: PROGRESS_UPDATE_INTERVAL
+                }) : { matches: [], categoryCount: 0, categories: [] };
+
+                console.log('[LOG] Pattern matcher started at ' + performance.now() + "ms " + ProgressTracker.getProgress().percent + "%");
+
+                // Analyze for dynamic patterns (dynamic %)
+                const patternResults = PatternMatcher.place_demonym_lookup_loaded ? await PatternMatcher.analyze(text, progressCallback, {
+                    ...patternConfig,
+                    updateInterval: PROGRESS_UPDATE_INTERVAL
+                }) : { matches: [] };
+
+                console.log('[LOG] Deduplication started at ' + performance.now() + "ms " + ProgressTracker.getProgress().percent + "%");
+
+                // Step: Combine results (deduplication range start)
+                if (progressCallback) {
+                    progressCallback(deduplicationRange.start);
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                }
+
 
                 // Combine results (pattern matches are also coded terms)
                 const allMatches = [
@@ -1121,99 +1200,6 @@
                     ...patternResults.matches
                 ];
 
-                // Group matches by (start, end) position to apply smart tiebreaker
-                // When matches from different sources match the same text, select the best one
-                // Examples: "Tim" vs "TIM", "Canaca" vs "Kanaca", "Turco" vs "Turko"
-                const positionGroups = new Map();
-                for (const match of allMatches) {
-                    const key = `${match.start}-${match.end}`;
-                    if (!positionGroups.has(key)) {
-                        positionGroups.set(key, []);
-                    }
-                    positionGroups.get(key).push(match);
-                }
-
-                // For each position group, select the best match using smart tiebreaker
-                const deduplicatedByPosition = [];
-                for (const [key, groupMatches] of positionGroups) {
-                    if (groupMatches.length === 1) {
-                        deduplicatedByPosition.push(groupMatches[0]);
-                    } else {
-                        // Multiple matches at same position - use smart tiebreaker
-                        const originalText = groupMatches[0].text;
-                        const bestMatch = TextUtils.selectBestMatch(originalText, groupMatches);
-                        deduplicatedByPosition.push(bestMatch);
-                    }
-                }
-
-                deduplicatedByPosition.sort((a, b) => {
-                    if (b.end - b.start !== a.end - a.start) {
-                        return (b.end - b.start) - (a.end - a.start); // Sort by length (longest first)
-                    }
-                    return a.start - b.start; // If same length, sort by position
-                });
-
-                const combinedMatches = [];
-                const usedRanges = [];
-
-                // Check if we have deliberated split a match into segments, such as from emoji-split terms so we can deduplicate
-                // e.g., "False" and "Flag" from "False🐑Flag"
-                for (const match of deduplicatedByPosition) {
-                    let hasOverlap = false;
-
-                    for (const range of usedRanges) {
-                        if (match.start < range.end && match.end > range.start) {
-                            // Check if this match is in a gap of a displayRanges match
-                            let isInGap = false;
-                            if (range.displayRanges && range.displayRanges.length > 0) {
-                                for (let i = 0; i < range.displayRanges.length - 1; i++) {
-                                    const gapStart = range.displayRanges[i].end;
-                                    const gapEnd = range.displayRanges[i + 1].start;
-                                    if (match.start >= gapStart && match.end <= gapEnd) {
-                                        isInGap = true;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            if (!isInGap) {
-                                hasOverlap = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!hasOverlap) {
-                        combinedMatches.push(match);
-                        usedRanges.push({
-                            start: match.start,
-                            end: match.end,
-                            displayRanges: match.displayRanges
-                        });
-                    }
-                }
-
-                // Sort by position for display
-                combinedMatches.sort((a, b) => a.start - b.start);
-
-                // Deduplicate segments for counting purposes
-                const matchesForCounting = [];
-                const seenParentTerms = new Set();
-
-                for (const match of combinedMatches) {
-                    if (match.isSegment && match.parentTerm) {
-                        // This is a segment of a multi-word term split by emojis
-                        // Only count once per parentTerm
-                        if (!seenParentTerms.has(match.parentTerm)) {
-                            seenParentTerms.add(match.parentTerm);
-                            matchesForCounting.push(match);
-                        }
-                    } else {
-                        // Not a segment, count normally (includes emojis, regular matches)
-                        matchesForCounting.push(match);
-                    }
-                }
-
                 // Count all unique categories
                 const allCategories = new Set([
                     ...codedTermResults.categories,
@@ -1221,28 +1207,186 @@
                     ...patternResults.matches.map(m => m.category)
                 ]);
 
-                // Separate deduplicated counts by type
-                const deduplicatedCodedTerms = matchesForCounting.filter(m => m.type === 'codedTerm');
-                const deduplicatedHarmfulTerms = matchesForCounting.filter(m => m.type === 'harmfulTerm');
+                const combinedResults = await deduplicateMatches(
+                    allMatches,
+                    allCategories,
+                    progressCallback,
+                    deduplicationRange,
+                );
 
-                const combinedResults = {
-                    matches: combinedMatches,  // All matches for display (includes duplicate segments)
-                    deduplicatedMatches: matchesForCounting,  // Deduplicated matches for counting/stats
-                    codedTermCount: deduplicatedCodedTerms.length,
-                    harmfulTermCount: deduplicatedHarmfulTerms.length,
-                    categoryCount: allCategories.size,
-                    categories: Array.from(allCategories)
-                };
+                console.log('[LOG] Rendering started at ' + performance.now() + "ms " + ProgressTracker.getProgress().percent + "%");
+
+                // Step: Display results (rendering range start)
+                if (progressCallback) {
+                    progressCallback(renderingRange.start);
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                }
 
                 displayResults(text, combinedResults);
 
-                // Hide loading state
-                document.getElementById('loading').classList.remove('visible');
-                document.body.classList.remove('analyzing'); // Remove analyzing state
+                // Complete progress tracking (only if enabled)
+                if (ENABLE_PROGRESS_TRACKING) {
+                    ProgressTracker.complete();
+                }
+                if (progressCallback) {
+                    progressCallback(100);
+                }
 
                 // Track analytics (TODO: implement)
                 trackAnalysis(text, combinedResults);
-            }, 100);
+
+                console.log('[LOG] Completed at ' + performance.now() + "ms " + ProgressTracker.getProgress().percent + "%");
+
+
+            } catch (error) {
+                // Check if this was an abort or a real error
+                if (error.message === 'Analysis aborted by user') {
+                    console.log('Analysis aborted by user');
+                    // Don't show error alert for user-initiated abort
+                } else {
+                    console.error('Analysis error:', error);
+                    alert('An error occurred during analysis. Please try again.');
+                }
+            } finally {
+                // Hide loading state
+                document.getElementById('loading').classList.remove('visible');
+                document.body.classList.remove('analyzing'); // Remove analyzing state
+                document.getElementById('analyzeBtn').disabled = false;
+            }
+        }
+
+        async function deduplicateMatches(allMatches, allCategories, progressCallback, dedupeRange) {
+
+            // Report start immediately to prevent UI pause
+            if (progressCallback) {
+                progressCallback(dedupeRange.start);
+                await new Promise(resolve => setTimeout(resolve, 0));
+            }
+
+            // Phase weighting
+            const phase1Weight = 0.5;
+            const phase2Weight = 0.3;
+            const phase3Weight = 0.2;
+            const phase1End = dedupeRange.start + (dedupeRange.allocation * phase1Weight);
+            const phase2End = phase1End + dedupeRange.allocation * phase2Weight;
+            const phase3End = phase2End + dedupeRange.allocation * phase3Weight;
+
+            //
+            // Phase 1 — Group by (start, end) with sub-upddates
+            //
+            const positionGroups = new Map();
+
+            for (const match of allMatches) {
+                const key = `${match.start}-${match.end}`;
+                if (!positionGroups.has(key)) positionGroups.set(key, []);
+                positionGroups.get(key).push(match);
+            }
+
+            // Update progress once at the end of Phase 1
+            if (progressCallback) {
+                progressCallback(phase1End);
+                await new Promise(resolve => setTimeout(resolve, 0));
+            }
+            //
+            // Phase 2 — Smart tiebreaker
+            //
+            const deduplicatedByPosition = [];
+            const groupEntries = Array.from(positionGroups.entries());
+
+            for (const [key, groupMatches] of groupEntries) {
+                if (groupMatches.length === 1) {
+                    deduplicatedByPosition.push(groupMatches[0]);
+                } else {
+                    const originalText = groupMatches[0].text;
+                    const bestMatch = TextUtils.selectBestMatch(originalText, groupMatches);
+                    deduplicatedByPosition.push(bestMatch);
+                }
+            }
+            // Update progress once at the end of Phase 2
+            if (progressCallback) {
+                progressCallback(phase2End);
+                await new Promise(resolve => setTimeout(resolve, 0));
+            }
+
+            //
+            // Phase 3 — Overlap filtering
+            //
+            deduplicatedByPosition.sort((a, b) => {
+                if (b.end - b.start !== a.end - a.start) return (b.end - b.start) - (a.end - a.start);
+                return a.start - b.start;
+            });
+
+            const combinedMatches = [];
+            const usedRanges = [];
+            for (const match of deduplicatedByPosition) {
+                let hasOverlap = false;
+
+                for (const range of usedRanges) {
+                    if (match.start < range.end && match.end > range.start) {
+                        let isInGap = false;
+                        if (range.displayRanges && range.displayRanges.length > 0) {
+                            for (let i = 0; i < range.displayRanges.length - 1; i++) {
+                                const gapStart = range.displayRanges[i].end;
+                                const gapEnd = range.displayRanges[i + 1].start;
+                                if (match.start >= gapStart && match.end <= gapEnd) {
+                                    isInGap = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (!isInGap) {
+                            hasOverlap = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!hasOverlap) {
+                    combinedMatches.push(match);
+                    usedRanges.push({
+                        start: match.start,
+                        end: match.end,
+                        displayRanges: match.displayRanges
+                    });
+                }
+            }
+
+            // Update progress once at the end of Phase 3
+            if (progressCallback) {
+                progressCallback(phase3End);
+                await new Promise(resolve => setTimeout(resolve, 0));
+            }
+
+            //
+            // Final sorting + counting
+            //
+            combinedMatches.sort((a, b) => a.start - b.start);
+
+            const matchesForCounting = [];
+            const seenParentTerms = new Set();
+            for (const match of combinedMatches) {
+                if (match.isSegment && match.parentTerm) {
+                    if (!seenParentTerms.has(match.parentTerm)) {
+                        seenParentTerms.add(match.parentTerm);
+                        matchesForCounting.push(match);
+                    }
+                } else {
+                    matchesForCounting.push(match);
+                }
+            }
+
+            const codedTermCount = matchesForCounting.filter(m => m.type === 'codedTerm').length;
+            const harmfulTermCount = matchesForCounting.filter(m => m.type === 'harmfulTerm').length;
+
+            return {
+                matches: combinedMatches,
+                deduplicatedMatches: matchesForCounting,
+                codedTermCount,
+                harmfulTermCount,
+                categoryCount: allCategories.size,
+                categories: Array.from(allCategories)
+            };
         }
 
         function displayResults(originalText, results) {
@@ -1579,6 +1723,9 @@
             const copyBtn = document.getElementById('copyBtn');
             const resultsDiv = document.getElementById('results');
             const inputLabel = document.getElementById('inputLabel');
+
+            // Abort any ongoing analysis
+            analysisAborted = true;
 
             // Clear text
             textInput.value = '';

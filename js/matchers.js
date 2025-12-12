@@ -67,9 +67,14 @@ function trimMatchedText(matchedText) {
  * Shared helper to analyze text and find matches (DRY)
  * Used by both CodedTermMatcher and HarmfulTermMatcher
  */
-function analyzeTextWithVariations(text, variationMap, matchType) {
+async function analyzeTextWithVariations(text, variationMap, matchType, progressCallback = null, progressConfig = {}) {
     // Normalize Unicode only (don't modify the text)
     const originalText = text.normalize('NFC');
+
+    // Extract progress config
+    const basePercent = progressConfig.basePercent || 0;
+    const allocatedPercent = progressConfig.allocatedPercent || 100;
+    const updateInterval = progressConfig.updateInterval || 50;
 
     // For non-emoji matches, replace emojis with spaces to allow matching across emoji boundaries
     // This allows "False🐑Flag" to match "False Flag"
@@ -115,7 +120,14 @@ function analyzeTextWithVariations(text, variationMap, matchType) {
 
     const allMatches = [];
 
-    variationMap.forEach((termData, variation) => {
+    // Convert variationMap to array for progress tracking
+    const variations = Array.from(variationMap.keys());
+    const totalVariations = variations.length;
+    let processedVariations = 0;
+
+    for (let i = 0; i < variations.length; i++) {
+        const variation = variations[i];
+        const termData = variationMap.get(variation);
         const flexiblePattern = TextUtils.createFlexiblePattern(variation);
         const pluralPattern = flexiblePattern;
 
@@ -576,7 +588,21 @@ function analyzeTextWithVariations(text, variationMap, matchType) {
 
             allMatches.push(matchObj);
         }
-    });
+
+        // Progress tracking: increment and report every N iterations
+        processedVariations++;
+        if (progressCallback && processedVariations % updateInterval === 0) {
+            const progress = basePercent + (processedVariations / totalVariations) * allocatedPercent;
+            progressCallback(progress);
+            // Yield to browser to allow UI repaint
+            await new Promise(resolve => setTimeout(resolve, 0));
+        }
+    }
+
+    // Final progress update for this matcher
+    if (progressCallback && processedVariations > 0) {
+        progressCallback(basePercent + allocatedPercent);
+    }
 
     return allMatches;
 }
@@ -677,6 +703,98 @@ const PatternMatcher = {
     place_demonym_lookup_loaded: false,
     lookupRegistry: {}, // Store all lookup tables here for extensibility
 
+    /**
+     * OPTIMIZATION: DRY helper to find all pattern positions in text
+     * @param {string} text - Text to search
+     * @param {string} pattern - Regex pattern string
+     * @returns {Array} Array of {position, length} objects
+     */
+    findPatternPositions(text, pattern) {
+        const regex = new RegExp(pattern, 'gi');
+        regex.lastIndex = 0;
+        const positions = [];
+        let match;
+        while ((match = regex.exec(text)) !== null) {
+            positions.push({ position: match.index, length: match[0].length });
+        }
+        return positions;
+    },
+
+    /**
+     * OPTIMIZATION: Extract context window around a position
+     * Only checks the surrounding words instead of entire text
+     * @param {string} text - Full text
+     * @param {number} position - Position of found term
+     * @param {number} length - Length of found term
+     * @param {number} windowWords - Number of words before/after (default uses longestPatternWords)
+     * @returns {Object} {contextText, contextStart, contextEnd}
+     */
+    extractContextWindow(text, position, length, windowWords = null) {
+        windowWords = windowWords || this.longestPatternWords || 10;
+
+        const beforeText = text.substring(0, position);
+        const afterText = text.substring(position + length);
+
+        // Get N words before and after using split
+        const wordsBeforeAll = beforeText.split(/\s+/);
+        const wordsAfterAll = afterText.split(/\s+/);
+
+        const wordsBefore = wordsBeforeAll.slice(-windowWords);
+        const wordsAfter = wordsAfterAll.slice(0, windowWords);
+
+        const foundTerm = text.substring(position, position + length);
+
+        // Calculate actual character positions by finding where the Nth word starts
+        // For before: find where the (total - windowWords)th word ends
+        let contextStart = 0;
+        if (wordsBefore.length > 0 && wordsBeforeAll.length > 0) {
+            const skipWords = wordsBeforeAll.length - wordsBefore.length;
+            if (skipWords > 0) {
+                // Find where the skipped words end in the original text
+                let wordCount = 0;
+                let pos = 0;
+                while (wordCount < skipWords && pos < beforeText.length) {
+                    if (/\s/.test(beforeText[pos])) {
+                        pos++;
+                    } else {
+                        // Found start of word
+                        while (pos < beforeText.length && !/\s/.test(beforeText[pos])) {
+                            pos++;
+                        }
+                        wordCount++;
+                    }
+                }
+                contextStart = pos;
+            }
+        }
+
+        // For after: find where the Nth word ends
+        let contextEnd = position + length;
+        if (wordsAfter.length > 0) {
+            let wordCount = 0;
+            let pos = 0;
+            while (wordCount < wordsAfter.length && pos < afterText.length) {
+                if (/\s/.test(afterText[pos])) {
+                    pos++;
+                } else {
+                    // Found start of word
+                    while (pos < afterText.length && !/\s/.test(afterText[pos])) {
+                        pos++;
+                    }
+                    wordCount++;
+                }
+            }
+            contextEnd = position + length + pos;
+        }
+
+        return {
+            contextText: text.substring(contextStart, contextEnd),
+            contextStart: contextStart,
+            contextEnd: contextEnd,
+            foundTerm: foundTerm
+        };
+    },
+
     // Register a lookup table (places, religionyms, etc.)
     registerLookup(name, lookupTable, options = {}) {
         this.lookupRegistry[name] = {
@@ -690,29 +808,40 @@ const PatternMatcher = {
 
     // Scan text for all registered lookup types
     // Returns: { place: Set([...]), demonym: Set([...]), religionym: Set([...]), ... }
-    scanTextForLookups(text) {
+    async scanTextForLookups(text, progressCallback = null, updateInterval = 50) {
         const lowerText = text.toLowerCase();
         const found = {};
 
-        Object.keys(this.lookupRegistry).forEach(lookupName => {
+        for (const lookupName of Object.keys(this.lookupRegistry)) {
             const lookup = this.lookupRegistry[lookupName];
             found[lookupName] = new Map(); // variant -> {data, hierarchical items}
 
             const allVariants = lookup.getAllVariants();
-            allVariants.forEach(variant => {
+            for (const variant of allVariants) {
                 // Use flexible pattern matching to detect obfuscated place names
                 // e.g., "7éx@$" should match "texas"
                 const variantLower = variant.toLowerCase();
                 const flexiblePattern = TextUtils.createFlexiblePattern(variantLower);
-                const regex = new RegExp(flexiblePattern, 'gi');
+                // Use negative lookahead/lookbehind to prevent matching within words (same as term matchers)
+                // This prevents "US" matching in "thus", "LA" in "elas", etc.
+                const patternWithBoundaries = `(?:^|(?<![a-z0-9]))${flexiblePattern}(?:(?![a-z0-9])|$)`;
 
-                if (regex.test(lowerText)) {
+                // OPTIMIZATION: Use DRY helper to capture positions
+                const matches = this.findPatternPositions(lowerText, patternWithBoundaries);
+
+                if (matches.length > 0) {
+                    // OPTIMIZATION: Extract context windows once per position
+                    matches.forEach(match => {
+                        match.context = this.extractContextWindow(text, match.position, match.length);
+                    });
+
                     const variantData = lookup.findByVariant(variant);
                     const hierarchicalItems = lookup.getHierarchicalItems(variant);
 
                     found[lookupName].set(variant, {
                         data: variantData,
-                        hierarchical: hierarchicalItems
+                        hierarchical: hierarchicalItems,
+                        positions: matches  // Store positions with pre-extracted contexts
                     });
 
                     // Also check if any hierarchical items are in text
@@ -721,9 +850,18 @@ const PatternMatcher = {
                         if (itemText) {
                             const itemTextLower = itemText.toLowerCase();
                             const itemFlexiblePattern = TextUtils.createFlexiblePattern(itemTextLower);
-                            const itemRegex = new RegExp(itemFlexiblePattern, 'gi');
+                            // Use negative lookahead/lookbehind (same as term matchers) with plural support
+                            const itemPatternWithBoundaries = `(?:^|(?<![a-z0-9]))${itemFlexiblePattern}s?(?:(?![a-z0-9])|$)`;
 
-                            if (itemRegex.test(lowerText)) {
+                            // OPTIMIZATION: Use DRY helper to capture positions
+                            const itemMatches = this.findPatternPositions(lowerText, itemPatternWithBoundaries);
+
+                            if (itemMatches.length > 0) {
+                                // OPTIMIZATION: Extract context windows once per position
+                                itemMatches.forEach(match => {
+                                    match.context = this.extractContextWindow(text, match.position, match.length);
+                                });
+
                                 // Store found hierarchical items too
                                 if (!found[lookupName + '_hierarchical']) {
                                     found[lookupName + '_hierarchical'] = new Map();
@@ -733,14 +871,21 @@ const PatternMatcher = {
                                 }
                                 found[lookupName + '_hierarchical'].get(itemTextLower).push({
                                     variant: variant,
-                                    item: item
+                                    item: item,
+                                    positions: itemMatches  // Store positions with pre-extracted contexts
                                 });
                             }
                         }
                     });
                 }
-            });
-        });
+            }
+        }
+
+        // Report progress after registry scan
+        if (progressCallback) {
+            progressCallback(40);
+            await new Promise(resolve => setTimeout(resolve, 0));
+        }
 
         // INDEPENDENT DEMONYM SCANNING
         // After scanning places, independently scan for ALL demonyms (not just as children of places)
@@ -748,7 +893,7 @@ const PatternMatcher = {
         if (this.lookupRegistry.place_demonym) {
             const allPlaces = PLACE_DEMONYM_LOOKUP.getAllVariants();
 
-            allPlaces.forEach(placeVariant => {
+            for (const placeVariant of allPlaces) {
                 const allDemonyms = PLACE_DEMONYM_LOOKUP.getAllDemonymsWithHierarchy(placeVariant);
 
                 allDemonyms.forEach(demonymObj => {
@@ -757,10 +902,18 @@ const PatternMatcher = {
 
                     // Use flexible pattern matching for obfuscation
                     const flexiblePattern = TextUtils.createFlexiblePattern(demonymLower);
-                    // Include plural support (s?)
-                    const regex = new RegExp(`\\b${flexiblePattern}s?\\b`, 'gi');
+                    // Use negative lookahead/lookbehind (same as term matchers) with plural support
+                    const patternWithPlural = `(?:^|(?<![a-z0-9]))${flexiblePattern}s?(?:(?![a-z0-9])|$)`;
 
-                    if (regex.test(lowerText)) {
+                    // OPTIMIZATION: Use DRY helper to capture positions
+                    const demonymMatches = this.findPatternPositions(lowerText, patternWithPlural);
+
+                    if (demonymMatches.length > 0) {
+                        // OPTIMIZATION: Extract context windows once per position
+                        demonymMatches.forEach(match => {
+                            match.context = this.extractContextWindow(text, match.position, match.length);
+                        });
+
                         // Store found demonym
                         if (!found['place_demonym_hierarchical']) {
                             found['place_demonym_hierarchical'] = new Map();
@@ -779,12 +932,24 @@ const PatternMatcher = {
                         if (!isDuplicate) {
                             found['place_demonym_hierarchical'].get(demonymLower).push({
                                 variant: placeVariant,
-                                item: demonymObj
+                                item: demonymObj,
+                                positions: demonymMatches  // Store positions
                             });
                         }
                     }
                 });
-            });
+            }
+        }
+
+        // Report progress after demonym scan
+        if (progressCallback) {
+            progressCallback(80);
+            await new Promise(resolve => setTimeout(resolve, 0));
+        }
+
+        // Final progress update for scanning phase
+        if (progressCallback) {
+            progressCallback(100);
         }
 
         return found;
@@ -844,7 +1009,6 @@ const PatternMatcher = {
 
             // Process root AND all variations
             const termsToCheck = [dw.root, ...(dw.variations || [])];
-
             termsToCheck.forEach(term => {
                 let placeFound = this.findPlaceInText(term);
                 let demonymFound = this.findDemonymInText(term);
@@ -964,6 +1128,12 @@ const PatternMatcher = {
             });
         });
         console.log(`✓ Extracted ${this.patterns.length} dynamic patterns`);
+
+        // Calculate longest pattern for context window sizing
+        this.longestPatternWords = this.patterns.reduce((max, p) => {
+            const wordCount = p.pattern.split(/\s+/).length;
+            return Math.max(max, wordCount);
+        }, 0);
     },
 
     // Find place names in text
@@ -987,7 +1157,6 @@ const PatternMatcher = {
                 }
             }
         }
-
         return null;
     },
 
@@ -1013,7 +1182,6 @@ const PatternMatcher = {
                 }
             }
         }
-
         return null;
     },
 
@@ -1044,7 +1212,6 @@ const PatternMatcher = {
                 };
             }
         }
-
         return null;
     },
 
@@ -1154,8 +1321,127 @@ const PatternMatcher = {
         });
     },
 
+    // Helper: Process pattern matches for expectedTexts (DRY)
+    // Shared logic for PLACE, DEMONYM, and RELIGIONYM pattern processing
+    _processPatternMatches(pattern, expectedTexts, text, placeVariant, placeData, potentialMatches) {
+        // Check if this is a [religionym] placeholder pattern
+        const isReligionymPattern = pattern.placeholders && pattern.placeholders.includes('religionym');
+
+        expectedTexts.forEach(({ text: expectedText, demonym, demonymObj, isGroup, religionymInfo, religionymObj, religionymVariant }) => {
+            // Case-insensitive flexible matching (includes plural handling)
+            const patternString = TextUtils.createFlexiblePattern(expectedText);
+            const flexiblePattern = new RegExp(`(?:^|(?<![a-z0-9]))${patternString}`, 'gi');
+
+            let match;
+            while ((match = flexiblePattern.exec(text)) !== null) {
+                const start = match.index;
+                let end = start + match[0].length;
+                let actualMatchedText = text.substring(start, end);
+
+                // Use shared trimming logic (DRY)
+                let trimmedLength = trimMatchedText(actualMatchedText);
+                if (trimmedLength < actualMatchedText.length) {
+                    actualMatchedText = actualMatchedText.substring(0, trimmedLength);
+                    end = start + trimmedLength;
+                    if (actualMatchedText.length === 0) continue;
+                }
+
+                // For [religionym] patterns, category is ALWAYS 'religious-populism'
+                let category;
+                if (isReligionymPattern) {
+                    category = 'religious-populism';
+                } else {
+                    // Determine type for categorization
+                    let typeToUse;
+                    if (demonymObj && pattern.placeholders.includes('place') && pattern.placeholders.includes('demonym')) {
+                        const demonymPlace = demonymObj.place;
+                        const demonymPlaceData = PLACE_DEMONYM_LOOKUP.findPlaceByVariant(demonymPlace);
+                        typeToUse = demonymPlaceData ? demonymPlaceData.type : (placeData ? placeData.type : 'country');
+                    } else if (placeData) {
+                        typeToUse = placeData.type;
+                    } else {
+                        typeToUse = 'country'; // Default
+                    }
+
+                    const placeInfo = {
+                        place: placeData ? placeData.canonical : (demonymObj ? demonymObj.place : 'Unknown'),
+                        type: typeToUse,
+                        isGroup: isGroup
+                    };
+
+                    category = this.determineCategoryForMatch(pattern, placeInfo, religionymInfo);
+                }
+
+                // For [religionym] patterns, term is the matched text (not derived)
+                // For place/demonym patterns, build displayTerm
+                let displayTerm;
+                if (isReligionymPattern) {
+                    displayTerm = actualMatchedText;
+                } else {
+                    displayTerm = pattern.original;
+
+                    // Replace original place with detected place
+                    if (pattern.originalPlace && placeVariant) {
+                        const originalPlaceRegex = new RegExp(
+                            pattern.originalPlace.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+                            'gi'
+                        );
+                        displayTerm = displayTerm.replace(originalPlaceRegex, (matched) => {
+                            if (matched[0] === matched[0].toUpperCase()) {
+                                return placeVariant.charAt(0).toUpperCase() + placeVariant.slice(1).toLowerCase();
+                            }
+                            return placeVariant.toLowerCase();
+                        });
+                    }
+
+                    // Replace original demonym with detected demonym
+                    if (demonym && pattern.originalDemonym) {
+                        const originalDemonymRegex = new RegExp(
+                            pattern.originalDemonym.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+                            'gi'
+                        );
+                        displayTerm = displayTerm.replace(originalDemonymRegex, (matched) => {
+                            if (matched[0] === matched[0].toUpperCase()) {
+                                return demonym.charAt(0).toUpperCase() + demonym.slice(1).toLowerCase();
+                            }
+                            return demonym.toLowerCase();
+                        });
+                    }
+                }
+
+                const matchObj = {
+                    type: 'codedTerm',
+                    text: actualMatchedText,
+                    term: displayTerm,
+                    category: category,
+                    definition: pattern.codedTerm.definition,
+                    variations: [],
+                    isPatternMatch: true,
+                    originalPattern: pattern.original,
+                    detectedPlace: placeVariant,
+                    isDerived: true,
+                    derivedFrom: pattern.codedTerm.root,
+                    start: start,
+                    end: end,
+                    source: pattern.codedTerm.source
+                };
+
+                // Add religionym info if present
+                if (religionymObj || religionymVariant) {
+                    matchObj.detectedReligionym = religionymObj ? religionymObj.religionym : religionymVariant;
+                }
+
+                potentialMatches.push(matchObj);
+            }
+        });
+    },
+
     // Analyze text for pattern matches
-    analyze(text) {
+    async analyze(text, progressCallback = null, progressConfig = {}) {
+        // Extract progress config
+        const basePercent = progressConfig.basePercent || 0;
+        const allocatedPercent = progressConfig.allocatedPercent || 100;
+        const updateInterval = progressConfig.updateInterval || 50;
 
         if (!this.place_demonym_lookup_loaded || this.patterns.length === 0) {
             console.log(
@@ -1165,11 +1451,34 @@ const PatternMatcher = {
             return { matches: [] };
         }
 
-        const potentialMatches = [];
-        const lowerText = text.toLowerCase();
+        // Calculate word count to estimate scanning workload
+        const wordCount = text.split(/\s+/).filter(w => w.length > 0).length;
+
+        // Allocate progress between scanning and pattern matching based on text length
+        // Longer text → more scanning work relative to pattern matching
+        let scanPercent, patternPercent;
+        if (wordCount < 100) {
+            scanPercent = 20;  // Short text: scanning is quick
+            patternPercent = 80;
+        } else if (wordCount < 500) {
+            scanPercent = 30;  // Medium text
+            patternPercent = 70;
+        } else if (wordCount < 2000) {
+            scanPercent = 40;  // Long text
+            patternPercent = 60;
+        } else {
+            scanPercent = 50;  // Very long text: scanning is half the work
+            patternPercent = 50;
+        }
+
+        // Create progress callback for scanning phase
+        const scanProgressCallback = progressCallback ? (percent) => {
+            const scanProgress = basePercent + (percent / 100) * (allocatedPercent * scanPercent / 100);
+            progressCallback(scanProgress);
+        } : null;
 
         // PERFORMANCE OPTIMIZATION: Scan text once for all lookups
-        const foundInText = this.scanTextForLookups(text);
+        const foundInText = await this.scanTextForLookups(text, scanProgressCallback, updateInterval);
         const foundPlaces = foundInText.place_demonym || new Map();
         const foundDemonyms = foundInText.place_demonym_hierarchical || new Map();
         const foundReligionyms = foundInText.religion_religionym_hierarchical || new Map();
@@ -1179,10 +1488,51 @@ const PatternMatcher = {
             return { matches: [] };
         }
 
-        // Only check patterns for places we actually found in the text
-        this.patterns.forEach(pattern => {
-            const placesToCheck = Array.from(foundPlaces.keys());
+        // OPTIMIZATION: Deduplicate demonyms when no places found
+        // If text has "French" but no place names, we only need top-level "France", not Paris/Normandy/etc.
+        if (foundPlaces.size === 0 && foundDemonyms.size > 0) {
+            foundDemonyms.forEach((demonymDataArray, demonymLower) => {
+                if (demonymDataArray.length > 1) {
+                    // Filter to keep only top-level places (not children)
+                    const topLevel = demonymDataArray.filter(item => {
+                        const itemPlace = PLACE_DEMONYM_LOOKUP.findPlaceByVariant(item.variant);
+                        if (!itemPlace || !itemPlace.partOf) return true; // No parent = keep
 
+                        // Check if any OTHER item in array is this item's parent
+                        return !demonymDataArray.some(other => {
+                            if (item === other) return false;
+                            const otherPlaceId = other.variant.toLowerCase().replace(/\s+/g, '_');
+                            return itemPlace.partOf.includes(otherPlaceId);
+                        });
+                    });
+                    foundDemonyms.set(demonymLower, topLevel);
+                }
+            });
+        }
+
+        const potentialMatches = [];
+        const placesToCheck = Array.from(foundPlaces.keys());
+
+        // Calculate total patterns that will be processed across all sections
+        const placePatterns = foundPlaces.size > 0 ? this.patterns.length : 0;
+        const demonymOnlyPatterns = (foundDemonyms.size > 0 || foundReligionyms.size > 0)
+            ? this.patterns.filter(p => p.placeholders && p.placeholders.includes('demonym') && !p.placeholders.includes('place')).length
+            : 0;
+        const religionymPatterns = foundReligionyms.size > 0
+            ? this.patterns.filter(p => p.placeholders && p.placeholders.includes('religionym')).length
+            : 0;
+        const totalPatterns = placePatterns + demonymOnlyPatterns + religionymPatterns;
+
+        // Calculate base and allocated percent for pattern matching phase
+        const patternBasePercent = basePercent + (allocatedPercent * scanPercent / 100);
+        const patternAllocatedPercent = allocatedPercent * patternPercent / 100;
+
+        // Track progress through all pattern types
+        let processedPatterns = 0;
+
+        // PLACE PATTERN PROCESSING
+        // Only check patterns for places we actually found in the text
+        for (const pattern of this.patterns) {
             placesToCheck.forEach(placeVariant => {
                 const placeData = PLACE_DEMONYM_LOOKUP.findPlaceByVariant(placeVariant);
                 if (!placeData) return;
@@ -1234,113 +1584,18 @@ const PatternMatcher = {
                     });
                 }
 
-                expectedTexts.forEach(({ text: expectedText, demonym, demonymObj, isGroup, religionymInfo, religionymObj }) => {
-                    // Case-insensitive flexible matching (includes plural handling)
-                    const patternString = TextUtils.createFlexiblePattern(expectedText);
-                    // No end boundary - rely on improved trimming to remove trailing punctuation
-                    const flexiblePattern = new RegExp(`(?:^|(?<![a-z0-9]))${patternString}`, 'gi');
-
-                    let match;
-                    while ((match = flexiblePattern.exec(text)) !== null) {
-                        const start = match.index;
-                        let end = start + match[0].length;
-                        let actualMatchedText = text.substring(start, end); // preserves input capitalization
-
-                        // Use shared trimming logic (DRY)
-                        let trimmedLength = trimMatchedText(actualMatchedText);
-
-                        if (trimmedLength < actualMatchedText.length) {
-                            actualMatchedText = actualMatchedText.substring(0, trimmedLength);
-                            end = start + trimmedLength;
-                            if (actualMatchedText.length === 0) continue;
-                        }
-
-                        // When both place and demonym exist, use demonym's type for categorization
-                        // (e.g., "Liverpool is for Liverpudlians" → city demonym → localist)
-                        // (e.g., "Liverpool is for Englishmen" → country demonym → nationalist)
-                        // (e.g., "Liverpool is for Europeans" → country demonym → regionalist)
-                        let typeToUse;
-                        if (demonymObj && pattern.placeholders.includes('place') && pattern.placeholders.includes('demonym')) {
-                            // Find the type of the place the demonym comes from
-                            const demonymPlace = demonymObj.place; // Canonical name like "England", "Liverpool"
-                            const demonymPlaceData = PLACE_DEMONYM_LOOKUP.findPlaceByVariant(demonymPlace);
-                            typeToUse = demonymPlaceData ? demonymPlaceData.type : this.placeTypes[placeVariant.toLowerCase()];
-                        } else {
-                            // Use the place type when no demonym or only one placeholder
-                            typeToUse = this.placeTypes[placeVariant.toLowerCase()];
-                        }
-
-                        const placeInfo = {
-                            place: placeData.canonical,
-                            type: typeToUse,
-                            isGroup: isGroup
-                        };
-
-                        const category = this.determineCategoryForMatch(pattern, placeInfo, religionymInfo);
-
-                        // Create display term with detected place, preserving original capitalization
-                        // e.g., "Make America Great Again" → "Make Texas Great Again"
-                        let displayTerm = pattern.original;
-
-                        // Find and replace the original place with the detected place
-                        // Need to handle case-insensitive search but preserve capitalization pattern
-                        if (pattern.originalPlace) {
-                            const originalPlaceRegex = new RegExp(
-                                pattern.originalPlace.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), // Escape special chars
-                                'gi'
-                            );
-
-                            // Replace while preserving capitalization of the first letter
-                            displayTerm = displayTerm.replace(originalPlaceRegex, (matched) => {
-                                // If matched is capitalized, capitalize the replacement
-                                if (matched[0] === matched[0].toUpperCase()) {
-                                    return placeVariant.charAt(0).toUpperCase() + placeVariant.slice(1).toLowerCase();
-                                }
-                                return placeVariant.toLowerCase();
-                            });
-                        }
-
-                        // Also replace demonym if present
-                        if (demonym && pattern.originalDemonym) {
-                            const originalDemonymRegex = new RegExp(
-                                pattern.originalDemonym.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), // Escape special chars
-                                'gi'
-                            );
-                            displayTerm = displayTerm.replace(originalDemonymRegex, (matched) => {
-                                if (matched[0] === matched[0].toUpperCase()) {
-                                    return demonym.charAt(0).toUpperCase() + demonym.slice(1).toLowerCase();
-                                }
-                                return demonym.toLowerCase();
-                            });
-                        }
-
-                        const matchObj = {
-                            type: 'codedTerm',
-                            text: actualMatchedText,                       // use matched text for UI highlighting
-                            term: displayTerm,                             // clean text with detected place/demonym
-                            category: category,
-                            definition: pattern.codedTerm.definition,
-                            variations: [],  // Don't show variations - not relevant for derived matches
-                            isPatternMatch: true,
-                            originalPattern: pattern.original,
-                            detectedPlace: placeVariant,                  // preserve dataset variant for reference
-                            isDerived: true,
-                            derivedFrom: pattern.codedTerm.root,
-                            start: start,
-                            end: end,
-                            source: pattern.codedTerm.source
-                        };
-
-                        // Add religionym info if present
-                        if (religionymObj) {
-                            matchObj.detectedReligionym = religionymObj.religionym;
-                        }
-
-                        potentialMatches.push(matchObj);
-                    }
-                });
+                // Use shared helper for pattern matching
+                this._processPatternMatches(pattern, expectedTexts, text, placeVariant, placeData, potentialMatches);
             });
-        });
+
+            // Report progress after each pattern
+            processedPatterns++;
+            if (progressCallback && totalPatterns > 0 && processedPatterns % updateInterval === 0) {
+                const progress = patternBasePercent + (processedPatterns / totalPatterns) * patternAllocatedPercent;
+                progressCallback(progress);
+                await new Promise(resolve => setTimeout(resolve, 0));
+            }
+        }
 
         // DEMONYM-ONLY PATTERN PROCESSING
         // Handle patterns that ONLY have [demonym] placeholder (no [place])
@@ -1351,7 +1606,7 @@ const PatternMatcher = {
                 p.placeholders && p.placeholders.includes('demonym') && !p.placeholders.includes('place')
             );
 
-            demonymOnlyPatterns.forEach(pattern => {
+            for (const pattern of demonymOnlyPatterns) {
                 // PART 1: Check against actual demonyms
                 if (foundDemonyms.size > 0) {
                     Array.from(foundDemonyms.keys()).forEach(demonymLower => {
@@ -1359,81 +1614,35 @@ const PatternMatcher = {
 
                         // Each demonym might map to multiple places (hierarchical)
                         demonymDataArray.forEach(({ variant: placeVariant, item: demonymObj }) => {
-                            const expectedText = pattern.pattern.replace('[demonym]', demonymObj.demonym);
+                            const demonymPlace = demonymObj.place;
+                            const demonymPlaceData = PLACE_DEMONYM_LOOKUP.findPlaceByVariant(demonymPlace);
 
-                            // Case-insensitive flexible matching (includes plural handling)
-                            const patternString = TextUtils.createFlexiblePattern(expectedText);
-                            const flexiblePattern = new RegExp(`(?:^|(?<![a-z0-9]))${patternString}`, 'gi');
+                            const expectedTexts = [{
+                                text: pattern.pattern.replace('[demonym]', demonymObj.demonym),
+                                demonym: demonymObj.demonym,
+                                demonymObj: demonymObj,
+                                isGroup: true,
+                                religionymInfo: null,
+                                religionymObj: null
+                            }];
 
-                            let match;
-                            while ((match = flexiblePattern.exec(text)) !== null) {
-                                const start = match.index;
-                                let end = start + match[0].length;
-                                let actualMatchedText = text.substring(start, end);
-
-                                // Use shared trimming logic (DRY)
-                                let trimmedLength = trimMatchedText(actualMatchedText);
-
-                                if (trimmedLength < actualMatchedText.length) {
-                                    actualMatchedText = actualMatchedText.substring(0, trimmedLength);
-                                    end = start + trimmedLength;
-                                    if (actualMatchedText.length === 0) continue;
-                                }
-
-                                // Get the place data for the demonym
-                                const demonymPlace = demonymObj.place; // Canonical name
-                                const demonymPlaceData = PLACE_DEMONYM_LOOKUP.findPlaceByVariant(demonymPlace);
-                                const typeToUse = demonymPlaceData ? demonymPlaceData.type : 'country';
-
-                                const placeInfo = {
-                                    place: demonymPlace,
-                                    type: typeToUse,
-                                    isGroup: true
-                                };
-
-                                const category = this.determineCategoryForMatch(pattern, placeInfo);
-
-                                // Create display term with detected demonym
-                                let displayTerm = pattern.original;
-
-                                // Replace original demonym with detected demonym
-                                if (pattern.originalDemonym) {
-                                    const originalDemonymRegex = new RegExp(
-                                        pattern.originalDemonym.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
-                                        'gi'
-                                    );
-                                    displayTerm = displayTerm.replace(originalDemonymRegex, (matched) => {
-                                        if (matched[0] === matched[0].toUpperCase()) {
-                                            return demonymObj.demonym.charAt(0).toUpperCase() + demonymObj.demonym.slice(1).toLowerCase();
-                                        }
-                                        return demonymObj.demonym.toLowerCase();
-                                    });
-                                }
-
-                                potentialMatches.push({
-                                    type: 'codedTerm',
-                                    text: actualMatchedText,
-                                    term: displayTerm,
-                                    category: category,
-                                    definition: pattern.codedTerm.definition,
-                                    variations: [],
-                                    isPatternMatch: true,
-                                    originalPattern: pattern.original,
-                                    detectedPlace: demonymPlace,
-                                    isDerived: true,
-                                    derivedFrom: pattern.codedTerm.root,
-                                    start: start,
-                                    end: end,
-                                    source: pattern.codedTerm.source
-                                });
-                            }
+                            // Use shared helper for pattern matching
+                            this._processPatternMatches(pattern, expectedTexts, text, placeVariant, demonymPlaceData, potentialMatches);
                         });
                     });
                 }
 
                 // PART 2: Check against religionyms filling [demonym] slots (DRY - use helper)
                 this._processReligionymMatches(pattern, text, foundReligionyms, potentialMatches);
-            });
+
+                // Report progress after each demonym pattern
+                processedPatterns++;
+                if (progressCallback && totalPatterns > 0 && processedPatterns % updateInterval === 0) {
+                    const progress = patternBasePercent + (processedPatterns / totalPatterns) * patternAllocatedPercent;
+                    progressCallback(progress);
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                }
+            }
         }
 
         // RELIGIONYM PATTERN PROCESSING
@@ -1443,12 +1652,10 @@ const PatternMatcher = {
             const religionymPatterns = this.patterns.filter(p =>
                 p.placeholders && p.placeholders.includes('religionym')
             );
-            religionymPatterns.forEach(pattern => {
+
+            for (const pattern of religionymPatterns) {
                 // Check if pattern also needs a place
                 const needsPlace = pattern.placeholders.includes('place');
-
-                // Build list of expected texts to check
-                const expectedTexts = [];
 
                 if (needsPlace) {
                     // Pattern has both [place] and [religionym]
@@ -1456,12 +1663,26 @@ const PatternMatcher = {
                     const foundPlaces = foundInText.place_demonym || new Map();
 
                     Array.from(foundPlaces.keys()).forEach(placeVariant => {
+                        const placeData = PLACE_DEMONYM_LOOKUP.findPlaceByVariant(placeVariant);
+
                         Array.from(foundReligionyms.keys()).forEach(religionymVariant => {
-                            // Replace both [place] and [religionym]
+                            // Build expected text by replacing both placeholders
                             const expectedText = pattern.pattern
                                 .replace(/\[place\]/gi, placeVariant)
                                 .replace(/\[religionym\]/gi, religionymVariant);
-                            expectedTexts.push({ expectedText, religionymVariant });
+
+                            const expectedTexts = [{
+                                text: expectedText,
+                                demonym: null,
+                                demonymObj: null,
+                                isGroup: false,
+                                religionymInfo: null,
+                                religionymObj: null,
+                                religionymVariant: religionymVariant
+                            }];
+
+                            // Use shared helper for pattern matching
+                            this._processPatternMatches(pattern, expectedTexts, text, placeVariant, placeData, potentialMatches);
                         });
                     });
                 } else {
@@ -1472,54 +1693,35 @@ const PatternMatcher = {
                             /\[religionym\]/gi,
                             religionymVariant
                         );
-                        expectedTexts.push({ expectedText, religionymVariant });
+
+                        const expectedTexts = [{
+                            text: expectedText,
+                            demonym: null,
+                            demonymObj: null,
+                            isGroup: false,
+                            religionymInfo: null,
+                            religionymObj: null,
+                            religionymVariant: religionymVariant
+                        }];
+
+                        // Use shared helper for pattern matching (no place data needed)
+                        this._processPatternMatches(pattern, expectedTexts, text, null, null, potentialMatches);
                     });
                 }
 
-                // Now match all expected texts
-                expectedTexts.forEach(({ expectedText, religionymVariant }) => {
+                // Report progress after each religionym pattern
+                processedPatterns++;
+                if (progressCallback && totalPatterns > 0 && processedPatterns % updateInterval === 0) {
+                    const progress = patternBasePercent + (processedPatterns / totalPatterns) * patternAllocatedPercent;
+                    progressCallback(progress);
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                }
+            }
+        }
 
-                    // Create flexible regex pattern (includes plural handling)
-                    const flexPattern = TextUtils.createFlexiblePattern(expectedText);
-                    const regex = new RegExp(flexPattern, 'gi');
-
-                    let match;
-                    while ((match = regex.exec(lowerText)) !== null) {
-                        const start = match.index;
-                        let actualMatchedText = text.substring(start, start + match[0].length);
-                        let end = start + actualMatchedText.length;
-
-                        // Trim trailing punctuation
-                        let trimmedLength = actualMatchedText.length;
-                        while (trimmedLength > 0 && /[^a-zA-Z0-9]/.test(actualMatchedText[trimmedLength - 1])) {
-                            trimmedLength--;
-                        }
-                        if (trimmedLength < actualMatchedText.length) {
-                            actualMatchedText = actualMatchedText.substring(0, trimmedLength);
-                            end = start + trimmedLength;
-                            if (actualMatchedText.length === 0) continue;
-                        }
-
-                        // Create match with religious-populism category
-                        potentialMatches.push({
-                            type: 'codedTerm',
-                            text: actualMatchedText,
-                            term: actualMatchedText,  // Standalone, not showing derivation
-                            category: 'religious-populism',  // ALWAYS religious-populism
-                            definition: pattern.codedTerm.definition,
-                            variations: [],  // Don't show variations - not relevant for religionym matches
-                            isPatternMatch: true,
-                            originalPattern: pattern.original,
-                            detectedReligionym: religionymVariant,
-                            isDerived: true,
-                            derivedFrom: pattern.codedTerm.root,
-                            start: start,
-                            end: end,
-                            source: pattern.codedTerm.source
-                        });
-                    }
-                });
-            });
+        // Final progress update after all patterns
+        if (progressCallback && totalPatterns > 0) {
+            progressCallback(patternBasePercent + patternAllocatedPercent);
         }
 
         // Filter overlapping matches - keep longest ones
@@ -1537,6 +1739,7 @@ const PatternMatcher = {
             }
         });
         return { matches };
+
     },
 
     // Determine category based on place type
@@ -1607,9 +1810,15 @@ class BaseTermMatcher {
         this.variationMap = TextUtils.buildVariationMap(this.terms);
     }
 
-    analyze(text) {
+    async analyze(text, progressCallback = null, progressConfig = {}) {
         // Use shared DRY helper
-        const allMatches = analyzeTextWithVariations(text, this.variationMap, this.matchType);
+        const allMatches = await analyzeTextWithVariations(
+            text,
+            this.variationMap,
+            this.matchType,
+            progressCallback,
+            progressConfig
+        );
 
         // Remove overlapping matches, keeping the longest/most specific ones
         // Sort by: 1) length (descending), 2) position (ascending)

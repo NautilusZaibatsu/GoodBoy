@@ -3698,9 +3698,9 @@ const PLACE_DEMONYM_LOOKUP = {
     "type": "city",
     "partOf": ["ecuador", "oceania"]
   },
-  "anDanzig": {
+  "danzig": {
     "canonical": "Gdańsk",
-    "variants": ["Gdańsk", "Wolne Miasto Gdańsk", "Danzig", "Freie Stadt Danzig", "Danzig"],
+    "variants": ["Gdańsk", "Wolne Miasto Gdańsk", "Danzig", "Freie Stadt Danzig"],
     "demonyms": ["Gdańszczanie", "Danziger"],
     "type": "city",
     "partOf": ["poland", "germany"]
@@ -3774,6 +3774,7 @@ const PLACE_DEMONYM_LOOKUP = {
       variants: this.places[canonicalKey].variants,
       demonyms: this.places[canonicalKey].demonyms,
       type: this.places[canonicalKey].type,
+      partOf: this.places[canonicalKey].partOf,
       metadata: this.places[canonicalKey].metadata
     };
   },
@@ -3794,6 +3795,7 @@ const PLACE_DEMONYM_LOOKUP = {
       variants: this.places[canonicalKey].variants,
       demonyms: this.places[canonicalKey].demonyms,
       type: this.places[canonicalKey].type,
+      partOf: this.places[canonicalKey].partOf,
       metadata: this.places[canonicalKey].metadata
     };
   },

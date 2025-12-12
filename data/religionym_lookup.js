@@ -368,14 +368,6 @@ const RELIGION_RELIGIONYM_LOOKUP = {
             "alt": [],
             "category": "religious-minorities"
         },
-
-        "cao_dai": {
-            "canonical": "Cao Dai",
-            "religionym": "Caodaist",
-            "alt": [],
-            "category": "religious-minorities"
-        },
-
         "new_religious_movements": {
             "canonical": "New Religious Movements",
             "religionym": "NRM adherent",
