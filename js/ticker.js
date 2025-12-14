@@ -1,5 +1,5 @@
-const VERSION = "0.4.8.3";
-const RELEASE_DATE = "Dec 12th 26";
+const VERSION = "0.4.8.4";
+const RELEASE_DATE = "Dec 14th 26";
 const NEWEST_TERM = "Newest coded term: \"" + CODED_TERM_DATA.terms[0].root + "\": " + CODED_TERM_DATA.terms[0].definition;
 const TICKER_TEXT = "This project is currently in beta. If you see a mistake or wish to contribute to the project please get in touch, links are in the About section.";
 

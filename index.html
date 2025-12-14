@@ -4,7 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🐕 GoodBoy - Sniffing out coded language</title>
+    <title>GoodBoy - Sniffing out coded language</title>
+    <!-- Favicons -->
+    <link rel="icon" href="images/favicon/favicon.ico" type="image/x-icon" />
+    <link rel="icon" type="image/png" href="images/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="GoodBoy" />
     <style>
         * {
             margin: 0;
@@ -63,13 +68,24 @@
 
         .container {
             max-width: 1000px;
-            margin: 0 auto;
+            margin: 0 auto var(--spacing-sm) auto;
         }
 
         header {
             text-align: center;
             color: var(--text-white);
             margin-bottom: var(--spacing-sm);
+        }
+
+        /* Logo overlay */
+        .overlay-logo {
+            position: fixed;
+            bottom: calc(var(--spacing-sm) + var(--ticker-height));
+            right: var(--spacing-sm);
+            width: var(--logo-size);
+            height: auto;
+            pointer-events: none;
+            z-index: -1;
         }
 
         @font-face {
@@ -118,16 +134,17 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: var(--bg-ticker);
-            color: var(--text-ticker);
+            background-color: var(--ticker-background);
+            color: var(--ticker-text);
             font-size: var(--font-size-sm);
             white-space: nowrap;
             overflow: hidden;
-            height: 30px;
+            height: var(--ticker-height);
             display: flex;
             align-items: center;
             z-index: 9999;
             cursor: default;
+            opacity: 90%;
         }
 
         #ticker-wrapper {
@@ -161,8 +178,26 @@
             box-shadow: 0 10px 40px var(--shadow-light);
         }
 
+        .card-toggleable {
+            margin-top: var(--spacing-sm);
+            padding: var(--spacing-xl);
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            font-size: var(--font-size-sm);
+            color: var(--text-muted);
+        }
+
+        .card-toggleable a {
+            color: var(--link-unvisited);
+            text-decoration: none;
+        }
+
+        .card-toggleable a:hover {
+            text-decoration: underline;
+        }
+
         .input-section {
-            margin-bottom: var(--spacing-xl);
+            margin-bottom: var(--spacing-sm);
         }
 
         label {
@@ -172,11 +207,11 @@
             color: var(--text-secondary);
         }
 
-        #textInput {
+        #text-input {
             width: 100%;
             min-height: 200px;
             padding: var(--spacing-lg);
-            border: 2px solid var(--border-default);
+            border: var(--spacing-xxs) solid var(--border-default);
             border-radius: var(--radius-lg);
             font-size: var(--font-size-md);
             font-family: inherit;
@@ -185,31 +220,33 @@
             display: block;
         }
 
-        #textInput:focus {
+        #text-input:focus {
             outline: none;
             border-color: var(--border-focus);
         }
 
-        #textInput.hidden {
+        #text-input.hidden {
             display: none;
         }
 
-        #textDisplay {
+        #text-display {
             display: none;
             width: 100%;
             min-height: 200px;
             padding: var(--spacing-lg);
-            border: 2px solid var(--color-primary);
+            border: var(--spacing-xxs) solid var(--color-primary);
             border-radius: var(--radius-lg);
             font-size: var(--font-size-md);
             font-family: inherit;
+            resize: vertical;
+            overflow: auto;
             background: var(--bg-input);
             line-height: 1.8;
             white-space: pre-wrap;
             word-wrap: break-word;
         }
 
-        #textDisplay.visible {
+        #text-display.visible {
             display: block;
         }
 
@@ -562,15 +599,6 @@
             text-decoration: underline;
         }
 
-        footer {
-            margin-top: var(--spacing-sm);
-            padding: var(--spacing-xl);
-            background: var(--bg-footer-overlay);
-            border-radius: var(--radius-xl);
-            font-size: var(--font-size-sm);
-            color: var(--text-muted);
-        }
-
         .expandable-div {
             display: flex;
             align-items: center;
@@ -605,22 +633,44 @@
             display: block;
         }
 
-        footer a {
-            color: var(--link-unvisited);
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        .loading {
+        .progress-container {
+            width: 100%;
+            height: calc(var(--progress-height) + var(--spacing-lg));
+            box-sizing: border-box;
+            border: var(--spacing-xxs) solid var(--border-default);
+            border-radius: var(--radius-lg);
+            margin: var(--spacing-sm) 0;
+            align-items: center;
             display: none;
+        }
+
+        body.analyzing .progress-container {
+            display: flex;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: var(--progress-height);
+            box-sizing: border-box;
+            background-color: var(--progress-track);
+            margin: 0 var(--spacing-xs);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 100%;
+            background-color: var(--progress-bar);
+            transform-origin: left center;
+            transform: scaleX(var(--progress, 0));
+        }
+
+        .progress-text {
             color: var(--color-primary);
             font-weight: var(--font-weight-semibold);
+            display: none;
         }
 
-        .loading.visible {
+        body.analyzing .progress-text {
             display: inline;
         }
 
@@ -654,24 +704,11 @@
                 min-width: 70px;
                 /* Prevent buttons from becoming too small */
             }
-
-            .loading {
-                width: 100%;
-                /* Force loading text to new line */
-                text-align: center;
-                margin-top: var(--spacing-xs);
-            }
         }
     </style>
 </head>
 
 <body>
-    <div id="ticker-container">
-        <div id="ticker-wrapper">
-            <div id="ticker-text"></div>
-            <div id="ticker-text-duplicate"></div>
-        </div>
-    </div>
     <div class="container">
         <header>
             <div class="title-container">
@@ -685,20 +722,23 @@
 
         <div class="card">
             <div class="input-section">
-                <label for="textInput" id="inputLabel">Text to analyze:</label>
-                <textarea id="textInput"
+                <label for="text-input" id="inputLabel">Text to analyze:</label>
+                <textarea id="text-input"
                     placeholder="Enter or paste text here to check for coded and harmful language..."></textarea>
-                <div id="textDisplay"></div>
+                <div id="text-display"></div>
             </div>
-
+            <div class="progress-container">
+                <div class="progress-track">
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
             <div class="button-row">
                 <button id="analyzeBtn" onclick="analyzeText()">Analyze</button>
                 <button class="hidden" id="editBtn" onclick="editText()">Edit</button>
                 <button class="copy-btn" id="copyBtn" onclick="copyText()">Copy</button>
                 <button class="clear-btn" id="clearBtn" onclick="clearAll()">Clear</button>
-                <span class="loading" id="loading">Analyzing...</span>
+                <span class="progress-text" id="progress-text">Analyzing...</span>
             </div>
-
             <div id="results" class="hidden">
                 <div class="stats-row">
                     <div class="stat-box">
@@ -726,7 +766,7 @@
             </div>
         </div>
 
-        <footer>
+        <div class="card-toggleable">
             <div class="expandable-div" onclick="toggleSection('instructionContent')">
                 <h3>Help</h3>
                 <span class="expand-div-toggle">▼</span>
@@ -776,9 +816,9 @@
                     </tr>
                 </table>
             </div>
-        </footer>
+        </div>
 
-        <footer>
+        <div class="card-toggleable">
             <div class="expandable-div" onclick="toggleSection('aboutContent')">
                 <h3>About</h3>
                 <span class="expand-div-toggle">▼</span>
@@ -812,9 +852,9 @@
                     <br>
                 </p>
             </div>
-        </footer>
+        </div>
 
-        <footer>
+        <div class="card-toggleable">
             <div class="expandable-div" onclick="toggleSection('attributionContent')">
                 <h3>Sources</h3>
                 <span class="expand-div-toggle">▼</span>
@@ -824,8 +864,16 @@
                 <div id="dataset-attributions"></div>
 
             </div>
-        </footer>
+        </div>
     </div>
+    <img src="images/logo.png" class="overlay-logo" alt="Logo">
+    <div id="ticker-container">
+        <div id="ticker-wrapper">
+            <div id="ticker-text"></div>
+            <div id="ticker-text-duplicate"></div>
+        </div>
+    </div>
+
 
     <!-- Load scripts / data -->
     <script src="data/coded_term_data.js"></script>
@@ -853,6 +901,47 @@
 
         // Initialize and render the attributions
         renderAttributions();
+
+        // Fade the logo out if it goes under cards
+        const logo = document.querySelector('.overlay-logo');
+        const targets = document.querySelectorAll('.card, .card-toggleable');
+
+        function checkOverlap() {
+            const logoRect = logo.getBoundingClientRect();
+            let maxOverlapRatio = 0;
+
+            targets.forEach(target => {
+                const rect = target.getBoundingClientRect();
+                // horizontal and vertical overlap
+                const xOverlap = Math.max(0, Math.min(logoRect.right, rect.right) - Math.max(logoRect.left, rect.left));
+                const yOverlap = Math.max(0, Math.min(logoRect.bottom, rect.bottom) - Math.max(logoRect.top, rect.top));
+                const overlapArea = xOverlap * yOverlap;
+                const logoArea = logoRect.width * logoRect.height;
+                const overlapRatio = overlapArea / logoArea;
+                maxOverlapRatio = Math.max(maxOverlapRatio, overlapRatio);
+            });
+
+            const minOpacity = 0;
+            const fadeAt = 0.25; // fade reaches minOpacity at 12.5% overlap
+
+            // scale overlapRatio so 0–50% maps to 1–minOpacity
+            let opacity;
+            if (maxOverlapRatio >= fadeAt) {
+                opacity = minOpacity;
+            } else {
+                opacity = 1 - (maxOverlapRatio / fadeAt) * (1 - minOpacity);
+            }
+
+            logo.style.opacity = opacity;
+        }
+
+        window.addEventListener('scroll', checkOverlap);
+        window.addEventListener('resize', checkOverlap);
+        // Watch for added/removed cards
+        const observer = new MutationObserver(checkOverlap);
+        observer.observe(document.body, { childList: true, subtree: true });
+        checkOverlap(); // initial
+
         // Initialize the pattern matchers
         let matcher = null;
         let harmfulTermMatcher = null;
@@ -997,7 +1086,7 @@
                 console.error('Failed to load harmful term database');
             }
 
-            // Update database term count in footer
+            // Update database term count in toggleable card
             const dbTermCountEl = document.getElementById('dbTermCount');
             if (dbTermCountEl) {
                 const codedTermCount = codedTermData ? codedTermData.totalTerms : 0;
@@ -1061,8 +1150,8 @@
         }
 
         function clearAnalysis() {
-            const textInput = document.getElementById('textInput');
-            const textDisplay = document.getElementById('textDisplay');
+            const textinput = document.getElementById('text-input');
+            const textDisplay = document.getElementById('text-display');
             const analyzeBtn = document.getElementById('analyzeBtn');
             const editBtn = document.getElementById('editBtn');
             const resultsDiv = document.getElementById('results');
@@ -1093,17 +1182,23 @@
 
         let analyzedYet = false;
 
-        // Helper function to update loading text with progress percentage
-        function updateLoadingText(percent) {
-            const loadingElement = document.getElementById('loading');
-            if (loadingElement) {
-                loadingElement.textContent = `Analyzing: ${Math.round(percent)}%`;
+        // Helper function to update progress bar and text
+        function updateProgress(percent) {
+            const clamped = Math.max(0, Math.min(100, percent));
+            // convert percent to 0 to 1 value for bar
+            document.documentElement.style.setProperty(
+                '--progress',
+                clamped / 100
+            );
+            const progressElement = document.getElementById('progress-text');
+            if (progressElement) {
+                progressElement.textContent = `Analyzing: ${Math.round(clamped)}%`;
             }
         }
 
         async function analyzeText() {
 
-            const textInput = document.getElementById('textInput');
+            const textInput = document.getElementById('text-input');
 
             // Always get text from textarea (it's editable)
             const text = textInput.value.trim();
@@ -1129,14 +1224,14 @@
                 ProgressTracker.start();
             }
 
-            // Show loading state
-            const loadingElement = document.getElementById('loading');
-            loadingElement.classList.add('visible');
+            // Show progress state
+            const progressElement = document.getElementById('progress-text');
+            progressElement.classList.add('visible');
             document.getElementById('analyzeBtn').disabled = true;
-            document.body.classList.add('analyzing'); // Add analyzing state for cursor
+            document.body.classList.add('analyzing');
 
-            // Update loading text to show 0%
-            updateLoadingText(0);
+            // Update progress text to show 0%
+            updateProgress(0);
 
             // Create progress callback that respects toggle
             // When disabled, pass null to skip all progress overhead
@@ -1146,10 +1241,10 @@
                     throw new Error('Analysis aborted by user');
                 }
                 ProgressTracker.updateProgress(percent);
-                updateLoadingText(percent);
+                updateProgress(percent);
             } : null;
 
-            // Small delay to allow UI to paint loading state
+            // Small delay to allow UI to paint progress state
             await new Promise(resolve => setTimeout(resolve, 50));
 
             try {
@@ -1159,8 +1254,6 @@
                 const patternConfig = ProgressTracker.getWeightConfig('pattern');
                 const deduplicationRange = ProgressTracker.weights.deduplication;
                 const renderingRange = ProgressTracker.weights.rendering;
-               
-                console.log('[LOG] Coded term matcher started at ' + performance.now() + "ms " + ProgressTracker.getProgress().percent + "%");
 
                 // Analyze with coded term matcher (dynamic %)
                 const codedTermResults = matcher ? await matcher.analyze(text, progressCallback, {
@@ -1168,15 +1261,11 @@
                     updateInterval: PROGRESS_UPDATE_INTERVAL
                 }) : { matches: [], categoryCount: 0, categories: [] };
 
-                console.log('[LOG] Harmful term matcher started at ' + performance.now() + "ms " + ProgressTracker.getProgress().percent + "%");
-
                 // Analyze with harmful term matcher (dynamic %)
                 const harmfulTermResults = harmfulTermMatcher ? await harmfulTermMatcher.analyze(text, progressCallback, {
                     ...harmfulConfig,
                     updateInterval: PROGRESS_UPDATE_INTERVAL
                 }) : { matches: [], categoryCount: 0, categories: [] };
-
-                console.log('[LOG] Pattern matcher started at ' + performance.now() + "ms " + ProgressTracker.getProgress().percent + "%");
 
                 // Analyze for dynamic patterns (dynamic %)
                 const patternResults = PatternMatcher.place_demonym_lookup_loaded ? await PatternMatcher.analyze(text, progressCallback, {
@@ -1184,14 +1273,11 @@
                     updateInterval: PROGRESS_UPDATE_INTERVAL
                 }) : { matches: [] };
 
-                console.log('[LOG] Deduplication started at ' + performance.now() + "ms " + ProgressTracker.getProgress().percent + "%");
-
                 // Step: Combine results (deduplication range start)
                 if (progressCallback) {
                     progressCallback(deduplicationRange.start);
                     await new Promise(resolve => setTimeout(resolve, 0));
                 }
-
 
                 // Combine results (pattern matches are also coded terms)
                 const allMatches = [
@@ -1214,8 +1300,6 @@
                     deduplicationRange,
                 );
 
-                console.log('[LOG] Rendering started at ' + performance.now() + "ms " + ProgressTracker.getProgress().percent + "%");
-
                 // Step: Display results (rendering range start)
                 if (progressCallback) {
                     progressCallback(renderingRange.start);
@@ -1235,9 +1319,6 @@
                 // Track analytics (TODO: implement)
                 trackAnalysis(text, combinedResults);
 
-                console.log('[LOG] Completed at ' + performance.now() + "ms " + ProgressTracker.getProgress().percent + "%");
-
-
             } catch (error) {
                 // Check if this was an abort or a real error
                 if (error.message === 'Analysis aborted by user') {
@@ -1248,9 +1329,8 @@
                     alert('An error occurred during analysis. Please try again.');
                 }
             } finally {
-                // Hide loading state
-                document.getElementById('loading').classList.remove('visible');
-                document.body.classList.remove('analyzing'); // Remove analyzing state
+                // Hide progress state
+                document.body.classList.remove('analyzing');
                 document.getElementById('analyzeBtn').disabled = false;
             }
         }
@@ -1390,8 +1470,8 @@
         }
 
         function displayResults(originalText, results) {
-            const textInput = document.getElementById('textInput');
-            const textDisplay = document.getElementById('textDisplay');
+            const textInput = document.getElementById('text-input');
+            const textDisplay = document.getElementById('text-display');
             const analyzeBtn = document.getElementById('analyzeBtn');
             const clearBtn = document.getElementById('clearBtn');
             const resultsDiv = document.getElementById('results');
@@ -1715,8 +1795,8 @@
         }
 
         function clearAll() {
-            const textInput = document.getElementById('textInput');
-            const textDisplay = document.getElementById('textDisplay');
+            const textInput = document.getElementById('text-input');
+            const textDisplay = document.getElementById('text-display');
             const analyzeBtn = document.getElementById('analyzeBtn');
             const editBtn = document.getElementById('editBtn');
             const clearBtn = document.getElementById('clearBtn');
@@ -1748,7 +1828,7 @@
 
         function copyText() {
             // Always copy from the textarea (which contains current editable text)
-            const textToCopy = document.getElementById('textInput').value;
+            const textToCopy = document.getElementById('text-input').value;
             if (!textToCopy.trim()) {
                 return; // Nothing to copy
             }
@@ -1787,7 +1867,7 @@
         }
 
         // Prevent the user from flagging text outside the text area
-        const selectable = document.getElementById('textInput');
+        const selectable = document.getElementById('text-input');
         document.addEventListener('selectstart', (e) => {
             if (!selectable.contains(e.target)) {
                 e.preventDefault(); // Prevent selection
@@ -1795,18 +1875,18 @@
         });
 
         // Allow Enter key to submit (with Ctrl/Cmd)
-        document.getElementById('textInput').addEventListener('keydown', (e) => {
+        document.getElementById('text-input').addEventListener('keydown', (e) => {
             if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
                 analyzeText();
             }
         });
 
         // Enable/disable buttons based on text content
-        document.getElementById('textInput').addEventListener('input', (e) => {
+        document.getElementById('text-input').addEventListener('input', (e) => {
             const analyzeBtn = document.getElementById('analyzeBtn');
             const copyBtn = document.getElementById('copyBtn');
             const clearBtn = document.getElementById('clearBtn');
-            const textInput = document.getElementById('textInput');
+            const textInput = document.getElementById('text-input');
 
             if (textInput.value.trim()) {
                 analyzeBtn.disabled = false;

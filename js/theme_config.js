@@ -14,27 +14,28 @@ const THEME_CONFIG = {
 
     // Primary brand colors
     colors: {
-        primary: '#dd7d34',              // Main brand color (indigo/blue) - used for links, focus states
-        secondary: '#7d756c',            // Secondary/inactive elements (gray)
+        primary: '#dd7d34',                 // Main brand color (indigo/blue) - used for links, focus states
+        secondary: '#7d756c',               // Secondary/inactive elements (gray)
     },
 
     // Background colors
     backgrounds: {
-        page: '#f8f9fa',                 // Light gray page background
-        card: '#ffffff',                 // White cards/containers
-        input: '#f8f9fa',                // Input fields background
-        tooltip: '#2c3e50',              // Tooltip background (dark gray-blue)
-        footerOverlay: 'rgba(255, 255, 255, 0.95)', // Footer semi-transparent white overlay
-        ticker: '#282828',
+        page: '#f8f9fa',                    // Light gray page background
+        card: 'rgba(248, 249, 250, 0.9)',   // Off-white card background
+        input: '#f8f9fa',                   // Input fields background
+        tooltip: '#2c3e50',                 // Tooltip background (dark gray-blue)
+    },
+
+    logo: {
+        size: '100px',
     },
 
     // Text colors
     text: {
-        primary: '#333',                 // Main body text (dark gray)
-        secondary: '#555',               // Labels, lighter text (medium gray)
-        muted: '#666',                   // De-emphasized text (light gray)
-        white: '#ffffff',                // White text (on dark backgrounds)
-        ticker: '#dd7d34',
+        primary: '#333',                    // Main body text (dark gray)
+        secondary: '#555',                  // Labels, lighter text (medium gray)
+        muted: '#666',                      // De-emphasized text (light gray)
+        white: '#ffffff',                   // White text (on dark backgrounds)
     },
 
     // Link colors
@@ -48,37 +49,51 @@ const THEME_CONFIG = {
 
     // Border colors
     borders: {
-        default: '#e0e0e0',              // Standard borders (light gray)
-        focus: '#dd7d34',                // Focused inputs (same as primary)
+        default: '#e0e0e0',                 // Standard borders (light gray)
+        focus: '#dd7d34',                   // Focused inputs (same as primary)
     },
 
     // State colors (success, warning, danger)
     states: {
         success: {
-            bg: '#d4edda',               // Light green background
-            text: '#155724',             // Dark green text
-            border: '#28a745',           // Green border/button
+            bg: '#d4edda',                  // Light green background
+            text: '#155724',                // Dark green text
+            border: '#28a745',              // Green border/button
         },
         warning: {
-            bg: '#fff3cd',               // Light yellow background
-            text: '#856404',             // Brown/tan text
-            border: '#ffc107',           // Yellow border
+            bg: '#fff3cd',                  // Light yellow background
+            text: '#856404',                // Brown/tan text
+            border: '#ffc107',              // Yellow border
         },
         danger: {
-            bg: '#f8d7da',               // Light red background
-            text: '#721c24',             // Dark red text
-            border: '#d6293e',           // Severe red (for critical warnings)
+            bg: '#f8d7da',                  // Light red background
+            text: '#721c24',                // Dark red text
+            border: '#d6293e',              // Severe red (for critical warnings)
         },
     },
 
     // Unflagged term colors
     unflagged: {
-        color: '#dddddd',               // Un-flagged highlight/underline color
-        hover: '#bbbbbb'                // Un-flagged highlight/underline hover color
+        color: '#dddddd',                   // Un-flagged highlight/underline color
+        hover: '#bbbbbb'                    // Un-flagged highlight/underline hover color
     },
 
     // Demo colors
     demo: '#f9a986',
+
+    // Progress bar
+    progress: {
+        height: '25px',
+        track: '#e0e0e0',
+        bar: '#f59369'
+    },
+
+    // Ticker
+    ticker: {
+        text: '#fd9c52',
+        background: '#282828',
+        height: '30px',
+    },
 
     // Button colors
     buttons: {
@@ -137,6 +152,7 @@ const THEME_CONFIG = {
 
     spacing: {
         // Padding/margin scale (px for precision in layout)
+        xxs: '2px',         // Tiniest spacing
         xs: '4px',          // Minimal spacing (tight grouping)
         sm: '8px',          // Small spacing (compact elements)
         md: '12px',         // Medium spacing (standard padding)
@@ -183,15 +199,15 @@ function initializeTheme() {
     root.style.setProperty('--bg-card', THEME_CONFIG.backgrounds.card);
     root.style.setProperty('--bg-input', THEME_CONFIG.backgrounds.input);
     root.style.setProperty('--bg-tooltip', THEME_CONFIG.backgrounds.tooltip);
-    root.style.setProperty('--bg-footer-overlay', THEME_CONFIG.backgrounds.footerOverlay);
-    root.style.setProperty('--bg-ticker', THEME_CONFIG.backgrounds.ticker);
+
+    // Logo
+    root.style.setProperty('--logo-size', THEME_CONFIG.logo.size);
 
     // Text
     root.style.setProperty('--text-primary', THEME_CONFIG.text.primary);
     root.style.setProperty('--text-secondary', THEME_CONFIG.text.secondary);
     root.style.setProperty('--text-muted', THEME_CONFIG.text.muted);
     root.style.setProperty('--text-white', THEME_CONFIG.text.white);
-    root.style.setProperty('--text-ticker', THEME_CONFIG.text.ticker);
 
     // Links
     root.style.setProperty('--link-unvisited', THEME_CONFIG.link.unvisited);
@@ -203,6 +219,16 @@ function initializeTheme() {
     // Borders
     root.style.setProperty('--border-default', THEME_CONFIG.borders.default);
     root.style.setProperty('--border-focus', THEME_CONFIG.borders.focus);
+
+    // Progress bar
+    root.style.setProperty('--progress-height', THEME_CONFIG.progress.height);
+    root.style.setProperty('--progress-track', THEME_CONFIG.progress.track);
+    root.style.setProperty('--progress-bar', THEME_CONFIG.progress.bar);
+
+    // Ticker
+    root.style.setProperty('--ticker-text', THEME_CONFIG.ticker.text);
+    root.style.setProperty('--ticker-background', THEME_CONFIG.ticker.background);
+    root.style.setProperty('--ticker-height', THEME_CONFIG.ticker.height);
 
     // States - Success
     root.style.setProperty('--state-success-bg', THEME_CONFIG.states.success.bg);
@@ -224,7 +250,7 @@ function initializeTheme() {
     root.style.setProperty('--unflagged-hover', THEME_CONFIG.unflagged.hover);
 
     // Demo
-        root.style.setProperty('--color-demo', THEME_CONFIG.demo);
+    root.style.setProperty('--color-demo', THEME_CONFIG.demo);
 
 
     // Buttons
@@ -268,6 +294,7 @@ function initializeTheme() {
     // ============================================================
 
     // Padding/margin scale
+    root.style.setProperty('--spacing-xxs', THEME_CONFIG.spacing.xxs);
     root.style.setProperty('--spacing-xs', THEME_CONFIG.spacing.xs);
     root.style.setProperty('--spacing-sm', THEME_CONFIG.spacing.sm);
     root.style.setProperty('--spacing-md', THEME_CONFIG.spacing.md);
