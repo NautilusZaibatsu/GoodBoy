@@ -5,8 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.4.8.5] - 2025-12-15
+## [0.4.8.6] - 2025-12-15
+### Fixes
+  - Fixed an issue causing harmful terms to not be correctly underlined
+  - Fixed a matching error that occured when a numerical string could be unobfuscated into letters that prevented the numerical checker running
+  - Fixed an issue where numerical obfuscations of letters were not being highlighted
 
+## [0.4.8.5] - 2025-12-15
 ### Changed
 - **Webapp**
   - Theme tweaks and improvements
@@ -16,7 +21,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Cleaner database loading procedure
 
 ## [0.4.8.4] - 2025-12-14
-
 ### Added
 - **Webapp**
   - Progress bar added to give better feedback during analysis
@@ -25,7 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Small visual improvements
 
 ## [0.4.8.3] - 2025-12-12
-
 ### Added
 - **Webapp** 
   - Analysis progress is now tracked and visible to the user. This feature will be expanded upon in subsequent releases

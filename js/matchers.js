@@ -176,14 +176,16 @@ async function analyzeTextWithVariations(text, variationMap, matchType, progress
 
             if (usePositionMap) {
                 // For single-word letter terms, skip leading/trailing emoji-spaces when mapping positions
+                // IMPORTANT: Only trim SPACES (which represent emojis), NOT digits (which can be obfuscation)
                 if (!isMultiWord && isLetterTerm) {
-                    // Trim leading non-letter characters (both real spaces and emoji-spaces)
-                    while (matchStart < matchEnd && !/[a-z]/i.test(textWithEmojiAsSpace[matchStart])) {
+                    // Trim leading emoji-spaces only (spaces in textWithEmojiAsSpace = emojis in original)
+                    // Don't trim digits - they might be obfuscation (e.g., "168" → "LGB", "1GB" → "LGB")
+                    while (matchStart < matchEnd && textWithEmojiAsSpace[matchStart] === ' ') {
                         matchStart++;
                     }
 
-                    // Trim trailing non-letter characters (both real spaces and emoji-spaces)
-                    while (matchEnd > matchStart && !/[a-z]/i.test(textWithEmojiAsSpace[matchEnd - 1])) {
+                    // Trim trailing emoji-spaces only
+                    while (matchEnd > matchStart && textWithEmojiAsSpace[matchEnd - 1] === ' ') {
                         matchEnd--;
                     }
                 }
@@ -450,7 +452,12 @@ async function analyzeTextWithVariations(text, variationMap, matchType, progress
                 (variationHasPunctSeparatedNumbers && matchHasSpaceSeparatedNumbers) ||
                 (!isNumericTerm && !matchIsDigits && !matchedOriginalIsDigits);
 
-            if (!skipValidation && (isNumericTerm || matchIsMultiDigit || matchContainsDigit || matchedOriginalContainsDigit)) {
+            // IMPORTANT: Apply numeric validation to:
+            // 1. Numeric database terms (isNumericTerm = true), OR
+            // 2. Letter terms matching PURE numeric text (like "168" → "LGB" in "...168..." should be rejected)
+            // But NOT letter terms matching mixed alphanumeric (like "1GB" → "LGB" should be allowed)
+            const shouldValidate = isNumericTerm || (isLetterTerm && matchIsDigits);
+            if (!skipValidation && shouldValidate && (matchIsMultiDigit || matchContainsDigit || matchedOriginalContainsDigit)) {
                 const matchStart = actualStartIndex;
                 const matchEnd = actualEndIndex;
 
@@ -649,10 +656,30 @@ function filterLetterTerms(matches, text) {
 
     for (const match of matches) {
         if (match.isLetterTerm) {
+            // Skip filtering for mixed alphanumeric matches (e.g., "9c" matching "gc")
+            // These are obfuscation patterns and shouldn't be subject to word boundary validation
+            const matchedText = text.substring(match.start, match.end);
+            const hasDigits = /\d/.test(matchedText);
+            const hasNonLetters = /[^a-z\s]/i.test(matchedText);
+
+            if (hasDigits || hasNonLetters) {
+                // Mixed match - skip word boundary validation
+                filteredMatches.push(match);
+                continue;
+            }
 
             // Map match positions from original text to normalized text
             const normalizedStart = originalToNormalized.get(match.start);
-            const normalizedEnd = originalToNormalized.get(match.end - 1) + 1; // End is exclusive, so map (end-1) and add 1
+            const normalizedEndRaw = originalToNormalized.get(match.end - 1);
+
+            // Skip if positions are invalid (can happen with out-of-bounds matches)
+            if (normalizedStart === undefined || normalizedEndRaw === undefined) {
+                // Invalid position mapping - keep the match to avoid data loss
+                filteredMatches.push(match);
+                continue;
+            }
+
+            const normalizedEnd = normalizedEndRaw + 1; // End is exclusive, so map (end-1) and add 1
 
             // Find word boundaries in the emoji-normalized text
             let wordStart = normalizedStart;
@@ -673,7 +700,14 @@ function filterLetterTerms(matches, text) {
             for (const m of matches) {
                 if (m.isLetterTerm) {
                     const mNormStart = originalToNormalized.get(m.start);
-                    const mNormEnd = originalToNormalized.get(m.end - 1) + 1;
+                    const mNormEndRaw = originalToNormalized.get(m.end - 1);
+
+                    // Skip if positions are invalid
+                    if (mNormStart === undefined || mNormEndRaw === undefined) {
+                        continue;
+                    }
+
+                    const mNormEnd = mNormEndRaw + 1;
 
                     if (mNormStart >= wordStart && mNormEnd <= wordEnd) {
                         for (let i = mNormStart; i < mNormEnd; i++) {
@@ -1819,50 +1853,44 @@ class BaseTermMatcher {
             progressConfig
         );
 
-        // Remove overlapping matches, keeping the longest/most specific ones
-        // Sort by: 1) length (descending), 2) position (ascending)
+        // DEDUPLICATION: Remove overlapping matches within this matcher
+        // Keep longest matches, filter out shorter overlapping ones
+        // This prevents "9" and "c" from being kept when "9c" exists
+        // Sort by length (descending) then position (ascending)
         allMatches.sort((a, b) => {
             if (b.length !== a.length) return b.length - a.length;
             return a.start - b.start;
         });
 
-        const matches = [];
+        const deduplicatedMatches = [];
         const usedRanges = [];
 
-        // Keep matches that don't overlap with already-selected matches
-        // EXCEPT: allow numeric terms to overlap with each other (e.g., "1813" can match both "18" and "13")
         for (const match of allMatches) {
-            const isNumericMatch = match.isNumeric || false;
-
-            // Check if this match overlaps with any already-selected match
-            let hasBlockingOverlap = false;
+            // Check if this match overlaps with any already-kept match
+            let hasOverlap = false;
+            let blockedBy = null;
             for (const range of usedRanges) {
                 if (TextUtils.overlaps(match, range)) {
-                    // Allow overlap if BOTH terms are same type (numeric-numeric OR letter-letter)
-                    const rangeIsNumeric = range.isNumeric;
-                    const rangeIsLetterTerm = range.isLetterTerm || false;
-                    const isLetterTermMatch = match.isLetterTerm || false;
-
-                    if (!((isNumericMatch && rangeIsNumeric) || (isLetterTermMatch && rangeIsLetterTerm))) {
-                        hasBlockingOverlap = true;
-                        break;
-                    }
+                    hasOverlap = true;
+                    blockedBy = range;
+                    break;
                 }
             }
 
-            if (!hasBlockingOverlap) {
-                matches.push(match);
+            if (!hasOverlap) {
+                deduplicatedMatches.push(match);
                 usedRanges.push({
                     start: match.start,
                     end: match.end,
-                    isNumeric: isNumericMatch,
-                    isLetterTerm: match.isLetterTerm || false
+                    text: match.text,
+                    term: match.term
                 });
             }
         }
 
         // Filter letter terms using shared DRY helper
-        const filteredMatches = filterLetterTerms(matches, text);
+        // This is validation, not deduplication - it ensures letter terms are part of complete words
+        const filteredMatches = filterLetterTerms(deduplicatedMatches, text);
 
         // Sort final matches by position for display
         filteredMatches.sort((a, b) => a.start - b.start);

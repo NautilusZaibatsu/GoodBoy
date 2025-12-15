@@ -285,8 +285,8 @@ const CATEGORY_MODES = {
  */
 function allowsPatternSubstitution(categoryMode) {
     return categoryMode === CATEGORY_MODES.FIXED ||
-           categoryMode === CATEGORY_MODES.RELIGIONYM_ONLY ||
-           categoryMode === CATEGORY_MODES.DYNAMIC;
+        categoryMode === CATEGORY_MODES.RELIGIONYM_ONLY ||
+        categoryMode === CATEGORY_MODES.DYNAMIC;
 }
 
 /**
@@ -470,6 +470,13 @@ function injectCategoryStyles() {
             }
             .flagged.codedTerm.${className}:hover {
                 background-color: ${mainCat.hoverColor};
+            }
+            .flagged.harmfulTerm.${className} {
+                border-bottom: var(--flagged-underline) solid ${mainCat.lightColor};
+                text-decoration: none;
+            }
+            .flagged.harmfulTerm.${className}:hover {
+                border-bottom-color: ${mainCat.hoverColor};
             }
         `;
     });

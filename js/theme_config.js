@@ -196,6 +196,15 @@ const THEME_CONFIG = {
     logo: {
         size: '100px',
     },
+
+    // ============================================================
+    // FLAGGED TERMS
+    // ============================================================
+
+    flagged: {
+        underline: '3px',
+    }
+
 };
 
 const buttonClickTimeout = 200;
@@ -356,6 +365,13 @@ function initializeTheme() {
 
     // Logo
     root.style.setProperty('--logo-size', THEME_CONFIG.logo.size);
+
+    // ============================================================
+    // FLAGGED TERMS
+    // ============================================================
+
+    root.style.setProperty('--flagged-underline', THEME_CONFIG.flagged.underline);
+
 
 }
 
