@@ -5,7 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.4.8.4] - 2025-12-12
+## [0.4.8.5] - 2025-12-15
+
+### Changed
+- **Webapp**
+  - Theme tweaks and improvements
+  - Visual improvements for mobile / small screens
+  
+- **Database**
+  - Cleaner database loading procedure
+
+## [0.4.8.4] - 2025-12-14
 
 ### Added
 - **Webapp**
@@ -13,12 +23,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Logo at bottom right of webapp, auto fades when under page content
   - Favicons
   - Small visual improvements
-
-### Known Issues
-- **Non-ASCII characters** 
-  - Database entries with an extreme amount of 'unusual' characters such as Аляска are currently not supported as the obfuscation utils pattern match too greedily. All examples have been commented out of the data for now
-- **Detection**
-  - Multi-word terms don't match if they have are non-plural and have an alpha-numeric character immediately following them. Eg, False Flagj
 
 ## [0.4.8.3] - 2025-12-12
 

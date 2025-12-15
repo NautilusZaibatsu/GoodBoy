@@ -14,51 +14,46 @@ const THEME_CONFIG = {
 
     // Primary brand colors
     colors: {
-        primary: '#dd7d34',                 // Main brand color (indigo/blue) - used for links, focus states
-        secondary: '#7d756c',               // Secondary/inactive elements (gray)
+        primary: '#fd8b5b',                 // Main brand color
+        secondary: '#7d756c',               // Secondary/inactive elements
     },
 
     // Background colors
     backgrounds: {
-        page: '#f8f9fa',                    // Light gray page background
-        card: 'rgba(248, 249, 250, 0.9)',   // Off-white card background
+        page: '#444444',                    // Page background
+        card: 'rgba(249, 250, 251, 0.9)',   // Card background
         input: '#f8f9fa',                   // Input fields background
-        tooltip: '#2c3e50',                 // Tooltip background (dark gray-blue)
-    },
-
-    logo: {
-        size: '100px',
+        tooltip: '#2c3e50',                 // Tooltip background
     },
 
     // Text colors
     text: {
-        primary: '#333',                    // Main body text (dark gray)
-        secondary: '#555',                  // Labels, lighter text (medium gray)
-        muted: '#666',                      // De-emphasized text (light gray)
-        white: '#ffffff',                   // White text (on dark backgrounds)
+        primary: '#444',
+        muted: '#666',                      // De-emphasized text
+        white: '#ffffff',                   // Dark background text
     },
 
     // Link colors
     link: {
-        unvisited: '#dd7d34',
-        visited: '#d1722a',
+        unvisited: '#fd8b5b',
+        visited: '#dd7d34',
         hover: '#7d756c',
         active: '#7d756c',
-        tooltip: '#fd9c52',
+        tooltip: '#fd8b5b',
     },
 
     // Border colors
     borders: {
-        default: '#e0e0e0',                 // Standard borders (light gray)
-        focus: '#dd7d34',                   // Focused inputs (same as primary)
+        default: '#cccccc',                 // Standard borders
+        focus: '#fd8b5b',                   // Focused inputs
     },
 
     // State colors (success, warning, danger)
     states: {
         success: {
-            bg: '#d4edda',                  // Light green background
-            text: '#155724',                // Dark green text
-            border: '#28a745',              // Green border/button
+            bg: '#c5eec7',                  // Light green background
+            text: '#4c804f',                // Dark green text
+            border: '#88c88b',              // Green border/button
         },
         warning: {
             bg: '#fff3cd',                  // Light yellow background
@@ -79,18 +74,18 @@ const THEME_CONFIG = {
     },
 
     // Demo colors
-    demo: '#f9a986',
+    demo: '#fd8b5b',
 
     // Progress bar
     progress: {
         height: '25px',
-        track: '#e0e0e0',
-        bar: '#f59369'
+        track: '#cccccc',
+        bar: '#fd8b5b'
     },
 
     // Ticker
     ticker: {
-        text: '#fd9c52',
+        text: '#fd8b5b',
         background: '#282828',
         height: '30px',
     },
@@ -98,12 +93,12 @@ const THEME_CONFIG = {
     // Button colors
     buttons: {
         primary: {
-            background: '#f59369',       // Primary button color
+            background: '#fd8b5b',       // Primary button color
             clicked: '#ffa782',          // Primary button feedback colour
             text: '#ffffff',             // Button text
         },
         disabled: {
-            background: '#7d756c',       // Disabled button color (grey)
+            background: '#7d756c',       // Disabled button color
             text: '#ffffff',             // Button text
         },
     },
@@ -111,8 +106,8 @@ const THEME_CONFIG = {
     // Shadow & overlay colors (rgba for transparency)
     effects: {
         shadowLight: 'rgba(0, 0, 0, 0.2)',              // Light shadows on text
-        shadowMedium: 'rgba(102, 126, 234, 0.4)',       // Button hover shadow (primary color with alpha)
-        tooltipText: 'rgba(255, 255, 255, 0.9)',        // Slightly transparent white in tooltips
+        shadowMedium: 'rgba(154, 154, 154, 0.4)',       // Button hover shadow
+        tooltipText: 'rgba(255, 255, 255, 0.9)',
         tooltipTextMuted: 'rgba(255, 255, 255, 0.7)',   // More transparent for secondary tooltip text
         tooltipBorder: 'rgba(255, 255, 255, 0.2)',      // Subtle borders in tooltips
     },
@@ -170,6 +165,37 @@ const THEME_CONFIG = {
             xl: '12px',     // Large (cards, signal pills, prominent elements)
         },
     },
+
+    // ============================================================
+    // BOX SHADOWS
+    // ============================================================
+
+    shadow: {
+        horizontal: '0px',
+        verticalSmall: '5px',
+        verticalLarge: '10px',
+        blurSmall: '15px',
+        blurMedium: '20px',
+        blurLarge: '40px',
+    },
+
+    // ============================================================
+    // TRANSITIONS
+    // ============================================================
+
+    transition: {
+        fast: '0.2s',
+        medium: '0.3s',
+        slow: '0.5s',
+    },
+
+    // ============================================================
+    // IMAGES
+    // ============================================================
+
+    logo: {
+        size: '100px',
+    },
 };
 
 const buttonClickTimeout = 200;
@@ -200,12 +226,8 @@ function initializeTheme() {
     root.style.setProperty('--bg-input', THEME_CONFIG.backgrounds.input);
     root.style.setProperty('--bg-tooltip', THEME_CONFIG.backgrounds.tooltip);
 
-    // Logo
-    root.style.setProperty('--logo-size', THEME_CONFIG.logo.size);
-
     // Text
     root.style.setProperty('--text-primary', THEME_CONFIG.text.primary);
-    root.style.setProperty('--text-secondary', THEME_CONFIG.text.secondary);
     root.style.setProperty('--text-muted', THEME_CONFIG.text.muted);
     root.style.setProperty('--text-white', THEME_CONFIG.text.white);
 
@@ -249,9 +271,8 @@ function initializeTheme() {
     root.style.setProperty('--unflagged-color', THEME_CONFIG.unflagged.color);
     root.style.setProperty('--unflagged-hover', THEME_CONFIG.unflagged.hover);
 
-    // Demo
+    // Flagging demos for about section
     root.style.setProperty('--color-demo', THEME_CONFIG.demo);
-
 
     // Buttons
     root.style.setProperty('--btn-primary-bg', THEME_CONFIG.buttons.primary.background);
@@ -271,6 +292,7 @@ function initializeTheme() {
     // TYPOGRAPHY
     // ============================================================
 
+    // Font family
     root.style.setProperty('--font-family', THEME_CONFIG.typography.fontFamily);
 
     // Font sizes
@@ -305,10 +327,36 @@ function initializeTheme() {
     root.style.setProperty('--spacing-tagline', THEME_CONFIG.spacing.tagline);
 
     // Border radius scale
-    root.style.setProperty('--radius-sm', THEME_CONFIG.spacing.radius.sm);
     root.style.setProperty('--radius-md', THEME_CONFIG.spacing.radius.md);
     root.style.setProperty('--radius-lg', THEME_CONFIG.spacing.radius.lg);
     root.style.setProperty('--radius-xl', THEME_CONFIG.spacing.radius.xl);
+
+    // ============================================================
+    // BOX SHADOW
+    // ============================================================
+
+    root.style.setProperty('--box-shadow-h', THEME_CONFIG.shadow.horizontal);
+    root.style.setProperty('--box-shadow-v-sm', THEME_CONFIG.shadow.verticalSmall);
+    root.style.setProperty('--box-shadow-v-lg', THEME_CONFIG.shadow.verticalLarge);
+    root.style.setProperty('--box-shadow-b-sm', THEME_CONFIG.shadow.blurSmall);
+    root.style.setProperty('--box-shadow-b-md', THEME_CONFIG.shadow.blurMedium);
+    root.style.setProperty('--box-shadow-b-lg', THEME_CONFIG.shadow.blurLarge);
+
+    // ============================================================
+    // TRANSITIONS
+    // ============================================================
+
+    root.style.setProperty('--transition-fs', THEME_CONFIG.transition.fast);
+    root.style.setProperty('--transition-md', THEME_CONFIG.transition.medium);
+    root.style.setProperty('--transition-sl', THEME_CONFIG.transition.slow);
+
+    // ============================================================
+    // IMAGES
+    // ============================================================
+
+    // Logo
+    root.style.setProperty('--logo-size', THEME_CONFIG.logo.size);
+
 }
 
 // Export for use in modules (if needed)

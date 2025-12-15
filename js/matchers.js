@@ -956,7 +956,7 @@ const PatternMatcher = {
     },
 
     // Initialize by extracting patterns from coded terms
-    initialize(codedTerms) {
+    initialize(codedTermData) {
         if (typeof PLACE_DEMONYM_LOOKUP === 'undefined') {
             console.warn('Place-demonym lookup not loaded yet, pattern matching disabled');
             return;
@@ -993,7 +993,7 @@ const PatternMatcher = {
         });
 
         // Extract patterns from coded terms
-        this.extractPatterns(codedTerms);
+        this.extractPatterns(codedTermData.terms);
     },
 
     // Extract patterns from existing coded terms
@@ -1127,7 +1127,6 @@ const PatternMatcher = {
                 }
             });
         });
-        console.log(`✓ Extracted ${this.patterns.length} dynamic patterns`);
 
         // Calculate longest pattern for context window sizing
         this.longestPatternWords = this.patterns.reduce((max, p) => {
@@ -1886,9 +1885,6 @@ class BaseTermMatcher {
 class CodedTermMatcher extends BaseTermMatcher {
     constructor(codedTermData) {
         super(codedTermData, 'codedTerm');
-        // Preserve original property names for backwards compatibility
-        this.codedTermData = codedTermData;
-        this.codedTermTerms = codedTermData.terms;
     }
 }
 
@@ -1899,8 +1895,5 @@ class CodedTermMatcher extends BaseTermMatcher {
 class HarmfulTermMatcher extends BaseTermMatcher {
     constructor(harmfulTermData) {
         super(harmfulTermData, 'harmfulTerm');
-        // Preserve original property names for backwards compatibility
-        this.harmfulTermData = harmfulTermData;
-        this.harmfulTermTerms = harmfulTermData.terms;
     }
 }
