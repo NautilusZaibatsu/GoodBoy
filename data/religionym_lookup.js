@@ -235,6 +235,12 @@ const RELIGION_RELIGIONYM_LOOKUP = {
             "alt": ["Neo-pagan"],
             "category": "religious-minorities"
         },
+        "neopaganism": {
+            "canonical": "Neopaganism",
+            "religionym": "Neopagan",
+            "alt": [],
+            "category": "religious-minorities"
+        },
         "wicca": {
             "canonical": "Wicca",
             "religionym": "Wiccan",
@@ -242,7 +248,7 @@ const RELIGION_RELIGIONYM_LOOKUP = {
             "category": "religious-minorities"
         },
         "heathenry": {
-            "canonical": "Heathenry / Germanic Neopaganism",
+            "canonical": "Heathenry",
             "religionym": "Heathen",
             "alt": ["Asatru"],
             "category": "religious-minorities"
@@ -287,7 +293,7 @@ const RELIGION_RELIGIONYM_LOOKUP = {
             "category": "non-believers"
         },
         "secular": {
-            "canonical": "Secular / Non-religious",
+            "canonical": "Secular",
             "religionym": "Non-religious",
             "alt": ["Irreligious", "Non-believer"],
             "category": "non-believers"
@@ -307,8 +313,8 @@ const RELIGION_RELIGIONYM_LOOKUP = {
         },
         "santeria": {
             "canonical": "Santería",
-            "religionym": "Santero / Santera",
-            "alt": ["Santerian"],
+            "religionym": "Santerian",
+            "alt": ["Santero", "Santera"],
             "category": "religious-minorities"
         },
         "candomble": {
@@ -331,7 +337,7 @@ const RELIGION_RELIGIONYM_LOOKUP = {
             "category": "religious-minorities"
         },
         "native_american_spirituality": {
-            "canonical": "Native American / Indigenous Spirituality",
+            "canonical": "Native American Spirituality",
             "religionym": "Indigenous practitioner",
             "alt": ["Native spiritual practitioner"],
             "category": "religious-minorities"
@@ -371,14 +377,14 @@ const RELIGION_RELIGIONYM_LOOKUP = {
         "new_religious_movements": {
             "canonical": "New Religious Movements",
             "religionym": "NRM adherent",
-            "alt": ["new religious movement follower"],
+            "alt": ["New religious movement follower"],
             "category": "religious-minorities"
         },
 
         "other_minor_religions": {
-            "canonical": "Other Minority / Indigenous Religions",
+            "canonical": "Other Minority Religions",
             "religionym": "Religious minority adherent",
-            "alt": ["minority religion practitioner"],
+            "alt": ["Minority religion practitioner"],
             "category": "religious-minorities"
         }
     },

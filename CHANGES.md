@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.8.7] - 2025-12-15
+### Fixes
+- **Webapp**
+  - Fixed iOS Safari font-size not updating on load by temporarily toggling -webkit-text-size-adjust on load to force proper text reflow
+
+### Added
+- **Databases** 
+  - 4 new terms
+
+### Changed
+- **Databases** 
+  - Disambiguated some religions and religionyms in the database
+
+- **Webapp**
+  - Inline GoodBoy logo replacement for placeholder pawprint emoji in ticker
+  - Small delay to ticker animation on load
+
 ## [0.4.8.6] - 2025-12-15
 ### Fixes
   - Fixed an issue causing harmful terms to not be correctly underlined

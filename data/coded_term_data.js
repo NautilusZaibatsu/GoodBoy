@@ -1,8 +1,8 @@
 const CODED_TERM_DATA = {
-  generated: "2025-12-12T15:33:27.229Z",
+  generated: "2025-12-15T16:42:19.366Z",
   datasetSize: 16258,
   uniqueTerms: 558,
-  totalTerms: 1985,
+  totalTerms: 1988,
   categoryBreakdown: [
     { name: "racist", count: 209 },
     { name: "xenophobic", count: 171 },
@@ -10,7 +10,7 @@ const CODED_TERM_DATA = {
     { name: "antisemitic", count: 158 },
     { name: "transphobic", count: 151 },
     { name: "alt-right", count: 104 },
-    { name: "bad-faith", count: 96 },
+    { name: "bad-faith", count: 97 },
     { name: "conspiracy", count: 93 },
     { name: "anti-liberal", count: 80 },
     { name: "nationalist", count: 73 },
@@ -31,9 +31,9 @@ const CODED_TERM_DATA = {
     { name: "illegality", count: 18 },
     { name: "dehumanization", count: 16 },
     { name: "homophobic", count: 16 },
+    { name: "deflection", count: 15 },
     { name: "paedophilia", count: 14 },
     { name: "self-harm", count: 14 },
-    { name: "deflection", count: 13 },
     { name: "personal-responsibility", count: 13 },
     { name: "violence", count: 12 },
     { name: "liberal", count: 6 },
@@ -54,7 +54,7 @@ const CODED_TERM_DATA = {
     { name: "sikhophobic", count: 0 }
   ],
   sourceBreakdown: [
-    { name: "goodboy", count: 1461 },
+    { name: "goodboy", count: 1464 },
     { name: "silent_signals", count: 357 },
     { name: "adl", count: 82 },
     { name: "swu", count: 80 },
@@ -833,6 +833,8 @@ const CODED_TERM_DATA = {
       root: "Not all men",
       variations: [
         "NAM",
+        "Not all men are like that",
+        "NAMALT",
         "Well not all men",
         "Actually not all men"
       ],
@@ -1759,7 +1761,8 @@ const CODED_TERM_DATA = {
         "Feelings aren't facts",
         "Feelings don't change the facts",
         "Feelings don't change facts",
-        "Facts not feelings"
+        "Facts not feelings",
+        "Facts over feelings"
       ],
       category: "bad-faith",
       definition: "A rhetorical dismissal framing emotional context as irrelevant or illegitimate, often used to shut down discussion and imply the speaker holds an objective truth while the other party is irrational",

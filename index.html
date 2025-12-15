@@ -10,6 +10,7 @@
     <link rel="icon" type="image/png" href="images/favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="GoodBoy" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
         * {
             margin: 0;
@@ -89,6 +90,13 @@
             z-index: -1;
         }
 
+        .inline-logo {
+            display: inline-block;
+            width: 1.2em;
+            height: 1.2em;
+            vertical-align: bottom;
+        }
+
         header {
             text-align: center;
             color: var(--text-white);
@@ -135,8 +143,6 @@
             width: 100%;
             height: var(--ticker-height);
             background-color: var(--ticker-background);
-            color: var(--ticker-text);
-            font-size: var(--font-size-sm);
             white-space: nowrap;
             overflow: hidden;
             height: var(--ticker-height);
@@ -153,6 +159,8 @@
 
         #ticker-text,
         #ticker-text-duplicate {
+            color: var(--ticker-text);
+            font-size: var(--font-size-sm);
             display: inline-block;
             white-space: nowrap;
             padding-right: 15px;
@@ -704,8 +712,12 @@
             }
 
             #ticker-container {
-                font-size: var(--font-size-xs);
                 height: calc(var(--ticker-height) * 0.8);
+            }
+
+            #ticker-text,
+            #ticker-text-duplicate {
+                font-size: var(--font-size-xs);
             }
 
             .overlay-logo {
@@ -741,9 +753,8 @@
 
         <div class="card">
             <div class="input-section">
-                <label for="text-input" id="inputLabel">Input</label>
-                <textarea id="text-input"
-                    placeholder="Enter or paste text here to check for coded and harmful language..."></textarea>
+                <label for="text-input" id="inputLabel"></label>
+                <textarea id="text-input"></textarea>
                 <div id="text-display"></div>
             </div>
             <div class="progress-container">
@@ -913,6 +924,23 @@
 
     <!-- Main application logic -->
     <script>
+        // Force safari on mobile to use reactive font sizes instead of caching on load
+        window.addEventListener('load', () => {
+            const el = document.documentElement;
+            // Recalc text metrics
+            el.style.webkitTextSizeAdjust = '100%';
+            requestAnimationFrame(() => {
+                el.style.webkitTextSizeAdjust = '';
+            });
+        });
+        // Setup for the text area label and states
+        const inputLabel = document.getElementById('inputLabel');
+        const textInput = document.getElementById('text-input');
+        const textAreaAvailable = "Input";
+        const textAreaAnalysisComplete = "Result";
+        inputLabel.textContent = textAreaAvailable;
+        textInput.placeholder = "Enter or paste text here to check for coded and harmful language...";
+
         // Developer toggle: Set to false to disable all progress tracking for performance testing
         const ENABLE_PROGRESS_TRACKING = true;
 
@@ -1120,7 +1148,7 @@
             });
 
             const minOpacity = 0;
-            const fadeAt = 0.25; // fade reaches minOpacity at 12.5% overlap
+            const fadeAt = 0.125; // fade reaches minOpacity at 12.5% overlap
 
             // scale overlapRatio so 0–50% maps to 1–minOpacity
             let opacity;
@@ -1166,7 +1194,7 @@
                 textInput.classList.remove('hidden');
 
                 // Update label
-                inputLabel.textContent = 'Text to analyze:';
+                inputLabel.textContent = textAreaAvailable;
 
                 // Show Analyze button, hide Edit button (keep Clear button visible)
                 analyzeBtn.classList.remove('hidden');
@@ -1511,7 +1539,7 @@
             document.getElementById('editBtn').classList.remove('hidden');
             clearBtn.classList.remove('hidden');
             document.getElementById('copyBtn').classList.remove('hidden');
-            inputLabel.textContent = 'Analysis Results:';
+            inputLabel.textContent = textAreaAnalysisComplete;
 
             // Show stats
             resultsDiv.classList.remove('hidden');
@@ -1819,7 +1847,7 @@
             clearBtn.disabled = true;
             copyBtn.disabled = true;
             editBtn.classList.add('hidden');
-            inputLabel.textContent = 'Paste text to analyze:';
+            inputLabel.textContent = textAreaAvailable;
 
             // Hide stats
             resultsDiv.classList.add('hidden');

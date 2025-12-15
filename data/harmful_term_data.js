@@ -1,7 +1,7 @@
 const HARMFUL_TERM_DATA = {
-  generated: "2025-12-11T20:06:18.646Z",
-  uniqueTerms: 612,
-  totalTerms: 1186,
+  generated: "2025-12-15T16:42:19.373Z",
+  uniqueTerms: 613,
+  totalTerms: 1187,
   categoryBreakdown: [
     { name: "racist", count: 737 },
     { name: "homophobic", count: 84 },
@@ -11,10 +11,10 @@ const HARMFUL_TERM_DATA = {
     { name: "antisemitic", count: 43 },
     { name: "sexual-objectification", count: 34 },
     { name: "non-believers", count: 17 },
+    { name: "misogynistic", count: 16 },
     { name: "prostitution", count: 16 },
     { name: "anti-lgbtq", count: 15 },
     { name: "christophobic", count: 15 },
-    { name: "misogynistic", count: 15 },
     { name: "ageist", count: 11 },
     { name: "xenophobic", count: 10 },
     { name: "mental-health", count: 8 },
@@ -54,7 +54,7 @@ const HARMFUL_TERM_DATA = {
   ],
   sourceBreakdown: [
     { name: "wiki", count: 824 },
-    { name: "goodboy", count: 270 },
+    { name: "goodboy", count: 271 },
     { name: "wsp", count: 49 },
     { name: "citg", count: 36 },
     { name: "aos", count: 7 },
@@ -64,6 +64,13 @@ const HARMFUL_TERM_DATA = {
   ],
 
   terms: [
+    {
+      root: "Cunt",
+      variations: [],
+      category: "misogynistic",
+      definition: "A vulgar, derogatory slang term for female genitalia (the vulva), but also used as a highly offensive insult for a person (often a woman, but sometimes a man), carrying strong connotations of contempt",
+      source: "goodboy"
+    },
     {
       root: "Womxn",
       variations: [
