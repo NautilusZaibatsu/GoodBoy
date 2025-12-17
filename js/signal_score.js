@@ -21,9 +21,9 @@
 const SIGNAL_SCORE_CONFIG = {
     // Weight Distribution (out of 100 total points)
     weights: {
-        DENSITY_MAX: 50,        // Match density component
-        CATEGORY_WEIGHT_MAX: 30,    // Match type component
-        CATEGORY_MAX: 20        // Category diversity component
+        DENSITY_MAX: 60,            // Match density component
+        CATEGORY_WEIGHT_MAX: 10,    // Match type component
+        CATEGORY_MAX: 30            // Category diversity component
     },
 
     // How many flagged words per x words it takes to get the maximum match density
@@ -31,8 +31,8 @@ const SIGNAL_SCORE_CONFIG = {
 
     // Match type multipliers for type weight calculation
     typeMultipliers: {
-        HARMFUL_TERM: 2.0,      // Explicit offensive terms weighted higher
-        DOG_WHISTLE: 1.0        // Coded language baseline
+        HARMFUL_TERM: 2.0,          // Explicit offensive terms weighted higher
+        DOG_WHISTLE: 1.0            // Coded language baseline
     },
 
     // Get the total number of categories
@@ -40,11 +40,11 @@ const SIGNAL_SCORE_CONFIG = {
 
     // Signal level thresholds for classification
     signalLevels: {
-        CLEAN: 0,               // Exactly 0
-        LOW: 25,                // 1-25
-        MODERATE: 50,           // 26-50
-        HIGH: 75,               // 51-75
-        SEVERE: 100             // 76-100
+        CLEAN: 0,                   // Exactly 0
+        LOW: 25,                    // 1-25
+        MODERATE: 50,               // 26-50
+        HIGH: 75,                   // 51-75
+        SEVERE: 100                 // 76-100
     }
 };
 
@@ -122,29 +122,30 @@ const SignalScore = {
     /**
      * Map signal score to level and CSS class
      * @param {number} score - Signal score (0-100)
-     * @returns {Object} Level name and CSS class
+     * @returns {Object} Level name, CSS class, and color from THEME_CONFIG
      */
     getSignalLevel: function (score) {
         const levels = this.config.signalLevels;
 
         if (score === levels.CLEAN) {
-            return { level: 'Clean', className: 'signal-low' };
+            return { level: 'Clean', className: 'signal-clean', color: THEME_CONFIG.signal.clean };
         } else if (score <= levels.LOW) {
-            return { level: 'Low', className: 'signal-low' };
+            return { level: 'Low', className: 'signal-low', color: THEME_CONFIG.signal.low };
         } else if (score <= levels.MODERATE) {
-            return { level: 'Moderate', className: 'signal-moderate' };
+            return { level: 'Moderate', className: 'signal-moderate', color: THEME_CONFIG.signal.moderate };
         } else if (score <= levels.HIGH) {
-            return { level: 'High', className: 'signal-high' };
+            return { level: 'High', className: 'signal-high', color: THEME_CONFIG.signal.high };
         } else {
-            return { level: 'Severe', className: 'signal-severe' };
+            return { level: 'Severe', className: 'signal-severe', color: THEME_CONFIG.signal.severe };
         }
     },
 
     /**
      * Update signal score breakdown tooltip
      * @param {Object} breakdown - Breakdown object from calculate()
+     * @param {string} signalColor - Color for the signal level from THEME_CONFIG
      */
-    updateTooltip: function (breakdown) {
+    updateTooltip: function (breakdown, signalColor) {
         const tooltip = document.querySelector('.info-icon .tooltip');
         if (!tooltip) return;
 
@@ -152,34 +153,35 @@ const SignalScore = {
             breakdown.typeWeight +
             breakdown.categoryScore;
 
+        // Build tooltip header using DRY helper from tooltips.js
+        const headerHtml = createTooltipHeader(signalColor, "Signal Score Breakdown", false);
+
         // Generate tooltip HTML with auto-calculated percentages
-        tooltip.innerHTML = `
-            <div class="tooltip-item">
-                <div class="tooltip-item-label">Signal Score Breakdown</div>
-            </div>
+        tooltip.innerHTML = headerHtml + `
             <div class="tooltip-item">
                 <div class="tooltip-item-label">Match Density (${breakdown.densityPercent}%)</div>
                 <div class="tooltip-item-value">${breakdown.densityScore} points</div>
-                <div class="tooltip-item-value" style="font-size: 0.9em; opacity: 0.8;">
+                <div class="tooltip-item-value">
                     ${breakdown.flaggedWordCount} matched words / ${breakdown.wordCount} words
                 </div>
             </div>
             <div class="tooltip-item">
                 <div class="tooltip-item-label">Match Type Weight (${breakdown.typePercent}%)</div>
                 <div class="tooltip-item-value">${breakdown.typeWeight} points</div>
-                <div class="tooltip-item-value" style="font-size: 0.9em; opacity: 0.8;">
+                <div class="tooltip-item-value">
                     ${breakdown.harmfulCount} harmful, ${breakdown.codedTermCount} coded terms
                 </div>
             </div>
             <div class="tooltip-item">
                 <div class="tooltip-item-label">Category Diversity (${breakdown.categoryPercent}%)</div>
                 <div class="tooltip-item-value">${breakdown.categoryScore} points</div>
-                <div class="tooltip-item-value" style="font-size: 0.9em; opacity: 0.8;">
+                <div class="tooltip-item-value">
                     ${breakdown.uniqueCategories} main categories
                 </div>
             </div>
-            <div class="tooltip-source" style="text-align: center;">
-                <strong>Total: ${total} points</strong>
+            <div class="tooltip-item">
+                <div class="tooltip-item-label">Total:</div>
+                <div class="tooltip-item-value">${total} points</div>
             </div>
         `;
     },
@@ -301,7 +303,7 @@ const SignalScore = {
             indicatorSpan.textContent = signalLevel.level;
         }
 
-        this.updateTooltip(scoreResult.breakdown);
+        this.updateTooltip(scoreResult.breakdown, signalLevel.color);
     },
 
     /**
@@ -359,7 +361,10 @@ const SignalScore = {
         sortedMainCategories.forEach(([mainKey, count]) => {
             const mainCat = CATEGORY_HIERARCHY[mainKey];
             if (mainCat) {
-                mainCategoryHtml += `<span class="category-badge" style="background-color: ${mainCat.darkColor}">${mainCat.label} (${count})</span>`;
+                mainCategoryHtml += `<span class="category-badge" style="background-color: ${mainCat.darkColor}" data-category-key="${mainKey}" data-category-type="main">`;
+                mainCategoryHtml += `${mainCat.label} (${count})`;
+                mainCategoryHtml += `<span class="tooltip"></span>`;
+                mainCategoryHtml += `</span>`;
             }
         });
         mainCategoryList.innerHTML = mainCategoryHtml;
@@ -373,7 +378,11 @@ const SignalScore = {
             const color = getCategoryColor(subcat);
             const info = getSubcategoryInfo(subcat);
             const label = info ? info.label : subcat;
-            subCategoryHtml += `<span class="category-badge" style="background-color: ${color}">${label} (${count})</span>`;
+
+            subCategoryHtml += `<span class="category-badge" style="background-color: ${color}" data-category-key="${subcat}" data-category-type="sub">`;
+            subCategoryHtml += `${label} (${count})`;
+            subCategoryHtml += `<span class="tooltip"></span>`;
+            subCategoryHtml += `</span>`;
         });
         subCategoryList.innerHTML = subCategoryHtml;
     },

@@ -5,14 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.8.8] - 2025-12-17
+### Added
+- **Tooltips**
+  - Added a tooltip that displays all the flagged terms within a category. Click or hover over a category badge in the analysis results section to open the tooltip
+
+ - **Databases** 
+  - 1 new term
+
+### Changed
+- **Tooltips** 
+  - Changed the styling of the signal score tooltip to bring it inline with the styling of the flagged term and category tooltips
+
 ## [0.4.8.7] - 2025-12-15
 ### Fixes
 - **Webapp**
   - Fixed iOS Safari font-size not updating on load by temporarily toggling -webkit-text-size-adjust on load to force proper text reflow
 
 ### Added
-- **Databases** 
-  - 4 new terms
+
 
 ### Changed
 - **Databases** 

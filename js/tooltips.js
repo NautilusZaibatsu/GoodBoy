@@ -9,6 +9,26 @@
  */
 
 /**
+ * DRY helper: Create tooltip category header (used by both flagged terms and category badges)
+ * Requires global: escapeHtml, FLAG_SYMBOLS
+ * @param {string} categoryColor - Background color for the header
+ * @param {string} label - Category label text
+ * @param {boolean} includeFlag - Whether to include the flag button
+ * @returns {string} HTML string for tooltip header
+ */
+function createTooltipHeader(categoryColor, label, includeFlag = false) {
+    let headerHtml = `<div class="tooltip-header" style="background-color: ${categoryColor}">`;
+    headerHtml += escapeHtml(label);
+
+    if (includeFlag) {
+        headerHtml += `<button class="tooltip-flag-btn" data-flagged="true">${FLAG_SYMBOLS.FLAGGED}</button>`;
+    }
+
+    headerHtml += `</div>`;
+    return headerHtml;
+}
+
+/**
  * Setup all tooltip behavior for flagged terms and info icons
  * Requires global variables: pinnedTooltip, isTouchDevice, FLAG_TOOLTIP_TEXT, FLAG_SYMBOLS, THEME_CONFIG
  */
@@ -164,6 +184,58 @@ function setupTooltips() {
             infoIcon.addEventListener('mouseenter', function (e) {
                 if (!pinnedTooltip) {
                     positionTooltip(infoIcon, tooltip);
+                }
+            });
+        }
+    });
+
+    // Setup category badge tooltips (results only, not legend)
+    const categoryBadges = document.querySelectorAll('#mainCategoryList .category-badge, #subCategoryList .category-badge');
+
+    categoryBadges.forEach(badge => {
+        const tooltip = badge.querySelector('.tooltip');
+        if (!tooltip) {
+            return;
+        }
+
+        // Get category info from data attributes
+        const categoryKey = badge.dataset.categoryKey;
+        const categoryType = badge.dataset.categoryType;
+
+        // Build tooltip content using helper function
+        if (categoryKey && categoryType && typeof createCategoryTooltipContent === 'function') {
+            const content = createCategoryTooltipContent(categoryKey, categoryType);
+            tooltip.innerHTML = content;
+        }
+
+        // Click/touch handler to pin tooltip
+        const pinHandler = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Hide previous tooltip if different
+            if (pinnedTooltip && pinnedTooltip !== tooltip) {
+                hideTooltip(pinnedTooltip);
+            }
+
+            // Show this tooltip
+            showTooltip(badge, tooltip);
+            pinnedTooltip = tooltip;
+        };
+
+        // Add click handler (desktop)
+        badge.addEventListener('click', pinHandler);
+
+        // Add touch handler (mobile)
+        if (isTouchDevice) {
+            badge.addEventListener('touchstart', pinHandler);
+        }
+
+        // Hover behavior only when no tooltip is pinned (desktop only)
+        if (!isTouchDevice) {
+            badge.addEventListener('mouseenter', function (e) {
+                if (!pinnedTooltip) {
+                    positionTooltip(badge, tooltip);
                 }
             });
         }

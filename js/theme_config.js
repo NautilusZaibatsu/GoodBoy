@@ -48,23 +48,23 @@ const THEME_CONFIG = {
         focus: '#fd8b5b',                   // Focused inputs
     },
 
-    // State colors (success, warning, danger)
+    // State colors (success)
     states: {
         success: {
             bg: '#c5eec7',                  // Light green background
             text: '#4c804f',                // Dark green text
             border: '#88c88b',              // Green border/button
         },
-        warning: {
-            bg: '#fff3cd',                  // Light yellow background
-            text: '#856404',                // Brown/tan text
-            border: '#ffc107',              // Yellow border
-        },
-        danger: {
-            bg: '#f8d7da',                  // Light red background
-            text: '#721c24',                // Dark red text
-            border: '#d6293e',              // Severe red (for critical warnings)
-        },
+    },
+
+    // signal score badges
+    signal: {
+        clean: '#4c804f',
+        low: '#d09e08',
+        moderate: '#c96111',
+        high: '#721c24',
+        severe: '#262626',
+        text: '#ffffff',
     },
 
     // Unflagged term colors
@@ -167,16 +167,23 @@ const THEME_CONFIG = {
     },
 
     // ============================================================
-    // BOX SHADOWS
+    // SHADOWS
     // ============================================================
 
     shadow: {
-        horizontal: '0px',
-        verticalSmall: '5px',
-        verticalLarge: '10px',
-        blurSmall: '15px',
-        blurMedium: '20px',
-        blurLarge: '40px',
+        box: {
+            horizontal: '0px',
+            verticalSmall: '5px',
+            verticalLarge: '10px',
+            blurSmall: '15px',
+            blurMedium: '20px',
+            blurLarge: '40px',
+        },
+        text: {
+            horizontal: '2px',
+            vertical: '2px',
+            blur: '4px',
+        }
     },
 
     // ============================================================
@@ -266,15 +273,13 @@ function initializeTheme() {
     root.style.setProperty('--state-success-text', THEME_CONFIG.states.success.text);
     root.style.setProperty('--state-success-border', THEME_CONFIG.states.success.border);
 
-    // States - Warning
-    root.style.setProperty('--state-warning-bg', THEME_CONFIG.states.warning.bg);
-    root.style.setProperty('--state-warning-text', THEME_CONFIG.states.warning.text);
-    root.style.setProperty('--state-warning-border', THEME_CONFIG.states.warning.border);
-
-    // States - Danger
-    root.style.setProperty('--state-danger-bg', THEME_CONFIG.states.danger.bg);
-    root.style.setProperty('--state-danger-text', THEME_CONFIG.states.danger.text);
-    root.style.setProperty('--state-danger-border', THEME_CONFIG.states.danger.border);
+    // Signal score badges
+    root.style.setProperty('--signal-clean', THEME_CONFIG.signal.clean);
+    root.style.setProperty('--signal-low', THEME_CONFIG.signal.low);
+    root.style.setProperty('--signal-moderate', THEME_CONFIG.signal.moderate);
+    root.style.setProperty('--signal-high', THEME_CONFIG.signal.high);
+    root.style.setProperty('--signal-severe', THEME_CONFIG.signal.severe);
+    root.style.setProperty('--signal-text', THEME_CONFIG.signal.text);
 
     // Unflagged
     root.style.setProperty('--unflagged-color', THEME_CONFIG.unflagged.color);
@@ -341,15 +346,20 @@ function initializeTheme() {
     root.style.setProperty('--radius-xl', THEME_CONFIG.spacing.radius.xl);
 
     // ============================================================
-    // BOX SHADOW
+    // SHADOWS
     // ============================================================
 
-    root.style.setProperty('--box-shadow-h', THEME_CONFIG.shadow.horizontal);
-    root.style.setProperty('--box-shadow-v-sm', THEME_CONFIG.shadow.verticalSmall);
-    root.style.setProperty('--box-shadow-v-lg', THEME_CONFIG.shadow.verticalLarge);
-    root.style.setProperty('--box-shadow-b-sm', THEME_CONFIG.shadow.blurSmall);
-    root.style.setProperty('--box-shadow-b-md', THEME_CONFIG.shadow.blurMedium);
-    root.style.setProperty('--box-shadow-b-lg', THEME_CONFIG.shadow.blurLarge);
+    root.style.setProperty('--box-shadow-h', THEME_CONFIG.shadow.box.horizontal);
+    root.style.setProperty('--box-shadow-v-sm', THEME_CONFIG.shadow.box.verticalSmall);
+    root.style.setProperty('--box-shadow-v-lg', THEME_CONFIG.shadow.box.verticalLarge);
+    root.style.setProperty('--box-shadow-b-sm', THEME_CONFIG.shadow.box.blurSmall);
+    root.style.setProperty('--box-shadow-b-md', THEME_CONFIG.shadow.box.blurMedium);
+    root.style.setProperty('--box-shadow-b-lg', THEME_CONFIG.shadow.box.blurLarge);
+
+    root.style.setProperty('--text-shadow-h', THEME_CONFIG.shadow.text.horizontal);
+    root.style.setProperty('--text-shadow-v', THEME_CONFIG.shadow.text.vertical);
+    root.style.setProperty('--text-shadow-b', THEME_CONFIG.shadow.text.blur);
+
 
     // ============================================================
     // TRANSITIONS
@@ -371,8 +381,6 @@ function initializeTheme() {
     // ============================================================
 
     root.style.setProperty('--flagged-underline', THEME_CONFIG.flagged.underline);
-
-
 }
 
 // Export for use in modules (if needed)
