@@ -13,6 +13,14 @@ function trimMatchedText(matchedText) {
     const chars = Array.from(matchedText);
     let trimmedCount = chars.length;
 
+    // SPECIAL CASE: If the text contains NO alphanumeric characters at all,
+    // it's a punctuation-only term (like "((()))") - don't trim it!
+    // Check each character to see if any are alphanumeric (including accented chars)
+    const hasAlphanumeric = chars.some(ch => TextUtils.isAlphanumeric(ch));
+    if (!hasAlphanumeric) {
+        return matchedText.length;
+    }
+
     // Trim trailing non-alphanumeric characters (spaces, punctuation, etc.)
     // BUT preserve valid plurals and handle newline cases
     while (trimmedCount > 0) {
@@ -31,7 +39,7 @@ function trimMatchedText(matchedText) {
                     // ANY whitespace breaks the plural logic
                     foundWhitespace = true;
                     break;
-                } else if (/[a-zA-Z0-9]/.test(ch)) {
+                } else if (TextUtils.isAlphanumeric(ch)) {
                     foundAlphanumeric = true;
                     break;
                 }
@@ -48,7 +56,7 @@ function trimMatchedText(matchedText) {
 
         // Stop trimming when encountering alphanumeric or emoji
         // Check alphanumeric first (fast), then check emoji using DRY system
-        if (/[a-zA-Z0-9]/u.test(lastChar) || TextUtils.EMOJI_CONTAINS_REGEX.test(lastChar)) {
+        if (TextUtils.isAlphanumeric(lastChar) || TextUtils.EMOJI_CONTAINS_REGEX.test(lastChar)) {
             break;
         }
 
@@ -144,19 +152,20 @@ async function analyzeTextWithVariations(text, variationMap, matchType, progress
 
         let regex;
         if (isNumericTerm) {
-            regex = new RegExp(`${pluralPattern}`, 'gi');
+            regex = new RegExp(`${pluralPattern}`, 'giu');
         } else if (isEmoji) {
             // Emojis match anywhere - no word boundaries needed
-            regex = new RegExp(`${pluralPattern}`, 'gi');
+            regex = new RegExp(`${pluralPattern}`, 'giu');
         } else if (isLetterTerm) {
             // Letter terms match without boundaries - filtering happens later
-            regex = new RegExp(`${pluralPattern}`, 'gi');
+            regex = new RegExp(`${pluralPattern}`, 'giu');
         } else if (isMultiWord) {
             // Multi-word terms: require boundaries on BOTH sides to prevent matching across word boundaries
             // "inner city" matches standalone or in "stop inner city crime", but not "stopinnercitycrime" or "yet in these"
-            regex = new RegExp(`(?:^|(?<![a-z0-9]))${pluralPattern}(?:(?![a-z0-9])|$)`, 'gi');
+            // Use ASCII [a-z0-9] for performance (Unicode property escapes in lookahead/lookbehind are very slow)
+            regex = new RegExp(`(?:^|(?<![a-z0-9]))${pluralPattern}(?:(?![a-z0-9])|$)`, 'giu');
         } else {
-            regex = new RegExp(`(?:^|(?<![a-z0-9]))${pluralPattern}(?:(?![a-z0-9])|$)`, 'gi');
+            regex = new RegExp(`(?:^|(?<![a-z0-9]))${pluralPattern}(?:(?![a-z0-9])|$)`, 'giu');
         }
 
         let match;
@@ -744,7 +753,7 @@ const PatternMatcher = {
      * @returns {Array} Array of {position, length} objects
      */
     findPatternPositions(text, pattern) {
-        const regex = new RegExp(pattern, 'gi');
+        const regex = new RegExp(pattern, 'giu');
         regex.lastIndex = 0;
         const positions = [];
         let match;
@@ -858,6 +867,7 @@ const PatternMatcher = {
                 const flexiblePattern = TextUtils.createFlexiblePattern(variantLower);
                 // Use negative lookahead/lookbehind to prevent matching within words (same as term matchers)
                 // This prevents "US" matching in "thus", "LA" in "elas", etc.
+                // Use ASCII [a-z0-9] for performance (Unicode property escapes in lookahead/lookbehind are very slow)
                 const patternWithBoundaries = `(?:^|(?<![a-z0-9]))${flexiblePattern}(?:(?![a-z0-9])|$)`;
 
                 // OPTIMIZATION: Use DRY helper to capture positions
@@ -885,6 +895,7 @@ const PatternMatcher = {
                             const itemTextLower = itemText.toLowerCase();
                             const itemFlexiblePattern = TextUtils.createFlexiblePattern(itemTextLower);
                             // Use negative lookahead/lookbehind (same as term matchers) with plural support
+                            // Use ASCII [a-z0-9] for performance (Unicode property escapes in lookahead/lookbehind are very slow)
                             const itemPatternWithBoundaries = `(?:^|(?<![a-z0-9]))${itemFlexiblePattern}s?(?:(?![a-z0-9])|$)`;
 
                             // OPTIMIZATION: Use DRY helper to capture positions
@@ -937,6 +948,7 @@ const PatternMatcher = {
                     // Use flexible pattern matching for obfuscation
                     const flexiblePattern = TextUtils.createFlexiblePattern(demonymLower);
                     // Use negative lookahead/lookbehind (same as term matchers) with plural support
+                    // Use ASCII [a-z0-9] for performance (Unicode property escapes in lookahead/lookbehind are very slow)
                     const patternWithPlural = `(?:^|(?<![a-z0-9]))${flexiblePattern}s?(?:(?![a-z0-9])|$)`;
 
                     // OPTIMIZATION: Use DRY helper to capture positions
@@ -1274,7 +1286,8 @@ const PatternMatcher = {
 
                 // Case-insensitive flexible matching (includes plural handling)
                 const patternString = TextUtils.createFlexiblePattern(expectedText);
-                const flexiblePattern = new RegExp(`(?:^|(?<![a-z0-9]))${patternString}`, 'gi');
+                // Use ASCII [a-z0-9] for performance (Unicode property escapes in lookahead/lookbehind are very slow)
+                const flexiblePattern = new RegExp(`(?:^|(?<![a-z0-9]))${patternString}`, 'giu');
 
                 let match;
                 while ((match = flexiblePattern.exec(text)) !== null) {
@@ -1363,7 +1376,8 @@ const PatternMatcher = {
         expectedTexts.forEach(({ text: expectedText, demonym, demonymObj, isGroup, religionymInfo, religionymObj, religionymVariant }) => {
             // Case-insensitive flexible matching (includes plural handling)
             const patternString = TextUtils.createFlexiblePattern(expectedText);
-            const flexiblePattern = new RegExp(`(?:^|(?<![a-z0-9]))${patternString}`, 'gi');
+            // Use ASCII [a-z0-9] for performance (Unicode property escapes in lookahead/lookbehind are very slow)
+            const flexiblePattern = new RegExp(`(?:^|(?<![a-z0-9]))${patternString}`, 'giu');
 
             let match;
             while ((match = flexiblePattern.exec(text)) !== null) {

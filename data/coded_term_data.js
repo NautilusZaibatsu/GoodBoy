@@ -1,12 +1,12 @@
 const CODED_TERM_DATA = {
-  generated: "2025-12-15T16:42:19.366Z",
+  generated: "2025-12-17T23:46:18.576Z",
   datasetSize: 16258,
-  uniqueTerms: 558,
-  totalTerms: 1988,
+  uniqueTerms: 557,
+  totalTerms: 1986,
   categoryBreakdown: [
-    { name: "racist", count: 209 },
-    { name: "xenophobic", count: 171 },
+    { name: "racist", count: 213 },
     { name: "white-supremacist", count: 169 },
+    { name: "xenophobic", count: 168 },
     { name: "antisemitic", count: 158 },
     { name: "transphobic", count: 151 },
     { name: "alt-right", count: 104 },
@@ -19,10 +19,10 @@ const CODED_TERM_DATA = {
     { name: "emotional-dismissal", count: 53 },
     { name: "fascist", count: 51 },
     { name: "sexual-content", count: 44 },
-    { name: "incel", count: 41 },
+    { name: "incel", count: 40 },
     { name: "conservative", count: 39 },
-    { name: "disability", count: 35 },
     { name: "misogynistic", count: 35 },
+    { name: "disability", count: 33 },
     { name: "pseudoscience", count: 29 },
     { name: "misandristic", count: 24 },
     { name: "anti-lgbtq", count: 20 },
@@ -54,17 +54,31 @@ const CODED_TERM_DATA = {
     { name: "sikhophobic", count: 0 }
   ],
   sourceBreakdown: [
-    { name: "goodboy", count: 1464 },
-    { name: "silent_signals", count: 357 },
+    { name: "goodboy", count: 1472 },
+    { name: "silent_signals", count: 352 },
     { name: "adl", count: 82 },
-    { name: "swu", count: 80 },
+    { name: "swu", count: 75 },
     { name: "wsp", count: 4 },
     { name: "wiki", count: 1 },
     { name: "aos", count: 0 },
     { name: "citg", count: 0 }
   ],
-
   terms: [
+    {
+      root: "Remigration",
+      variations: [
+        "Remigrate",
+        "Remigrated",
+        "Don't belong here",
+        "Not from here",
+        "Send them back",
+        "Ship them out",
+        "Deport them all",
+      ],
+      category: "racist",
+      definition: "Signals support for ethnic cleansing via the mass deportation of minority populations, especially immigrants but sometimes full citizens, to their place of racial ancestry",
+      source: "goodboy"
+    },
     {
       root: "Many such cases",
       variations: [],
@@ -89,7 +103,6 @@ const CODED_TERM_DATA = {
     {
       root: "LDAR",
       variations: [
-        "Ldaring",
         "LDARing"
       ],
       category: "incel",
@@ -2745,15 +2758,6 @@ const CODED_TERM_DATA = {
       source: "goodboy"
     },
     {
-      root: "Don't belong here",
-      variations: [
-        "Not from here"
-      ],
-      category: "xenophobic",
-      definition: "Those with foreign backgrounds are not real members of society and should be excluded, deported or marginalise",
-      source: "swu"
-    },
-    {
       root: "Hostile environment",
       variations: [
         "Border enforcement",
@@ -2813,8 +2817,6 @@ const CODED_TERM_DATA = {
         "ADHD is just an excuse",
         "It's only ADHD",
         "It's just ADHD",
-        "Its only ADHD",
-        "Its just ADHD",
         "Everyone is a bit ADHD",
         "Everyones a bit ADHD",
         "We're all a bit ADHD",
@@ -2840,7 +2842,6 @@ const CODED_TERM_DATA = {
       variations: [
         "Undeserving migrants",
         "Undeserving asylum seeker",
-        "Undeserving migrant",
         "Undeserving refugee"
       ],
       category: "xenophobic",
@@ -3276,17 +3277,6 @@ const CODED_TERM_DATA = {
       ],
       category: "racist",
       definition: "Microaggressive way of implying a person is not really from their stated country due to race, ethnicity, accent or appearance",
-      source: "goodboy"
-    },
-    {
-      root: "Send them back",
-      variations: [
-        "Send 'em back",
-        "Ship them out",
-        "Deport them all"
-      ],
-      category: "racist",
-      definition: "Nativist or xenophobic request that implies that immigrants are not legitimate citizens or members of society",
       source: "goodboy"
     },
     {
@@ -4333,7 +4323,6 @@ const CODED_TERM_DATA = {
     {
       root: "Fellow white people",
       variations: [
-        "(((fellow whites)))",
         "As a white person",
         "Fellow white",
         "Fellow white person"
@@ -5611,7 +5600,6 @@ const CODED_TERM_DATA = {
     {
       root: "The goyim know",
       variations: [
-        "Da goyim know",
         "Shut it down"
       ],
       category: "antisemitic",
@@ -5705,13 +5693,15 @@ const CODED_TERM_DATA = {
       root: "Triple parentheses",
       variations: [
         "((()))",
-        "(((echo)))",
-        "Echo",
+        "(((",
+        ")))",
+        "(((Echo)))",
+        "(((Echoes)))",
         "Triple brackets"
       ],
       category: "antisemitic",
       definition: "Symbol used to identify and harass Jewish people online",
-      source: "silent_signals"
+      source: "goodboy"
     },
     {
       root: "Troon",

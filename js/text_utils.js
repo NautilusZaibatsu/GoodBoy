@@ -5,12 +5,12 @@
  */
 
 const TextUtils = {
-    // Flexible whitespace patterns - used consistently across all pattern matching (DRY principle)
-    // [^a-zA-Z0-9\s] matches anything except letters, digits, and whitespace (includes _, -, /, etc.)
-    // [^a-zA-Z0-9] matches anything except letters and digits (includes _, -, /, spaces, etc.)
-    FLEXIBLE_WHITESPACE_OPTIONAL: '[^a-zA-Z0-9\\s]*',  // Zero or more, NO spaces (character-level obfuscation: "bl-o-od")
-    FLEXIBLE_WORD_SEPARATOR: '[^a-zA-Z0-9]*',  // Zero or more, WITH spaces (multi-word terms: "false flag")
-    FLEXIBLE_WHITESPACE_REQUIRED: '[^a-zA-Z0-9]+',  // One or more (word separation)
+    // Flexible whitespace patterns - will be initialized dynamically to exclude accented characters
+    // These start as null and get built during initialization
+    FLEXIBLE_WHITESPACE_OPTIONAL: null,  // Zero or more, NO spaces (character-level obfuscation: "bl-o-od")
+    FLEXIBLE_WORD_SEPARATOR: null,  // Zero or more, WITH spaces (multi-word terms: "false flag")
+    FLEXIBLE_WHITESPACE_REQUIRED: null,  // One or more (word separation)
+    FLEXIBLE_PLURAL_PREFIX: null,  // For plural 's' detection (excludes newlines but allows other chars)
 
     // ===== CACHE =====
 
@@ -66,7 +66,7 @@ const TextUtils = {
     initEmojiRegex() {
         // For character class (ranges must be inside [...])
         const BASE_CLASS = `[${this.EMOJI_RANGES.join('')}]`;  // Join without separator for character class
-        const MOD = `(?:${this.EMOJI_MODIFIER_RANGES.join('|')})`;  // Modifiers can use alternation
+        const MOD = `[${this.EMOJI_MODIFIER_RANGES.join('')}]`;  // Modifiers must also be in character class for ranges to work
         const ZWJ = this.EMOJI_ZWJ;
 
         // Full emoji sequence pattern (base + optional modifiers + optional ZWJ sequences)
@@ -94,17 +94,13 @@ const TextUtils = {
     // ===== BIDIRECTIONAL WORD NORMALIZATIONS (pattern must match BOTH forms) =====
 
     // Simple word substitutions (bidirectional - both forms valid)
-    SHORTHAND: {
+    BIDIRECTIONAL: {
         '&': 'and',
         'is': '=', // in SYMBOL_WHITELIST
         'means': '=',
         'is not': '≠', // in SYMBOL_WHITELIST
         'doesn\'t mean': '≠',
         'an': 'a',
-        'u': 'you',
-        'r': 'are',
-        '4': 'for',
-        '2': 'to',
         'ok': 'okay',
         // Coded language specific
         'gov': 'government',
@@ -200,7 +196,8 @@ const TextUtils = {
         'aluminium': 'aluminum',
         'cheque': 'check',
         'tyre': 'tire',
-        'mum': 'mom'
+        'mum': 'mom',
+        'marvellous': 'marvelous'
     },
 
     // UK/US suffix mappings (bidirectional - both forms valid)
@@ -238,6 +235,12 @@ const TextUtils = {
 
     // Meme speak normalizations (one-way: meme → standard)
     MEMESPEAK: {
+        'u': 'you',
+        'r': 'are',
+        '4': 'for',
+        '4r': 'for',
+        '4u': 'for you',
+        '2': 'to',
         'ze': 'the',
         'le': 'the',
         'teh': 'the',
@@ -250,8 +253,6 @@ const TextUtils = {
         'thanx': 'thanks',
         'kthx': 'thanks',
         'gud': 'good',
-        '4u': 'for you',
-        '4r': 'for',
         '2day': 'today',
         '2moro': 'tomorrow',
         'gr8': 'great',
@@ -259,14 +260,13 @@ const TextUtils = {
         'hooman': 'human',
         'smol': 'small',
         'boi': 'boy',
-        'b4': 'before',
-        'gr8': 'great'
+        'b4': 'before'
     },
 
     // ===== HELPER FUNCTIONS FOR NORMALIZATION =====
 
     /**
-     * Apply bidirectional substitutions using SHORTHAND constant
+     * Apply bidirectional substitutions using BIDIRECTIONAL constant
      */
     applyBidirectionalSubs(text, substitutions) {
         for (const [from, to] of Object.entries(substitutions)) {
@@ -295,8 +295,8 @@ const TextUtils = {
         // Iterate through all suffix pairs in UK_TO_US_SUFFIXES (single source of truth)
         for (const [ukSuffix, usSuffix] of Object.entries(this.UK_TO_US_SUFFIXES)) {
             // Convert UK form to US form (e.g., "ise" → "ize")
-            const re = new RegExp(`\\b(\\w+)${usSuffix}\\b`, 'g');
-            text = text.replace(re, `$1${ukSuffix}`);
+            const re = new RegExp(`\\b(\\w+)${ukSuffix}\\b`, 'g');
+            text = text.replace(re, `$1${usSuffix}`);
         }
         return text;
     },
@@ -308,7 +308,7 @@ const TextUtils = {
      *   "socialisation" → ["socialization", "socialisation"]
      */
     getSuffixVariants(word) {
-        for (const [usSuffix, ukSuffix] of Object.entries(this.UK_TO_US_SUFFIXES)) {
+        for (const [ukSuffix, usSuffix] of Object.entries(this.UK_TO_US_SUFFIXES)) {
             // Check if word has US suffix
             if (word.endsWith(usSuffix)) {
                 const stem = word.slice(0, -usSuffix.length);
@@ -336,11 +336,12 @@ const TextUtils = {
             .toLowerCase()
             .replace(/^#/, '');
         // Apply all substitutions using helper functions
-        text = this.applyBidirectionalSubs(text, this.SHORTHAND);
+        text = this.applyBidirectionalSubs(text, this.BIDIRECTIONAL);
         text = this.applyOneWaySubs(text, this.ORDINAL_NUMBERS);
         text = this.applyOneWaySubs(text, this.SLANG);
         text = this.applyOneWaySubs(text, this.MEMESPEAK);
         text = this.applyOneWaySubs(text, this.CONTRACTIONS);
+        text = this.applyOneWaySubs(text, this.UK_TO_US);
         text = this.applySuffixes(text);
         text = this.cleanupText(text);
         return text;
@@ -365,8 +366,10 @@ const TextUtils = {
             return this._reverseMapCache;
         }
         const reverseMap = new Map();
-        this.reverseMapSubstitutions(reverseMap, this.SHORTHAND);
+        this.reverseMapSubstitutions(reverseMap, this.BIDIRECTIONAL);
         this.reverseMapSubstitutions(reverseMap, this.ORDINAL_NUMBERS);
+        this.reverseMapSubstitutions(reverseMap, this.SLANG);
+        this.reverseMapSubstitutions(reverseMap, this.MEMESPEAK);
         this.reverseMapSubstitutions(reverseMap, this.UK_TO_US);
         this.reverseMapSubstitutions(reverseMap, this.CONTRACTIONS);
         this._reverseMapCache = reverseMap;
@@ -470,6 +473,41 @@ const TextUtils = {
             // Always include the base character itself
             this.CHARACTER_SUBSTITUTIONS[ch] = `[${ch}${v}${o}]`;
         }
+    },
+
+    /**
+     * Initialize flexible whitespace patterns to exclude accented characters
+     * Uses literal characters from CHARACTER_VARIANTS for better performance
+     * (much faster than \p{L}\p{N} which checks thousands of Unicode characters)
+     */
+    initFlexiblePatterns() {
+        // Collect all unique characters from CHARACTER_VARIANTS and CHARACTER_OBFUSCATION
+        const allChars = new Set();
+
+        // Add all variant characters
+        for (const variants of Object.values(this.CHARACTER_VARIANTS)) {
+            for (const char of variants) {
+                allChars.add(char);
+            }
+        }
+
+        // Add all obfuscation characters
+        for (const variants of Object.values(this.CHARACTER_OBFUSCATION)) {
+            for (const char of variants) {
+                allChars.add(char);
+            }
+        }
+
+        // Create string of all characters and escape only special regex chars
+        // Keep accented chars as literals (faster than Unicode escapes or property escapes)
+        const allCharsString = [...allChars].join('');
+        const escapedChars = allCharsString.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+
+        // Build patterns - these will include literal accented characters
+        this.FLEXIBLE_WHITESPACE_OPTIONAL = `[^a-zA-Z0-9\\s${escapedChars}]*`;  // Zero or more, NO spaces
+        this.FLEXIBLE_WORD_SEPARATOR = `[^a-zA-Z0-9${escapedChars}]*`;  // Zero or more, WITH spaces
+        this.FLEXIBLE_WHITESPACE_REQUIRED = `[^a-zA-Z0-9${escapedChars}]+`;  // One or more
+        this.FLEXIBLE_PLURAL_PREFIX = `[^a-zA-Z0-9\\n\\r${escapedChars}]*`;  // For plural detection
     },
 
     /**
@@ -581,7 +619,7 @@ const TextUtils = {
                 // Add optional 's' at the end to catch plurals (DRY principle)
                 // But don't match 's' across newlines or when followed by another letter
                 // Negative lookahead (?![a-z]) prevents consuming 's' that's part of next word
-                const finalPattern = pattern + `(?:[^a-zA-Z0-9\\n\\r]*s(?![a-z]))?`;
+                const finalPattern = pattern + `(?:${this.FLEXIBLE_PLURAL_PREFIX}s(?![a-z]))?`;
 
                 return finalPattern;
             }
@@ -591,7 +629,7 @@ const TextUtils = {
         // Add optional 's' at the end to catch plurals (DRY principle)
         // But don't match 's' across newlines or when followed by another letter
         // Negative lookahead (?![a-z]) prevents consuming 's' that's part of next word
-        const finalPattern = this.createCharacterPattern(variation) + `(?:[^a-zA-Z0-9\\n\\r]*s(?![a-z]))?`;
+        const finalPattern = this.createCharacterPattern(variation) + `(?:${this.FLEXIBLE_PLURAL_PREFIX}s(?![a-z]))?`;
 
         return finalPattern;
     },
@@ -732,6 +770,30 @@ const TextUtils = {
     // Helper function to check if ranges overlap
     overlaps(range1, range2) {
         return !(range1.end <= range2.start || range1.start >= range2.end);
+    },
+
+    /**
+     * Check if a character is alphanumeric (including accented variants)
+     * Used for trimming logic - prevents accented characters from being trimmed
+     *
+     * @param {string} char - Character to check
+     * @returns {boolean} True if character is alphanumeric (ASCII or accented variant)
+     */
+    isAlphanumeric(char) {
+        if (!char) return false;
+
+        // Check ASCII alphanumeric first (fast path)
+        if (/[a-zA-Z0-9]/.test(char)) return true;
+
+        // Check if it's an accented variant of any base character
+        const lowerChar = char.toLowerCase();
+        for (const variants of Object.values(this.CHARACTER_VARIANTS)) {
+            if (variants.includes(lowerChar)) {
+                return true;
+            }
+        }
+
+        return false;
     },
 
     /**
@@ -974,8 +1036,9 @@ const TextUtils = {
     }
 };
 
-// Build full character substitution, semantic maps and emoji regex
+// Build full character substitution, semantic maps, flexible patterns, and emoji regex
 TextUtils.initCharacterSubstitutions();
+TextUtils.initFlexiblePatterns();  // Must be called after initCharacterSubstitutions()
 TextUtils.initEmojiRegex();
 
 // Export for use in modules

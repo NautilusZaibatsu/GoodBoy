@@ -5,13 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.8.9] - 2025-12-18
+### Fixes
+ - **Detection** 
+  - Fixed an issue causing emoji regex to not match variation selectors. These were using alternation (?:range1|range2) instead of character class [range1range2]
+  - Fixed an issue causing punctuation only terms such as "((()))" to never match due to overzealous punctuation trimming
+  - Fixed an issue where Safari would not properly clear emojis when deleting using backspace during editing of text that has already been analyzed
+  - Fixed an issue causing some one way substitutions to not be applied to input text during normalization/substitution
+  - Fixed an issue causing accented characters to be trimmed from matches if they appeared at the start/end of a string
+  - Removed some terms from the databases that were obsolete due to normalization/subsitution rules
+
+### Changed
+- **Tooltips** 
+  - Added the root term to the variations list in the tooltip. Root term will always be displayed first
+
 ## [0.4.8.8] - 2025-12-17
 ### Added
 - **Tooltips**
   - Added a tooltip that displays all the flagged terms within a category. Click or hover over a category badge in the analysis results section to open the tooltip
-
- - **Databases** 
-  - 1 new term
 
 ### Changed
 - **Tooltips** 
@@ -23,7 +34,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Fixed iOS Safari font-size not updating on load by temporarily toggling -webkit-text-size-adjust on load to force proper text reflow
 
 ### Added
-
+ - **Databases** 
+  - 4 new terms
 
 ### Changed
 - **Databases** 

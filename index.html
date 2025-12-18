@@ -957,6 +957,16 @@
         inputLabel.textContent = textAreaAvailable;
         textInput.placeholder = "Enter or paste text here to check for coded and harmful language...";
 
+        // Safari fix: Force repaint on input to prevent emoji rendering artifacts
+        // This fixes an issue where emoji pixels remain visible after deletion with backspace
+        textInput.addEventListener('input', function() {
+            // Force a repaint by temporarily toggling a CSS property
+            const originalTransform = this.style.transform;
+            this.style.transform = 'translateZ(0)';
+            void this.offsetHeight; // Force reflow
+            this.style.transform = originalTransform;
+        });
+
         // Developer toggle: Set to false to disable all progress tracking for performance testing
         const ENABLE_PROGRESS_TRACKING = true;
 
@@ -1623,15 +1633,23 @@
             let displayVariations = variations;
             let label = 'Variations';
 
-            // If more than 6 variations, select 6 random ones
+            // If more than 6 variations, select first + 5 random others
             if (variations.length > 6) {
-                // Shuffle and take first 6
-                const shuffled = [...variations].sort(() => Math.random() - 0.5);
-                displayVariations = shuffled.slice(0, 6);
+                const [first, ...rest] = variations;
+
+                const shuffledRest = rest
+                    .slice() // defensive copy
+                    .sort(() => Math.random() - 0.5);
+
+                displayVariations = [
+                    first,
+                    ...shuffledRest.slice(0, 5)
+                ];
+
                 label = `Variations include`;
             }
 
-            return `<div class="tooltip-item"><div class="tooltip-item-label">${label}:</div><div class="tooltip-item-value tooltip-variations">${escapeHtml(displayVariations.join(' / '))}</div></div>`;
+            return `<div class="tooltip-item"><div class="tooltip-item-label">${label}:</div><div class="tooltip-item-value tooltip-variations">${escapeHtml(displayVariations.join(' | '))}</div></div>`;
         }
 
         function createFlaggedTermSpan(match, originalText) {
@@ -1701,7 +1719,9 @@
                 termHtmlBlock = getMatchedTermHtml(match.matchedTerm, match.text, "Term");
             }
 
-            const variationsHtml = getVariationsHtml(match.variations);
+            // Create a new array with root first, then all variations (don't modify original!)
+            const allVariations = [match.term, ...(match.variations || [])];
+            const variationsHtml = getVariationsHtml(allVariations);
 
             const inner =
                 headerHtml +

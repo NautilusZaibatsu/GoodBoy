@@ -1,10 +1,10 @@
 const HARMFUL_TERM_DATA = {
-  generated: "2025-12-15T16:42:19.373Z",
+  generated: "2025-12-17T23:46:18.584Z",
   uniqueTerms: 613,
-  totalTerms: 1187,
+  totalTerms: 1185,
   categoryBreakdown: [
-    { name: "racist", count: 737 },
-    { name: "homophobic", count: 84 },
+    { name: "racist", count: 736 },
+    { name: "homophobic", count: 83 },
     { name: "disability", count: 66 },
     { name: "islamophobic", count: 46 },
     { name: "sectarian", count: 44 },
@@ -53,8 +53,8 @@ const HARMFUL_TERM_DATA = {
     { name: "white-supremacist", count: 0 }
   ],
   sourceBreakdown: [
-    { name: "wiki", count: 824 },
-    { name: "goodboy", count: 271 },
+    { name: "wiki", count: 823 },
+    { name: "goodboy", count: 270 },
     { name: "wsp", count: 49 },
     { name: "citg", count: 36 },
     { name: "aos", count: 7 },
@@ -979,7 +979,6 @@ const HARMFUL_TERM_DATA = {
         "Turd burglar",
         "Nancy boy",
         "Nancy",
-        "Gaylord",
         "Gay lord",
         "Batty boy",
         "Batty bwoy",
@@ -3940,7 +3939,6 @@ const HARMFUL_TERM_DATA = {
       variations: [
         "Fangui",
         "Gui zi",
-        "Guizi",
         "Gui"
       ],
       category: "racist",
