@@ -1,44 +1,46 @@
 const CODED_TERM_DATA = {
-  generated: "2025-12-17T23:46:18.576Z",
+  generated: "2025-12-19T16:10:22.490Z",
   datasetSize: 16258,
-  uniqueTerms: 557,
-  totalTerms: 1986,
+  uniqueTerms: 577,
+  totalTerms: 2078,
   categoryBreakdown: [
-    { name: "racist", count: 213 },
-    { name: "white-supremacist", count: 169 },
+    { name: "racist", count: 215 },
+    { name: "white-supremacist", count: 178 },
     { name: "xenophobic", count: 168 },
     { name: "antisemitic", count: 158 },
-    { name: "transphobic", count: 151 },
-    { name: "alt-right", count: 104 },
+    { name: "transphobic", count: 152 },
+    { name: "alt-right", count: 132 },
+    { name: "conspiracy", count: 117 },
     { name: "bad-faith", count: 97 },
-    { name: "conspiracy", count: 93 },
     { name: "anti-liberal", count: 80 },
-    { name: "nationalist", count: 73 },
+    { name: "nationalist", count: 76 },
     { name: "islamophobic", count: 70 },
     { name: "welfare-chauvinism", count: 69 },
     { name: "emotional-dismissal", count: 53 },
     { name: "fascist", count: 51 },
-    { name: "sexual-content", count: 44 },
-    { name: "incel", count: 40 },
-    { name: "conservative", count: 39 },
-    { name: "misogynistic", count: 35 },
+    { name: "sexual-content", count: 50 },
+    { name: "incel", count: 47 },
+    { name: "conservative", count: 40 },
     { name: "disability", count: 33 },
+    { name: "misogynistic", count: 32 },
     { name: "pseudoscience", count: 29 },
     { name: "misandristic", count: 24 },
+    { name: "drugs", count: 21 },
     { name: "anti-lgbtq", count: 20 },
     { name: "anti-science", count: 20 },
-    { name: "drugs", count: 20 },
     { name: "illegality", count: 18 },
+    { name: "paedophilia", count: 17 },
     { name: "dehumanization", count: 16 },
     { name: "homophobic", count: 16 },
     { name: "deflection", count: 15 },
-    { name: "paedophilia", count: 14 },
-    { name: "self-harm", count: 14 },
+    { name: "self-harm", count: 15 },
+    { name: "violence", count: 14 },
     { name: "personal-responsibility", count: 13 },
-    { name: "violence", count: 12 },
     { name: "liberal", count: 6 },
     { name: "ageist", count: 4 },
     { name: "climate-change-denial", count: 4 },
+    { name: "other", count: 4 },
+    { name: "identity", count: 3 },
     { name: "anti-conservative", count: 1 },
     { name: "christophobic", count: 0 },
     { name: "hinduphobic", count: 0 },
@@ -54,8 +56,8 @@ const CODED_TERM_DATA = {
     { name: "sikhophobic", count: 0 }
   ],
   sourceBreakdown: [
-    { name: "goodboy", count: 1472 },
-    { name: "silent_signals", count: 352 },
+    { name: "goodboy", count: 1586 },
+    { name: "silent_signals", count: 330 },
     { name: "adl", count: 82 },
     { name: "swu", count: 75 },
     { name: "wsp", count: 4 },
@@ -65,10 +67,94 @@ const CODED_TERM_DATA = {
   ],
   terms: [
     {
+      root: "Make Zimbabwe Rhodesia Again",
+      variations: [
+        "Rhodesia never dies",
+        "Rhodesian Bush war",
+        "Rhodie",
+        "Rhodie memes",
+        "Rhodesian flag",
+        "Rhodesian air force",
+        "Rhodesian army",
+        "Rhodesian front"
+      ],
+      category: "white-supremacist",
+      definition: "Romanticises the former state of Rhodesia as a symbol of white minority rule, commonly used online to signal far-right or white supremacist nostalgia while avoiding explicit racial language",
+      source: "goodboy",
+      categoryMode: "unique"
+    },
+    {
+      root: "Hard times create strong men, strong men create good times, good times create weak men, weak men create hard times",
+      variations: [
+        "Hard times create weak men",
+        "Hard times cycle",
+        "Hard times create strong men",
+        "Strong men create good times",
+        "Good times create weak men",
+        "Weak men create hard times",
+        "The best men are forged in the fires of adversity",
+        "Adversity forges the best men",
+        "Fire creates strong men",
+        "Civilizations are born in the struggle of men and die in the comfort of men",
+        "Struggle builds civilizations, comfort destroys them",
+        "Men's struggle makes civilization",
+        "The meek inherit the earth, but the strong build it",
+        "Strong men build, meek men inherit",
+        "The strong create, the meek inherit",
+        "Fortune favors the bold, mediocrity favors the timid",
+        "The bold are rewarded, the timid left behind",
+        "Bold action brings success, timidness brings failure",
+        "Men are made in hardship, broken in comfort",
+        "Hardship makes men, comfort breaks them",
+        "Comfort destroys men",
+        "The modern man is a product of comfort and weakness",
+        "Modern men are weak from comfort",
+        "Comfort makes men weak"
+      ],
+      category: "alt-right",
+      definition: "A long-form aphorism/meme often used online to signal far-right, manosphere, or alt-right ideologies. Frames social and historical change as a moral cycle between \"strong\" and \"weak\" men, implying societal decay is caused by individual weakness. Often appears in partial quotes or paraphrased forms",
+      source: "goodboy"
+    },
+    {
+      root: "A nation that forgets its heroes will soon forget its people",
+      variations: [
+        "Forgetting heroes leads to forgetting the nation",
+        "Remember heroes to preserve the nation"
+      ],
+      category: "nationalist",
+      definition: "A long-form aphorism about historical memory used to promote traditionalist or nationalist ideology",
+      source: "goodboy"
+
+    },
+    {
+      root: "Without struggle, there is no strength",
+      variations: [
+        "No struggle, no strength",
+        "Strength comes from struggle"
+      ],
+      category: "alt-right",
+      definition: "Used to valorize suffering as essential for building 'real men', common in manosphere discussions",
+      source: "goodboy"
+
+    },
+    {
+      root: "Weak men create strong women, strong women create weak men",
+      variations: [
+        "Weak men create strong women",
+        "Strong women create weak men",
+        "Weak men lead to strong women"
+      ],
+      category: "incel",
+      definition: "A misogynistic aphorism used in incel spaces to blame societal problems on gender dynamics",
+      source: "goodboy"
+
+    },
+    {
       root: "Remigration",
       variations: [
         "Remigrate",
         "Remigrated",
+        "Remigrating",
         "Don't belong here",
         "Not from here",
         "Send them back",
@@ -165,13 +251,45 @@ const CODED_TERM_DATA = {
       ]
     },
     {
+      root: "Music Festival",
+      variations: [],
+      category: "other",
+      definition: "Algospeak used to refer to a protest in order to evade content moderation filters",
+      source: "goodboy"
+    },
+    {
+      root: "Camping",
+      variations: [],
+      category: "other",
+      definition: "Algospeak used to refer to an abortion in order to evade content moderation filters",
+      source: "goodboy"
+    },
+    {
+      root: "Panini",
+      variations: [
+        "Panoramic"
+      ],
+      category: "other",
+      definition: "Algospeak used to refer to a pandemic, particularly Covid-19 in order to evade content moderation filters",
+      source: "goodboy"
+    },
+    {
       root: "Seggs",
       variations: [
         "Secks",
-        "Seggz"
+        "Seggz",
+        "Schmex",
+        "Shmex"
       ],
       category: "sexual-content",
       definition: "A misspelled euphemism for sexual intercourse, used in place of the explicit term",
+      source: "goodboy"
+    },
+    {
+      root: "Nip nop",
+      variations: [],
+      category: "sexual-content",
+      definition: "Algospeak used to refer to nipples in order to evade content moderation filters",
       source: "goodboy"
     },
     {
@@ -283,6 +401,13 @@ const CODED_TERM_DATA = {
       source: "goodboy"
     },
     {
+      root: "Accountant",
+      variations: [],
+      category: "sexual-content",
+      definition: "Algospeak used to refer to someone engaged in sex work in order to evade content moderation filters",
+      source: "goodboy"
+    },
+    {
       root: "Nail polish emoji",
       variations: [
         "💅"
@@ -325,6 +450,22 @@ const CODED_TERM_DATA = {
       ],
       category: "sexual-content",
       definition: "Used in coded messages referring to adult content or sexual services",
+      source: "goodboy"
+    },
+    {
+      root: "PDF file",
+      variations: [
+        "PDF"
+      ],
+      category: "paedophilia",
+      definition: "Algospeak used to refer to a paedophile in order to evade content moderation filters",
+      source: "goodboy"
+    },
+    {
+      root: "Cheese Pizza",
+      variations: [],
+      category: "paedophilia",
+      definition: "Algospeak used to refer to child pornography in order to evade content moderation filters",
       source: "goodboy"
     },
     {
@@ -503,9 +644,10 @@ const CODED_TERM_DATA = {
       source: "goodboy"
     },
     {
-      root: "Leaf emoji",
+      root: "Ouid",
       variations: [
-        "🍃"
+        "🍃",
+        "Leaf emoji"
       ],
       category: "drugs",
       definition: "Used to represent cannabis in moderation-avoidant contexts",
@@ -561,6 +703,34 @@ const CODED_TERM_DATA = {
       source: "goodboy"
     },
     {
+      root: "Pew Pew",
+      variations: [],
+      category: "violence",
+      definition: "Algospeak used to refer to a gun in order to evade content moderation filters",
+      source: "goodboy"
+    },
+    {
+      root: "SA",
+      variations: [],
+      category: "violence",
+      definition: "Algospeak used to refer to sexual assault in order to evade content moderation filters",
+      source: "goodboy"
+    },
+    {
+      root: "Mascara",
+      variations: [],
+      category: "sexual-content",
+      definition: "Algospeak used to refer to a male partner or their genitals in order to evade content moderation filters",
+      source: "goodboy"
+    },
+    {
+      root: "Fork",
+      variations: [],
+      category: "sexual-content",
+      definition: "Algospeak used in place of the word \"fuck\" in order to evade content moderation filters",
+      source: "goodboy"
+    },
+    {
       root: "Grape emoji",
       variations: [
         "🍇",
@@ -577,7 +747,8 @@ const CODED_TERM_DATA = {
       root: "KYS",
       variations: [
         "🔫💀",
-        "💀🔫"
+        "💀🔫",
+        "Keep yourself safe"
       ],
       category: "self-harm",
       definition: "A coded way to reference telling someone to commit suicide or expressing suicidal desire",
@@ -612,6 +783,27 @@ const CODED_TERM_DATA = {
       ],
       category: "self-harm",
       definition: "A common euphemism for dying or killing oneself, used when discussing suicidal thoughts or actions",
+      source: "goodboy"
+    },
+    {
+      root: "Cornucopia",
+      variations: [],
+      category: "identity",
+      definition: "Algospeak used to refer to a homophobia in order to evade content moderation filters",
+      source: "goodboy"
+    },
+    {
+      root: "Le Dollar Bean",
+      variations: [],
+      category: "identity",
+      definition: "Algospeak used to refer to a lesbian person in order to evade content moderation filters",
+      source: "goodboy"
+    },
+    {
+      root: "Leg Booty",
+      variations: [],
+      category: "identity",
+      definition: "Algospeak used to refer to the LGBTQ+ community in order to evade content moderation filters",
       source: "goodboy"
     },
     {
@@ -816,6 +1008,18 @@ const CODED_TERM_DATA = {
       ],
       category: "conspiracy",
       definition: "Refers to individuals who believe major events such as 9/11 were orchestrated or concealed by governments or hidden elites. Often signals alignment with broader anti-establishment or anti-government conspiracy thinking",
+      source: "goodboy"
+    },
+    {
+      root: "Plandemic",
+      variations: [
+        "Scamdemic",
+        "Fake pandemic",
+        "COVID was planned",
+        "COVID hoax"
+      ],
+      category: "conspiracy",
+      definition: "Claims that the COVID-19 pandemic was deliberately planned, fabricated, or engineered by governments, corporations, or hidden elites rather than being a naturally occurring public health crisis",
       source: "goodboy"
     },
     {
@@ -1510,6 +1714,16 @@ const CODED_TERM_DATA = {
       source: "goodboy"
     },
     {
+      root: "Paid actor",
+      variations: [
+        "Media plant",
+        "Handlers involved"
+      ],
+      category: "conspiracy",
+      definition: "A broad, vaguer accusation that someone appearing in media, politics, or social movements is performing a role for financial gain",
+      source: "goodboy"
+    },
+    {
       root: "Crisis actor",
       variations: [
         "False flag actor",
@@ -1517,19 +1731,25 @@ const CODED_TERM_DATA = {
         "Scripted witnesses",
         "Fake victims",
         "Professional mourners",
-        "Crisis parent"
+        "Crisis parent",
+        "Paid mourner"
       ],
       category: "conspiracy",
-      definition: "Victims, survivors, or their families are actors hired to manipulate public perception by faking an event or their reaction to it",
+      definition: "Alleges that victims, survivors, their families or witnesses are actors hired to manipulate public perception by faking an event or their reaction to it",
       source: "goodboy"
     },
     {
       root: "Paid protestor",
       variations: [
-        "Paid activists"
+        "Paid activists",
+        "Rent-a-mob",
+        "Soros funded protestor",
+        "Astroturf protestor",
+        "Bussed-in activist",
+        "Professional protesters"
       ],
       category: "conspiracy",
-      definition: "Protestors are not genuine, this protest was manufactured by a hidden element",
+      definition: "Alleges that people attending a protest are being paid to participate, implying the movement lacks genuine grassroot support",
       source: "goodboy"
     },
     {
@@ -3144,8 +3364,8 @@ const CODED_TERM_DATA = {
         "Stacies",
         "Stacy vortex"
       ],
-      category: "misogynistic",
-      definition: "Attractive woman, in the context of sexual hierarchies",
+      category: "incel",
+      definition: "Pejorative slang term for a woman stereotyped as extremely good-looking, but also vapid, vain, rude, and only interested in sex",
       source: "goodboy"
     },
     {
@@ -4041,13 +4261,19 @@ const CODED_TERM_DATA = {
     {
       root: "China Virus",
       variations: [
+        "Chinese virus",
         "Kung flu",
         "Wuhan virus",
-        "Wuhan flu"
+        "Wuhan flu",
+        "Wuhan sickness",
+        "Panda Express",
+        "China Flu",
+        "CCP virus",
       ],
+      categoryMode: "unique",
       category: "racist",
-      definition: "Chinese people are infectious diseases and to blame for covid",
-      source: "silent_signals"
+      definition: "Signals the anti-Asian conspiracy narrative tand racialized scapegoating that Chinese people were to blame for the Covid-19 pandemic",
+      source: "goodboy"
     },
     {
       root: "Cleaning up our streets",
@@ -4476,7 +4702,7 @@ const CODED_TERM_DATA = {
         "Soros"
       ],
       category: "antisemitic",
-      definition: "The Jewish person who supposedly controls the world",
+      definition: "George Soros is commonly invoked in antisemitic conspiracy theories as a symbolic villain, representing the false idea that Jewish elites secretly control the world",
       source: "goodboy"
     },
     {
@@ -5626,20 +5852,10 @@ const CODED_TERM_DATA = {
       source: "silent_signals"
     },
     {
-      root: "Three strikes law",
-      variations: [
-        "Three strikes",
-        "Three strikes policy"
-      ],
-      category: "racist",
-      definition: "Mass incarceration of Black people",
-      source: "silent_signals"
-    },
-    {
       root: "Thug",
       variations: [],
       category: "racist",
-      definition: "Black men are criminals or violent",
+      definition: "Signal used to tie young black men to a racial stereotype of being gangsters or criminals",
       source: "silent_signals"
     },
     {
@@ -5648,8 +5864,18 @@ const CODED_TERM_DATA = {
         "Small minority of men"
       ],
       category: "transphobic",
-      definition: "Trans women",
-      source: "silent_signals"
+      definition: "A coded transphobic phrase used to refer to trans women as merely a tiny or small minority of men. Often used to delegitimize trans identities by framing them as statistical anomalies rather than real women",
+      source: "goodboy"
+    },
+    {
+      root: "Three strikes law",
+      variations: [
+        "Three strikes",
+        "Three strikes policy"
+      ],
+      category: "racist",
+      definition: "A law mandating long sentences for repeat offenders, disproportionately targeting Black and Latinx communities. Often invoked as coded language supporting systemic racialized incarceration",
+      source: "goodboy"
     },
     {
       root: "Tough on crime",
@@ -5658,8 +5884,8 @@ const CODED_TERM_DATA = {
         "Crack down on crime"
       ],
       category: "racist",
-      definition: "Mass incarceration of Black and Latinx people",
-      source: "silent_signals"
+      definition: "A political slogan used as coded language to justify policies that disproportionately incarcerate Black and Latinx people, often signaling support for systemic racialized punishment",
+      source: "goodboy"
     },
     {
       root: "Trans Identified Male",
@@ -5686,7 +5912,7 @@ const CODED_TERM_DATA = {
       root: "Trilateral Commission",
       variations: [],
       category: "antisemitic",
-      definition: "Institution by which Jewish people control the world",
+      definition: "The supposed institution with which Jewish people control the world",
       source: "silent_signals"
     },
     {
@@ -5702,13 +5928,6 @@ const CODED_TERM_DATA = {
       category: "antisemitic",
       definition: "Symbol used to identify and harass Jewish people online",
       source: "goodboy"
-    },
-    {
-      root: "Troon",
-      variations: [],
-      category: "transphobic",
-      definition: "Trans person",
-      source: "silent_signals"
     },
     {
       root: "SS",
@@ -5730,21 +5949,21 @@ const CODED_TERM_DATA = {
         "Vagina haver"
       ],
       category: "transphobic",
-      definition: "Either trans women are not women because they don't have a uterus, or that trans people are trying to reduce cis women to reproductive organs",
-      source: "silent_signals"
+      definition: "Either signals that trans women are not women because they don't have a uterus, or that trans people are trying to reduce cis women to reproductive organs",
+      source: "goodboy"
     },
     {
       root: "Vegan cat",
       variations: [],
       category: "transphobic",
-      definition: "Trans children were brainwashed by their parents",
-      source: "silent_signals"
+      definition: "A coded term implying that trans children are being brainwashed or indoctrinated by their parents. Used in transphobic discussions to delegitimize trans identities and parental support",
+      source: "goodboy"
     },
     {
       root: "Vinland",
       variations: [],
       category: "white-supremacist",
-      definition: "White supremacist signal referencing short-lived Viking settlement in North America",
+      definition: "White supremacist signal referencing a short-lived Viking settlement in North America",
       source: "silent_signals"
     },
     {
@@ -5752,17 +5971,24 @@ const CODED_TERM_DATA = {
       variations: [
         "Fraudulent voting",
         "Voting fraud",
-        "Fraudulent voter"
+        "Fraudulent voter",
+        "Stolen election",
+        "Rigged election",
+        "Ballot fraud",
+        "Mail-in ballot fraud",
+        "Mail voting fraud",
+        "Widespread voter fraud"
       ],
-      category: "racist",
-      definition: "Disenfranchisement of minority voters",
-      source: "silent_signals"
+      category: "conspiracy",
+      definition: "A claim that elections have been manipulated or stolen, often used to delegitimize votes from minority communities and disenfranchise them. Common in online far-right and populist narratives",
+      source: "goodboy"
     },
     {
       root: "War on Christmas",
       variations: [
         "Attacking Christmas",
         "Keep Christ in Christmas",
+        "Put Christ back in Christmas",
         "Anti Christmas agenda",
         "Can't say Christmas",
         "Can't say Merry Christmas",
@@ -5776,15 +6002,15 @@ const CODED_TERM_DATA = {
       root: "War on crime",
       variations: [],
       category: "racist",
-      definition: "Mass incarceration and disenfranchisement of racial minorities, particularly Black men",
+      definition: "Code for \"Mass incarceration and disenfranchisement of racial minorities, particularly Black men\"",
       source: "silent_signals"
     },
     {
       root: "War on drugs",
       variations: [],
       category: "racist",
-      definition: "Harsh punishments for Black people who use drugs, but not for white people",
-      source: "silent_signals"
+      definition: "Code for \"Harsh punishments for non-white people who use drugs\"",
+      source: "goodboy"
     },
     {
       root: "War on terror",
@@ -5792,7 +6018,7 @@ const CODED_TERM_DATA = {
         "War on terrorism"
       ],
       category: "islamophobic",
-      definition: "War on Arab and Muslim people",
+      definition: "Code of \"War on Arab and Muslim people\"",
       source: "silent_signals"
     },
     {
@@ -5818,14 +6044,14 @@ const CODED_TERM_DATA = {
       root: "Welfare cheat",
       variations: [],
       category: "welfare-chauvinism",
-      definition: "A person who is lazy and takes advantage of government social aid",
+      definition: "A person who is supposedly lazy and takes advantage of government social aid",
       source: "goodboy"
     },
     {
       root: "Welfare queen",
       variations: [],
       category: "racist",
-      definition: "Black woman who are lazy and take advantage of government social aid",
+      definition: "Code for a Black woman who is supposedly lazy and takes advantage of government social aid",
       source: "silent_signals"
     },
     {
@@ -5839,10 +6065,13 @@ const CODED_TERM_DATA = {
     },
     {
       root: "Womanface",
-      variations: [],
+      variations: [
+        "Transface",
+        "Troonface"
+      ],
       category: "transphobic",
-      definition: "Trans people treat womanhood as a costume",
-      source: "silent_signals"
+      definition: "Signals the belief (genuinely held or as a rhetorical attack) that trans women treat womanhood as a costume or performance, often used to delegitimize trans identities",
+      source: "goodboy"
     },
     {
       root: "Working class",
@@ -5854,7 +6083,7 @@ const CODED_TERM_DATA = {
         "Working families"
       ],
       category: "white-supremacist",
-      definition: "Often code for \"white working class\"",
+      definition: "Often simply code for \"white working class\"",
       source: "goodboy"
     },
     {

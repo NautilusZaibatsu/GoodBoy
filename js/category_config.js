@@ -248,7 +248,7 @@ const CATEGORY_HIERARCHY = {
         "darkColor": "#3aa885",
         "sub": {
             "sexual-content": {
-                "label": "sexual-content",
+                "label": "Sexual Content",
                 "darkColor": "#2e9171"
             }, "self-harm": {
                 "label": "Self-Harm",
@@ -265,6 +265,12 @@ const CATEGORY_HIERARCHY = {
             }, "paedophilia": {
                 "label": "Paedophilia",
                 "darkColor": "#3cad89"
+            }, "identity": {
+                "label": "Identity",
+                "darkColor": "#2c9272"
+            }, "other": {
+                "label": "Other",
+                "darkColor": "#308566"
             }
         }
     }

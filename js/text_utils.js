@@ -424,12 +424,12 @@ const TextUtils = {
         'n': 'ñη',
         'o': 'óòôöõøОо',
         'p': 'рР',
-        's': 'śš',
+        's': 'śšz',
         'u': 'úùûüū',
         'v': '∨',
         'x': '×х',
         'y': 'ýÿҮу',
-        'z': 'žż'
+        'z': 'žżs'
     },
 
     // Character substitution map for obfuscation detection
@@ -616,20 +616,20 @@ const TextUtils = {
                     }
                 }
 
-                // Add optional 's' at the end to catch plurals (DRY principle)
-                // But don't match 's' across newlines or when followed by another letter
-                // Negative lookahead (?![a-z]) prevents consuming 's' that's part of next word
-                const finalPattern = pattern + `(?:${this.FLEXIBLE_PLURAL_PREFIX}s(?![a-z]))?`;
+                // Add optional 's' or 'z' at the end to catch plurals and obfuscated plurals (DRY principle)
+                // But don't match 's'/'z' across newlines or when followed by another letter
+                // Negative lookahead (?![a-z]) prevents consuming 's'/'z' that's part of next word
+                const finalPattern = pattern + `(?:${this.FLEXIBLE_PLURAL_PREFIX}[sz](?![a-z]))?`;
 
                 return finalPattern;
             }
         }
 
         // No numbers or NumberUtils not available - use character-level pattern only
-        // Add optional 's' at the end to catch plurals (DRY principle)
-        // But don't match 's' across newlines or when followed by another letter
-        // Negative lookahead (?![a-z]) prevents consuming 's' that's part of next word
-        const finalPattern = this.createCharacterPattern(variation) + `(?:${this.FLEXIBLE_PLURAL_PREFIX}s(?![a-z]))?`;
+        // Add optional 's' or 'z' at the end to catch plurals and obfuscated plurals (DRY principle)
+        // But don't match 's'/'z' across newlines or when followed by another letter
+        // Negative lookahead (?![a-z]) prevents consuming 's'/'z' that's part of next word
+        const finalPattern = this.createCharacterPattern(variation) + `(?:${this.FLEXIBLE_PLURAL_PREFIX}[sz](?![a-z]))?`;
 
         return finalPattern;
     },

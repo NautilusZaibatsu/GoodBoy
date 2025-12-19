@@ -1,11 +1,11 @@
 const HARMFUL_TERM_DATA = {
-  generated: "2025-12-17T23:46:18.584Z",
-  uniqueTerms: 613,
-  totalTerms: 1185,
+  generated: "2025-12-19T16:10:22.498Z",
+  uniqueTerms: 617,
+  totalTerms: 1193,
   categoryBreakdown: [
-    { name: "racist", count: 736 },
+    { name: "racist", count: 741 },
     { name: "homophobic", count: 83 },
-    { name: "disability", count: 66 },
+    { name: "disability", count: 68 },
     { name: "islamophobic", count: 46 },
     { name: "sectarian", count: 44 },
     { name: "antisemitic", count: 43 },
@@ -17,8 +17,8 @@ const HARMFUL_TERM_DATA = {
     { name: "christophobic", count: 15 },
     { name: "ageist", count: 11 },
     { name: "xenophobic", count: 10 },
+    { name: "transphobic", count: 9 },
     { name: "mental-health", count: 8 },
-    { name: "transphobic", count: 8 },
     { name: "hinduphobic", count: 6 },
     { name: "religious-minorities", count: 5 },
     { name: "misandristic", count: 3 },
@@ -36,11 +36,13 @@ const HARMFUL_TERM_DATA = {
     { name: "drugs", count: 0 },
     { name: "emotional-dismissal", count: 0 },
     { name: "fascist", count: 0 },
+    { name: "identity", count: 0 },
     { name: "illegality", count: 0 },
     { name: "incel", count: 0 },
     { name: "liberal", count: 0 },
     { name: "localist", count: 0 },
     { name: "nationalist", count: 0 },
+    { name: "other", count: 0 },
     { name: "paedophilia", count: 0 },
     { name: "personal-responsibility", count: 0 },
     { name: "pseudoscience", count: 0 },
@@ -54,7 +56,7 @@ const HARMFUL_TERM_DATA = {
   ],
   sourceBreakdown: [
     { name: "wiki", count: 823 },
-    { name: "goodboy", count: 270 },
+    { name: "goodboy", count: 278 },
     { name: "wsp", count: 49 },
     { name: "citg", count: 36 },
     { name: "aos", count: 7 },
@@ -62,8 +64,26 @@ const HARMFUL_TERM_DATA = {
     { name: "silent_signals", count: 0 },
     { name: "swu", count: 0 }
   ],
-
   terms: [
+    {
+      root: "Yt",
+      variations: [
+        "Yte"
+      ],
+      category: "racist",
+      definition: "An algospeak term for \"white\" people that reduces them to the color of their skin, treating them as a monolithic group rather than as individual human beings",
+      source: "goodboy"
+    },
+    {
+      root: "Yn",
+      variations: [
+        "Yng",
+        "Ynm"
+      ],
+      category: "racist",
+      definition: "An algospeak term for \"young nigga\", tying young black men to a racial stereotype of being gangsters or criminals",
+      source: "goodboy"
+    },
     {
       root: "Cunt",
       variations: [],
@@ -2528,7 +2548,8 @@ const HARMFUL_TERM_DATA = {
     {
       root: "Transformer",
       variations: [
-        "Tranny"
+        "Troon",
+        "Transformer"
       ],
       category: "transphobic",
       definition: "A transgender person",
@@ -5020,7 +5041,14 @@ const HARMFUL_TERM_DATA = {
       root: "Acoustic",
       variations: [],
       category: "disability",
-      definition: "Autistic",
+      definition: "Perjorative algospeak for \"autistic\"",
+      source: "goodboy"
+    },
+    {
+      root: "Tism",
+      variations: [],
+      category: "disability",
+      definition: "Perjorative algospeak for \"autism\"",
       source: "goodboy"
     },
     {
@@ -5036,6 +5064,13 @@ const HARMFUL_TERM_DATA = {
       ],
       category: "disability",
       definition: "A verb meaning to delay or slow a process, used as an harmful term for a person who has a cognitive disability",
+      source: "goodboy"
+    },
+    {
+      root: "Regarded",
+      variations: [],
+      category: "disability",
+      definition: "Algospeak for the slur \"retarted\", used against people who have a cognitive disability",
       source: "goodboy"
     },
     {
