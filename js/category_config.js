@@ -262,8 +262,8 @@ const CATEGORY_HIERARCHY = {
             }, "illegality": {
                 "label": "Illegality",
                 "darkColor": "#4aaa8c"
-            }, "paedophilia": {
-                "label": "Paedophilia",
+            }, "pedophilia": {
+                "label": "Pedophilia",
                 "darkColor": "#3cad89"
             }, "identity": {
                 "label": "Identity",

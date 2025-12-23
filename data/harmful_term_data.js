@@ -1,5 +1,5 @@
 const HARMFUL_TERM_DATA = {
-  generated: "2025-12-19T16:10:22.498Z",
+  generated: "2025-12-23T20:32:49.652Z",
   uniqueTerms: 617,
   totalTerms: 1193,
   categoryBreakdown: [
@@ -43,7 +43,7 @@ const HARMFUL_TERM_DATA = {
     { name: "localist", count: 0 },
     { name: "nationalist", count: 0 },
     { name: "other", count: 0 },
-    { name: "paedophilia", count: 0 },
+    { name: "pedophilia", count: 0 },
     { name: "personal-responsibility", count: 0 },
     { name: "pseudoscience", count: 0 },
     { name: "regionalist", count: 0 },
@@ -193,7 +193,7 @@ const HARMFUL_TERM_DATA = {
       root: "Exotic beauty",
       variations: [],
       category: "racist",
-      definition: "A racialised form of sexual objectification that frames someone as attractive because they are foreign, unusual, or non-white, reducing them to an ethnic stereotype",
+      definition: "A racialized form of sexual objectification that frames someone as attractive because they are foreign, unusual, or non-white, reducing them to an ethnic stereotype",
       source: "goodboy"
     },
     {
@@ -202,7 +202,7 @@ const HARMFUL_TERM_DATA = {
         "Fiery Latina"
       ],
       category: "racist",
-      definition: "Reduction of a Latina woman to an exaggeratedd, hypersexualised and aggressive caricature",
+      definition: "Reduction of a Latina woman to an exaggerated, hypersexualized and aggressive caricature",
       source: "goodboy"
     },
     {
@@ -265,7 +265,7 @@ const HARMFUL_TERM_DATA = {
         "Fuck toy",
         "Cum slut",
         "Cum dumpster",
-        "Cum recepticle",
+        "Cum receptacle",
         "Cock sleeve",
         "Pornified",
         "Sex object",
@@ -579,7 +579,7 @@ const HARMFUL_TERM_DATA = {
         "Rawafid"
       ],
       category: "sectarian",
-      definition: "Sh īʿi Muslims. Term originally denoting extremist Shīʿites who reject \"rafd\" the caliphates of Abu Bakr and Umar",
+      definition: "Shīʿi Muslims. Term originally denoting extremist Shīʿites who reject \"rafd\" the caliphates of Abu Bakr and Umar",
       source: "wiki"
     },
     {
@@ -649,7 +649,7 @@ const HARMFUL_TERM_DATA = {
       root: "Khatmal",
       variations: [],
       category: "islamophobic",
-      definition: "A Sh īʿi Muslim. Derived from the Urdu word for \"bedbug\"",
+      definition: "A Shīʿi Muslim. Derived from the Urdu word for \"bedbug\"",
       source: "wiki"
     },
     {
@@ -858,7 +858,7 @@ const HARMFUL_TERM_DATA = {
       root: "Billy",
       variations: [],
       category: "sectarian",
-      definition: "A fan of Rangers Football Club. From the loyalisy song \"Billy Boys\". Can be offensive depending on the context and speaker",
+      definition: "A fan of Rangers Football Club. From the loyalist song \"Billy Boys\". Can be offensive depending on the context and speaker",
       source: "aos"
     },
     {
@@ -909,7 +909,7 @@ const HARMFUL_TERM_DATA = {
       root: "God botherer",
       variations: [],
       category: "christophobic",
-      definition: "A Chtistian person",
+      definition: "A Christian person",
       source: "wiki"
     },
     {
@@ -937,7 +937,7 @@ const HARMFUL_TERM_DATA = {
       root: "Bible thumper",
       variations: [],
       category: "christophobic",
-      definition: "A Christian, expecially fundamentalists",
+      definition: "A Christian, especially fundamentalists",
       source: "wiki"
     },
     {
@@ -946,7 +946,7 @@ const HARMFUL_TERM_DATA = {
         "Bible beater"
       ],
       category: "christophobic",
-      definition: "A Baptist, Methodist or Pentecostal evangelical, or any evangelising christian",
+      definition: "A Baptist, Methodist or Pentecostal evangelical, or any evangelizing christian",
       source: "wiki"
     },
     {
@@ -992,7 +992,7 @@ const HARMFUL_TERM_DATA = {
         "Ponce",
         "Poncy",
         "Shirt lifter",
-        "Shirtlfterish",
+        "Shirtlifterish",
         "Sissy",
         "Sissified",
         "Three letter man",
@@ -1271,7 +1271,7 @@ const HARMFUL_TERM_DATA = {
       root: "Xiǎo Rìběn",
       variations: [],
       category: "racist",
-      definition: "A Japenese person. Used in China. Literally translated, it means \"little Japan\"",
+      definition: "A Japanese person. Used in China. Literally translated, it means \"little Japan\"",
       source: "wiki"
     },
     {
@@ -1536,7 +1536,7 @@ const HARMFUL_TERM_DATA = {
       root: "Turco",
       variations: [],
       category: "racist",
-      definition: "A Syrian, Palestinian, Lebanese, Jewish or Armenian person. Used In Brazil and Chile. Means \"Turk\" in Potruguese",
+      definition: "A Syrian, Palestinian, Lebanese, Jewish or Armenian person. Used In Brazil and Chile. Means \"Turk\" in Portuguese",
       source: "wiki"
     },
     {
@@ -1652,7 +1652,7 @@ const HARMFUL_TERM_DATA = {
       root: "Tibla",
       variations: [],
       category: "racist",
-      definition: "A Rusiian or Soviet person. Used in Estonia",
+      definition: "A Russian or Soviet person. Used in Estonia",
       source: "wiki"
     },
     {
@@ -1748,7 +1748,7 @@ const HARMFUL_TERM_DATA = {
         "Svenne banan"
       ],
       category: "racist",
-      definition: "A Swedish person. Used in Sweden. A slang form of the word \"svensk\" which means \"swede\" in Swedish",
+      definition: "A Swedish person. Used in Sweden. A slang form of the word \"Svensk\" which means \"Swede\" in Swedish",
       source: "wiki"
     },
     {
@@ -1891,7 +1891,7 @@ const HARMFUL_TERM_DATA = {
       root: "Skopianoi",
       variations: [],
       category: "racist",
-      definition: "An ethniic Macedonian person. Used in Greece. Derived from Skopje, the capital city of North Macedonia",
+      definition: "An ethnic Macedonian person. Used in Greece. Derived from Skopje, the capital city of North Macedonia",
       source: "wiki"
     },
     {
@@ -1915,7 +1915,7 @@ const HARMFUL_TERM_DATA = {
       root: "Siamtue",
       variations: [],
       category: "racist",
-      definition: "A Central Thai person. Used by Bankokers",
+      definition: "A Central Thai person. Used by Bangkokers",
       source: "wiki"
     },
     {
@@ -2026,7 +2026,7 @@ const HARMFUL_TERM_DATA = {
       root: "Shelta",
       variations: [],
       category: "racist",
-      definition: "An Irish Traveller. Derived from \"siúilta\", which means \"The Walkers\" in Irish",
+      definition: "An Irish Traveler. Derived from \"siúilta\", which means \"the walkers\" in Irish",
       source: "wiki"
     },
     {
@@ -2206,7 +2206,7 @@ const HARMFUL_TERM_DATA = {
       root: "Redskin",
       variations: [],
       category: "racist",
-      definition: "A Native Amrican person",
+      definition: "A Native American person",
       source: "wiki"
     },
     {
@@ -2379,7 +2379,7 @@ const HARMFUL_TERM_DATA = {
         "Piky"
       ],
       category: "racist",
-      definition: "An Irish Traveller, Romani or lower-class / poor person. Derived from \"turnpike\"",
+      definition: "An Irish Traveler, Romani or lower-class / poor person. Derived from \"turnpike\"",
       source: "wiki"
     },
     {
@@ -2946,7 +2946,7 @@ const HARMFUL_TERM_DATA = {
       root: "Kūpapa Māori",
       variations: [],
       category: "racist",
-      definition: "A Māori person who cooperates with or is  subserviant to white authority figures",
+      definition: "A Māori person who cooperates with or is  subservient to white authority figures",
       source: "wiki"
     },
     {
@@ -3104,7 +3104,7 @@ const HARMFUL_TERM_DATA = {
         "Kling"
       ],
       category: "racist",
-      definition: "An Inddian person or, in Indonesian any person witth a dark complexion",
+      definition: "An Inddian person or, in Indonesian any person with a dark complexion",
       source: "wiki"
     },
     {
@@ -3121,7 +3121,7 @@ const HARMFUL_TERM_DATA = {
         "Kacapas"
       ],
       category: "racist",
-      definition: "A Russian person. Likkely derived from the Turkic word \"kasap\", which means \"butcher\". Used in several former Soviet states",
+      definition: "A Russian person. Likely derived from the Turkic word \"kasap\", which means \"butcher\". Used in several former Soviet states",
       source: "goodboy"
     },
     {
@@ -3199,7 +3199,7 @@ const HARMFUL_TERM_DATA = {
         "Kangladeshi"
       ],
       category: "racist",
-      definition: "A Bangladeshi person, a portmanteu of the Hindi word \"kaṅgāl\" (meaning poor, broke, pauper) and Bangladeshi",
+      definition: "A Bangladeshi person, a portmanteau of the Hindi word \"kaṅgāl\" (meaning poor, broke, pauper) and Bangladeshi",
       source: "wiki"
     },
     {
@@ -3217,7 +3217,7 @@ const HARMFUL_TERM_DATA = {
         "Kuffar"
       ],
       category: "racist",
-      definition: "A Black person from Cape Coloured or Coloured ethinic groups. From the Arabic \"kafir\", meaning \"disbeliever\"",
+      definition: "A Black person from Cape Coloured or Coloured ethnic groups. From the Arabic \"kafir\", meaning \"disbeliever\"",
       source: "wiki"
     },
     {
@@ -3358,7 +3358,7 @@ const HARMFUL_TERM_DATA = {
       root: "Itor",
       variations: [],
       category: "racist",
-      definition: "A person from the Greater Cumilla region of Bangladesh. Borrowed from the English acronym for \"Information Technology Organiser\" was a title given by the British to people from the Tipperah district (now the districts of Cumilla, Brahmanbaria and Chandpur) in the Bengal province due to their quick thinking",
+      definition: "A person from the Greater Cumilla region of Bangladesh. Borrowed from the English acronym for \"Information Technology Organizer\" was a title given by the British to people from the Tipperah district (now the districts of Cumilla, Brahmanbaria and Chandpur) in the Bengal province due to their quick thinking",
       source: "wiki"
     },
     {
@@ -3393,7 +3393,7 @@ const HARMFUL_TERM_DATA = {
       root: "Intsik",
       variations: [],
       category: "racist",
-      definition: "A Chinese Filipinio person, based on the Philippine Hokkien term meaning \"his/her/their uncle\"",
+      definition: "A Chinese Filipino person, based on the Philippine Hokkien term meaning \"his/her/their uncle\"",
       source: "wiki"
     },
     {
@@ -3691,7 +3691,7 @@ const HARMFUL_TERM_DATA = {
       root: "Greenhorn",
       variations: [],
       category: "racist",
-      definition: "A Portuguese person. This is not derogatory when referring to a non-Poruguese person who is inexperienced at something",
+      definition: "A Portuguese person. This is not derogatory when referring to a non-Portuguese person who is inexperienced at something",
       source: "wiki"
     },
     {
@@ -3709,7 +3709,7 @@ const HARMFUL_TERM_DATA = {
         "Gragok"
       ],
       category: "racist",
-      definition: "A Eruasian person, particularly of the Kristang people. Means \"shrimp\"",
+      definition: "A Eurasian person, particularly of the Kristang people. Means \"shrimp\"",
       source: "wiki"
     },
     {
@@ -3970,7 +3970,7 @@ const HARMFUL_TERM_DATA = {
       root: "Eye tie",
       variations: [],
       category: "racist",
-      definition: "An Italian person. From a misponunciation of Italian",
+      definition: "An Italian person. From a mispronunciation of Italian",
       source: "wiki"
     },
     {
@@ -4119,7 +4119,7 @@ const HARMFUL_TERM_DATA = {
       root: "Coolie",
       variations: [],
       category: "racist",
-      definition: "An Asian person, usually Chinese or an Indo-Caribbean person depeding on the speaker",
+      definition: "An Asian person, usually Chinese or an Indo-Caribbean person depending on the speaker",
       source: "wiki"
     },
     {
@@ -4205,7 +4205,7 @@ const HARMFUL_TERM_DATA = {
       root: "Chow mein",
       variations: [],
       category: "racist",
-      definition: "A Chinese of Norheast Indian person",
+      definition: "A Chinese of Northeast Indian person",
       source: "wiki"
     },
     {
@@ -4612,7 +4612,7 @@ const HARMFUL_TERM_DATA = {
       root: "Banana",
       variations: [],
       category: "racist",
-      definition: "A East or Southeast Asian person, someone who is \"yellow on the outside, whitet on the inside\"",
+      definition: "A East or Southeast Asian person, someone who is \"yellow on the outside, white on the inside\"",
       source: "wiki"
     },
     {
@@ -4762,7 +4762,7 @@ const HARMFUL_TERM_DATA = {
         "Hotnot"
       ],
       category: "racist",
-      definition: "Historically used by Europeans to refer to the Khoekhoe, the indigenous nomaic pastorialists in South Africa",
+      definition: "Historically used by Europeans to refer to the Khoekhoe, the indigenous nomadic pastorialists in South Africa",
       source: "wiki"
     },
     {
@@ -4833,7 +4833,7 @@ const HARMFUL_TERM_DATA = {
         "American born confused Desi"
       ],
       category: "racist",
-      definition: "\"American-Born Confused Desi\" - Indian Americans or other South Asian Americans who were born in the United States. Has been reclaimed, often now used positively to describe a shared experiencce",
+      definition: "\"American-Born Confused Desi\" - Indian Americans or other South Asian Americans who were born in the United States. Has been reclaimed, often now used positively to describe a shared experience",
       source: "wiki"
     },
     {
@@ -5016,7 +5016,7 @@ const HARMFUL_TERM_DATA = {
         "Crippled"
       ],
       category: "disability",
-      definition: "A person who has a physical or mobility impairment. Has been reclaimed ny some people with disablities as a positive identity",
+      definition: "A person who has a physical or mobility impairment. Has been reclaimed ny some people with disabilities as a positive identity",
       source: "goodboy"
     },
     {

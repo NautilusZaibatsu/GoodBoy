@@ -1,13 +1,13 @@
 const CODED_TERM_DATA = {
-  generated: "2025-12-19T16:10:22.490Z",
+  generated: "2025-12-23T20:32:49.645Z",
   datasetSize: 16258,
-  uniqueTerms: 577,
-  totalTerms: 2078,
+  uniqueTerms: 579,
+  totalTerms: 2083,
   categoryBreakdown: [
     { name: "racist", count: 215 },
     { name: "white-supremacist", count: 178 },
     { name: "xenophobic", count: 168 },
-    { name: "antisemitic", count: 158 },
+    { name: "antisemitic", count: 160 },
     { name: "transphobic", count: 152 },
     { name: "alt-right", count: 132 },
     { name: "conspiracy", count: 117 },
@@ -28,10 +28,10 @@ const CODED_TERM_DATA = {
     { name: "drugs", count: 21 },
     { name: "anti-lgbtq", count: 20 },
     { name: "anti-science", count: 20 },
+    { name: "homophobic", count: 19 },
     { name: "illegality", count: 18 },
-    { name: "paedophilia", count: 17 },
+    { name: "pedophilia", count: 17 },
     { name: "dehumanization", count: 16 },
-    { name: "homophobic", count: 16 },
     { name: "deflection", count: 15 },
     { name: "self-harm", count: 15 },
     { name: "violence", count: 14 },
@@ -56,7 +56,7 @@ const CODED_TERM_DATA = {
     { name: "sikhophobic", count: 0 }
   ],
   sourceBreakdown: [
-    { name: "goodboy", count: 1586 },
+    { name: "goodboy", count: 1591 },
     { name: "silent_signals", count: 330 },
     { name: "adl", count: 82 },
     { name: "swu", count: 75 },
@@ -66,6 +66,25 @@ const CODED_TERM_DATA = {
     { name: "citg", count: 0 }
   ],
   terms: [
+    {
+      root: "Cigarette emoji",
+      variations: [
+        "🚬",
+        "British Cigarette"
+      ],
+      category: "homophobic",
+      definition: "Algospeak for a homosexual man, used as either slur or a self identifier depending on the speaker and context. Stems from the British slang term \"fag\" for a cigarette",
+      source: "goodboy"
+    },
+    {
+      root: "Juicebox emoji",
+      variations: [
+        "🧃"
+      ],
+      category: "antisemitic",
+      definition: "Antisemitic dog whistle, stemming from the phonetic similarity between the words \"juice\" and \"Jews\"",
+      source: "goodboy"
+    },
     {
       root: "Make Zimbabwe Rhodesia Again",
       variations: [
@@ -79,7 +98,7 @@ const CODED_TERM_DATA = {
         "Rhodesian front"
       ],
       category: "white-supremacist",
-      definition: "Romanticises the former state of Rhodesia as a symbol of white minority rule, commonly used online to signal far-right or white supremacist nostalgia while avoiding explicit racial language",
+      definition: "Romanticizes the former state of Rhodesia as a symbol of white minority rule, commonly used online to signal far-right or white supremacist nostalgia while avoiding explicit racial language",
       source: "goodboy",
       categoryMode: "unique"
     },
@@ -124,7 +143,6 @@ const CODED_TERM_DATA = {
       category: "nationalist",
       definition: "A long-form aphorism about historical memory used to promote traditionalist or nationalist ideology",
       source: "goodboy"
-
     },
     {
       root: "Without struggle, there is no strength",
@@ -135,7 +153,6 @@ const CODED_TERM_DATA = {
       category: "alt-right",
       definition: "Used to valorize suffering as essential for building 'real men', common in manosphere discussions",
       source: "goodboy"
-
     },
     {
       root: "Weak men create strong women, strong women create weak men",
@@ -147,7 +164,6 @@ const CODED_TERM_DATA = {
       category: "incel",
       definition: "A misogynistic aphorism used in incel spaces to blame societal problems on gender dynamics",
       source: "goodboy"
-
     },
     {
       root: "Remigration",
@@ -159,7 +175,7 @@ const CODED_TERM_DATA = {
         "Not from here",
         "Send them back",
         "Ship them out",
-        "Deport them all",
+        "Deport them all"
       ],
       category: "racist",
       definition: "Signals support for ethnic cleansing via the mass deportation of minority populations, especially immigrants but sometimes full citizens, to their place of racial ancestry",
@@ -457,14 +473,14 @@ const CODED_TERM_DATA = {
       variations: [
         "PDF"
       ],
-      category: "paedophilia",
-      definition: "Algospeak used to refer to a paedophile in order to evade content moderation filters",
+      category: "pedophilia",
+      definition: "Algospeak used to refer to a pedophile in order to evade content moderation filters",
       source: "goodboy"
     },
     {
       root: "Cheese Pizza",
       variations: [],
-      category: "paedophilia",
+      category: "pedophilia",
       definition: "Algospeak used to refer to child pornography in order to evade content moderation filters",
       source: "goodboy"
     },
@@ -475,7 +491,7 @@ const CODED_TERM_DATA = {
         "👦",
         "👧"
       ],
-      category: "paedophilia",
+      category: "pedophilia",
       definition: "Sometimes used in predatory contexts to reference minors without triggering moderation",
       source: "goodboy"
     },
@@ -484,7 +500,7 @@ const CODED_TERM_DATA = {
       variations: [
         "👶"
       ],
-      category: "paedophilia",
+      category: "pedophilia",
       definition: "Occasionally misused to imply sexual interest in infants or very young minors in coded predatory communication while avoiding moderation",
       source: "goodboy"
     },
@@ -493,7 +509,7 @@ const CODED_TERM_DATA = {
       variations: [
         "🍭"
       ],
-      category: "paedophilia",
+      category: "pedophilia",
       definition: "Sometimes misused in grooming contexts to imply child-targeted appeal while avoiding moderation",
       source: "goodboy"
     },
@@ -502,7 +518,7 @@ const CODED_TERM_DATA = {
       variations: [
         "🧸"
       ],
-      category: "paedophilia",
+      category: "pedophilia",
       definition: "Sometimes used alongside other symbols to signal child-related interest in predatory exchanges while avoiding moderation",
       source: "goodboy"
     },
@@ -511,7 +527,7 @@ const CODED_TERM_DATA = {
       variations: [
         "🏫"
       ],
-      category: "paedophilia",
+      category: "pedophilia",
       definition: "Used in some moderation-avoidant contexts to reference school-aged minors",
       source: "goodboy"
     },
@@ -520,7 +536,7 @@ const CODED_TERM_DATA = {
       variations: [
         "🍼"
       ],
-      category: "paedophilia",
+      category: "pedophilia",
       definition: "Appears in some predatory-coded communications referencing infants or very young children",
       source: "goodboy"
     },
@@ -847,7 +863,7 @@ const CODED_TERM_DATA = {
         "A real man"
       ],
       category: "transphobic",
-      definition: "A phrase used to enforce traditional ideas of masculinity and delegitimize people who do not cconfrom, including trans men or men perceived to be not \"masculine enough\". Functions as a coded way to assert gender norms",
+      definition: "A phrase used to enforce traditional ideas of masculinity and delegitimize people who do not conform, including trans men or men perceived to be not \"masculine enough\". Functions as a coded way to assert gender norms",
       source: "goodboy"
     },
     {
@@ -1031,7 +1047,7 @@ const CODED_TERM_DATA = {
         "You lot"
       ],
       category: "racist",
-      definition: "A dehumanising or othering phrase used to generalize about a group, usually racialised",
+      definition: "A dehumanizing or othering phrase used to generalize about a group, usually racialized",
       source: "goodboy"
     },
     {
@@ -1083,7 +1099,7 @@ const CODED_TERM_DATA = {
         "Back when men went to war"
       ],
       category: "misandristic",
-      definition: "A phrase used to belittle or dismiss men by contrasting them with an idealised past in which men were portrayed as tougher, braver, or more traditionally masculine",
+      definition: "A phrase used to belittle or dismiss men by contrasting them with an idealized past in which men were portrayed as tougher, braver, or more traditionally masculine",
       source: "goodboy"
     },
     {
@@ -1139,7 +1155,7 @@ const CODED_TERM_DATA = {
         "Shrill feminist"
       ],
       category: "misogynistic",
-      definition: "A sexist insult implying that a woman's voice, tone, or behaviour is irritating, hysterical, or irrational — commonly used to undermine women expressing strong opinions",
+      definition: "A sexist insult implying that a woman's voice, tone, or behavior is irritating, hysterical, or irrational — commonly used to undermine women expressing strong opinions",
       source: "goodboy"
     },
     {
@@ -1482,7 +1498,7 @@ const CODED_TERM_DATA = {
         "Birthright territory"
       ],
       category: "nationalist",
-      definition: "Evoked ethnic or cultural claims to land or political legitimacy based on ancestry or histtorical presence, often used to justify exlusion of outsiders or reinforce nationalist ideology",
+      definition: "Evoked ethnic or cultural claims to land or political legitimacy based on ancestry or histtorical presence, often used to justify exclusion of outsiders or reinforce nationalist ideology",
       source: "goodboy"
     },
     {
@@ -1494,7 +1510,7 @@ const CODED_TERM_DATA = {
         "Dangerous foreigners"
       ],
       category: "antisemitic",
-      definition: "Frames men from non-Westerm or \"Global South\" countries as inherently criminal, violent, or dangerous",
+      definition: "Frames men from non-Western or \"Global South\" countries as inherently criminal, violent, or dangerous",
       source: "goodboy"
     },
     {
@@ -1891,7 +1907,7 @@ const CODED_TERM_DATA = {
       root: "Thoughts and prayers",
       variations: [
         "Thoughts are with the victims",
-        "Thoughts and prayers are with the vistims",
+        "Thoughts and prayers are with the victims",
         "Sending thoughts and prayers",
         "Thoughts, prayers"
       ],
@@ -1964,7 +1980,7 @@ const CODED_TERM_DATA = {
         "Why are you taking this so seriously?",
         "Why are you so emotional?",
         "Why are you so sensitive",
-        "Why are you being so senstive?"
+        "Why are you being so sensitive?"
       ],
       category: "emotional-dismissal",
       definition: "A tactic used to dismiss, undermine, or invalidate someone's viewpoint by framing their legitimate emotional response as excessive, irrational, or unwarranted",
@@ -2034,7 +2050,7 @@ const CODED_TERM_DATA = {
       variations: [
         "Let's not make this political",
         "Stop making it political",
-        "This isn's political",
+        "This isn't political",
         "It's not political",
         "Now isn't the time for politics",
         "Don't bring politics into it",
@@ -2066,16 +2082,16 @@ const CODED_TERM_DATA = {
         "Not allowed to have an opinion",
         "Not allowed an opinion",
         "Can't have an opinion",
-        "Can't have opions",
+        "Can't have opinions",
         "Cancelled for having opinions",
-        "Cancelled for having an opinon",
+        "Cancelled for having an opinion",
         "Cancelled for his opinion",
-        "Cancelled for her opinon",
+        "Cancelled for her opinion",
         "Cancelled for their opinion",
         "Killed for having an opinion",
         "Killed for his opinions",
-        "Killed for her opinon",
-        "Kiledd for their opinion",
+        "Killed for her opinion",
+        "Killed for their opinion",
         "Punished for having an opinion",
         "Attacked for having an opinion"
       ],
@@ -2094,7 +2110,7 @@ const CODED_TERM_DATA = {
         "Nazi has lost its meaning"
       ],
       category: "fascist",
-      definition: "Dismiss legitimatte critiques of fascism, racism or extermist behaviour",
+      definition: "Dismiss legitimate critiques of fascism, racism or extremist behavior",
       source: "goodboy"
     },
     {
@@ -2741,7 +2757,7 @@ const CODED_TERM_DATA = {
         "Mutual enemy"
       ],
       category: "dehumanization",
-      definition: "Signals a scapegoated group without naming them explicity",
+      definition: "Signals a scapegoated group without naming them explicitly",
       source: "goodboy"
     },
     {
@@ -2943,7 +2959,7 @@ const CODED_TERM_DATA = {
     {
       root: "Bioleninism",
       variations: [
-        "Boi Leninist",
+        "Bio Leninist",
         "Bio Lenin"
       ],
       category: "alt-right",
@@ -3153,7 +3169,7 @@ const CODED_TERM_DATA = {
         "They're sending gang members",
         "They're sending gangs",
         "Unchecked migration",
-        "Uncheked immigration",
+        "Unchecked immigration",
         "Unvetted migrant",
         "Unvetted immigrant",
         "Bogus asylum seeker",
@@ -3166,7 +3182,7 @@ const CODED_TERM_DATA = {
         "Low-value migrants"
       ],
       category: "xenophobic",
-      definition: "Framing immigration (or asylum-seeking) as a societal or national crisis — portraying migrants/refugees as a threat, burden, or destabilising force",
+      definition: "Framing immigration (or asylum-seeking) as a societal or national crisis — portraying migrants/refugees as a threat, burden, or destabilizing force",
       source: "goodboy"
     },
     {
@@ -4268,11 +4284,11 @@ const CODED_TERM_DATA = {
         "Wuhan sickness",
         "Panda Express",
         "China Flu",
-        "CCP virus",
+        "CCP virus"
       ],
       categoryMode: "unique",
       category: "racist",
-      definition: "Signals the anti-Asian conspiracy narrative tand racialized scapegoating that Chinese people were to blame for the Covid-19 pandemic",
+      definition: "Signals the anti-Asian conspiracy narrative and racialized scapegoating that Chinese people were to blame for the Covid-19 pandemic",
       source: "goodboy"
     },
     {
@@ -4457,7 +4473,7 @@ const CODED_TERM_DATA = {
         "Dual loyalties"
       ],
       category: "antisemitic",
-      definition: "Implies that Jews are isloyal, have divided allegiances or are secretly loyal to Israel rather than thei home country",
+      definition: "Implies that Jews are disloyal, have divided allegiances or are secretly loyal to Israel rather than their home country",
       source: "goodboy"
     },
     {
@@ -4841,7 +4857,7 @@ const CODED_TERM_DATA = {
         "Body knows best"
       ],
       category: "pseudoscience",
-      definition: "Invoked to downplay vaccines or medical interventions, or that caccines damage an otherwise healthy body",
+      definition: "Invoked to downplay vaccines or medical interventions, or that vaccines damage an otherwise healthy body",
       source: "goodboy"
     },
     {
@@ -4953,7 +4969,7 @@ const CODED_TERM_DATA = {
         "Radical Islam"
       ],
       category: "islamophobic",
-      definition: "Used to imply that terrorism is inherent to Islam or that the Muslim community collectively supports extremisn",
+      definition: "Used to imply that terrorism is inherent to Islam or that the Muslim community collectively supports extremism",
       source: "goodboy"
     },
     {
@@ -5228,7 +5244,7 @@ const CODED_TERM_DATA = {
         "Neoliberalist"
       ],
       category: "liberal",
-      definition: "A political and economic ideology favouring free markets, privatisation, and reduced government intervention; often used as a critical label by the political left",
+      definition: "A political and economic ideology favouring free markets, privatization, and reduced government intervention; often used as a critical label by the political left",
       source: "goodboy"
     },
     {
